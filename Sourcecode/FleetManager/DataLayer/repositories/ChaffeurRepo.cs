@@ -33,9 +33,9 @@ namespace DataLayer.repositories
         }
         public void Delete(int id)
         {
-            this.context.Remove(this.Get(id));
+            this.context.Chaffeurs.Remove(this.Get(id));
         }
-        public void Update(int id, ChaffeurEntity chaffeur)
+        public void Update(ChaffeurEntity chaffeur)
         {
             this.context.Entry(chaffeur).State = EntityState.Modified;
 
