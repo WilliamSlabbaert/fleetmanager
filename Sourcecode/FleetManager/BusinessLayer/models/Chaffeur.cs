@@ -19,5 +19,6 @@ namespace BusinessLayer
         public bool IsActive { get; set; }
         public string FuelCard { get; set; }
         public List<Vehicle> Vehicles { get; set; }
+        public List<FuelCardChaffeur> fuelCardChaffeurs { get; set; }
     }
 }

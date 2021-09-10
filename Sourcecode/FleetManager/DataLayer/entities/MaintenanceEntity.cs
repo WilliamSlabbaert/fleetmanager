@@ -13,5 +13,6 @@ namespace DataLayer.entities
         public double Price { get; set; }
         public string Garage { get; set; }
         public List<InvoiceEntity> Invoices { get; set; }
+        public RequestEntity Request { get; set; }
     }
 }

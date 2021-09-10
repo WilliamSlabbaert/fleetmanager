@@ -14,5 +14,6 @@ namespace BusinessLayer.models
         public string Company { get; set; }
         public int VehicleId { get; set; }
         public Vehicle Vehicle { get; set; }
+        public Request Request { get; set; }
     }
 }

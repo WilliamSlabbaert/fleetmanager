@@ -20,5 +20,7 @@ namespace DataLayer.entities
         public List<License> Licenses { get; set; }
         public bool IsActive { get; set; }
         public string FuelCard { get; set; }
+        public List<VehicleEntity> Vehicles { get; set; }
+        public List<FuelCardChaffeurEntity> fuelCardChaffeurs { get; set; }
     }
 }

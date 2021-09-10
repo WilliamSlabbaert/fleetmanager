@@ -13,5 +13,6 @@ namespace BusinessLayer.models
         public double Price { get; set; }
         public string Garage { get; set; }
         public List<Invoice> Invoices { get; set; }
+        public Request Request { get; set; }
     }
 }
