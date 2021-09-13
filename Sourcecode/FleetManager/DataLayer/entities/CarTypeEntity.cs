@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Overall;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -7,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace DataLayer.entities
 {
-    public class InvoiceEntity
+    public class CarTypeEntity
     {
         [Key]
         public int Id { get; set; }
-        public string InvoiceImage { get; set; }
-        public int MaintenanceId { get; set; }
-        public MaintenanceEntity Maintenance { get; set; }
+        public CarTypes Type { get; set; }
+        public int VehicleId { get; set; }
+        public VehicleEntity Vehicle { get; set; }
     }
 }

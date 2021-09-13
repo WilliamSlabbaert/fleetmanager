@@ -1,4 +1,4 @@
-﻿using DataLayer.utility;
+﻿using Overall;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,12 +9,6 @@ namespace BusinessLayer.models
 {
     public class FuelCard
     {
-        public int Id { get; set; }
-        public string CardNumber { get; set; }
-        public int Pin { get; set; }
-        public List<AuthenticationTypes> AuthenthicationCode { get; set; }
-        public List<FuelTypes> FuelType { get; set; }
-        public List<ExtraServices> Services { get; set; }
-        public bool IsActive { get; set; }
+      
     }
 }

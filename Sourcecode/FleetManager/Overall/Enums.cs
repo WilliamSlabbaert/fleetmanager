@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel;
 
-namespace DataLayer.utility
+namespace Overall
 {
     public enum License
     {
@@ -22,15 +19,23 @@ namespace DataLayer.utility
         LPG,
         Electric
     }
+    public enum CarTypes
+    {
+        Passengercar,
+        LightFreight
+    }
     public enum ExtraServices
     {
+        [Description("Discount on fuel.")]
         DiscountFuel,
-        CarWash
+        [Description("Discount on carwash.")]
+        DiscountCarwash
+
     }
     public enum AuthenticationTypes
     {
         PIN,
+        [Description("PIN + KM.")]
         PINKM
     }
-
 }

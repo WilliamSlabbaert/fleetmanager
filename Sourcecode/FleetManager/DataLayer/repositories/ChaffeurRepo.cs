@@ -8,37 +8,36 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataLayer.repositories
 {
-    public class ChaffeurRepo 
+    public class ChaffeurRepo : IChaffeurRepo
     {
-        FleetManagerContext context;
+        public void AddEntity(ChaffeurEntity obj)
+        {
+            throw new NotImplementedException();
+        }
 
-        public ChaffeurRepo(FleetManagerContext context)
+        public void DeleteEntity(int id)
         {
-            this.context = context;
+            throw new NotImplementedException();
         }
-        public ChaffeurEntity Get(int id)
-        {
-            return this.context.Chaffeurs.FirstOrDefault(s => s.Id == id);
-        }
-        public List<ChaffeurEntity> GetAll()
-        {
-            return this.context.Chaffeurs.ToList();
-        }
-        public void Add(ChaffeurEntity chaffeur)
-        {
-            if (chaffeur != null)
-            {
-                this.context.Chaffeurs.Add(chaffeur);
-            }
-        }
-        public void Delete(int id)
-        {
-            this.context.Chaffeurs.Remove(this.Get(id));
-        }
-        public void Update(ChaffeurEntity chaffeur)
-        {
-            this.context.Entry(chaffeur).State = EntityState.Modified;
 
+        public IQueryable<ChaffeurEntity> GetAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public ChaffeurEntity GetById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Save()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateEntity(ChaffeurEntity obj)
+        {
+            throw new NotImplementedException();
         }
     }
 }

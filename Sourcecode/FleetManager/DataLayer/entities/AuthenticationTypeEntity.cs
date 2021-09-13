@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Overall;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -7,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace DataLayer.entities
 {
-    public class FuelCardChaffeurEntity
+    public class AuthenticationTypeEntity
     {
-        public int ChaffeurId { get; set; }
-        public ChaffeurEntity Chaffeur { get; set; }
-        public int FuelCardId { get; set; }
+        [Key]
+        public int Id { get; set; }
+        public AuthenticationTypes type { get; set; }
+        public int FuelCardEntityId { get; set; }
         public FuelCardEntity FuelCard { get; set; }
-        public bool IsActive { get; set; }
     }
 }

@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace DataLayer.entities
 {
-    public class FuelCardChaffeurEntity
+    public class LicenseEntity
     {
-        public int ChaffeurId { get; set; }
+        [Key]
+        public int Id { get; set; }
+        public Overall.License type { get; set; }
+        public int ChaffeurEntityId { get; set; }
         public ChaffeurEntity Chaffeur { get; set; }
-        public int FuelCardId { get; set; }
-        public FuelCardEntity FuelCard { get; set; }
-        public bool IsActive { get; set; }
     }
 }
