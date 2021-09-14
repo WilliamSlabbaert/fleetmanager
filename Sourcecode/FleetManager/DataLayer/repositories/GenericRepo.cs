@@ -9,45 +9,45 @@ namespace DataLayer.repositories
 {
     public class GenericRepo<T> : IGenericRepo<T> where T : class
     {
-        private FleetManagerContext context = null;
-        private DbSet<T> table = null;
+        private FleetManagerContext _context = null;
+        private DbSet<T> _table = null;
 
         public GenericRepo(FleetManagerContext context)
         {
-            this.context = context;
-            this.table = context.Set<T>();
+            this._context = context;
+            this._table = context.Set<T>();
         }
 
         public void AddEntity(T obj)
         {
-            table.Add(obj);
+            _table.Add(obj);
         }
 
         public void DeleteEntity(int id)
         {
-            T existing = table.Find(id);
-            table.Remove(existing);
+            T existing = _table.Find(id);
+            _table.Remove(existing);
         }
 
         public IQueryable<T> GetAll()
         {
-            return table;
+            return _table;
         }
 
         public T GetById(int id)
         {
-            return table.Find(id);
+            return _table.Find(id);
         }
 
         public void Save()
         {
-            context.SaveChanges();
+            _context.SaveChanges();
         }
 
         public void UpdateEntity(T obj)
         {
-            table.Attach(obj);
-            context.Entry(obj).State = EntityState.Modified;
+            _table.Attach(obj);
+            _context.Entry(obj).State = EntityState.Modified;
         }
     }
 }

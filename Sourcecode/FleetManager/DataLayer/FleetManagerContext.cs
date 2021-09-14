@@ -18,11 +18,9 @@ namespace DataLayer
         public DbSet<RepairmentEntity> Repairments { get; set; }
         public DbSet<RequestEntity> Requests { get; set; }
         public DbSet<VehicleEntity> Vehicles { get; set; }
-
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public FleetManagerContext(DbContextOptions<FleetManagerContext> options) : base(options)
         {
-            optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-2KEN9DG;Initial Catalog=FleetManagerTest;Integrated Security=True");
+
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
