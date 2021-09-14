@@ -7,18 +7,16 @@ namespace DataLayer
     public class FleetManagerContext : DbContext
     {
         public DbSet<AuthenticationTypeEntity> AuthenticationTypes { get; set; }
-        public DbSet<CarTypeEntity> CarTypes { get; set; }
         public DbSet<ChaffeurEntity> Chaffeurs { get; set; }
+        public DbSet<DrivingLicenseEntity> DrivingLicenses { get; set; }
         public DbSet<ExtraServiceEntity> ExtraServices { get; set; }
-        //public DbSet<FuelCardChaffeurEntity> FuelCardChaffeurs { get; set; }
         public DbSet<FuelCardEntity> FuelCards { get; set; }
         public DbSet<FuelEntity> Fuels { get; set; }
         public DbSet<InvoiceEntity> Invoices { get; set; }
-        public DbSet<LicenseEntity> Licenses { get; set; }
+        public DbSet<LicensePlateEntity> LicensePlates { get; set; }
         public DbSet<MaintenanceEntity> Maintenances { get; set; }
         public DbSet<RepairmentEntity> Repairments { get; set; }
         public DbSet<RequestEntity> Requests { get; set; }
-        //public DbSet<VehicleChaffeurEntity> VehicleChaffeurs { get; set; }
         public DbSet<VehicleEntity> Vehicles { get; set; }
 
 

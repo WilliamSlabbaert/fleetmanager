@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataLayer.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class initialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -49,10 +49,8 @@ namespace DataLayer.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Chassis = table.Column<int>(type: "int", nullable: false),
-                    LicensePlate = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Type = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Kilometers = table.Column<double>(type: "float", nullable: false),
-                    ChaffeurId = table.Column<int>(type: "int", nullable: false)
+                    Type = table.Column<int>(type: "int", nullable: false),
+                    Kilometers = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -60,7 +58,7 @@ namespace DataLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Licenses",
+                name: "DrivingLicenses",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -70,9 +68,9 @@ namespace DataLayer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Licenses", x => x.Id);
+                    table.PrimaryKey("PK_DrivingLicenses", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Licenses_Chaffeurs_ChaffeurEntityId",
+                        name: "FK_DrivingLicenses_Chaffeurs_ChaffeurEntityId",
                         column: x => x.ChaffeurEntityId,
                         principalTable: "Chaffeurs",
                         principalColumn: "Id",
@@ -144,26 +142,6 @@ namespace DataLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CarTypes",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Type = table.Column<int>(type: "int", nullable: false),
-                    VehicleId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CarTypes", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_CarTypes_Vehicles_VehicleId",
-                        column: x => x.VehicleId,
-                        principalTable: "Vehicles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ChaffeurEntityVehicleEntity",
                 columns: table => new
                 {
@@ -215,6 +193,26 @@ namespace DataLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "LicensePlates",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Plate = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    VehicleEntityId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LicensePlates", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_LicensePlates_Vehicles_VehicleEntityId",
+                        column: x => x.VehicleEntityId,
+                        principalTable: "Vehicles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Requests",
                 columns: table => new
                 {
@@ -252,17 +250,17 @@ namespace DataLayer.Migrations
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Price = table.Column<double>(type: "float", nullable: false),
                     Garage = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    RequestId = table.Column<int>(type: "int", nullable: true)
+                    RequestEntityId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Maintenances", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Maintenances_Requests_RequestId",
-                        column: x => x.RequestId,
+                        name: "FK_Maintenances_Requests_RequestEntityId",
+                        column: x => x.RequestEntityId,
                         principalTable: "Requests",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -313,11 +311,6 @@ namespace DataLayer.Migrations
                 column: "FuelCardEntityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CarTypes_VehicleId",
-                table: "CarTypes",
-                column: "VehicleId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ChaffeurEntityFuelCardEntity_FuelCardsId",
                 table: "ChaffeurEntityFuelCardEntity",
                 column: "FuelCardsId");
@@ -326,6 +319,11 @@ namespace DataLayer.Migrations
                 name: "IX_ChaffeurEntityVehicleEntity_VehiclesId",
                 table: "ChaffeurEntityVehicleEntity",
                 column: "VehiclesId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DrivingLicenses_ChaffeurEntityId",
+                table: "DrivingLicenses",
+                column: "ChaffeurEntityId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ExtraServices_FuelCardEntityId",
@@ -348,14 +346,14 @@ namespace DataLayer.Migrations
                 column: "MaintenanceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Licenses_ChaffeurEntityId",
-                table: "Licenses",
-                column: "ChaffeurEntityId");
+                name: "IX_LicensePlates_VehicleEntityId",
+                table: "LicensePlates",
+                column: "VehicleEntityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Maintenances_RequestId",
+                name: "IX_Maintenances_RequestEntityId",
                 table: "Maintenances",
-                column: "RequestId");
+                column: "RequestEntityId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Repairments_RequestId",
@@ -379,13 +377,13 @@ namespace DataLayer.Migrations
                 name: "AuthenticationTypes");
 
             migrationBuilder.DropTable(
-                name: "CarTypes");
-
-            migrationBuilder.DropTable(
                 name: "ChaffeurEntityFuelCardEntity");
 
             migrationBuilder.DropTable(
                 name: "ChaffeurEntityVehicleEntity");
+
+            migrationBuilder.DropTable(
+                name: "DrivingLicenses");
 
             migrationBuilder.DropTable(
                 name: "ExtraServices");
@@ -397,7 +395,7 @@ namespace DataLayer.Migrations
                 name: "Invoices");
 
             migrationBuilder.DropTable(
-                name: "Licenses");
+                name: "LicensePlates");
 
             migrationBuilder.DropTable(
                 name: "Repairments");

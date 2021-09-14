@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(FleetManagerContext))]
-    [Migration("20210913125656_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20210914090342_initialCreate")]
+    partial class initialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -71,26 +71,6 @@ namespace DataLayer.Migrations
                     b.ToTable("AuthenticationTypes");
                 });
 
-            modelBuilder.Entity("DataLayer.entities.CarTypeEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
-
-                    b.Property<int>("VehicleId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("VehicleId");
-
-                    b.ToTable("CarTypes");
-                });
-
             modelBuilder.Entity("DataLayer.entities.ChaffeurEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -125,6 +105,26 @@ namespace DataLayer.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Chaffeurs");
+                });
+
+            modelBuilder.Entity("DataLayer.entities.DrivingLicenseEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ChaffeurEntityId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("type")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChaffeurEntityId");
+
+                    b.ToTable("DrivingLicenses");
                 });
 
             modelBuilder.Entity("DataLayer.entities.ExtraServiceEntity", b =>
@@ -213,24 +213,24 @@ namespace DataLayer.Migrations
                     b.ToTable("Invoices");
                 });
 
-            modelBuilder.Entity("DataLayer.entities.LicenseEntity", b =>
+            modelBuilder.Entity("DataLayer.entities.LicensePlateEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ChaffeurEntityId")
-                        .HasColumnType("int");
+                    b.Property<string>("Plate")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("type")
+                    b.Property<int>("VehicleEntityId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ChaffeurEntityId");
+                    b.HasIndex("VehicleEntityId");
 
-                    b.ToTable("Licenses");
+                    b.ToTable("LicensePlates");
                 });
 
             modelBuilder.Entity("DataLayer.entities.MaintenanceEntity", b =>
@@ -249,12 +249,12 @@ namespace DataLayer.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
-                    b.Property<int?>("RequestId")
+                    b.Property<int>("RequestEntityId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RequestId");
+                    b.HasIndex("RequestEntityId");
 
                     b.ToTable("Maintenances");
                 });
@@ -323,20 +323,14 @@ namespace DataLayer.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ChaffeurId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Chassis")
                         .HasColumnType("int");
 
                     b.Property<double>("Kilometers")
                         .HasColumnType("float");
 
-                    b.Property<string>("LicensePlate")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Type")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -384,15 +378,15 @@ namespace DataLayer.Migrations
                     b.Navigation("FuelCard");
                 });
 
-            modelBuilder.Entity("DataLayer.entities.CarTypeEntity", b =>
+            modelBuilder.Entity("DataLayer.entities.DrivingLicenseEntity", b =>
                 {
-                    b.HasOne("DataLayer.entities.VehicleEntity", "Vehicle")
-                        .WithMany("CarType")
-                        .HasForeignKey("VehicleId")
+                    b.HasOne("DataLayer.entities.ChaffeurEntity", "Chaffeur")
+                        .WithMany("DrivingLicenses")
+                        .HasForeignKey("ChaffeurEntityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Vehicle");
+                    b.Navigation("Chaffeur");
                 });
 
             modelBuilder.Entity("DataLayer.entities.ExtraServiceEntity", b =>
@@ -432,22 +426,24 @@ namespace DataLayer.Migrations
                     b.Navigation("Maintenance");
                 });
 
-            modelBuilder.Entity("DataLayer.entities.LicenseEntity", b =>
+            modelBuilder.Entity("DataLayer.entities.LicensePlateEntity", b =>
                 {
-                    b.HasOne("DataLayer.entities.ChaffeurEntity", "Chaffeur")
-                        .WithMany("Licenses")
-                        .HasForeignKey("ChaffeurEntityId")
+                    b.HasOne("DataLayer.entities.VehicleEntity", "Vehicle")
+                        .WithMany("LicensePlates")
+                        .HasForeignKey("VehicleEntityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Chaffeur");
+                    b.Navigation("Vehicle");
                 });
 
             modelBuilder.Entity("DataLayer.entities.MaintenanceEntity", b =>
                 {
                     b.HasOne("DataLayer.entities.RequestEntity", "Request")
                         .WithMany("Maintenance")
-                        .HasForeignKey("RequestId");
+                        .HasForeignKey("RequestEntityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Request");
                 });
@@ -484,7 +480,7 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.entities.ChaffeurEntity", b =>
                 {
-                    b.Navigation("Licenses");
+                    b.Navigation("DrivingLicenses");
 
                     b.Navigation("Requests");
                 });
@@ -512,9 +508,9 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.entities.VehicleEntity", b =>
                 {
-                    b.Navigation("CarType");
-
                     b.Navigation("FuelTypes");
+
+                    b.Navigation("LicensePlates");
 
                     b.Navigation("Requests");
                 });

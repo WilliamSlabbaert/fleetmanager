@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.models
 {
-    public class Invoice
+    public class LicensePlate
     {
         public int Id { get; set; }
-        public string InvoiceImage { get; set; }
-        public int MaintenanceId { get; set; }
-        public Maintenance Maintenance { get; set; }
+        public string Plate { get; set; }
+        public int VehicleId { get; set; }
+        public Vehicle Vehicle { get; set; }
     }
 }

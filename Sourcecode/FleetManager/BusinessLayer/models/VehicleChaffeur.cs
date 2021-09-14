@@ -6,17 +6,12 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.models
 {
-    public class Request
+    public class VehicleChaffeur
     {
-        public int Id { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
-        public string Status { get; set; }
         public int VehicleId { get; set; }
         public Vehicle Vehicle { get; set; }
         public int ChaffeurId { get; set; }
         public Chaffeur Chaffeur { get; set; }
-        public List<Repairment> Repairment { get; set; }
-        public List<Maintenance> Maintenance { get; set; }
+        public bool IsActive { get; set; }
     }
 }

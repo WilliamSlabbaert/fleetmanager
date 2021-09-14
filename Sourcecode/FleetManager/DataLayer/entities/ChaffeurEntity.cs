@@ -10,22 +10,6 @@ namespace DataLayer.entities
 {
     public class ChaffeurEntity
     {
-        public ChaffeurEntity()
-        {
-        }
-
-        public ChaffeurEntity(string firstName, string lastName, string city, string street, string houseNumber, DateTime dateOfBirth, string nationalInsurenceNumber, bool isActive)
-        {
-            FirstName = firstName;
-            LastName = lastName;
-            City = city;
-            Street = street;
-            HouseNumber = houseNumber;
-            DateOfBirth = dateOfBirth;
-            NationalInsurenceNumber = nationalInsurenceNumber;
-            IsActive = isActive;
-        }
-
         [Key]
         public int Id { get; set; }
         public string FirstName { get; set; }
@@ -36,10 +20,54 @@ namespace DataLayer.entities
         public DateTime DateOfBirth { get; set; }
         public string NationalInsurenceNumber { get; set; }
         public bool IsActive { get; set; }
-        public List<VehicleEntity> Vehicles { get; set; }
+        public List<VehicleEntity> Vehicles { get; set; } 
         public List<FuelCardEntity> FuelCards { get; set; }
-        public List<LicenseEntity> Licenses { get; set; }
+        public List<DrivingLicenseEntity> DrivingLicenses { get; set; }
         public List<RequestEntity> Requests { get; set; }
+        public ChaffeurEntity(string firstName, string lastName, string city, string street, string houseNumber, DateTime dateOfBirth, string nationalInsurenceNumber, bool isActive)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            City = city;
+            Street = street;
+            HouseNumber = houseNumber;
+            DateOfBirth = dateOfBirth;
+            NationalInsurenceNumber = nationalInsurenceNumber;
+            IsActive = isActive;
+            Vehicles = new List<VehicleEntity>();
+            FuelCards = new List<FuelCardEntity>();
+            DrivingLicenses = new List<DrivingLicenseEntity>();
+            Requests = new List<RequestEntity>();
+        }
+
+        public ChaffeurEntity()
+        {
+            Vehicles = new List<VehicleEntity>();
+            FuelCards = new List<FuelCardEntity>();
+            DrivingLicenses = new List<DrivingLicenseEntity>();
+            Requests = new List<RequestEntity>();
+        }
+
+        public void AddVehicle(VehicleEntity vehicle)
+        {
+            if (vehicle != null)
+            {
+                if (Vehicles.Contains(vehicle))
+                {
+                    Vehicles.Add(vehicle);
+                }
+            }
+        }
+        public void RemoveVehicle(VehicleEntity vehicle)
+        {
+            if (vehicle != null)
+            {
+                if (Vehicles.Contains(vehicle))
+                {
+                    Vehicles.Remove(vehicle);
+                }
+            }
+        }
 
     }
 }

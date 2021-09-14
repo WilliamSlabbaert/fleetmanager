@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataLayer.entities
+namespace BusinessLayer.models
 {
-    public class LicenseEntity
+    public class DrivingLicense
     {
-        [Key]
         public int Id { get; set; }
         public Overall.License type { get; set; }
-        public int ChaffeurEntityId { get; set; }
-        public ChaffeurEntity Chaffeur { get; set; }
+        public int ChaffeurId { get; set; }
+        public Chaffeur Chaffeur { get; set; }
     }
 }
