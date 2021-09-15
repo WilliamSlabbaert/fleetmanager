@@ -56,15 +56,5 @@ namespace BusinessLayer
             }
             return false;
         }
-        public void RemoveVehicle(Vehicle vehicle)
-        {
-            if (vehicle != null)
-            {
-                if (Vehicles.Contains(vehicle))
-                {
-                    Vehicles.Remove(vehicle);
-                }
-            }
-        }
     }
 }

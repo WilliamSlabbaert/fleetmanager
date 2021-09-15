@@ -51,9 +51,26 @@ namespace ReadAPI.Controllers
                 var ch = _managerChaffeur.GetChaffeurById(id);
                 if(ch == null)
                 {
-                    return NotFound("This car doesn't exist");
+                    return NotFound("This chaffeur doesn't exist");
                 }
                 return Ok(ch);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+        [HttpGet("{id}/vehicles")]
+        public ActionResult<List<Vehicle>> GetallVehiclesById(int id)
+        {
+            try
+            {
+                var ch = _managerChaffeur.GetChaffeurById(id);
+                if (ch == null)
+                {
+                    return NotFound("This chaffeur doesn't exist");
+                }
+                return Ok(ch.Vehicles);
             }
             catch (Exception ex)
             {

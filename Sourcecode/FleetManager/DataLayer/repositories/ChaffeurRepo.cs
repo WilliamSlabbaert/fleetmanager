@@ -17,12 +17,6 @@ namespace DataLayer.repositories
         {
             _context = context;
             _table = context.Chaffeurs;
-                /*.Include(s => s.Vehicles)
-                .Include(s => s.Requests)
-                .Include(s => s.DrivingLicenses)
-                .Include(s => s.FuelCards)
-                .ThenInclude(s => s.Chaffeurs)
-                .ThenInclude(s => s.Vehicles);*/
         }
 
         public void AddVehicleToChaffeur(ChaffeurEntity ch, VehicleEntity vh)

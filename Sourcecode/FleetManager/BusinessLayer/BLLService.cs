@@ -25,7 +25,6 @@ namespace BusinessLayer
 
         public static void AddBLLMapper(IServiceCollection services)
         {
-            services.AddScoped(typeof(IGenericRepo<>), typeof(GenericRepo<>));
             var mappingConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new MappingTool());
@@ -35,6 +34,7 @@ namespace BusinessLayer
 
         public static void AddBLLManagers(IServiceCollection services)
         {
+            services.AddScoped(typeof(IGenericRepo<>), typeof(GenericRepo<>));
             services.AddScoped<IChaffeurRepo, ChaffeurRepo>();
             services.AddScoped<IChaffeurManager, ChaffeurManager>();
             services.AddScoped<IVehicleManager, VehicleManager>();
