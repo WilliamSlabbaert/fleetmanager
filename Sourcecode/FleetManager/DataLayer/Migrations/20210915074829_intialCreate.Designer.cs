@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(FleetManagerContext))]
-    [Migration("20210914090342_initialCreate")]
-    partial class initialCreate
+    [Migration("20210915074829_intialCreate")]
+    partial class intialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -58,7 +58,7 @@ namespace DataLayer.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("FuelCardEntityId")
+                    b.Property<int>("FuelCardId")
                         .HasColumnType("int");
 
                     b.Property<int>("type")
@@ -66,7 +66,7 @@ namespace DataLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FuelCardEntityId");
+                    b.HasIndex("FuelCardId");
 
                     b.ToTable("AuthenticationTypes");
                 });
@@ -114,7 +114,7 @@ namespace DataLayer.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ChaffeurEntityId")
+                    b.Property<int>("ChaffeurId")
                         .HasColumnType("int");
 
                     b.Property<int>("type")
@@ -122,7 +122,7 @@ namespace DataLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ChaffeurEntityId");
+                    b.HasIndex("ChaffeurId");
 
                     b.ToTable("DrivingLicenses");
                 });
@@ -134,7 +134,7 @@ namespace DataLayer.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("FuelCardEntityId")
+                    b.Property<int>("FuelCardId")
                         .HasColumnType("int");
 
                     b.Property<int>("Service")
@@ -142,7 +142,7 @@ namespace DataLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FuelCardEntityId");
+                    b.HasIndex("FuelCardId");
 
                     b.ToTable("ExtraServices");
                 });
@@ -178,7 +178,7 @@ namespace DataLayer.Migrations
                     b.Property<int>("Fuel")
                         .HasColumnType("int");
 
-                    b.Property<int>("FuelCardEntityId")
+                    b.Property<int>("FuelCardId")
                         .HasColumnType("int");
 
                     b.Property<int?>("VehicleEntityId")
@@ -186,7 +186,7 @@ namespace DataLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FuelCardEntityId");
+                    b.HasIndex("FuelCardId");
 
                     b.HasIndex("VehicleEntityId");
 
@@ -223,12 +223,12 @@ namespace DataLayer.Migrations
                     b.Property<string>("Plate")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("VehicleEntityId")
+                    b.Property<int>("VehicleId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("VehicleEntityId");
+                    b.HasIndex("VehicleId");
 
                     b.ToTable("LicensePlates");
                 });
@@ -249,12 +249,12 @@ namespace DataLayer.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
-                    b.Property<int>("RequestEntityId")
+                    b.Property<int>("RequestId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RequestEntityId");
+                    b.HasIndex("RequestId");
 
                     b.ToTable("Maintenances");
                 });
@@ -371,7 +371,7 @@ namespace DataLayer.Migrations
                 {
                     b.HasOne("DataLayer.entities.FuelCardEntity", "FuelCard")
                         .WithMany("AuthenthicationCode")
-                        .HasForeignKey("FuelCardEntityId")
+                        .HasForeignKey("FuelCardId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -382,7 +382,7 @@ namespace DataLayer.Migrations
                 {
                     b.HasOne("DataLayer.entities.ChaffeurEntity", "Chaffeur")
                         .WithMany("DrivingLicenses")
-                        .HasForeignKey("ChaffeurEntityId")
+                        .HasForeignKey("ChaffeurId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -393,7 +393,7 @@ namespace DataLayer.Migrations
                 {
                     b.HasOne("DataLayer.entities.FuelCardEntity", "FuelCard")
                         .WithMany("Services")
-                        .HasForeignKey("FuelCardEntityId")
+                        .HasForeignKey("FuelCardId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -404,7 +404,7 @@ namespace DataLayer.Migrations
                 {
                     b.HasOne("DataLayer.entities.FuelCardEntity", "FuelCard")
                         .WithMany("FuelType")
-                        .HasForeignKey("FuelCardEntityId")
+                        .HasForeignKey("FuelCardId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -430,7 +430,7 @@ namespace DataLayer.Migrations
                 {
                     b.HasOne("DataLayer.entities.VehicleEntity", "Vehicle")
                         .WithMany("LicensePlates")
-                        .HasForeignKey("VehicleEntityId")
+                        .HasForeignKey("VehicleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -441,7 +441,7 @@ namespace DataLayer.Migrations
                 {
                     b.HasOne("DataLayer.entities.RequestEntity", "Request")
                         .WithMany("Maintenance")
-                        .HasForeignKey("RequestEntityId")
+                        .HasForeignKey("RequestId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

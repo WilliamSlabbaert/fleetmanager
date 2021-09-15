@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataLayer.Migrations
 {
-    public partial class initialCreate : Migration
+    public partial class intialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -64,14 +64,14 @@ namespace DataLayer.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     type = table.Column<int>(type: "int", nullable: false),
-                    ChaffeurEntityId = table.Column<int>(type: "int", nullable: false)
+                    ChaffeurId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_DrivingLicenses", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DrivingLicenses_Chaffeurs_ChaffeurEntityId",
-                        column: x => x.ChaffeurEntityId,
+                        name: "FK_DrivingLicenses_Chaffeurs_ChaffeurId",
+                        column: x => x.ChaffeurId,
                         principalTable: "Chaffeurs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -84,14 +84,14 @@ namespace DataLayer.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     type = table.Column<int>(type: "int", nullable: false),
-                    FuelCardEntityId = table.Column<int>(type: "int", nullable: false)
+                    FuelCardId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AuthenticationTypes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AuthenticationTypes_FuelCards_FuelCardEntityId",
-                        column: x => x.FuelCardEntityId,
+                        name: "FK_AuthenticationTypes_FuelCards_FuelCardId",
+                        column: x => x.FuelCardId,
                         principalTable: "FuelCards",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -128,14 +128,14 @@ namespace DataLayer.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Service = table.Column<int>(type: "int", nullable: false),
-                    FuelCardEntityId = table.Column<int>(type: "int", nullable: false)
+                    FuelCardId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ExtraServices", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ExtraServices_FuelCards_FuelCardEntityId",
-                        column: x => x.FuelCardEntityId,
+                        name: "FK_ExtraServices_FuelCards_FuelCardId",
+                        column: x => x.FuelCardId,
                         principalTable: "FuelCards",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -172,15 +172,15 @@ namespace DataLayer.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Fuel = table.Column<int>(type: "int", nullable: false),
-                    FuelCardEntityId = table.Column<int>(type: "int", nullable: false),
+                    FuelCardId = table.Column<int>(type: "int", nullable: false),
                     VehicleEntityId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Fuels", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Fuels_FuelCards_FuelCardEntityId",
-                        column: x => x.FuelCardEntityId,
+                        name: "FK_Fuels_FuelCards_FuelCardId",
+                        column: x => x.FuelCardId,
                         principalTable: "FuelCards",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -199,14 +199,14 @@ namespace DataLayer.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Plate = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    VehicleEntityId = table.Column<int>(type: "int", nullable: false)
+                    VehicleId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_LicensePlates", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_LicensePlates_Vehicles_VehicleEntityId",
-                        column: x => x.VehicleEntityId,
+                        name: "FK_LicensePlates_Vehicles_VehicleId",
+                        column: x => x.VehicleId,
                         principalTable: "Vehicles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -250,14 +250,14 @@ namespace DataLayer.Migrations
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Price = table.Column<double>(type: "float", nullable: false),
                     Garage = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    RequestEntityId = table.Column<int>(type: "int", nullable: false)
+                    RequestId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Maintenances", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Maintenances_Requests_RequestEntityId",
-                        column: x => x.RequestEntityId,
+                        name: "FK_Maintenances_Requests_RequestId",
+                        column: x => x.RequestId,
                         principalTable: "Requests",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -306,9 +306,9 @@ namespace DataLayer.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AuthenticationTypes_FuelCardEntityId",
+                name: "IX_AuthenticationTypes_FuelCardId",
                 table: "AuthenticationTypes",
-                column: "FuelCardEntityId");
+                column: "FuelCardId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ChaffeurEntityFuelCardEntity_FuelCardsId",
@@ -321,19 +321,19 @@ namespace DataLayer.Migrations
                 column: "VehiclesId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DrivingLicenses_ChaffeurEntityId",
+                name: "IX_DrivingLicenses_ChaffeurId",
                 table: "DrivingLicenses",
-                column: "ChaffeurEntityId");
+                column: "ChaffeurId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ExtraServices_FuelCardEntityId",
+                name: "IX_ExtraServices_FuelCardId",
                 table: "ExtraServices",
-                column: "FuelCardEntityId");
+                column: "FuelCardId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Fuels_FuelCardEntityId",
+                name: "IX_Fuels_FuelCardId",
                 table: "Fuels",
-                column: "FuelCardEntityId");
+                column: "FuelCardId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Fuels_VehicleEntityId",
@@ -346,14 +346,14 @@ namespace DataLayer.Migrations
                 column: "MaintenanceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_LicensePlates_VehicleEntityId",
+                name: "IX_LicensePlates_VehicleId",
                 table: "LicensePlates",
-                column: "VehicleEntityId");
+                column: "VehicleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Maintenances_RequestEntityId",
+                name: "IX_Maintenances_RequestId",
                 table: "Maintenances",
-                column: "RequestEntityId");
+                column: "RequestId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Repairments_RequestId",

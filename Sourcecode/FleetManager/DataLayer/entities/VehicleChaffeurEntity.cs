@@ -11,7 +11,7 @@ namespace DataLayer.entities
     {
         public int VehicleEntityId { get; set; }
         public VehicleEntity Vehicle { get; set; }
-        public int ChaffeurEntityId { get; set; }
+        public int ChaffeurId { get; set; }
         public ChaffeurEntity Chaffeur { get; set; }
         public bool IsActive { get; set; }
     }

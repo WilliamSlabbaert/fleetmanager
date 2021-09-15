@@ -35,7 +35,9 @@ namespace BusinessLayer
 
         public static void AddBLLManagers(IServiceCollection services)
         {
+            services.AddScoped<IChaffeurRepo, ChaffeurRepo>();
             services.AddScoped<IChaffeurManager, ChaffeurManager>();
+            services.AddScoped<IVehicleManager, VehicleManager>();
         }
 
         public static void AddDBContext(IServiceCollection services)

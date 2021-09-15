@@ -13,7 +13,7 @@ namespace DataLayer.entities
         [Key]
         public int Id { get; set; }
         public FuelTypes Fuel { get; set; }
-        public int FuelCardEntityId { get; set; }
+        public int FuelCardId { get; set; }
         public FuelCardEntity FuelCard { get; set; }
     }
 }

@@ -12,7 +12,7 @@ namespace DataLayer.entities
         [Key]
         public int Id { get; set; }
         public string Plate { get; set; }
-        public int VehicleEntityId { get; set; }
+        public int VehicleId { get; set; }
         public VehicleEntity Vehicle { get; set; }
     }
 }

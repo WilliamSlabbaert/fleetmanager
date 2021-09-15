@@ -47,27 +47,5 @@ namespace DataLayer.entities
             DrivingLicenses = new List<DrivingLicenseEntity>();
             Requests = new List<RequestEntity>();
         }
-
-        public void AddVehicle(VehicleEntity vehicle)
-        {
-            if (vehicle != null)
-            {
-                if (Vehicles.Contains(vehicle))
-                {
-                    Vehicles.Add(vehicle);
-                }
-            }
-        }
-        public void RemoveVehicle(VehicleEntity vehicle)
-        {
-            if (vehicle != null)
-            {
-                if (Vehicles.Contains(vehicle))
-                {
-                    Vehicles.Remove(vehicle);
-                }
-            }
-        }
-
     }
 }

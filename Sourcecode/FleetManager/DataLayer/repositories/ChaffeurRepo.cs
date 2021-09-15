@@ -10,34 +10,48 @@ namespace DataLayer.repositories
 {
     public class ChaffeurRepo : IChaffeurRepo
     {
-        public void AddEntity(ChaffeurEntity obj)
+        private FleetManagerContext _context = null;
+        private DbSet<ChaffeurEntity> _table = null;
+
+        public ChaffeurRepo(FleetManagerContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
+            _table = context.Chaffeurs;
+                /*.Include(s => s.Vehicles)
+                .Include(s => s.Requests)
+                .Include(s => s.DrivingLicenses)
+                .Include(s => s.FuelCards)
+                .ThenInclude(s => s.Chaffeurs)
+                .ThenInclude(s => s.Vehicles);*/
         }
 
-        public void DeleteEntity(int id)
+        public void AddVehicleToChaffeur(ChaffeurEntity ch, VehicleEntity vh)
         {
-            throw new NotImplementedException();
+            ch.Vehicles.Add(vh);
+            var tempvh = _context.Vehicles.FirstOrDefault(s=>s.Id == vh.Id);
+            var tempch = _context.Chaffeurs.FirstOrDefault(s => s.Id == ch.Id);
+            tempch.Vehicles.Add(tempvh);
+            _table.Attach(tempch);
+            _context.Entry(tempch).State = EntityState.Modified;
+            _context.SaveChanges();
         }
-
-        public IQueryable<ChaffeurEntity> GetAll()
+        public void RemoveVehicleToChaffeur(ChaffeurEntity ch, VehicleEntity vh)
         {
-            throw new NotImplementedException();
-        }
+            ch.Vehicles.Add(vh);
+            var tempvh = _context.Vehicles;
 
-        public ChaffeurEntity GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
+            var tempch = _context.Chaffeurs.Include(s => s.Vehicles)
+                .Include(s => s.Requests)
+                .Include(s => s.DrivingLicenses)
+                .Include(s => s.FuelCards)
+                .ThenInclude(s => s.Chaffeurs)
+                .ThenInclude(s => s.Vehicles)
+                .FirstOrDefault();
 
-        public void Save()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void UpdateEntity(ChaffeurEntity obj)
-        {
-            throw new NotImplementedException();
+            tempch.Vehicles.Remove(tempch.Vehicles.Single(s =>s.Id == vh.Id));
+            _table.Attach(tempch);
+            _context.Entry(tempch).State = EntityState.Modified;
+            _context.SaveChanges();
         }
     }
 }

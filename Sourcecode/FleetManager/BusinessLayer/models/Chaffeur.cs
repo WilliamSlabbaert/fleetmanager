@@ -44,15 +44,17 @@ namespace BusinessLayer
             Requests = new List<Request>();
         }
 
-        public void AddVehicle(Vehicle vehicle)
+        public bool CheckVehicle(Vehicle vehicle)
         {
             if (vehicle != null)
             {
-                if (Vehicles.Contains(vehicle))
+                if (!Vehicles.Contains(vehicle))
                 {
-                    Vehicles.Add(vehicle);
+                    return true;
                 }
+                return false;
             }
+            return false;
         }
         public void RemoveVehicle(Vehicle vehicle)
         {
