@@ -20,7 +20,7 @@ namespace DataLayer
         public DbSet<VehicleEntity> Vehicles { get; set; }
         public FleetManagerContext(DbContextOptions<FleetManagerContext> options) : base(options)
         {
-
+            
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

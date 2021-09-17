@@ -8,11 +8,11 @@ namespace BusinessLayer.models
 {
     public class VehicleChaffeur
     {
-        /*
+        
         public int VehicleId { get; set; }
         public Vehicle Vehicle { get; set; }
         public int ChaffeurId { get; set; }
         public Chaffeur Chaffeur { get; set; }
-        public bool IsActive { get; set; }*/
+        public bool IsActive { get; set; }
     }
 }

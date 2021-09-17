@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -28,9 +29,13 @@ namespace DataLayer.repositories
             T existing = _table.Find(id);
             _table.Remove(existing);
         }
-
-        public IQueryable<T> GetAll()
+     
+        public IQueryable<T> GetAll(string[] includes)
         {
+            foreach (string include in includes)
+            {
+                _table.Include(include);
+            }
             return _table;
         }
 

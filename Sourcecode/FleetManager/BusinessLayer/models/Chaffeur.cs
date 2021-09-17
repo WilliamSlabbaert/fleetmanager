@@ -46,13 +46,9 @@ namespace BusinessLayer
 
         public bool CheckVehicle(Vehicle vehicle)
         {
-            if (vehicle != null)
+            if (!Vehicles.Contains(vehicle))
             {
-                if (!Vehicles.Contains(vehicle))
-                {
-                    return true;
-                }
-                return false;
+                return true;
             }
             return false;
         }

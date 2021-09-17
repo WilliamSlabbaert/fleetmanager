@@ -27,15 +27,11 @@ namespace ReadAPI.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<Chaffeur>> Get()
+        public ActionResult<List<Chaffeur>> GetAllChaffeurs()
         {
             try
             {
-                var vh = _managerVehicle.GetVehicleById(1);
-                var ch = _managerChaffeur.GetChaffeurById(1);
-
-                var temp = _managerChaffeur.GetAllChaffeursWithoutIncludes();
-
+                var temp = _managerChaffeur.GetAllChaffeurs();
                 return Ok(temp);
             }
             catch (Exception ex)
@@ -60,7 +56,7 @@ namespace ReadAPI.Controllers
                 return BadRequest(ex);
             }
         }
-        [HttpGet("{id}/vehicles")]
+        [HttpGet("{id}/Vehicles")]
         public ActionResult<List<Vehicle>> GetallVehiclesById(int id)
         {
             try

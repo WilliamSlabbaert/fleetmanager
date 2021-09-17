@@ -26,19 +26,22 @@ namespace BusinessLayer.managers
 
         public void AddChaffeur(Chaffeur ch)
         {
-            _repo.AddEntity(_mapper.Map<ChaffeurEntity>(ch));
-            _repo.Save();
+            if(ch != null)
+            {
+                _repo.AddEntity(_mapper.Map<ChaffeurEntity>(ch));
+                _repo.Save();
+            }else
+            {
+                throw new Exception("Chaffeur is null.");
+            }
+
         }
 
         public Chaffeur GetChaffeurById(int id)
         {
-            return _mapper.Map<Chaffeur>(this._repo.GetAll()
+            return _mapper.Map<Chaffeur>(GetAllChaffeurs()
                 .Where(s => s.Id == id)
-                .Include(s => s.Vehicles)
-                .Include(s => s.Requests)
-                .Include(s => s.DrivingLicenses)
-                .Include(s => s.FuelCards)
-                .SingleOrDefault());
+                .FirstOrDefault());
         }
 
         public void UpdateChaffeur(Chaffeur ch)
@@ -48,45 +51,46 @@ namespace BusinessLayer.managers
         }
         public void AddVehicleToChaffeur(Chaffeur ch, Vehicle vh)
         {
-            if (ch.CheckVehicle(vh))
+            if (vh != null)
             {
-                _chRepo.AddVehicleToChaffeur(_mapper.Map<ChaffeurEntity>(ch), _mapper.Map<VehicleEntity>(vh));
+                if (ch.CheckVehicle(vh))
+                {
+                    _chRepo.AddVehicleToChaffeur(_mapper.Map<ChaffeurEntity>(ch), _mapper.Map<VehicleEntity>(vh));
+                }
+                else
+                {
+                    throw new Exception("Vehicle already owned by chaffeur.");
+                }
             }
             else
             {
-                throw new Exception("fzefez");
+                throw new Exception("Vehicle is null");
             }
         }
         public void RemoveVehicleToChaffeur(Chaffeur ch, Vehicle vh)
         {
-            if (ch.CheckVehicle(vh))
+            if(vh != null)
             {
-                _chRepo.RemoveVehicleToChaffeur(_mapper.Map<ChaffeurEntity>(ch), _mapper.Map<VehicleEntity>(vh));
+                if (ch.CheckVehicle(vh) == false)
+                {
+                    _chRepo.RemoveVehicleToChaffeur(_mapper.Map<ChaffeurEntity>(ch), _mapper.Map<VehicleEntity>(vh));
+                }
+                else
+                {
+                    throw new Exception("Vehicle is not owned by chaffeur.");
+                }
             }
             else
             {
-                throw new Exception("fzefez");
+                throw new Exception("Vehicle is null");
             }
+           
         }
 
         public List<Chaffeur> GetAllChaffeurs()
         {
-            return _mapper.Map<List<Chaffeur>>(this._repo.GetAll()
-                .Include(s => s.Requests)
-                .Include(s => s.DrivingLicenses)
-                .Include(s => s.FuelCards)
-                .Include(s => s.Vehicles)
-                .ThenInclude(s => s.Chaffeurs));
-        }
-
-        public List<Chaffeur> GetAllChaffeursWithoutIncludes()
-        {
-            return _mapper.Map<List<Chaffeur>>(this._repo.GetAll());
-        }
-
-        public void test()
-        {
-            throw new Exception("fzefez");
+            String[] te = new string[] { "vehicles"};
+            return _mapper.Map<List<Chaffeur>>(this._repo.GetAll(te));
         }
     }
 }

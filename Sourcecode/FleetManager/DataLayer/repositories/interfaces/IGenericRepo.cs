@@ -8,7 +8,7 @@ namespace DataLayer.repositories
 {
     public interface IGenericRepo<T> where T : class
     {
-        IQueryable<T> GetAll();
+        IQueryable<T> GetAll(string[] includes);
         T GetById(int id);
         void AddEntity(T obj);
         void UpdateEntity(T obj);

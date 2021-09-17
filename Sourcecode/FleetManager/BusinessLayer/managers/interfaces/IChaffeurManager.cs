@@ -15,7 +15,5 @@ namespace BusinessLayer.managers.interfaces
         public void AddVehicleToChaffeur(Chaffeur ch, Vehicle vh);
         public void RemoveVehicleToChaffeur(Chaffeur ch, Vehicle vh);
         public List<Chaffeur> GetAllChaffeurs();
-        public List<Chaffeur> GetAllChaffeursWithoutIncludes();
-        public void test();
     }
 }

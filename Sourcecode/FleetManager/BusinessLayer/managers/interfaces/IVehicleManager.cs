@@ -13,5 +13,6 @@ namespace BusinessLayer.managers.interfaces
         public Vehicle GetVehicleById(int id);
         public void AddVehicle(Vehicle ch);
         public void UpdateVehicle(Vehicle ch);
+        public List<Vehicle> GetAllVehicles();
     }
 }
