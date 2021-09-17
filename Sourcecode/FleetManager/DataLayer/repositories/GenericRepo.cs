@@ -29,14 +29,17 @@ namespace DataLayer.repositories
             T existing = _table.Find(id);
             _table.Remove(existing);
         }
-     
-        public IQueryable<T> GetAll(string[] includes)
+
+        public IQueryable<T> GetAll(params Expression<Func<T, object>>[] including)
         {
-            foreach (string include in includes)
-            {
-                _table.Include(include);
-            }
-            return _table;
+            var query = _table.AsQueryable();
+            if (including != null)
+                including.ToList().ForEach(include =>
+                {
+                    if (include != null)
+                        query = query.Include(include);
+                });
+            return query;
         }
 
         public T GetById(int id)

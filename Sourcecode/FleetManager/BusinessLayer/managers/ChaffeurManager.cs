@@ -89,8 +89,7 @@ namespace BusinessLayer.managers
 
         public List<Chaffeur> GetAllChaffeurs()
         {
-            String[] te = new string[] { "vehicles"};
-            return _mapper.Map<List<Chaffeur>>(this._repo.GetAll(te));
+            return _mapper.Map<List<Chaffeur>>(this._repo.GetAll(x => x.Vehicles, x => x.DrivingLicenses, x => x.FuelCards, x=> x.Requests));
         }
     }
 }

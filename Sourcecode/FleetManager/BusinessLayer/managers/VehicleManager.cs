@@ -45,14 +45,7 @@ namespace BusinessLayer.managers
         }
         public List<Vehicle> GetAllVehicles()
         {
-            String[] te = new string[] { "Chaffeurs" };
-
-            return _mapper.Map<List<Vehicle>>(this._vehicleRepo.GetAll(te)
-                .Include(s => s.Chaffeurs)
-                .Include(s => s.LicensePlates)
-                .Include(s => s.Requests)
-                .Include(s => s.FuelTypes)
-                );
+            return _mapper.Map<List<Vehicle>>(this._vehicleRepo.GetAll(x => x.Chaffeurs, x => x.LicensePlates, x => x.Requests, x => x.FuelTypes));
         }
         public void UpdateVehicle(Vehicle ch)
         {

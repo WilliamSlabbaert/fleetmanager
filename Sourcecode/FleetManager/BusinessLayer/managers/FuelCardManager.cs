@@ -30,12 +30,7 @@ namespace BusinessLayer.managers
 
         public List<FuelCard> GetAllFuelCards()
         {
-            String[] te = new string[] { "Chaffeurs" };
-            return _mapper.Map<List<FuelCard>>(this._repo.GetAll(te)
-                .Include(s => s.Chaffeurs)
-                .Include(s => s.AuthenthicationCode)
-                .Include(s => s.Services)
-                .Include(s => s.FuelType));
+            return _mapper.Map<List<FuelCard>>(this._repo.GetAll(x => x.Chaffeurs, x => x.Services, x => x.FuelType, x => x.AuthenthicationCode));
         }
 
         public FuelCard GetFuelCardById(int id)
