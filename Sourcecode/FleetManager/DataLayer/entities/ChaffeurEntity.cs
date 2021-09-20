@@ -20,8 +20,8 @@ namespace DataLayer.entities
         public DateTime DateOfBirth { get; set; }
         public string NationalInsurenceNumber { get; set; }
         public bool IsActive { get; set; }
-        public List<VehicleEntity> Vehicles { get; set; } 
-        public List<FuelCardEntity> FuelCards { get; set; }
+        public List<ChaffeurEntityVehicleEntity> ChaffeurVehicles { get; set; }
+        public List<ChaffeurEntityFuelCardEntity> ChaffeurFuelCards { get; set; }
         public List<DrivingLicenseEntity> DrivingLicenses { get; set; }
         public List<RequestEntity> Requests { get; set; }
         public ChaffeurEntity(string firstName, string lastName, string city, string street, string houseNumber, DateTime dateOfBirth, string nationalInsurenceNumber, bool isActive)
@@ -34,18 +34,18 @@ namespace DataLayer.entities
             DateOfBirth = dateOfBirth;
             NationalInsurenceNumber = nationalInsurenceNumber;
             IsActive = isActive;
-            Vehicles = new List<VehicleEntity>();
-            FuelCards = new List<FuelCardEntity>();
+            ChaffeurVehicles = new List<ChaffeurEntityVehicleEntity>();
+            ChaffeurFuelCards = new List<ChaffeurEntityFuelCardEntity>();
             DrivingLicenses = new List<DrivingLicenseEntity>();
             Requests = new List<RequestEntity>();
         }
 
         public ChaffeurEntity()
         {
-            Vehicles = new List<VehicleEntity>();
-            FuelCards = new List<FuelCardEntity>();
+            ChaffeurVehicles = new List<ChaffeurEntityVehicleEntity>();
             DrivingLicenses = new List<DrivingLicenseEntity>();
             Requests = new List<RequestEntity>();
+            ChaffeurFuelCards = new List<ChaffeurEntityFuelCardEntity>();
         }
     }
 }

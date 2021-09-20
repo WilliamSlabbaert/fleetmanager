@@ -2,6 +2,7 @@
 using Overall;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BusinessLayer
 {
@@ -16,8 +17,8 @@ namespace BusinessLayer
         public DateTime DateOfBirth { get; set; }
         public string NationalInsurenceNumber { get; set; }
         public bool IsActive { get; set; }
-        public List<Vehicle> Vehicles { get; set; }
-        public List<FuelCard> FuelCards { get; set; }
+        public List<VehicleChaffeur> ChaffeurVehicles { get; set; }
+        public List<FuelCardChaffeur> ChaffeurFuelCards { get; set; }
         public List<DrivingLicense> DrivingLicenses { get; set; }
         public List<Request> Requests { get; set; }
         public Chaffeur(string firstName, string lastName, string city, string street, string houseNumber, DateTime dateOfBirth, string nationalInsurenceNumber, bool isActive)
@@ -30,23 +31,31 @@ namespace BusinessLayer
             DateOfBirth = dateOfBirth;
             NationalInsurenceNumber = nationalInsurenceNumber;
             IsActive = isActive;
-            Vehicles = new List<Vehicle>();
-            FuelCards = new List<FuelCard>();
+
+            ChaffeurFuelCards = new List<FuelCardChaffeur>();
+            ChaffeurVehicles = new List<VehicleChaffeur>();
             DrivingLicenses = new List<DrivingLicense>();
             Requests = new List<Request>();
         }
 
         public Chaffeur()
         {
-            Vehicles = new List<Vehicle>();
-            FuelCards = new List<FuelCard>();
+            ChaffeurFuelCards = new List<FuelCardChaffeur>();
             DrivingLicenses = new List<DrivingLicense>();
+            ChaffeurVehicles = new List<VehicleChaffeur>();
             Requests = new List<Request>();
         }
-
-        public bool CheckVehicle(Vehicle vehicle)
+        public bool CheckVehicle(int vehicle)
         {
-            if (!Vehicles.Contains(vehicle))
+            if (ChaffeurVehicles.FirstOrDefault(s=>s.Vehicle.Id == vehicle) == null)
+            {
+                return true;
+            }
+            return false;
+        }
+        public bool CheckFuelCard(int fuelcard)
+        {
+            if (ChaffeurFuelCards.FirstOrDefault(s => s.FuelCard.Id == fuelcard) == null)
             {
                 return true;
             }

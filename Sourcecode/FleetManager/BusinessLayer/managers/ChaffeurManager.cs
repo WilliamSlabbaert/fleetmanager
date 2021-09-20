@@ -15,33 +15,46 @@ namespace BusinessLayer.managers
     public class ChaffeurManager : IChaffeurManager
     {
         private readonly IGenericRepo<ChaffeurEntity> _repo;
-        private readonly IChaffeurRepo _chRepo;
+        private readonly IGenericRepo<VehicleEntity> _vhrepo;
         private readonly IMapper _mapper;
-        public ChaffeurManager(IGenericRepo<ChaffeurEntity> repo, IMapper mapper, IChaffeurRepo chRepo)
+        public ChaffeurManager(IGenericRepo<ChaffeurEntity> repo, IMapper mapper,  IGenericRepo<VehicleEntity> vhrepo)
         {
             this._repo = repo;
             _mapper = mapper;
-            _chRepo = chRepo;
+            _vhrepo = vhrepo;
         }
 
         public void AddChaffeur(Chaffeur ch)
         {
-            if(ch != null)
+            if (ch != null)
             {
                 _repo.AddEntity(_mapper.Map<ChaffeurEntity>(ch));
                 _repo.Save();
-            }else
+            }
+            else
             {
                 throw new Exception("Chaffeur is null.");
             }
-
         }
 
         public Chaffeur GetChaffeurById(int id)
         {
-            return _mapper.Map<Chaffeur>(GetAllChaffeurs()
-                .Where(s => s.Id == id)
-                .FirstOrDefault());
+            try
+            {
+                return _mapper.Map<Chaffeur>(_repo.GetById(
+                filter: x => x.Id == id
+                , x => x.Include(s=>s.ChaffeurFuelCards)
+                .ThenInclude(s => s.FuelCard)
+                .Include(s=>s.DrivingLicenses)
+                .Include(s => s.Requests)
+                .Include(s => s.ChaffeurVehicles)
+                .ThenInclude(s => s.Vehicle)
+                ));
+            }
+            catch
+            {
+                throw new Exception("Chaffeur is null.");
+            }
         }
 
         public void UpdateChaffeur(Chaffeur ch)
@@ -49,47 +62,86 @@ namespace BusinessLayer.managers
             _repo.UpdateEntity(_mapper.Map<ChaffeurEntity>(ch));
             _repo.Save();
         }
-        public void AddVehicleToChaffeur(Chaffeur ch, Vehicle vh)
+        public void AddVehicleToChaffeur(int chaffeurNr, int vehicleNr)
         {
-            if (vh != null)
+            VehicleEntity vh = GetVehicleEntity(vehicleNr);
+            ChaffeurEntity ch = GetChaffeurEntity(chaffeurNr);
+
+            var chmodel = _mapper.Map<Chaffeur>(ch);
+            if (chmodel.CheckVehicle(vh.Id))
             {
-                if (ch.CheckVehicle(vh))
-                {
-                    _chRepo.AddVehicleToChaffeur(_mapper.Map<ChaffeurEntity>(ch), _mapper.Map<VehicleEntity>(vh));
-                }
-                else
-                {
-                    throw new Exception("Vehicle already owned by chaffeur.");
-                }
+                ch.ChaffeurVehicles.Add(new ChaffeurEntityVehicleEntity(vh, ch, true));
+                _repo.Save();
             }
             else
             {
-                throw new Exception("Vehicle is null");
+                throw new Exception("Vehicle is already in Chaffeurs list.");
             }
-        }
-        public void RemoveVehicleToChaffeur(Chaffeur ch, Vehicle vh)
-        {
-            if(vh != null)
-            {
-                if (ch.CheckVehicle(vh) == false)
-                {
-                    _chRepo.RemoveVehicleToChaffeur(_mapper.Map<ChaffeurEntity>(ch), _mapper.Map<VehicleEntity>(vh));
-                }
-                else
-                {
-                    throw new Exception("Vehicle is not owned by chaffeur.");
-                }
-            }
-            else
-            {
-                throw new Exception("Vehicle is null");
-            }
-           
         }
 
+        public void RemoveVehicleToChaffeur(int chaffeurNr, int vehicleNr)
+        {
+
+            VehicleEntity vh = GetVehicleEntity(vehicleNr);
+            ChaffeurEntity ch = GetChaffeurEntity(chaffeurNr);
+
+            var temp = ch.ChaffeurVehicles.FirstOrDefault(s => s.ChaffeurId == ch.Id && s.VehicleId == vh.Id);
+
+            if (temp != null)
+            {
+                ch.ChaffeurVehicles.Remove(temp);
+                _repo.UpdateEntity(ch);
+                _repo.Save();
+            }
+            else
+            {
+                throw new Exception("Vehicle is not in Chaffeurs list.");
+            }
+        }
+
+        public ChaffeurEntity GetChaffeurEntity(int id)
+        {
+            try
+            {
+                var ch = _repo.GetById(
+                filter: x => x.Id == id
+                , x => x.Include(s => s.ChaffeurFuelCards)
+                .ThenInclude(s => s.FuelCard)
+                .Include(s => s.ChaffeurVehicles)
+                .ThenInclude(s => s.Vehicle)
+                .Include(s => s.DrivingLicenses)
+                .Include(s => s.Requests));
+                return ch;
+            }
+            catch
+            {
+                throw new Exception("Chaffeur is null.");
+            }
+        }
+        public VehicleEntity GetVehicleEntity(int id)
+        {
+            try
+            {
+                var vh = _vhrepo.GetById(
+                filter: x => x.Id == id
+                , x => x.Include(s => s.LicensePlates)
+                .Include(s => s.ChaffeurVehicles)
+                .Include(s => s.LicensePlates)
+                .Include(s => s.Requests));
+                return vh;
+            }
+            catch
+            {
+                throw new Exception("Vehicle is null.");
+            }
+        }
         public List<Chaffeur> GetAllChaffeurs()
         {
-            return _mapper.Map<List<Chaffeur>>(this._repo.GetAll(x => x.Vehicles, x => x.DrivingLicenses, x => x.FuelCards, x=> x.Requests));
+            return _mapper.Map<List<Chaffeur>>(this._repo.GetAll(
+                x => x.Include(s => s.ChaffeurFuelCards)
+                .Include(s => s.ChaffeurVehicles)
+                .Include(s => s.DrivingLicenses)
+                .Include(s => s.Requests)));
         }
     }
 }

@@ -24,17 +24,13 @@ namespace DataLayer
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<ChaffeurEntity>(entity =>
+            modelBuilder.Entity<ChaffeurEntityVehicleEntity>(entity =>
             {
-                entity.HasMany(e => e.Requests)
-                .WithOne(e => e.Chaffeur)
-                .OnDelete(DeleteBehavior.Restrict);
+                entity.HasKey(bc => new { bc.ChaffeurId, bc.VehicleId });
             });
-            modelBuilder.Entity<VehicleEntity>(entity =>
+            modelBuilder.Entity<ChaffeurEntityFuelCardEntity>(entity =>
             {
-                entity.HasMany(e => e.Requests)
-                .WithOne(e => e.Vehicle)
-                .OnDelete(DeleteBehavior.Restrict);
+                entity.HasKey(bc => new { bc.ChaffeurId, bc.FuelCardId });
             });
         }
     }

@@ -9,7 +9,6 @@ namespace DataLayer.repositories
 {
     public interface IChaffeurRepo
     {
-        public void AddVehicleToChaffeur(ChaffeurEntity ch , VehicleEntity vh);
-        public void RemoveVehicleToChaffeur(ChaffeurEntity ch, VehicleEntity vh);
+
     }
 }

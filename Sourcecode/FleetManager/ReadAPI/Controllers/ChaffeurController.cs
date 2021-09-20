@@ -31,6 +31,12 @@ namespace ReadAPI.Controllers
         {
             try
             {
+                //_managerChaffeur.AddChaffeur(new Chaffeur("testFirst","testLast","testCity","testStreet","testNr",DateTime.Now,"testNationalNr",true));
+                //_managerVehicle.AddVehicle(new Vehicle(123,Overall.CarTypes.Passengercar,111,Overall.FuelTypes.Diesel));
+
+                //_managerChaffeur.RemoveVehicleToChaffeur(1,1);
+                //_managerChaffeur.AddVehicleToChaffeur(1, 1);
+
                 var temp = _managerChaffeur.GetAllChaffeurs();
                 return Ok(temp);
             }
@@ -66,7 +72,24 @@ namespace ReadAPI.Controllers
                 {
                     return NotFound("This chaffeur doesn't exist");
                 }
-                return Ok(ch.Vehicles);
+                return Ok(ch.ChaffeurVehicles.Select(s=>s.Vehicle));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+        [HttpGet("{id}/Fuelcards")]
+        public ActionResult<List<Vehicle>> GetallFuelCardsById(int id)
+        {
+            try
+            {
+                var ch = _managerChaffeur.GetChaffeurById(id);
+                if (ch == null)
+                {
+                    return NotFound("This chaffeur doesn't exist");
+                }
+                return Ok(ch.ChaffeurFuelCards.Select(s => s.FuelCard));
             }
             catch (Exception ex)
             {

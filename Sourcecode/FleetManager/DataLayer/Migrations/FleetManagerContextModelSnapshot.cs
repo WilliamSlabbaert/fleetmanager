@@ -19,36 +19,6 @@ namespace DataLayer.Migrations
                 .HasAnnotation("ProductVersion", "5.0.9")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("ChaffeurEntityFuelCardEntity", b =>
-                {
-                    b.Property<int>("ChaffeursId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FuelCardsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ChaffeursId", "FuelCardsId");
-
-                    b.HasIndex("FuelCardsId");
-
-                    b.ToTable("ChaffeurEntityFuelCardEntity");
-                });
-
-            modelBuilder.Entity("ChaffeurEntityVehicleEntity", b =>
-                {
-                    b.Property<int>("ChaffeursId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("VehiclesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ChaffeursId", "VehiclesId");
-
-                    b.HasIndex("VehiclesId");
-
-                    b.ToTable("ChaffeurEntityVehicleEntity");
-                });
-
             modelBuilder.Entity("DataLayer.entities.AuthenticationTypeEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -103,6 +73,42 @@ namespace DataLayer.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Chaffeurs");
+                });
+
+            modelBuilder.Entity("DataLayer.entities.ChaffeurEntityFuelCardEntity", b =>
+                {
+                    b.Property<int>("ChaffeurId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FuelCardId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.HasKey("ChaffeurId", "FuelCardId");
+
+                    b.HasIndex("FuelCardId");
+
+                    b.ToTable("ChaffeurEntityFuelCardEntity");
+                });
+
+            modelBuilder.Entity("DataLayer.entities.ChaffeurEntityVehicleEntity", b =>
+                {
+                    b.Property<int>("ChaffeurId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VehicleId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.HasKey("ChaffeurId", "VehicleId");
+
+                    b.HasIndex("VehicleId");
+
+                    b.ToTable("ChaffeurEntityVehicleEntity");
                 });
 
             modelBuilder.Entity("DataLayer.entities.DrivingLicenseEntity", b =>
@@ -179,14 +185,9 @@ namespace DataLayer.Migrations
                     b.Property<int>("FuelCardId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("VehicleEntityId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("FuelCardId");
-
-                    b.HasIndex("VehicleEntityId");
 
                     b.ToTable("Fuels");
                 });
@@ -324,6 +325,9 @@ namespace DataLayer.Migrations
                     b.Property<int>("Chassis")
                         .HasColumnType("int");
 
+                    b.Property<int>("FuelType")
+                        .HasColumnType("int");
+
                     b.Property<double>("Kilometers")
                         .HasColumnType("float");
 
@@ -335,45 +339,53 @@ namespace DataLayer.Migrations
                     b.ToTable("Vehicles");
                 });
 
-            modelBuilder.Entity("ChaffeurEntityFuelCardEntity", b =>
-                {
-                    b.HasOne("DataLayer.entities.ChaffeurEntity", null)
-                        .WithMany()
-                        .HasForeignKey("ChaffeursId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DataLayer.entities.FuelCardEntity", null)
-                        .WithMany()
-                        .HasForeignKey("FuelCardsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ChaffeurEntityVehicleEntity", b =>
-                {
-                    b.HasOne("DataLayer.entities.ChaffeurEntity", null)
-                        .WithMany()
-                        .HasForeignKey("ChaffeursId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DataLayer.entities.VehicleEntity", null)
-                        .WithMany()
-                        .HasForeignKey("VehiclesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("DataLayer.entities.AuthenticationTypeEntity", b =>
                 {
                     b.HasOne("DataLayer.entities.FuelCardEntity", "FuelCard")
-                        .WithMany("AuthenthicationCode")
+                        .WithMany("AuthenticationTypes")
                         .HasForeignKey("FuelCardId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("FuelCard");
+                });
+
+            modelBuilder.Entity("DataLayer.entities.ChaffeurEntityFuelCardEntity", b =>
+                {
+                    b.HasOne("DataLayer.entities.ChaffeurEntity", "Chaffeur")
+                        .WithMany("ChaffeurFuelCards")
+                        .HasForeignKey("ChaffeurId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DataLayer.entities.FuelCardEntity", "FuelCard")
+                        .WithMany("ChaffeurFuelCards")
+                        .HasForeignKey("FuelCardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Chaffeur");
+
+                    b.Navigation("FuelCard");
+                });
+
+            modelBuilder.Entity("DataLayer.entities.ChaffeurEntityVehicleEntity", b =>
+                {
+                    b.HasOne("DataLayer.entities.ChaffeurEntity", "Chaffeur")
+                        .WithMany("ChaffeurVehicles")
+                        .HasForeignKey("ChaffeurId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DataLayer.entities.VehicleEntity", "Vehicle")
+                        .WithMany("ChaffeurVehicles")
+                        .HasForeignKey("VehicleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Chaffeur");
+
+                    b.Navigation("Vehicle");
                 });
 
             modelBuilder.Entity("DataLayer.entities.DrivingLicenseEntity", b =>
@@ -405,10 +417,6 @@ namespace DataLayer.Migrations
                         .HasForeignKey("FuelCardId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("DataLayer.entities.VehicleEntity", null)
-                        .WithMany("FuelTypes")
-                        .HasForeignKey("VehicleEntityId");
 
                     b.Navigation("FuelCard");
                 });
@@ -462,13 +470,13 @@ namespace DataLayer.Migrations
                     b.HasOne("DataLayer.entities.ChaffeurEntity", "Chaffeur")
                         .WithMany("Requests")
                         .HasForeignKey("ChaffeurId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DataLayer.entities.VehicleEntity", "Vehicle")
                         .WithMany("Requests")
                         .HasForeignKey("VehicleId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Chaffeur");
@@ -478,6 +486,10 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.entities.ChaffeurEntity", b =>
                 {
+                    b.Navigation("ChaffeurFuelCards");
+
+                    b.Navigation("ChaffeurVehicles");
+
                     b.Navigation("DrivingLicenses");
 
                     b.Navigation("Requests");
@@ -485,7 +497,9 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.entities.FuelCardEntity", b =>
                 {
-                    b.Navigation("AuthenthicationCode");
+                    b.Navigation("AuthenticationTypes");
+
+                    b.Navigation("ChaffeurFuelCards");
 
                     b.Navigation("FuelType");
 
@@ -506,7 +520,7 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.entities.VehicleEntity", b =>
                 {
-                    b.Navigation("FuelTypes");
+                    b.Navigation("ChaffeurVehicles");
 
                     b.Navigation("LicensePlates");
 

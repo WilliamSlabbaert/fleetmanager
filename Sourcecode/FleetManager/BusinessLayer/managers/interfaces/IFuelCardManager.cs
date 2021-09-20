@@ -10,7 +10,9 @@ namespace BusinessLayer.managers.interfaces
     public interface IFuelCardManager
     {
         public FuelCard GetFuelCardById(int id);
-        public void AddFuelCard(FuelCard fc,Chaffeur ch);
+        public void AddFuelCard(FuelCard fc);
+        public void AddFuelCardToChaffeur(int fuelcardNr, int chaffeurNr);
+        public void RemoveFuelCardFromChaffeur(int fuelcardNr, int chaffeurNr);
         public void UpdateFuelCard(FuelCard fc);
         public List<FuelCard> GetAllFuelCards();
     }

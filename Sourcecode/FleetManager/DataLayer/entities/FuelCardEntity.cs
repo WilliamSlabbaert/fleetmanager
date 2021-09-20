@@ -15,9 +15,28 @@ namespace DataLayer.entities
         public string CardNumber { get; set; }
         public int Pin { get; set; }
         public bool IsActive { get; set; }
-        public List<AuthenticationTypeEntity> AuthenthicationCode { get; set; }
         public List<FuelEntity> FuelType { get; set; }
         public List<ExtraServiceEntity> Services { get; set; }
-        public List<ChaffeurEntity> Chaffeurs { get; set; }
+        public List<ChaffeurEntityFuelCardEntity> ChaffeurFuelCards { get; set; }
+        public List<AuthenticationTypeEntity> AuthenticationTypes { get; set; }
+
+        public FuelCardEntity()
+        {
+            AuthenticationTypes = new List<AuthenticationTypeEntity>();
+            FuelType = new List<FuelEntity>();
+            Services = new List<ExtraServiceEntity>();
+            ChaffeurFuelCards = new List<ChaffeurEntityFuelCardEntity>();
+        }
+
+        public FuelCardEntity(string cardNumber, int pin, bool isActive)
+        {
+            CardNumber = cardNumber;
+            Pin = pin;
+            IsActive = isActive;
+            AuthenticationTypes = new List<AuthenticationTypeEntity>();
+            FuelType = new List<FuelEntity>();
+            Services = new List<ExtraServiceEntity>();
+            ChaffeurFuelCards = new List<ChaffeurEntityFuelCardEntity>();
+        }
     }
 }

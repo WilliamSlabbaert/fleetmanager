@@ -59,7 +59,7 @@ namespace ReadAPI.Controllers
                 {
                     return NotFound("This vehicle doesn't exist");
                 }
-                return Ok(vh.Chaffeurs);
+                return Ok(vh.ChaffeurVehicles.Select(s=>s.Chaffeur));
             }
             catch (Exception ex)
             {

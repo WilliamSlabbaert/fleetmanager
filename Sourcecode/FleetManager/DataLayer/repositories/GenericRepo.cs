@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,21 +31,27 @@ namespace DataLayer.repositories
             _table.Remove(existing);
         }
 
-        public IQueryable<T> GetAll(params Expression<Func<T, object>>[] including)
+        public IQueryable<T> GetAll(Func<IQueryable<T>, IIncludableQueryable<T, object>> including)
         {
             var query = _table.AsQueryable();
+
             if (including != null)
-                including.ToList().ForEach(include =>
-                {
-                    if (include != null)
-                        query = query.Include(include);
-                });
+            {
+                query = including(query);
+            }
             return query;
         }
 
-        public T GetById(int id)
+        public T GetById(Expression<Func<T, bool>> filter, Func<IQueryable<T>, IIncludableQueryable<T, object>> including)
         {
-            return _table.Find(id);
+
+            var query = _table.Where(filter);
+
+            if (including != null)
+            {
+                query = including(query);
+            }
+            return query.FirstOrDefault();
         }
 
         public void Save()

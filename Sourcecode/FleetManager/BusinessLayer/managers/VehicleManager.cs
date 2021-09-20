@@ -25,7 +25,7 @@ namespace BusinessLayer.managers
 
         public void AddVehicle(Vehicle ch)
         {
-            if (ch == null)
+            if (ch != null)
             {
                 _vehicleRepo.AddEntity(_mapper.Map<VehicleEntity>(ch));
                 _vehicleRepo.Save();
@@ -34,18 +34,26 @@ namespace BusinessLayer.managers
             {
                 throw new Exception("Vehicle is null.");
             }
-            
         }
 
         public Vehicle GetVehicleById(int id)
         {
-            return _mapper.Map<Vehicle>(GetAllVehicles()
-                .Where(s => s.Id == id)
-                .FirstOrDefault());
+            return _mapper.Map<Vehicle>(_vehicleRepo.GetById(
+                x => x.Id == id
+                ,x => x.Include(s => s.LicensePlates)
+                .Include(s => s.Requests)
+                .Include(s => s.LicensePlates)
+                .Include(s => s.ChaffeurVehicles)
+                .ThenInclude(s => s.Chaffeur))); 
         }
         public List<Vehicle> GetAllVehicles()
         {
-            return _mapper.Map<List<Vehicle>>(this._vehicleRepo.GetAll(x => x.Chaffeurs, x => x.LicensePlates, x => x.Requests, x => x.FuelTypes));
+            return _mapper.Map<List<Vehicle>>(this._vehicleRepo.GetAll(
+                x => x.Include(s => s.LicensePlates)
+                .Include(s => s.Requests)
+                .Include(s => s.LicensePlates)
+                .Include(s => s.ChaffeurVehicles)
+                .ThenInclude(s => s.Chaffeur)));
         }
         public void UpdateVehicle(Vehicle ch)
         {

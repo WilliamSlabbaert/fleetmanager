@@ -18,7 +18,7 @@ namespace BusinessLayer
             CreateMap<DrivingLicenseEntity, DrivingLicense>();
             CreateMap<AuthenticationTypeEntity, AuthenticationType>();
             CreateMap<ExtraServiceEntity, ExtraService>();
-            CreateMap<FuelCardChaffeurEntity, FuelCardChaffeur>();
+            CreateMap<ChaffeurEntityFuelCardEntity, FuelCardChaffeur>();
             CreateMap<FuelCardEntity, FuelCard>();
             CreateMap<FuelEntity, FuelType>();
             CreateMap<InvoiceEntity, Invoice>(); 
@@ -26,14 +26,14 @@ namespace BusinessLayer
             CreateMap<MaintenanceEntity, Maintenance>();
             CreateMap<RepairmentEntity, Repairment>();
             CreateMap<RequestEntity, Request>();
-            CreateMap<VehicleChaffeurEntity, VehicleChaffeur>();
+            CreateMap<ChaffeurEntityVehicleEntity, VehicleChaffeur>();
 
             CreateMap<Chaffeur, ChaffeurEntity>();
             CreateMap<Vehicle, VehicleEntity>();
             CreateMap<DrivingLicense, DrivingLicenseEntity>();
             CreateMap<AuthenticationType, AuthenticationTypeEntity>();
             CreateMap<ExtraService, ExtraServiceEntity>();
-            CreateMap<FuelCardChaffeur, FuelCardChaffeurEntity>();
+            CreateMap<FuelCardChaffeur, ChaffeurEntityFuelCardEntity>();
             CreateMap<FuelCard, FuelCardEntity>();
             CreateMap<FuelType, FuelEntity>();
             CreateMap<Invoice, InvoiceEntity>();
@@ -41,7 +41,7 @@ namespace BusinessLayer
             CreateMap<Maintenance, MaintenanceEntity>();
             CreateMap<Repairment, RepairmentEntity>();
             CreateMap<Request, RequestEntity>();
-            CreateMap<VehicleChaffeur, VehicleChaffeurEntity>();
+            CreateMap<VehicleChaffeur, ChaffeurEntityVehicleEntity>();
         }
     }
 }

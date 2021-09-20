@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataLayer.Migrations
 {
-    public partial class intialCreate : Migration
+    public partial class initialcreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -50,7 +50,8 @@ namespace DataLayer.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Chassis = table.Column<int>(type: "int", nullable: false),
                     Type = table.Column<int>(type: "int", nullable: false),
-                    Kilometers = table.Column<double>(type: "float", nullable: false)
+                    Kilometers = table.Column<double>(type: "float", nullable: false),
+                    FuelType = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -101,21 +102,22 @@ namespace DataLayer.Migrations
                 name: "ChaffeurEntityFuelCardEntity",
                 columns: table => new
                 {
-                    ChaffeursId = table.Column<int>(type: "int", nullable: false),
-                    FuelCardsId = table.Column<int>(type: "int", nullable: false)
+                    ChaffeurId = table.Column<int>(type: "int", nullable: false),
+                    FuelCardId = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ChaffeurEntityFuelCardEntity", x => new { x.ChaffeursId, x.FuelCardsId });
+                    table.PrimaryKey("PK_ChaffeurEntityFuelCardEntity", x => new { x.ChaffeurId, x.FuelCardId });
                     table.ForeignKey(
-                        name: "FK_ChaffeurEntityFuelCardEntity_Chaffeurs_ChaffeursId",
-                        column: x => x.ChaffeursId,
+                        name: "FK_ChaffeurEntityFuelCardEntity_Chaffeurs_ChaffeurId",
+                        column: x => x.ChaffeurId,
                         principalTable: "Chaffeurs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ChaffeurEntityFuelCardEntity_FuelCards_FuelCardsId",
-                        column: x => x.FuelCardsId,
+                        name: "FK_ChaffeurEntityFuelCardEntity_FuelCards_FuelCardId",
+                        column: x => x.FuelCardId,
                         principalTable: "FuelCards",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -142,38 +144,13 @@ namespace DataLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ChaffeurEntityVehicleEntity",
-                columns: table => new
-                {
-                    ChaffeursId = table.Column<int>(type: "int", nullable: false),
-                    VehiclesId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ChaffeurEntityVehicleEntity", x => new { x.ChaffeursId, x.VehiclesId });
-                    table.ForeignKey(
-                        name: "FK_ChaffeurEntityVehicleEntity_Chaffeurs_ChaffeursId",
-                        column: x => x.ChaffeursId,
-                        principalTable: "Chaffeurs",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ChaffeurEntityVehicleEntity_Vehicles_VehiclesId",
-                        column: x => x.VehiclesId,
-                        principalTable: "Vehicles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Fuels",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Fuel = table.Column<int>(type: "int", nullable: false),
-                    FuelCardId = table.Column<int>(type: "int", nullable: false),
-                    VehicleEntityId = table.Column<int>(type: "int", nullable: true)
+                    FuelCardId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -184,12 +161,31 @@ namespace DataLayer.Migrations
                         principalTable: "FuelCards",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ChaffeurEntityVehicleEntity",
+                columns: table => new
+                {
+                    VehicleId = table.Column<int>(type: "int", nullable: false),
+                    ChaffeurId = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ChaffeurEntityVehicleEntity", x => new { x.ChaffeurId, x.VehicleId });
                     table.ForeignKey(
-                        name: "FK_Fuels_Vehicles_VehicleEntityId",
-                        column: x => x.VehicleEntityId,
+                        name: "FK_ChaffeurEntityVehicleEntity_Chaffeurs_ChaffeurId",
+                        column: x => x.ChaffeurId,
+                        principalTable: "Chaffeurs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ChaffeurEntityVehicleEntity_Vehicles_VehicleId",
+                        column: x => x.VehicleId,
                         principalTable: "Vehicles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -232,13 +228,13 @@ namespace DataLayer.Migrations
                         column: x => x.ChaffeurId,
                         principalTable: "Chaffeurs",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Requests_Vehicles_VehicleId",
                         column: x => x.VehicleId,
                         principalTable: "Vehicles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -311,14 +307,14 @@ namespace DataLayer.Migrations
                 column: "FuelCardId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ChaffeurEntityFuelCardEntity_FuelCardsId",
+                name: "IX_ChaffeurEntityFuelCardEntity_FuelCardId",
                 table: "ChaffeurEntityFuelCardEntity",
-                column: "FuelCardsId");
+                column: "FuelCardId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ChaffeurEntityVehicleEntity_VehiclesId",
+                name: "IX_ChaffeurEntityVehicleEntity_VehicleId",
                 table: "ChaffeurEntityVehicleEntity",
-                column: "VehiclesId");
+                column: "VehicleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DrivingLicenses_ChaffeurId",
@@ -334,11 +330,6 @@ namespace DataLayer.Migrations
                 name: "IX_Fuels_FuelCardId",
                 table: "Fuels",
                 column: "FuelCardId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Fuels_VehicleEntityId",
-                table: "Fuels",
-                column: "VehicleEntityId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Invoices_MaintenanceId",

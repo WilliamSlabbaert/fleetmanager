@@ -23,7 +23,7 @@ namespace BusinessLayer
             AddBLLManagers(services);
         }
 
-        public static void AddBLLMapper(IServiceCollection services)
+        private static void AddBLLMapper(IServiceCollection services)
         {
             var mappingConfig = new MapperConfiguration(mc =>
             {
@@ -32,15 +32,19 @@ namespace BusinessLayer
             services.AddSingleton(mappingConfig.CreateMapper());
         }
 
-        public static void AddBLLManagers(IServiceCollection services)
+        private static void AddBLLManagers(IServiceCollection services)
         {
             services.AddScoped(typeof(IGenericRepo<>), typeof(GenericRepo<>));
             services.AddScoped<IChaffeurRepo, ChaffeurRepo>();
+            services.AddScoped<IVehicleRepo, VehicleRepo>();
+            services.AddScoped<IFuelCardRepo, FuelCardRepo>();
+
             services.AddScoped<IChaffeurManager, ChaffeurManager>();
             services.AddScoped<IVehicleManager, VehicleManager>();
+            services.AddScoped<IFuelCardManager, FuelCardManager>();
         }
 
-        public static void AddDBContext(IServiceCollection services)
+        private static void AddDBContext(IServiceCollection services)
         {
             services.AddDbContext<FleetManagerContext>(options => {
                 options.UseSqlServer(@"Data Source=DESKTOP-2KEN9DG;Initial Catalog=FleetManagerTest;Integrated Security=True");

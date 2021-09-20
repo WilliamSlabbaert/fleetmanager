@@ -12,19 +12,20 @@ namespace DataLayer.entities
     {
         public VehicleEntity()
         {
-            Chaffeurs = new List<ChaffeurEntity>();
             Requests = new List<RequestEntity>();
-            FuelTypes = new List<FuelEntity>();
+            LicensePlates = new List<LicensePlateEntity>();
+            ChaffeurVehicles = new List<ChaffeurEntityVehicleEntity>();
         }
 
-        public VehicleEntity(int chassis, CarTypes type, double kilometers)
+        public VehicleEntity(int chassis, CarTypes type, double kilometers, FuelTypes fuel)
         {
             Chassis = chassis;
             Type = type;
             Kilometers = kilometers;
-            Chaffeurs = new List<ChaffeurEntity>();
             Requests = new List<RequestEntity>();
-            FuelTypes = new List<FuelEntity>();
+            LicensePlates = new List<LicensePlateEntity>();
+            ChaffeurVehicles = new List<ChaffeurEntityVehicleEntity>();
+            FuelType = fuel;
         }
 
         [Key]
@@ -32,9 +33,9 @@ namespace DataLayer.entities
         public int Chassis { get; set; }
         public CarTypes Type { get; set; }
         public double Kilometers { get; set; }
-        public List<ChaffeurEntity> Chaffeurs { get; set; }
+        public FuelTypes FuelType { get; set; }
+        public List<ChaffeurEntityVehicleEntity> ChaffeurVehicles{ get; set; }
         public List<RequestEntity> Requests { get; set; }
-        public List<FuelEntity> FuelTypes { get; set; }
         public List<LicensePlateEntity> LicensePlates { get; set; }
     }
 }
