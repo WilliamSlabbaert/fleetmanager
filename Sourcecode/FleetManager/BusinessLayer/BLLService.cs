@@ -18,7 +18,7 @@ namespace BusinessLayer
     {
         public static void AddBLLService(this IServiceCollection services)
         {
-            AddDBContext(services);
+            DALService.AddDBContext(services);
             AddBLLMapper(services);
             AddBLLManagers(services);
         }
@@ -42,13 +42,7 @@ namespace BusinessLayer
             services.AddScoped<IChaffeurManager, ChaffeurManager>();
             services.AddScoped<IVehicleManager, VehicleManager>();
             services.AddScoped<IFuelCardManager, FuelCardManager>();
-        }
-
-        private static void AddDBContext(IServiceCollection services)
-        {
-            services.AddDbContext<FleetManagerContext>(options => {
-                options.UseSqlServer(@"Data Source=DESKTOP-2KEN9DG;Initial Catalog=FleetManagerTest;Integrated Security=True");
-            });
+            services.AddScoped<IDrivingLicenseManager, DrivingLicenseManager>();
         }
     }
 }
