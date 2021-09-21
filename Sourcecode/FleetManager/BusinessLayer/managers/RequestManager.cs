@@ -27,8 +27,8 @@ namespace BusinessLayer.managers
         }
         public void AddRequest(Request request, int chaffeurId, int vehicleId)
         {
-            var ch = GetChaffeurEntity(chaffeurId);
-            var vh = GetVehicleEntity(vehicleId);
+            ChaffeurEntity ch = GetChaffeurEntity(chaffeurId);
+            VehicleEntity vh = GetVehicleEntity(vehicleId);
 
             var rq = _mapper.Map<RequestEntity>(request);
             rq.Chaffeur = ch;

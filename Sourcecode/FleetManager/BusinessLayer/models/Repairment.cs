@@ -8,6 +8,13 @@ namespace BusinessLayer.models
 {
     public class Repairment
     {
+        public Repairment(DateTime date, string description, string company)
+        {
+            Date = date;
+            Description = description;
+            Company = company;
+        }
+
         public int Id { get; set; }
         public DateTime Date { get; set; }
         public string Description { get; set; }
