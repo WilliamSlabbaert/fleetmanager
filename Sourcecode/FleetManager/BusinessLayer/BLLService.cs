@@ -43,6 +43,7 @@ namespace BusinessLayer
             services.AddScoped<IVehicleManager, VehicleManager>();
             services.AddScoped<IFuelCardManager, FuelCardManager>();
             services.AddScoped<IDrivingLicenseManager, DrivingLicenseManager>();
+            services.AddScoped<IRequestManager, RequestManager>();
         }
     }
 }

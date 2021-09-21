@@ -21,7 +21,9 @@ namespace Overall
     }
     public enum CarTypes
     {
+        [Description("Passenger car.")]
         Passengercar,
+        [Description("Lightfreight car")]
         LightFreight
     }
     public enum ExtraServices
@@ -34,6 +36,7 @@ namespace Overall
     }
     public enum AuthenticationTypes
     {
+        [Description("PIN.")]
         PIN,
         [Description("PIN + KM.")]
         PINKM

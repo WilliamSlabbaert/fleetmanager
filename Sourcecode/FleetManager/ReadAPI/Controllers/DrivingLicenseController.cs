@@ -12,10 +12,10 @@ namespace ReadAPI.Controllers
 {
     public class DrivingLicenseController : Controller
     {
-        private readonly ILogger<FuelCardController> _logger;
+        private readonly ILogger<DrivingLicenseController> _logger;
         private IChaffeurManager _managerChaffeur;
         private IDrivingLicenseManager _drivingLicenseManager;
-        public DrivingLicenseController(ILogger<FuelCardController> logger, IChaffeurManager man, IDrivingLicenseManager man2)
+        public DrivingLicenseController(ILogger<DrivingLicenseController> logger, IChaffeurManager man, IDrivingLicenseManager man2)
         {
             _logger = logger;
             _managerChaffeur = man;

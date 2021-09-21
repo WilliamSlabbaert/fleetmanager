@@ -8,6 +8,13 @@ namespace BusinessLayer.models
 {
     public class Request
     {
+        public Request(DateTime startDate, DateTime endDate, string status)
+        {
+            StartDate = startDate;
+            EndDate = endDate;
+            Status = status;
+        }
+
         public int Id { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }

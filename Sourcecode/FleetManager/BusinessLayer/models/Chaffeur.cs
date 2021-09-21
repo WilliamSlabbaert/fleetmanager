@@ -37,6 +37,26 @@ namespace BusinessLayer
             DrivingLicenses = new List<DrivingLicense>();
             Requests = new List<Request>();
         }
+        public Chaffeur(string firstName, string lastName, string city, string street, string houseNumber, DateTime dateOfBirth, string nationalInsurenceNumber, bool isActive, DrivingLicense dl)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            City = city;
+            Street = street;
+            HouseNumber = houseNumber;
+            DateOfBirth = dateOfBirth;
+            NationalInsurenceNumber = nationalInsurenceNumber;
+            IsActive = isActive;
+
+            ChaffeurFuelCards = new List<FuelCardChaffeur>();
+            ChaffeurVehicles = new List<VehicleChaffeur>();
+            DrivingLicenses = new List<DrivingLicense>();
+            if (CheckDrivingLicense(dl))
+            {
+                DrivingLicenses.Add(dl);
+            }
+            Requests = new List<Request>();
+        }
 
         public Chaffeur()
         {
@@ -56,6 +76,14 @@ namespace BusinessLayer
         public bool CheckFuelCard(int fuelcard)
         {
             if (ChaffeurFuelCards.FirstOrDefault(s => s.FuelCard.Id == fuelcard) == null)
+            {
+                return true;
+            }
+            return false;
+        }
+        public bool CheckDrivingLicense(DrivingLicense drivinglicense)
+        {
+            if (DrivingLicenses.FirstOrDefault(s => s.type == drivinglicense.type) == null)
             {
                 return true;
             }
