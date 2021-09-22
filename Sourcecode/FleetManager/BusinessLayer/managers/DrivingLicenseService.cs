@@ -12,12 +12,12 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.managers
 {
-    public class DrivingLicenseManager : IDrivingLicenseManager
+    public class DrivingLicenseService : IDrivingLicenseService
     {
         private readonly IGenericRepo<DrivingLicenseEntity> _repo;
         private readonly IGenericRepo<ChaffeurEntity> _chrepo;
         private readonly IMapper _mapper;
-        public DrivingLicenseManager(IGenericRepo<DrivingLicenseEntity> repo, IMapper mapper, IGenericRepo<ChaffeurEntity> chrepo)
+        public DrivingLicenseService(IGenericRepo<DrivingLicenseEntity> repo, IMapper mapper, IGenericRepo<ChaffeurEntity> chrepo)
         {
             this._repo = repo;
             _mapper = mapper;

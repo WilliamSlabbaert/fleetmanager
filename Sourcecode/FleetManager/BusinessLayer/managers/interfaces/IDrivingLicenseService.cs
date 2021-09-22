@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.managers.interfaces
 {
-    public interface IDrivingLicenseManager
+    public interface IDrivingLicenseService
     {
         public void AddDrivingLicense(DrivingLicense drivinglicense, int chaffeurid);
         public List<DrivingLicense> GetAllDrivingLicenses();

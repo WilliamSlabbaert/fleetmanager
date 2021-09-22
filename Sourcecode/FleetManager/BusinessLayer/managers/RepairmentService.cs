@@ -12,12 +12,12 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.managers
 {
-    public class RepairmentManager : IRepairmentManager
+    public class RepairmentService : IRepairmentService
     {
         private readonly IGenericRepo<RequestEntity> _rqrepo;
         private readonly IGenericRepo<RepairmentEntity> _repo;
         private readonly IMapper _mapper;
-        public RepairmentManager(IGenericRepo<RequestEntity> rqrepo, IMapper mapper, IGenericRepo<RepairmentEntity> repo)
+        public RepairmentService(IGenericRepo<RequestEntity> rqrepo, IMapper mapper, IGenericRepo<RepairmentEntity> repo)
         {
             this._repo = repo;
             this._rqrepo = rqrepo;

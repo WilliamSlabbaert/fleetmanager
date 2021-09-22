@@ -12,8 +12,8 @@ namespace ReadAPI.Controllers
     public class RequestController : Controller
     {
         private readonly ILogger<RequestController> _logger;
-        private IRequestManager _managerRequest;
-        public RequestController(ILogger<RequestController> logger, IRequestManager man)
+        private IRequestService _managerRequest;
+        public RequestController(ILogger<RequestController> logger, IRequestService man)
         {
             _logger = logger;
             _managerRequest = man;

@@ -15,13 +15,13 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.managers
 {
-    public class ChaffeurManager : IChaffeurManager
+    public class ChaffeurService : IChaffeurService
     {
         private readonly IGenericRepo<ChaffeurEntity> _repo;
         private readonly IGenericRepo<VehicleEntity> _vhrepo;
         private readonly IMapper _mapper;
         private readonly IValidator<Chaffeur> _validator;
-        public ChaffeurManager(IGenericRepo<ChaffeurEntity> repo, IMapper mapper, IGenericRepo<VehicleEntity> vhrepo, IValidator<Chaffeur> val)
+        public ChaffeurService(IGenericRepo<ChaffeurEntity> repo, IMapper mapper, IGenericRepo<VehicleEntity> vhrepo, IValidator<Chaffeur> val)
         {
             this._repo = repo;
             _mapper = mapper;

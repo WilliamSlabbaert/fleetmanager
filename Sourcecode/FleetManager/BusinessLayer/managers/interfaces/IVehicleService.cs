@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.managers.interfaces
 {
-    public interface IVehicleManager
+    public interface IVehicleService
     {
         public Vehicle GetVehicleById(int id);
         public void AddVehicle(Vehicle ch);

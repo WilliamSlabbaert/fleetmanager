@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.managers.interfaces
 {
-    public interface IRequestManager
+    public interface IRequestService
     {
         public void AddRequest(Request request, int chaffeurId, int vehicleId);
         public Request GetRequestById(int id);

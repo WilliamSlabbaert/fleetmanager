@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.managers.interfaces
 {
-    public interface IChaffeurManager 
+    public interface IChaffeurService 
     {
         public Chaffeur GetChaffeurById(int id);
         public void AddChaffeur(Chaffeur ch);

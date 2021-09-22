@@ -12,13 +12,13 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.managers
 {
-    public class RequestManager : IRequestManager
+    public class RequestService : IRequestService
     {
         private readonly IGenericRepo<RequestEntity> _repo;
         private readonly IGenericRepo<ChaffeurEntity> _chrepo;
         private readonly IGenericRepo<VehicleEntity> _vhrepo;
         private readonly IMapper _mapper;
-        public RequestManager(IGenericRepo<RequestEntity> repo, IMapper mapper, IGenericRepo<ChaffeurEntity> chrepo, IGenericRepo<VehicleEntity> vhrepo)
+        public RequestService(IGenericRepo<RequestEntity> repo, IMapper mapper, IGenericRepo<ChaffeurEntity> chrepo, IGenericRepo<VehicleEntity> vhrepo)
         {
             this._repo = repo;
             this._mapper = mapper;

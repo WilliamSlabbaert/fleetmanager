@@ -12,12 +12,12 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.managers
 {
-    public class FuelCardManager : IFuelCardManager
+    public class FuelCardService : IFuelCardService
     {
         private readonly IGenericRepo<FuelCardEntity> _repo;
         private readonly IGenericRepo<ChaffeurEntity> _chrepo;
         private readonly IMapper _mapper;
-        public FuelCardManager(IGenericRepo<FuelCardEntity> repo, IMapper mapper, IGenericRepo<ChaffeurEntity> chrepo)
+        public FuelCardService(IGenericRepo<FuelCardEntity> repo, IMapper mapper, IGenericRepo<ChaffeurEntity> chrepo)
         {
             this._repo = repo;
             this._mapper = mapper;

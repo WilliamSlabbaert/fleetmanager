@@ -12,12 +12,12 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.managers
 {
-    public class VehicleManager : IVehicleManager
+    public class VehicleService : IVehicleService
     {
         private readonly IGenericRepo<VehicleEntity> _vehicleRepo;
         private readonly IMapper _mapper;
 
-        public VehicleManager(IGenericRepo<VehicleEntity> vehicleRepo, IMapper mapper)
+        public VehicleService(IGenericRepo<VehicleEntity> vehicleRepo, IMapper mapper)
         {
             _vehicleRepo = vehicleRepo;
             _mapper = mapper;

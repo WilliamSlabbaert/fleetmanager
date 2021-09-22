@@ -17,9 +17,9 @@ namespace ReadAPI.Controllers
     public class ChaffeurController : ControllerBase
     {
         private readonly ILogger<ChaffeurController> _logger;
-        private IChaffeurManager _managerChaffeur;
-        private IVehicleManager _managerVehicle;
-        public ChaffeurController(ILogger<ChaffeurController> logger,IChaffeurManager man, IVehicleManager man2)
+        private IChaffeurService _managerChaffeur;
+        private IVehicleService _managerVehicle;
+        public ChaffeurController(ILogger<ChaffeurController> logger,IChaffeurService man, IVehicleService man2)
         {
             _logger = logger;
             _managerChaffeur = man;

@@ -13,9 +13,9 @@ namespace ReadAPI.Controllers
     public class FuelCardController : Controller
     {
         private readonly ILogger<FuelCardController> _logger;
-        private IChaffeurManager _managerChaffeur;
-        private IFuelCardManager _fuelCardManager ;
-        public FuelCardController(ILogger<FuelCardController> logger, IChaffeurManager man, IFuelCardManager man2)
+        private IChaffeurService _managerChaffeur;
+        private IFuelCardService _fuelCardManager ;
+        public FuelCardController(ILogger<FuelCardController> logger, IChaffeurService man, IFuelCardService man2)
         {
             _logger = logger;
             _managerChaffeur = man;

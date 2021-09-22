@@ -43,12 +43,12 @@ namespace BusinessLayer
             services.AddScoped<IVehicleRepo, VehicleRepo>();
             services.AddScoped<IFuelCardRepo, FuelCardRepo>();
 
-            services.AddScoped<IChaffeurManager, ChaffeurManager>();
-            services.AddScoped<IVehicleManager, VehicleManager>();
-            services.AddScoped<IFuelCardManager, FuelCardManager>();
-            services.AddScoped<IDrivingLicenseManager, DrivingLicenseManager>();
-            services.AddScoped<IRequestManager, RequestManager>();
-            services.AddScoped<IRepairmentManager, RepairmentManager>();
+            services.AddScoped<IChaffeurService, ChaffeurService>();
+            services.AddScoped<IVehicleService, VehicleService>();
+            services.AddScoped<IFuelCardService, FuelCardService>();
+            services.AddScoped<IDrivingLicenseService, DrivingLicenseService>();
+            services.AddScoped<IRequestService, RequestService>();
+            services.AddScoped<IRepairmentService, RepairmentService>();
         }
         private static void AddBLLValidators(IServiceCollection services)
         {

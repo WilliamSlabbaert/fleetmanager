@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.managers.interfaces
 {
-    public interface IFuelCardManager
+    public interface IFuelCardService
     {
         public FuelCard GetFuelCardById(int id);
         public void AddFuelCard(FuelCard fc);

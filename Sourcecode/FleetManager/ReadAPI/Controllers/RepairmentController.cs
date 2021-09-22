@@ -12,8 +12,8 @@ namespace ReadAPI.Controllers
     public class RepairmentController : Controller
     {
         private readonly ILogger<RepairmentController> _logger;
-        private IRepairmentManager _managerRepairment;
-        public RepairmentController(ILogger<RepairmentController> logger, IRepairmentManager man)
+        private IRepairmentService _managerRepairment;
+        public RepairmentController(ILogger<RepairmentController> logger, IRepairmentService man)
         {
             _logger = logger;
             _managerRepairment = man;
