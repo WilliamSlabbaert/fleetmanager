@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BusinessLayer.managers;
 using BusinessLayer.managers.interfaces;
+using BusinessLayer.models;
 using BusinessLayer.validators;
 using DataLayer;
 using DataLayer.entities;
@@ -51,8 +52,18 @@ namespace BusinessLayer
         }
         private static void AddBLLValidators(IServiceCollection services)
         {
-            //services.AddScoped<IValidator<T>, UserValidator>()
             services.AddScoped<IValidator<Chaffeur>, ChaffeurValidator>();
+            services.AddScoped<IValidator<Vehicle>, VehicleValidator>();
+            services.AddScoped<IValidator<Request>, RequestValidator>();
+            services.AddScoped<IValidator<Maintenance>, MaintenanceValidator>();
+            services.AddScoped<IValidator<Repairment>, RepairmentValidator>();
+            services.AddScoped<IValidator<AuthenticationType>, AuthenticationValidator>();
+            services.AddScoped<IValidator<DrivingLicense>, DrivingLicenseValidator>();
+            services.AddScoped<IValidator<ExtraService>, ExtraServiceValidator>();
+            services.AddScoped<IValidator<FuelCard>, FuelCardValidator>();
+            services.AddScoped<IValidator<FuelType>, FuelTypeValidator>();
+            services.AddScoped<IValidator<LicensePlate>, LicensePlateValidator>();
+            services.AddScoped<IValidator<Invoice>, InvoiceValidator>();
         }
     }
 }

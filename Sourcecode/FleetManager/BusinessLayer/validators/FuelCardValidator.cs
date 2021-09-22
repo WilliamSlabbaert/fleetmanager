@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.validators
 {
-    public class FuelCardValidation : AbstractValidator<FuelCard>
+    public class FuelCardValidator : AbstractValidator<FuelCard>
     {
-        public FuelCardValidation()
+        public FuelCardValidator()
         {
             RuleFor(c => c.CardNumber)
                 .NotEmpty().WithMessage("Card number  property is empty.")

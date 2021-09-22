@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.validators
 {
-    public class ExtraServiceValidators : AbstractValidator<ExtraService>
+    public class ExtraServiceValidator : AbstractValidator<ExtraService>
     {
-        public ExtraServiceValidators()
+        public ExtraServiceValidator()
         {
             RuleFor(c => c.Service)
                 .NotEmpty().WithMessage("Service property is empty.");
