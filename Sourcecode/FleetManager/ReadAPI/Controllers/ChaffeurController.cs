@@ -31,13 +31,16 @@ namespace ReadAPI.Controllers
         {
             try
             {
+                DateTime date = DateTime.Now;
+                //date = date.AddDays(1);
+                var temp = _managerChaffeur.test(new Chaffeur("testFirst", "testLast", "testCity", "testStreet", "12", date, "testNationalNr", true));
                 //_managerChaffeur.AddChaffeur(new Chaffeur("testFirst","testLast","testCity","testStreet","testNr",DateTime.Now,"testNationalNr",true));
                 //_managerVehicle.AddVehicle(new Vehicle(123,Overall.CarTypes.Passengercar,111,Overall.FuelTypes.Diesel));
 
                 //_managerChaffeur.RemoveVehicleToChaffeur(1,1);
                 //_managerChaffeur.AddVehicleToChaffeur(1, 1);
 
-                var temp = _managerChaffeur.GetAllChaffeurs();
+                //var temp = _managerChaffeur.GetAllChaffeurs();
                 return Ok(temp);
             }
             catch (Exception ex)

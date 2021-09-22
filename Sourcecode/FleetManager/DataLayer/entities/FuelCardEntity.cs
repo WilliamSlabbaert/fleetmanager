@@ -13,7 +13,7 @@ namespace DataLayer.entities
         [Key]
         public int Id { get; set; }
         public string CardNumber { get; set; }
-        public int Pin { get; set; }
+        public string Pin { get; set; }
         public bool IsActive { get; set; }
         public List<FuelEntity> FuelType { get; set; }
         public List<ExtraServiceEntity> Services { get; set; }
@@ -28,7 +28,7 @@ namespace DataLayer.entities
             ChaffeurFuelCards = new List<ChaffeurEntityFuelCardEntity>();
         }
 
-        public FuelCardEntity(string cardNumber, int pin, bool isActive)
+        public FuelCardEntity(string cardNumber, string pin, bool isActive)
         {
             CardNumber = cardNumber;
             Pin = pin;

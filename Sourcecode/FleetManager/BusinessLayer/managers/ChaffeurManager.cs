@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
 using BusinessLayer.managers.interfaces;
 using BusinessLayer.models;
+using BusinessLayer.validators;
 using DataLayer.entities;
 using DataLayer.repositories;
+using FluentValidation;
+using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -17,44 +20,32 @@ namespace BusinessLayer.managers
         private readonly IGenericRepo<ChaffeurEntity> _repo;
         private readonly IGenericRepo<VehicleEntity> _vhrepo;
         private readonly IMapper _mapper;
-        public ChaffeurManager(IGenericRepo<ChaffeurEntity> repo, IMapper mapper,  IGenericRepo<VehicleEntity> vhrepo)
+        private readonly IValidator<Chaffeur> _validator;
+        public ChaffeurManager(IGenericRepo<ChaffeurEntity> repo, IMapper mapper, IGenericRepo<VehicleEntity> vhrepo, IValidator<Chaffeur> val)
         {
             this._repo = repo;
             _mapper = mapper;
             _vhrepo = vhrepo;
+            _validator = val;
         }
 
         public void AddChaffeur(Chaffeur ch)
         {
-            if (ch != null)
-            {
-                _repo.AddEntity(_mapper.Map<ChaffeurEntity>(ch));
-                _repo.Save();
-            }
-            else
-            {
-                throw new Exception("Chaffeur is null.");
-            }
+            _repo.AddEntity(_mapper.Map<ChaffeurEntity>(ch));
+            _repo.Save();
         }
 
         public Chaffeur GetChaffeurById(int id)
         {
-            try
-            {
-                return _mapper.Map<Chaffeur>(_repo.GetById(
-                filter: x => x.Id == id
-                , x => x.Include(s=>s.ChaffeurFuelCards)
-                .ThenInclude(s => s.FuelCard)
-                .Include(s=>s.DrivingLicenses)
-                .Include(s => s.Requests)
-                .Include(s => s.ChaffeurVehicles)
-                .ThenInclude(s => s.Vehicle)
-                ));
-            }
-            catch
-            {
-                throw new Exception("Chaffeur is null.");
-            }
+            return _mapper.Map<Chaffeur>(_repo.GetById(
+            filter: x => x.Id == id
+            , x => x.Include(s => s.ChaffeurFuelCards)
+            .ThenInclude(s => s.FuelCard)
+            .Include(s => s.DrivingLicenses)
+            .Include(s => s.Requests)
+            .Include(s => s.ChaffeurVehicles)
+            .ThenInclude(s => s.Vehicle)
+            ));
         }
 
         public void UpdateChaffeur(Chaffeur ch)
@@ -142,6 +133,20 @@ namespace BusinessLayer.managers
                 .Include(s => s.ChaffeurVehicles)
                 .Include(s => s.DrivingLicenses)
                 .Include(s => s.Requests)));
+        }
+
+        public List<string> test(Chaffeur ch)
+        {
+            var results = _validator.Validate(ch);
+            List<string> temp = new List<string>();
+            if (results.IsValid == false)
+            {
+                foreach (ValidationFailure failure in results.Errors)
+                {
+                    temp.Add(failure.ErrorMessage);
+                }
+            }
+            return results.Errors.Select(s => s.ErrorMessage).ToList();
         }
     }
 }

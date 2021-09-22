@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using BusinessLayer.managers;
 using BusinessLayer.managers.interfaces;
+using BusinessLayer.validators;
 using DataLayer;
 using DataLayer.entities;
 using DataLayer.repositories;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -21,6 +23,7 @@ namespace BusinessLayer
             DALService.AddDBContext(services);
             AddBLLMapper(services);
             AddBLLManagers(services);
+            AddBLLValidators(services);
         }
 
         private static void AddBLLMapper(IServiceCollection services)
@@ -45,6 +48,11 @@ namespace BusinessLayer
             services.AddScoped<IDrivingLicenseManager, DrivingLicenseManager>();
             services.AddScoped<IRequestManager, RequestManager>();
             services.AddScoped<IRepairmentManager, RepairmentManager>();
+        }
+        private static void AddBLLValidators(IServiceCollection services)
+        {
+            //services.AddScoped<IValidator<T>, UserValidator>()
+            services.AddScoped<IValidator<Chaffeur>, ChaffeurValidator>();
         }
     }
 }

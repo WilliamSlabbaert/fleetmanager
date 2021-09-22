@@ -17,7 +17,7 @@ namespace DataLayer.entities
             ChaffeurVehicles = new List<ChaffeurEntityVehicleEntity>();
         }
 
-        public VehicleEntity(int chassis, CarTypes type, double kilometers, FuelTypes fuel)
+        public VehicleEntity(int chassis, CarTypes type, double kilometers, FuelTypes fuel,string brand, string model, DateTime build)
         {
             Chassis = chassis;
             Type = type;
@@ -26,11 +26,17 @@ namespace DataLayer.entities
             LicensePlates = new List<LicensePlateEntity>();
             ChaffeurVehicles = new List<ChaffeurEntityVehicleEntity>();
             FuelType = fuel;
+            Brand = brand;
+            Model = model;
+            BuildDate = build;
         }
 
         [Key]
         public int Id { get; set; }
         public int Chassis { get; set; }
+        public string Brand { get; set; }
+        public string Model { get; set; }
+        public DateTime BuildDate { get; set; }
         public CarTypes Type { get; set; }
         public double Kilometers { get; set; }
         public FuelTypes FuelType { get; set; }

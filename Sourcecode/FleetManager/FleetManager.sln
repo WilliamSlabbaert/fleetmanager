@@ -21,9 +21,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 BL", "02 BL", "{C66725A4
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03 API", "03 API", "{F382F422-B050-44BD-A681-95BA7540A584}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Overall", "Overall\Overall.csproj", "{656E8D55-2627-4675-8A99-CA55977E1D70}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Overall", "Overall\Overall.csproj", "{656E8D55-2627-4675-8A99-CA55977E1D70}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WriteDebugger", "WriteDebugger\WriteDebugger.csproj", "{16CACCB8-9FCA-4F44-AF98-293B122C8C64}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WriteDebugger", "WriteDebugger\WriteDebugger.csproj", "{16CACCB8-9FCA-4F44-AF98-293B122C8C64}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
