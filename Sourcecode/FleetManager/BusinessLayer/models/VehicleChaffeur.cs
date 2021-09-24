@@ -15,6 +15,11 @@ namespace BusinessLayer.models
         public Chaffeur Chaffeur { get; set; }
         public bool IsActive { get; set; }
 
-        
+        public VehicleChaffeur(Vehicle vehicle, Chaffeur chaffeur, bool isActive)
+        {
+            Vehicle = vehicle;
+            Chaffeur = chaffeur;
+            IsActive = isActive;
+        }
     }
 }

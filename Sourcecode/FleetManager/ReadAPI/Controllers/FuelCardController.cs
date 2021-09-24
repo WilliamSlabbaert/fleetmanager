@@ -27,9 +27,6 @@ namespace ReadAPI.Controllers
         {
             try
             {
-                //_fuelCardManager.AddFuelCard(new FuelCard("testNr", 1234, true));
-                //_fuelCardManager.AddFuelCardToChaffeur(1, 1);
-                //_fuelCardManager.RemoveFuelCardFromChaffeur(1,1);
                 var temp = _fuelCardManager.GetAllFuelCards();
                 return Ok(temp);
             }
@@ -37,6 +34,21 @@ namespace ReadAPI.Controllers
             {
                 return BadRequest(ex);
             }
+        }
+        [HttpPost("Fuelcard")]
+        public ActionResult Add()
+        {
+            //_fuelCardManager.AddFuelCard(new FuelCard("testNr","1234",true));
+            _fuelCardManager.AddFuelCardToChaffeur(1, 1);
+            if(_fuelCardManager._errors.Count != 0)
+            {
+                return BadRequest(_fuelCardManager._errors);
+            }
+            else
+            {
+                return Ok(_fuelCardManager.GetAllFuelCards());
+            }
+
         }
         [HttpGet("Fuelcard/{id}")]
         public ActionResult<FuelCard> GetFuelCardByID(int id)

@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using BusinessLayer.managers.interfaces;
 using BusinessLayer.models;
+using BusinessLayer.validators.response;
 using DataLayer.entities;
 using DataLayer.repositories;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -17,20 +19,31 @@ namespace BusinessLayer.managers
         private readonly IGenericRepo<DrivingLicenseEntity> _repo;
         private readonly IGenericRepo<ChaffeurEntity> _chrepo;
         private readonly IMapper _mapper;
-        public DrivingLicenseService(IGenericRepo<DrivingLicenseEntity> repo, IMapper mapper, IGenericRepo<ChaffeurEntity> chrepo)
+        private readonly IValidator<DrivingLicense> _validator;
+        public List<GenericResponse> _errors { get; set; }
+        public DrivingLicenseService(IGenericRepo<DrivingLicenseEntity> repo, IMapper mapper, IGenericRepo<ChaffeurEntity> chrepo, IValidator<DrivingLicense> validator)
         {
             this._repo = repo;
-            _mapper = mapper;
-            _chrepo = chrepo;
+            this._mapper = mapper;
+            this._chrepo = chrepo;
+            this._validator = validator;
+            _errors = new List<GenericResponse>();
         }
         public void AddDrivingLicense(DrivingLicense drivinglicense, int chaffeurid)
         {
             var ch = GetChaffeurEntity(chaffeurid);
-            var dl = _mapper.Map<DrivingLicenseEntity>(drivinglicense);
-            ch.DrivingLicenses.Add(dl);
-
-            _chrepo.UpdateEntity(ch);
-            _chrepo.Save();
+            var results = _validator.Validate(drivinglicense);
+            if(results.IsValid == false)
+            {
+                _errors = _mapper.Map<List<GenericResponse>>(results.Errors);
+            }
+            else
+            {
+                var dl = _mapper.Map<DrivingLicenseEntity>(drivinglicense);
+                ch.DrivingLicenses.Add(dl);
+                _chrepo.UpdateEntity(ch);
+                _chrepo.Save();
+            }
         }
         public List<DrivingLicense> GetAllDrivingLicenses()
         {
@@ -45,21 +58,14 @@ namespace BusinessLayer.managers
         }
         public ChaffeurEntity GetChaffeurEntity(int id)
         {
-            try
-            {
-                return _chrepo.GetById(
-                filter: x => x.Id == id
-                , x => x.Include(s => s.ChaffeurFuelCards)
-                .ThenInclude(s => s.FuelCard)
-                .Include(s => s.DrivingLicenses)
-                .Include(s => s.Requests)
-                .Include(s => s.ChaffeurVehicles)
-                .ThenInclude(s => s.Vehicle));
-            }
-            catch
-            {
-                throw new Exception("Chaffeur is null");
-            }
+            return _chrepo.GetById(
+            filter: x => x.Id == id
+            , x => x.Include(s => s.ChaffeurFuelCards)
+            .ThenInclude(s => s.FuelCard)
+            .Include(s => s.DrivingLicenses)
+            .Include(s => s.Requests)
+            .Include(s => s.ChaffeurVehicles)
+            .ThenInclude(s => s.Vehicle));
         }
     }
 }

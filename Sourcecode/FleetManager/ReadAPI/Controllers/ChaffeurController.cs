@@ -19,7 +19,7 @@ namespace ReadAPI.Controllers
         private readonly ILogger<ChaffeurController> _logger;
         private IChaffeurService _managerChaffeur;
         private IVehicleService _managerVehicle;
-        public ChaffeurController(ILogger<ChaffeurController> logger,IChaffeurService man, IVehicleService man2)
+        public ChaffeurController(ILogger<ChaffeurController> logger, IChaffeurService man, IVehicleService man2)
         {
             _logger = logger;
             _managerChaffeur = man;
@@ -31,21 +31,27 @@ namespace ReadAPI.Controllers
         {
             try
             {
-                DateTime date = DateTime.Now;
-                //date = date.AddDays(1);
-                var temp = _managerChaffeur.test(new Chaffeur("testFirst", "testLast", "testCity", "testStreet", "12", date, "testNationalNr", true));
-                //_managerChaffeur.AddChaffeur(new Chaffeur("testFirst","testLast","testCity","testStreet","testNr",DateTime.Now,"testNationalNr",true));
-                //_managerVehicle.AddVehicle(new Vehicle(123,Overall.CarTypes.Passengercar,111,Overall.FuelTypes.Diesel));
-
-                //_managerChaffeur.RemoveVehicleToChaffeur(1,1);
-                //_managerChaffeur.AddVehicleToChaffeur(1, 1);
-
-                //var temp = _managerChaffeur.GetAllChaffeurs();
-                return Ok(temp);
+                return Ok(_managerChaffeur.GetAllChaffeurs());
             }
             catch (Exception ex)
             {
                 return BadRequest(ex);
+            }
+        }
+        [HttpPost]
+        public ActionResult Add()
+        {
+            DateTime date = DateTime.Now;
+            _managerChaffeur.AddChaffeur(new Chaffeur("testFirst", "testLast", "testCity", "testStreet", "12", date, "testNationalNr", true));
+            //_managerVehicle.AddVehicle(new Vehicle(123, Overall.CarTypes.Passengercar, 111, Overall.FuelTypes.Diesel,"BMW","1 series",DateTime.Now));
+
+            if (_managerChaffeur._errors.Count != 0)
+            {
+                return BadRequest(_managerChaffeur._errors);
+            }
+            else
+            {
+                return Ok(_managerChaffeur.GetAllChaffeurs());
             }
         }
         [HttpGet("{id}")]
@@ -54,7 +60,7 @@ namespace ReadAPI.Controllers
             try
             {
                 var ch = _managerChaffeur.GetChaffeurById(id);
-                if(ch == null)
+                if (ch == null)
                 {
                     return NotFound("This chaffeur doesn't exist");
                 }
@@ -75,7 +81,7 @@ namespace ReadAPI.Controllers
                 {
                     return NotFound("This chaffeur doesn't exist");
                 }
-                return Ok(ch.ChaffeurVehicles.Select(s=>s.Vehicle));
+                return Ok(ch.ChaffeurVehicles.Select(s => s.Vehicle));
             }
             catch (Exception ex)
             {

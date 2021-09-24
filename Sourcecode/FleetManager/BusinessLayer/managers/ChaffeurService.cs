@@ -2,6 +2,7 @@
 using BusinessLayer.managers.interfaces;
 using BusinessLayer.models;
 using BusinessLayer.validators;
+using BusinessLayer.validators.response;
 using DataLayer.entities;
 using DataLayer.repositories;
 using FluentValidation;
@@ -21,18 +22,38 @@ namespace BusinessLayer.managers
         private readonly IGenericRepo<VehicleEntity> _vhrepo;
         private readonly IMapper _mapper;
         private readonly IValidator<Chaffeur> _validator;
-        public ChaffeurService(IGenericRepo<ChaffeurEntity> repo, IMapper mapper, IGenericRepo<VehicleEntity> vhrepo, IValidator<Chaffeur> val)
+        private readonly IValidator<VehicleChaffeur> _validatorvhch;
+        public List<GenericResponse> _errors { get; set; } 
+        public ChaffeurService(IGenericRepo<ChaffeurEntity> repo, IMapper mapper, IGenericRepo<VehicleEntity> vhrepo, IValidator<Chaffeur> val, IValidator<VehicleChaffeur> validatorvhch)
         {
             this._repo = repo;
-            _mapper = mapper;
-            _vhrepo = vhrepo;
-            _validator = val;
+            this._mapper = mapper;
+            this._vhrepo = vhrepo;
+            this._validator = val;
+            this._validatorvhch = validatorvhch;
+            this._errors = new List<GenericResponse>();
         }
 
         public void AddChaffeur(Chaffeur ch)
         {
-            _repo.AddEntity(_mapper.Map<ChaffeurEntity>(ch));
-            _repo.Save();
+            var results = _validator.Validate(ch);
+            if (results.IsValid == false)
+            {
+                _errors = _mapper.Map<List<GenericResponse>>(results.Errors);
+            }
+            else
+            {
+                var temp  = _repo.GetAll(null);
+                if(temp.FirstOrDefault(s => s.NationalInsurenceNumber == ch.NationalInsurenceNumber) == null)
+                {
+                    _repo.AddEntity(_mapper.Map<ChaffeurEntity>(ch));
+                    _repo.Save();
+                }
+                else
+                {
+                    throw new Exception("Chaffeur already exists.");
+                }
+            }
         }
 
         public Chaffeur GetChaffeurById(int id)
@@ -44,14 +65,21 @@ namespace BusinessLayer.managers
             .Include(s => s.DrivingLicenses)
             .Include(s => s.Requests)
             .Include(s => s.ChaffeurVehicles)
-            .ThenInclude(s => s.Vehicle)
-            ));
+            .ThenInclude(s => s.Vehicle)));
         }
 
         public void UpdateChaffeur(Chaffeur ch)
         {
-            _repo.UpdateEntity(_mapper.Map<ChaffeurEntity>(ch));
-            _repo.Save();
+            var results = _validator.Validate(ch);
+            if (results.IsValid == false)
+            {
+                _errors = _mapper.Map<List<GenericResponse>>(results.Errors);
+            }
+            else
+            {
+                _repo.UpdateEntity(_mapper.Map<ChaffeurEntity>(ch));
+                _repo.Save();
+            }
         }
         public void AddVehicleToChaffeur(int chaffeurNr, int vehicleNr)
         {
@@ -61,32 +89,21 @@ namespace BusinessLayer.managers
             var chmodel = _mapper.Map<Chaffeur>(ch);
             if (chmodel.CheckVehicle(vh.Id))
             {
-                ch.ChaffeurVehicles.Add(new ChaffeurEntityVehicleEntity(vh, ch, true));
-                _repo.Save();
+                var vhch = new VehicleChaffeur(_mapper.Map<Vehicle>(vh), _mapper.Map<Chaffeur>(ch), true);
+                var results = _validatorvhch.Validate(vhch);
+                if (results.IsValid == false)
+                {
+                    _errors = _mapper.Map<List<GenericResponse>>(results.Errors);
+                }
+                else
+                {
+                    ch.ChaffeurVehicles.Add(new ChaffeurEntityVehicleEntity(vh,ch,true));
+                    _repo.Save();
+                }
             }
             else
             {
                 throw new Exception("Vehicle is already in Chaffeurs list.");
-            }
-        }
-
-        public void RemoveVehicleToChaffeur(int chaffeurNr, int vehicleNr)
-        {
-
-            VehicleEntity vh = GetVehicleEntity(vehicleNr);
-            ChaffeurEntity ch = GetChaffeurEntity(chaffeurNr);
-
-            var temp = ch.ChaffeurVehicles.FirstOrDefault(s => s.ChaffeurId == ch.Id && s.VehicleId == vh.Id);
-
-            if (temp != null)
-            {
-                ch.ChaffeurVehicles.Remove(temp);
-                _repo.UpdateEntity(ch);
-                _repo.Save();
-            }
-            else
-            {
-                throw new Exception("Vehicle is not in Chaffeurs list.");
             }
         }
 
@@ -111,20 +128,13 @@ namespace BusinessLayer.managers
         }
         public VehicleEntity GetVehicleEntity(int id)
         {
-            try
-            {
-                var vh = _vhrepo.GetById(
-                filter: x => x.Id == id
-                , x => x.Include(s => s.LicensePlates)
-                .Include(s => s.ChaffeurVehicles)
-                .Include(s => s.LicensePlates)
-                .Include(s => s.Requests));
-                return vh;
-            }
-            catch
-            {
-                throw new Exception("Vehicle is null.");
-            }
+            var vh = _vhrepo.GetById(
+            filter: x => x.Id == id
+            , x => x.Include(s => s.LicensePlates)
+            .Include(s => s.ChaffeurVehicles)
+            .Include(s => s.LicensePlates)
+            .Include(s => s.Requests));
+            return vh;
         }
         public List<Chaffeur> GetAllChaffeurs()
         {
@@ -133,20 +143,6 @@ namespace BusinessLayer.managers
                 .Include(s => s.ChaffeurVehicles)
                 .Include(s => s.DrivingLicenses)
                 .Include(s => s.Requests)));
-        }
-
-        public List<string> test(Chaffeur ch)
-        {
-            var results = _validator.Validate(ch);
-            List<string> temp = new List<string>();
-            if (results.IsValid == false)
-            {
-                foreach (ValidationFailure failure in results.Errors)
-                {
-                    temp.Add(failure.ErrorMessage);
-                }
-            }
-            return results.Errors.Select(s => s.ErrorMessage).ToList();
         }
     }
 }

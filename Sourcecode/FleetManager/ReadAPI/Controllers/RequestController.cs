@@ -67,6 +67,19 @@ namespace ReadAPI.Controllers
                 return BadRequest(ex);
             }
         }
+        [HttpPost("Request")]
+        public ActionResult Add()
+        {
+            _managerRequest.AddRequest(new Request(DateTime.Now, DateTime.Now, "test"), 1, 1);
+            if(_managerRequest._errors.Count != 0)
+            {
+                return BadRequest(_managerRequest._errors);
+            }
+            else
+            {
+                return Ok();
+            }
+        }
         [HttpGet("Request/{id}/Repairments")]
         public ActionResult<List<Maintenance>> GetByIdRepairments(int id)
         {

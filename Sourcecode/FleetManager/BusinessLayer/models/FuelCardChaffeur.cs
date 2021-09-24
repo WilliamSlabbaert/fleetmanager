@@ -13,5 +13,14 @@ namespace BusinessLayer.models
         public int FuelCardId { get; set; }
         public FuelCard FuelCard { get; set; }
         public bool IsActive { get; set; }
+
+        public FuelCardChaffeur(Chaffeur chaffeur, FuelCard fuelCard, bool isActive)
+        {
+            Chaffeur = chaffeur;
+            ChaffeurId = chaffeur.Id;
+            FuelCard = fuelCard;
+            FuelCardId = fuelCard.Id;
+            IsActive = isActive;
+        }
     }
 }

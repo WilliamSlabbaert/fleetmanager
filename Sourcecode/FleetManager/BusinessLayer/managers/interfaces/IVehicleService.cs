@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BusinessLayer.models;
+using BusinessLayer.validators.response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,6 @@ namespace BusinessLayer.managers.interfaces
         public void AddVehicle(Vehicle ch);
         public void UpdateVehicle(Vehicle ch);
         public List<Vehicle> GetAllVehicles();
+        public List<GenericResponse> _errors { get; set; }
     }
 }

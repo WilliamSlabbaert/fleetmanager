@@ -14,7 +14,6 @@ namespace BusinessLayer.validators
         {
             RuleFor(c => c.type)
                 .NotEmpty().WithMessage("Type property is empty.");
-
         }
     }
 }

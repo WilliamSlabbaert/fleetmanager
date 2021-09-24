@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using BusinessLayer.managers.interfaces;
 using BusinessLayer.models;
 using BusinessLayer.validators.response;
 using DataLayer.entities;
@@ -14,14 +13,14 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.managers
 {
-    public class RepairmentService : IRepairmentService
+    public class MaintenanceService
     {
         private readonly IGenericRepo<RequestEntity> _rqrepo;
-        private readonly IGenericRepo<RepairmentEntity> _repo;
+        private readonly IGenericRepo<MaintenanceEntity> _repo;
         private readonly IMapper _mapper;
-        private readonly IValidator<Repairment> _validator;
+        private readonly IValidator<Maintenance> _validator;
         public List<GenericResponse> _errors { get; set; }
-        public RepairmentService(IGenericRepo<RequestEntity> rqrepo, IMapper mapper, IGenericRepo<RepairmentEntity> repo, IValidator<Repairment> validator)
+        public MaintenanceService(IGenericRepo<RequestEntity> rqrepo, IMapper mapper, IGenericRepo<MaintenanceEntity> repo, IValidator<Maintenance> validator)
         {
             this._repo = repo;
             this._rqrepo = rqrepo;
@@ -29,32 +28,32 @@ namespace BusinessLayer.managers
             this._validator = validator;
             this._errors = new List<GenericResponse>();
         }
-        public void AddRepairment(Repairment repairment, int requestId)
+        public void AddMaintenance(Maintenance Maintenance, int requestId)
         {
             var rq = GetRequestEntity(requestId);
-            var results = _validator.Validate(repairment);
-            if(results.IsValid == false)
+            var results = _validator.Validate(Maintenance);
+            if (results.IsValid == false)
             {
                 _errors = _mapper.Map<List<GenericResponse>>(results.Errors);
             }
             else
             {
-                var rm = _mapper.Map<RepairmentEntity>(repairment);
-                rq.Repairment.Add(rm);
+                var rm = _mapper.Map<MaintenanceEntity>(Maintenance);
+                rq.Maintenance.Add(rm);
                 _rqrepo.UpdateEntity(rq);
                 _repo.Save();
             }
 
         }
 
-        public List<Repairment> GetAllRepairments()
+        public List<Maintenance> GetAllMaintenances()
         {
-            return _mapper.Map<List<Repairment>>(_repo.GetAll(
+            return _mapper.Map<List<Maintenance>>(_repo.GetAll(
                 x => x.Include(s => s.Request)));
         }
-        public Repairment GetRepairmentById(int id)
+        public Maintenance GetMaintenanceById(int id)
         {
-            return _mapper.Map<Repairment>(_repo.GetById(
+            return _mapper.Map<Maintenance>(_repo.GetById(
                 filter: x => x.Id == id,
                 x => x.Include(s => s.Request)));
         }
@@ -65,7 +64,7 @@ namespace BusinessLayer.managers
             {
                 return _rqrepo.GetById(
                 filter: x => x.Id == id,
-                x => x.Include(x => x.Repairment));
+                x => x.Include(x => x.Maintenance));
             }
             catch
             {

@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using BusinessLayer.managers.interfaces;
 using BusinessLayer.models;
+using BusinessLayer.validators.response;
 using DataLayer.entities;
 using DataLayer.repositories;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -16,23 +18,28 @@ namespace BusinessLayer.managers
     {
         private readonly IGenericRepo<VehicleEntity> _vehicleRepo;
         private readonly IMapper _mapper;
+        private readonly IValidator<Vehicle> _validator;
+        public List<GenericResponse> _errors { get; set; }
 
-        public VehicleService(IGenericRepo<VehicleEntity> vehicleRepo, IMapper mapper)
+        public VehicleService(IGenericRepo<VehicleEntity> vehicleRepo, IMapper mapper, IValidator<Vehicle> validator)
         {
             _vehicleRepo = vehicleRepo;
             _mapper = mapper;
+            _validator = validator;
+            _errors = new List<GenericResponse>();
         }
 
         public void AddVehicle(Vehicle ch)
         {
-            if (ch != null)
+            var results = _validator.Validate(ch);
+            if(results.IsValid == false)
             {
-                _vehicleRepo.AddEntity(_mapper.Map<VehicleEntity>(ch));
-                _vehicleRepo.Save();
+                _errors = _mapper.Map<List<GenericResponse>>(results.Errors);
             }
             else
             {
-                throw new Exception("Vehicle is null.");
+                _vehicleRepo.AddEntity(_mapper.Map<VehicleEntity>(ch));
+                _vehicleRepo.Save();
             }
         }
 
@@ -40,11 +47,11 @@ namespace BusinessLayer.managers
         {
             return _mapper.Map<Vehicle>(_vehicleRepo.GetById(
                 x => x.Id == id
-                ,x => x.Include(s => s.LicensePlates)
-                .Include(s => s.Requests)
-                .Include(s => s.LicensePlates)
-                .Include(s => s.ChaffeurVehicles)
-                .ThenInclude(s => s.Chaffeur))); 
+                , x => x.Include(s => s.LicensePlates)
+                 .Include(s => s.Requests)
+                 .Include(s => s.LicensePlates)
+                 .Include(s => s.ChaffeurVehicles)
+                 .ThenInclude(s => s.Chaffeur)));
         }
         public List<Vehicle> GetAllVehicles()
         {

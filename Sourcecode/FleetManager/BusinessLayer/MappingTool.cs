@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using BusinessLayer.models;
+using BusinessLayer.validators.response;
 using DataLayer.entities;
+using FluentValidation.Results;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,6 +44,12 @@ namespace BusinessLayer
             CreateMap<Repairment, RepairmentEntity>();
             CreateMap<Request, RequestEntity>();
             CreateMap<VehicleChaffeur, ChaffeurEntityVehicleEntity>();
+
+            CreateMap<ValidationFailure, GenericResponse>()
+                .ForMember(s => s.Value, opt=> opt.MapFrom(src => src.AttemptedValue))
+                .ForMember(s => s.Property, opt=> opt.MapFrom(src => src.PropertyName))
+                .ForMember(s => s.Error, opt => opt.MapFrom(src => src.ErrorMessage));
+
         }
     }
 }

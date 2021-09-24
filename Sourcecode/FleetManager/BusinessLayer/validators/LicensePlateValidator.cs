@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BusinessLayer.models;
+using FluentValidation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +8,12 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.validators
 {
-    class LicensePlateValidator
+    public class LicensePlateValidator : AbstractValidator<LicensePlate>
     {
+        public LicensePlateValidator()
+        {
+            RuleFor(c => c.Plate)
+                .NotEmpty().WithMessage("Plate property is empty.");
+        }
     }
 }

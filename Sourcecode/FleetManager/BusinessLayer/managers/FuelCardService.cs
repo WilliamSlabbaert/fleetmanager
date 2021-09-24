@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using BusinessLayer.managers.interfaces;
 using BusinessLayer.models;
+using BusinessLayer.validators.response;
 using DataLayer.entities;
 using DataLayer.repositories;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -17,18 +19,31 @@ namespace BusinessLayer.managers
         private readonly IGenericRepo<FuelCardEntity> _repo;
         private readonly IGenericRepo<ChaffeurEntity> _chrepo;
         private readonly IMapper _mapper;
-        public FuelCardService(IGenericRepo<FuelCardEntity> repo, IMapper mapper, IGenericRepo<ChaffeurEntity> chrepo)
+        private readonly IValidator<FuelCard> _validator;
+        private readonly IValidator<FuelCardChaffeur> _validatorfcch;
+        public List<GenericResponse> _errors { get; set; }
+        public FuelCardService(IGenericRepo<FuelCardEntity> repo, IMapper mapper, IGenericRepo<ChaffeurEntity> chrepo, IValidator<FuelCard> _validator, IValidator<FuelCardChaffeur> validatorfcch)
         {
             this._repo = repo;
             this._mapper = mapper;
             this._chrepo = chrepo;
-
+            this._validator = _validator;
+            this._validatorfcch = validatorfcch;
+            _errors = new List<GenericResponse>();
         }
 
         public void AddFuelCard(FuelCard fc)
         {
-            _repo.AddEntity(_mapper.Map<FuelCardEntity>(fc));
-            _repo.Save();
+            var results = _validator.Validate(fc);
+            if(results.IsValid == false)
+            {
+                _errors = _mapper.Map<List<GenericResponse>>(results.Errors);
+            }
+            else
+            {
+                _repo.AddEntity(_mapper.Map<FuelCardEntity>(fc));
+                _repo.Save();
+            }
         }
 
         public void AddFuelCardToChaffeur(int fuelcardNr, int chaffeurNr)
@@ -36,34 +51,25 @@ namespace BusinessLayer.managers
             ChaffeurEntity ch = GetChaffeurEntity(chaffeurNr);
             FuelCardEntity fc = GetFuelCardEntity(fuelcardNr);
             var tempch = _mapper.Map<Chaffeur>(ch);
-
+            
             if (tempch.CheckFuelCard(fc.Id))
             {
-                ch.ChaffeurFuelCards.Add(new ChaffeurEntityFuelCardEntity(ch, fc, true));
-                _repo.Save();
+                var results = _validatorfcch.Validate(new FuelCardChaffeur(_mapper.Map<Chaffeur>(ch), _mapper.Map<FuelCard>(fc),true));
+                if(results.IsValid == false)
+                {
+                    _errors = _mapper.Map<List<GenericResponse>>(results.Errors);
+                }
+                else
+                {
+                    ch.ChaffeurFuelCards.Add(new ChaffeurEntityFuelCardEntity(ch, fc, true));
+                    _repo.Save();
+                }
             }
             else
             {
                 throw new Exception("Fuelcard already in chaffeur list.");
             }
         }
-        public void RemoveFuelCardFromChaffeur(int fuelcardNr, int chaffeurNr)
-        {
-            ChaffeurEntity ch = GetChaffeurEntity(chaffeurNr);
-            FuelCardEntity fc = GetFuelCardEntity(fuelcardNr);
-            var temp = ch.ChaffeurFuelCards.FirstOrDefault(s => s.FuelCardId == fc.Id);
-            if (temp != null)
-            {
-                ch.ChaffeurFuelCards.Remove(temp);
-                _chrepo.UpdateEntity(ch);
-                _repo.Save();
-            }
-            else
-            {
-                throw new Exception("Fuelcard is not in chaffeur list.");
-            }
-        }
-
         public List<FuelCard> GetAllFuelCards()
         {
             return _mapper.Map<List<FuelCard>>(this._repo.GetAll(
@@ -85,36 +91,22 @@ namespace BusinessLayer.managers
         }
         public FuelCardEntity GetFuelCardEntity(int id)
         {
-            try
-            {
-                return _repo.GetById(
-                filter: x => x.Id == id,
-                x => x.Include(s => s.Services)
-                .Include(s => s.FuelType)
-                .Include(s => s.ChaffeurFuelCards)
-                .ThenInclude(s => s.Chaffeur));
-            }
-            catch
-            {
-                throw new Exception("Fuelcard is null.");
-            }
+            return _repo.GetById(
+            filter: x => x.Id == id,
+            x => x.Include(s => s.Services)
+            .Include(s => s.FuelType)
+            .Include(s => s.ChaffeurFuelCards)
+            .ThenInclude(s => s.Chaffeur));
         }
         public ChaffeurEntity GetChaffeurEntity(int id)
         {
-            try
-            {
-                var ch = _chrepo.GetById(
-                filter: x => x.Id == id
-                , x => x.Include(s => s.ChaffeurFuelCards)
-                .Include(s => s.ChaffeurVehicles)
-                .Include(s => s.DrivingLicenses)
-                .Include(s => s.Requests));
-                return ch;
-            }
-            catch
-            {
-                throw new Exception("Chaffeur is null.");
-            }
+            var ch = _chrepo.GetById(
+            filter: x => x.Id == id
+            , x => x.Include(s => s.ChaffeurFuelCards)
+            .Include(s => s.ChaffeurVehicles)
+            .Include(s => s.DrivingLicenses)
+            .Include(s => s.Requests));
+            return ch;
         }
         public void UpdateFuelCard(FuelCard fc)
         {

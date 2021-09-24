@@ -64,6 +64,8 @@ namespace BusinessLayer
             services.AddScoped<IValidator<FuelType>, FuelTypeValidator>();
             services.AddScoped<IValidator<LicensePlate>, LicensePlateValidator>();
             services.AddScoped<IValidator<Invoice>, InvoiceValidator>();
+            services.AddScoped<IValidator<VehicleChaffeur>, ChaffeurVehicleValidator>();
+            services.AddScoped<IValidator<FuelCardChaffeur>, FuelCardChaffeurValidator>();
         }
     }
 }
