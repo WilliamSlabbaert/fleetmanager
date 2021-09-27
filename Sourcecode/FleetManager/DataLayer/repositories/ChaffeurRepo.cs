@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DataLayer.entities;
+using DataLayer.repositories.interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataLayer.repositories

@@ -47,7 +47,7 @@ namespace BusinessLayer.validators
                 .Must(x => x.Length > 0).WithMessage("National insurence number is too short.");
 
             RuleFor(c => c.IsActive)
-                .NotNull().WithMessage("Is Active insurence number is null.");
+                .NotNull().WithMessage("Is Active insurence number is null."); //onnodig
         }
     }
 }

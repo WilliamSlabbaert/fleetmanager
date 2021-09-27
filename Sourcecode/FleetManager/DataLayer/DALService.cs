@@ -10,7 +10,7 @@ namespace DataLayer
 {
     public static class DALService
     {
-        public static void AddDBContext(IServiceCollection services)
+        public static void AddDBContext(this IServiceCollection services)
         {
             services.AddDbContext<FleetManagerContext>(options => {
                 options.UseSqlServer(@"Data Source=DESKTOP-2KEN9DG;Initial Catalog=FleetManagerTest;Integrated Security=True");

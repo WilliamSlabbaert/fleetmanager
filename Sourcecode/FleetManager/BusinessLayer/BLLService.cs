@@ -8,6 +8,7 @@ using BusinessLayer.validators;
 using DataLayer;
 using DataLayer.entities;
 using DataLayer.repositories;
+using DataLayer.repositories.interfaces;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
