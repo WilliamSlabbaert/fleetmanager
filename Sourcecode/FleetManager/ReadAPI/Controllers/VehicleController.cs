@@ -1,5 +1,6 @@
 ﻿using BusinessLayer;
 using BusinessLayer.managers.interfaces;
+using BusinessLayer.mediator.commands;
 using BusinessLayer.mediator.queries;
 using BusinessLayer.models;
 using MediatR;
@@ -16,7 +17,7 @@ namespace ReadAPI.Controllers
     {
         private readonly ILogger<VehicleController> _logger;
         private IMediator _mediator;
-        public VehicleController(ILogger<VehicleController> logger, IChaffeurService man, IVehicleService man2, IMediator mediator)
+        public VehicleController(ILogger<VehicleController> logger, IMediator mediator)
         {
             _logger = logger;
             _mediator = mediator;
@@ -30,6 +31,29 @@ namespace ReadAPI.Controllers
             }catch(Exception e)
             {
                 return BadRequest(e);
+            }
+        }
+        [HttpPost("Vehicle")]
+        public ActionResult<Vehicle> AddVehicle()
+        {
+            var temp = new Vehicle(1341, Overall.CarTypes.Passengercar, 191, Overall.FuelTypes.Electric, "Audi", "A3", DateTime.Now);
+            var check = _mediator.Send(new CheckExistingVehicleQuery(temp));
+            if (check.Result)
+            {
+                var command = new AddVehicleCommand(temp);
+                _mediator.Send(command);
+                if (command._errors.Count != 0)
+                {
+                    return BadRequest(command._errors);
+                }
+                else
+                {
+                    return Ok();
+                }
+            }
+            else
+            {
+                return BadRequest("Vehicle with chassis number already exist.");
             }
         }
         [HttpGet("Vehicle/{id}")]
@@ -60,6 +84,23 @@ namespace ReadAPI.Controllers
                     return NotFound("This vehicle doesn't exist");
                 }
                 return Ok(vh.Result.ChaffeurVehicles.Select(s => s.Chaffeur));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+        [HttpGet("Vehicle/{id}/Licenseplates")]
+        public ActionResult<List<Chaffeur>> GetVehicleLicensePlatesByID(int id)
+        {
+            try
+            {
+                var vh = _mediator.Send(new GetVehicleByIdQuery(id));
+                if (vh == null)
+                {
+                    return NotFound("This vehicle doesn't exist");
+                }
+                return Ok(vh.Result.LicensePlates);
             }
             catch (Exception ex)
             {

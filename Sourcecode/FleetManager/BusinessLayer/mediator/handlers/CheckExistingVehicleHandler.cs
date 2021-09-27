@@ -5,7 +5,6 @@ using DataLayer.entities;
 using DataLayer.repositories;
 using FluentValidation;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,24 +14,25 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.mediator.handlers
 {
-    public class GetVehiclesHandler : IRequestHandler<GetVehiclesQuery, List<Vehicle>>
+    class CheckExistingVehicleHandler : IRequestHandler<CheckExistingVehicleQuery, bool>
     {
         private readonly IGenericRepo<VehicleEntity> _vehicleRepo;
         private readonly IMapper _mapper;
         private readonly IValidator<Vehicle> _validator;
-        public GetVehiclesHandler(IGenericRepo<VehicleEntity> vehicleRepo, IMapper mapper, IValidator<Vehicle> validator)
+        public CheckExistingVehicleHandler(IGenericRepo<VehicleEntity> vehicleRepo, IMapper mapper, IValidator<Vehicle> validator)
         {
             this._vehicleRepo = vehicleRepo;
             this._mapper = mapper;
             this._validator = validator;
         }
-        public Task<List<Vehicle>> Handle(GetVehiclesQuery request, CancellationToken cancellationToken)
+        public Task<bool> Handle(CheckExistingVehicleQuery request, CancellationToken cancellationToken)
         {
-            return Task.FromResult(_mapper.Map<List<Vehicle>>(_vehicleRepo.GetAll(
-                s=> s.Include(s=> s.ChaffeurVehicles)
-                .ThenInclude(s=> s.Chaffeur)
-                .Include(s=>s.LicensePlates)
-                .Include(s=>s.Requests)).ToList()));
+            var results = _vehicleRepo.GetAll(null).FirstOrDefault(s => s.Chassis == request.vehicle.Chassis);
+            if(results == null)
+            {
+                return Task.FromResult(true);
+            }
+            return Task.FromResult(false);
         }
     }
 }

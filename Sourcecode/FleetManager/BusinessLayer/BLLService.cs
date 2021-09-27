@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BusinessLayer.managers;
 using BusinessLayer.managers.interfaces;
+using BusinessLayer.mediator.commands;
 using BusinessLayer.mediator.queries;
 using BusinessLayer.models;
 using BusinessLayer.validators;
@@ -23,7 +24,7 @@ namespace BusinessLayer
     {
         public static void AddBLLService(this IServiceCollection services)
         {
-            DALService.AddDBContext(services);
+            services.AddDBContext();
             AddBLLMapper(services);
             AddBLLManagers(services);
             AddBLLValidators(services);
@@ -75,6 +76,7 @@ namespace BusinessLayer
         {
             services.AddMediatR(typeof(GetVehiclesQuery).Assembly);
             services.AddMediatR(typeof(GetVehicleByIdQuery).Assembly);
+            services.AddMediatR(typeof(AddVehicleCommand).Assembly);
         }
     }
 }
