@@ -13,13 +13,13 @@ namespace BusinessLayer.validators
         public RequestValidator()
         {
             RuleFor(c => c.StartDate)
-                .NotEmpty().WithMessage("Start date property is empty.");
+                .NotNull().WithMessage("Start date property is empty.");
 
             RuleFor(x => x)
                 .Must(x => x.StartDate < x.EndDate).WithMessage("Start date should be earlier then end date.");
 
             RuleFor(x => x.Status)
-                .NotEmpty().WithMessage("Status property is empty.")
+                .NotNull().WithMessage("Status property is empty.")
                 .Must(x => x.Length > 0).WithMessage("Status is too short.");
                 
         }

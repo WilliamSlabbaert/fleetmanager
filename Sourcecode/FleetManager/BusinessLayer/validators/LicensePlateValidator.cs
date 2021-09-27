@@ -13,7 +13,7 @@ namespace BusinessLayer.validators
         public LicensePlateValidator()
         {
             RuleFor(c => c.Plate)
-                .NotEmpty().WithMessage("Plate property is empty.");
+                .NotNull().WithMessage("Plate property is empty.");
         }
     }
 }

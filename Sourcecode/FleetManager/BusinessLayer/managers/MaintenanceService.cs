@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BusinessLayer.managers.interfaces;
 using BusinessLayer.models;
 using BusinessLayer.validators.response;
 using DataLayer.entities;
@@ -13,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.managers
 {
-    public class MaintenanceService
+    public class MaintenanceService : IMaintenanceService
     {
         private readonly IGenericRepo<RequestEntity> _rqrepo;
         private readonly IGenericRepo<MaintenanceEntity> _repo;

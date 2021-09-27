@@ -46,7 +46,7 @@ namespace BusinessLayer
             CreateMap<VehicleChaffeur, ChaffeurEntityVehicleEntity>();
 
             CreateMap<ValidationFailure, GenericResponse>()
-                .ForMember(s => s.Value, opt=> opt.MapFrom(src => src.AttemptedValue))
+                .ForMember(s => s.Input, opt=> opt.MapFrom(src => src.AttemptedValue))
                 .ForMember(s => s.Property, opt=> opt.MapFrom(src => src.PropertyName))
                 .ForMember(s => s.Error, opt => opt.MapFrom(src => src.ErrorMessage));
 

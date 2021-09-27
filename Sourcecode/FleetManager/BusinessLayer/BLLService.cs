@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
 using BusinessLayer.managers;
 using BusinessLayer.managers.interfaces;
+using BusinessLayer.mediator.queries;
 using BusinessLayer.models;
 using BusinessLayer.validators;
 using DataLayer;
 using DataLayer.entities;
 using DataLayer.repositories;
 using FluentValidation;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -25,6 +27,7 @@ namespace BusinessLayer
             AddBLLMapper(services);
             AddBLLManagers(services);
             AddBLLValidators(services);
+            AddBLLMediator(services);
         }
 
         private static void AddBLLMapper(IServiceCollection services)
@@ -49,6 +52,7 @@ namespace BusinessLayer
             services.AddScoped<IDrivingLicenseService, DrivingLicenseService>();
             services.AddScoped<IRequestService, RequestService>();
             services.AddScoped<IRepairmentService, RepairmentService>();
+            services.AddScoped<IMaintenanceService, MaintenanceService>();
         }
         private static void AddBLLValidators(IServiceCollection services)
         {
@@ -66,6 +70,11 @@ namespace BusinessLayer
             services.AddScoped<IValidator<Invoice>, InvoiceValidator>();
             services.AddScoped<IValidator<VehicleChaffeur>, ChaffeurVehicleValidator>();
             services.AddScoped<IValidator<FuelCardChaffeur>, FuelCardChaffeurValidator>();
+        }
+        private static void AddBLLMediator(IServiceCollection services)
+        {
+            services.AddMediatR(typeof(GetVehiclesQuery).Assembly);
+            services.AddMediatR(typeof(GetVehicleByIdQuery).Assembly);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace BusinessLayer.validators
         public FuelTypeValidator()
         {
             RuleFor(c => c.Fuel)
-                .NotEmpty().WithMessage("Fuel property is empty.");
+                .NotNull().WithMessage("Fuel property is empty.");
         }
     }
 }

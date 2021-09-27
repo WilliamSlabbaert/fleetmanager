@@ -13,14 +13,14 @@ namespace BusinessLayer.validators
         public RepairmentValidator()
         {
             RuleFor(c => c.Date)
-                .NotEmpty().WithMessage("Date property is empty.");
+                .NotNull().WithMessage("Date property is empty.");
 
             RuleFor(c => c.Company)
-                .NotEmpty().WithMessage("Company property is empty.")
+                .NotNull().WithMessage("Company property is empty.")
                 .Must(x => x.Length > 0).WithMessage("Company too short.");
 
             RuleFor(c => c.Description)
-                .NotEmpty().WithMessage("Description property is empty.")
+                .NotNull().WithMessage("Description property is empty.")
                 .Must(x => x.Length > 0).WithMessage("Description too short.");
         }
     }

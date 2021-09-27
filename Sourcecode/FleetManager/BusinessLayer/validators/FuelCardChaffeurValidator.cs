@@ -12,9 +12,9 @@ namespace BusinessLayer.validators
     {
         public FuelCardChaffeurValidator()
         {
-            RuleFor(s => s.Chaffeur).NotEmpty().WithMessage("No Chaffeur relation.");
-            RuleFor(s => s.FuelCard).NotEmpty().WithMessage("No FuelCard relation.");
-            RuleFor(s => s.IsActive).NotEmpty().WithMessage("The IsActive property is empty.");
+            RuleFor(s => s.Chaffeur).NotNull().WithMessage("No Chaffeur relation.");
+            RuleFor(s => s.FuelCard).NotNull().WithMessage("No FuelCard relation.");
+            RuleFor(s => s.IsActive).NotNull().WithMessage("The IsActive property is empty.");
         }
     }
 }

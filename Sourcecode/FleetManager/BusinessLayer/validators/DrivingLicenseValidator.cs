@@ -13,7 +13,7 @@ namespace BusinessLayer.validators
         public DrivingLicenseValidator()
         {
             RuleFor(c => c.type)
-                .NotEmpty().WithMessage("Type property is empty.");
+                .NotNull().WithMessage("Type property is empty.");
         }
     }
 }

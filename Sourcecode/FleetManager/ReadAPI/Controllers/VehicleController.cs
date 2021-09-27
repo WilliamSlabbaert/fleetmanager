@@ -1,6 +1,8 @@
 ﻿using BusinessLayer;
 using BusinessLayer.managers.interfaces;
+using BusinessLayer.mediator.queries;
 using BusinessLayer.models;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -13,20 +15,18 @@ namespace ReadAPI.Controllers
     public class VehicleController : Controller
     {
         private readonly ILogger<VehicleController> _logger;
-        private IChaffeurService _managerChaffeur;
-        private IVehicleService _managerVehicle;
-        public VehicleController(ILogger<VehicleController> logger, IChaffeurService man, IVehicleService man2)
+        private IMediator _mediator;
+        public VehicleController(ILogger<VehicleController> logger, IChaffeurService man, IVehicleService man2, IMediator mediator)
         {
             _logger = logger;
-            _managerChaffeur = man;
-            _managerVehicle = man2;
+            _mediator = mediator;
         }
         [HttpGet("Vehicle")]
         public ActionResult<Vehicle> GetAllVehicles()
         {
             try
             {
-                return Ok(_managerVehicle.GetAllVehicles());
+                return Ok(_mediator.Send(new GetVehiclesQuery()).Result);
             }catch(Exception e)
             {
                 return BadRequest(e);
@@ -37,12 +37,12 @@ namespace ReadAPI.Controllers
         {
             try
             {
-                var vh = _managerVehicle.GetVehicleById(id);
+                var vh = _mediator.Send(new GetVehicleByIdQuery(id));
                 if (vh == null)
                 {
                     return NotFound("This vehicle doesn't exist");
                 }
-                return Ok(vh);
+                return Ok(vh.Result);
             }
             catch (Exception ex)
             {
@@ -54,12 +54,12 @@ namespace ReadAPI.Controllers
         {
             try
             {
-                var vh = _managerVehicle.GetVehicleById(id);
+                var vh = _mediator.Send(new GetVehicleByIdQuery(id));
                 if (vh == null)
                 {
                     return NotFound("This vehicle doesn't exist");
                 }
-                return Ok(vh.ChaffeurVehicles.Select(s=>s.Chaffeur));
+                return Ok(vh.Result.ChaffeurVehicles.Select(s => s.Chaffeur));
             }
             catch (Exception ex)
             {

@@ -18,12 +18,10 @@ namespace ReadAPI.Controllers
     {
         private readonly ILogger<ChaffeurController> _logger;
         private IChaffeurService _managerChaffeur;
-        private IVehicleService _managerVehicle;
-        public ChaffeurController(ILogger<ChaffeurController> logger, IChaffeurService man, IVehicleService man2)
+        public ChaffeurController(ILogger<ChaffeurController> logger, IChaffeurService man)
         {
             _logger = logger;
             _managerChaffeur = man;
-            _managerVehicle = man2;
         }
 
         [HttpGet]

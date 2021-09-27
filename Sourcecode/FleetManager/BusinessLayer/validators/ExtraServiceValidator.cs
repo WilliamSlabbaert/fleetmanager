@@ -13,7 +13,7 @@ namespace BusinessLayer.validators
         public ExtraServiceValidator()
         {
             RuleFor(c => c.Service)
-                .NotEmpty().WithMessage("Service property is empty.");
+                .NotNull().WithMessage("Service property is empty.");
         }
     }
 }

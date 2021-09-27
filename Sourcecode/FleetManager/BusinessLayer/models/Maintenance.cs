@@ -8,6 +8,13 @@ namespace BusinessLayer.models
 {
     public class Maintenance
     {
+        public Maintenance(DateTime date, double price, string garage)
+        {
+            Date = date;
+            Price = price;
+            Garage = garage;
+        }
+
         public int Id { get; set; }
         public DateTime Date { get; set; }
         public double Price { get; set; }
