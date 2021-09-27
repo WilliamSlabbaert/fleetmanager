@@ -36,7 +36,7 @@ namespace ReadAPI.Controllers
         [HttpPost("Vehicle")]
         public ActionResult<Vehicle> AddVehicle()
         {
-            var temp = new Vehicle(1341, Overall.CarTypes.Passengercar, 191, Overall.FuelTypes.Electric, "Audi", "A3", DateTime.Now);
+            var temp = new Vehicle(13414, Overall.CarTypes.Passengercar, 191, Overall.FuelTypes.Electric, null, "A3", DateTime.Now);
             var check = _mediator.Send(new CheckExistingVehicleQuery(temp));
             if (check.Result)
             {

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.validators
 {
-    class RepairmentValidator : AbstractValidator<Repairment>
+    public class RepairmentValidator : AbstractValidator<Repairment>
     {
         public RepairmentValidator()
         {

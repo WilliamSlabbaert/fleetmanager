@@ -23,9 +23,10 @@ namespace BusinessLayer
 {
     public static class BLLService
     {
-        public static void AddBLLService(this IServiceCollection services)
+        public static void AddBLLService(this IServiceCollection services,string connect)
         {
-            services.AddDBContext();
+            services.AddDBContext(connect: connect);
+
             AddBLLMapper(services);
             AddBLLManagers(services);
             AddBLLValidators(services);
@@ -58,20 +59,7 @@ namespace BusinessLayer
         }
         private static void AddBLLValidators(IServiceCollection services)
         {
-            services.AddScoped<IValidator<Chaffeur>, ChaffeurValidator>();
-            services.AddScoped<IValidator<Vehicle>, VehicleValidator>();
-            services.AddScoped<IValidator<Request>, RequestValidator>();
-            services.AddScoped<IValidator<Maintenance>, MaintenanceValidator>();
-            services.AddScoped<IValidator<Repairment>, RepairmentValidator>();
-            services.AddScoped<IValidator<AuthenticationType>, AuthenticationValidator>();
-            services.AddScoped<IValidator<DrivingLicense>, DrivingLicenseValidator>();
-            services.AddScoped<IValidator<ExtraService>, ExtraServiceValidator>();
-            services.AddScoped<IValidator<FuelCard>, FuelCardValidator>();
-            services.AddScoped<IValidator<FuelType>, FuelTypeValidator>();
-            services.AddScoped<IValidator<LicensePlate>, LicensePlateValidator>();
-            services.AddScoped<IValidator<Invoice>, InvoiceValidator>();
-            services.AddScoped<IValidator<VehicleChaffeur>, ChaffeurVehicleValidator>();
-            services.AddScoped<IValidator<FuelCardChaffeur>, FuelCardChaffeurValidator>();
+            services.AddValidatorsFromAssemblyContaining<FuelCardChaffeurValidator>(ServiceLifetime.Scoped);
         }
         private static void AddBLLMediator(IServiceCollection services)
         {

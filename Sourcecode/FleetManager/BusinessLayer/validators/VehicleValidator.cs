@@ -14,33 +14,31 @@ namespace BusinessLayer.validators
         public VehicleValidator()
         {
             RuleFor(c => c.Chassis)
-                .NotEmpty().WithMessage("Chassis property is empty.");
+                .NotNull().WithMessage("Chassis property is empty.");
 
             RuleFor(c => c.Kilometers)
-                .NotEmpty().WithMessage("Kilometers property is empty.");
+                .NotNull().WithMessage("Kilometers property is empty.");
 
             RuleFor(c => c.Type)
                 .NotNull().WithMessage("Car type property is null.");
 
             RuleFor(c => c.Type)
-                .IsInEnum().WithMessage("Type should be enum.")
-                .When(s => s.Type != null); 
+                .IsInEnum().WithMessage("Type should be enum."); 
 
             RuleFor(c => c.FuelType)
                 .NotNull().WithMessage("Fuel type property is null.");
 
             RuleFor(c => c.FuelType)
-                .IsInEnum().WithMessage("FuelType should be enum.")
-                .When(s => s.FuelType != null);
+                .IsInEnum().WithMessage("FuelType should be enum.");
 
             RuleFor(c => c.Brand)
-                .NotEmpty().WithMessage("Brand property is empty.");
+                .NotNull().WithMessage("Brand property is empty.");
 
             RuleFor(c => c.Model)
-                .NotEmpty().WithMessage("Model property is empty.");
+                .NotNull().WithMessage("Model property is empty.");
 
             RuleFor(c => c.BuildDate)
-                .NotEmpty().WithMessage("Build date property is empty.");
+                .NotNull().WithMessage("Build date property is empty.");
 
         }
     }
