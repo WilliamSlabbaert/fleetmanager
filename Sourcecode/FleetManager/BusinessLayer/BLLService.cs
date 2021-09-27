@@ -76,8 +76,6 @@ namespace BusinessLayer
         private static void AddBLLMediator(IServiceCollection services)
         {
             services.AddMediatR(typeof(GetVehiclesQuery).Assembly);
-            services.AddMediatR(typeof(GetVehicleByIdQuery).Assembly);
-            services.AddMediatR(typeof(AddVehicleCommand).Assembly);
         }
     }
 }
