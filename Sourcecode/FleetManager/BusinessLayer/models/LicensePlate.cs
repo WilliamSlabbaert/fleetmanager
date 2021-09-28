@@ -8,6 +8,11 @@ namespace BusinessLayer.models
 {
     public class LicensePlate
     {
+        public LicensePlate(string plate)
+        {
+            Plate = plate.ToUpper();
+        }
+
         public int Id { get; set; }
         public string Plate { get; set; }
         public int VehicleId { get; set; }

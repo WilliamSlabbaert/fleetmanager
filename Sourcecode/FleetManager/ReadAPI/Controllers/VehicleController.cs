@@ -107,5 +107,32 @@ namespace ReadAPI.Controllers
                 return BadRequest(ex);
             }
         }
+        [HttpPost("Vehicle/{id}/Licenseplates")]
+        public ActionResult<List<Chaffeur>> AddLicenseplateToVehicle(int id)
+        {
+            try
+            {
+                var plate = new LicensePlate("Test");
+                var command = new CheckExistingLicensePlateQuery(plate);
+                if(_mediator.Send(command).Result)
+                {
+                    var command2 = new AddLicensePlateToVehicleCommand(id, plate);
+                    _mediator.Send(command2);
+                    if (command2._errors.Count != 0)
+                    {
+                        return BadRequest(command2._errors);
+                    }
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest("Licenseplate already exists.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
     }
 }

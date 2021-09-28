@@ -41,7 +41,8 @@ namespace BusinessLayer.mediator.handlers
             }
             else
             {
-                temp.LicensePlates.Add(_mapper.Map<LicensePlateEntity>(request.licensePlate));
+                var temp2 = _mapper.Map<LicensePlateEntity>(request.licensePlate);
+                temp.LicensePlates.Add(temp2);
                 _vehicleRepo.UpdateEntity(temp);
                 _vehicleRepo.Save();
             }

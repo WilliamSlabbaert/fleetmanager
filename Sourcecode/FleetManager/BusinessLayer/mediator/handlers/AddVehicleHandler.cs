@@ -35,7 +35,8 @@ namespace BusinessLayer.mediator.handlers
             }
             else
             {
-                _vehicleRepo.AddEntity(_mapper.Map<VehicleEntity>(request._vehicle));
+                var temp = _mapper.Map<VehicleEntity>(request._vehicle);
+                _vehicleRepo.AddEntity(temp);
                 _vehicleRepo.Save();
             }
             return Task.FromResult(Unit.Value);
