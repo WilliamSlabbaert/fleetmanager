@@ -140,6 +140,7 @@ namespace BusinessLayer.managers
         {
             return _mapper.Map<List<Chaffeur>>(this._repo.GetAll(
                 x => x.Include(s => s.ChaffeurFuelCards)
+                .ThenInclude(s=> s.FuelCard)
                 .Include(s => s.ChaffeurVehicles)
                 .Include(s => s.DrivingLicenses)
                 .Include(s => s.Requests)));

@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DataLayer.entities;
+using DataLayer.entities.generic;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using System;
 using System.Collections.Generic;
@@ -9,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace DataLayer.repositories
 {
-    public class GenericRepo<T> : IGenericRepo<T> where T : class
+    public class GenericRepo<T> : IGenericRepo<T> where T : class , IGeneralEntities
     {
         private FleetManagerContext _context = null;
         private DbSet<T> _table = null;
@@ -17,6 +19,7 @@ namespace DataLayer.repositories
         public GenericRepo(FleetManagerContext context)
         {
             this._context = context;
+
             this._table = context.Set<T>();
         }
 

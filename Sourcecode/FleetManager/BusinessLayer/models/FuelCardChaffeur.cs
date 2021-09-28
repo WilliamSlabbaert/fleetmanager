@@ -17,9 +17,7 @@ namespace BusinessLayer.models
         public FuelCardChaffeur(Chaffeur chaffeur, FuelCard fuelCard, bool isActive)
         {
             Chaffeur = chaffeur;
-            ChaffeurId = chaffeur.Id;
             FuelCard = fuelCard;
-            FuelCardId = fuelCard.Id;
             IsActive = isActive;
         }
     }

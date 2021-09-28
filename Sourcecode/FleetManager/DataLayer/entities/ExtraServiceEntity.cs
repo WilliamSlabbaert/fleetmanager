@@ -1,4 +1,5 @@
-﻿using Overall;
+﻿using DataLayer.entities.generic;
+using Overall;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DataLayer.entities
 {
-    public class ExtraServiceEntity
+    public class ExtraServiceEntity : IGeneralEntities
     {
         [Key]
         public int Id { get; set; }
