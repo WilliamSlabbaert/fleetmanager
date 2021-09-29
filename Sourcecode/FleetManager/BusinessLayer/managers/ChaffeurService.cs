@@ -23,7 +23,7 @@ namespace BusinessLayer.managers
         private readonly IMapper _mapper;
         private readonly IValidator<Chaffeur> _validator;
         private readonly IValidator<VehicleChaffeur> _validatorvhch;
-        public List<GenericResponse> _errors { get; set; } 
+        public List<GenericResponse> _errors { get; set; }
         public ChaffeurService(IGenericRepo<ChaffeurEntity> repo, IMapper mapper, IGenericRepo<VehicleEntity> vhrepo, IValidator<Chaffeur> val, IValidator<VehicleChaffeur> validatorvhch)
         {
             this._repo = repo;
@@ -43,8 +43,8 @@ namespace BusinessLayer.managers
             }
             else
             {
-                var temp  = _repo.GetAll(null);
-                if(temp.FirstOrDefault(s => s.NationalInsurenceNumber == ch.NationalInsurenceNumber) == null)
+                var temp = _repo.GetAll(null);
+                if (temp.FirstOrDefault(s => s.NationalInsurenceNumber == ch.NationalInsurenceNumber) == null)
                 {
                     _repo.AddEntity(_mapper.Map<ChaffeurEntity>(ch));
                     _repo.Save();
@@ -97,7 +97,7 @@ namespace BusinessLayer.managers
                 }
                 else
                 {
-                    ch.ChaffeurVehicles.Add(new ChaffeurEntityVehicleEntity(vh,ch,true));
+                    ch.ChaffeurVehicles.Add(new ChaffeurEntityVehicleEntity(vh, ch, true));
                     _repo.Save();
                 }
             }
@@ -109,22 +109,15 @@ namespace BusinessLayer.managers
 
         public ChaffeurEntity GetChaffeurEntity(int id)
         {
-            try
-            {
-                var ch = _repo.GetById(
-                filter: x => x.Id == id
-                , x => x.Include(s => s.ChaffeurFuelCards)
-                .ThenInclude(s => s.FuelCard)
-                .Include(s => s.ChaffeurVehicles)
-                .ThenInclude(s => s.Vehicle)
-                .Include(s => s.DrivingLicenses)
-                .Include(s => s.Requests));
-                return ch;
-            }
-            catch
-            {
-                throw new Exception("Chaffeur is null.");
-            }
+            var ch = _repo.GetById(
+            filter: x => x.Id == id
+            , x => x.Include(s => s.ChaffeurFuelCards)
+            .ThenInclude(s => s.FuelCard)
+            .Include(s => s.ChaffeurVehicles)
+            .ThenInclude(s => s.Vehicle)
+            .Include(s => s.DrivingLicenses)
+            .Include(s => s.Requests));
+            return ch;
         }
         public VehicleEntity GetVehicleEntity(int id)
         {
@@ -140,7 +133,7 @@ namespace BusinessLayer.managers
         {
             return _mapper.Map<List<Chaffeur>>(this._repo.GetAll(
                 x => x.Include(s => s.ChaffeurFuelCards)
-                .ThenInclude(s=> s.FuelCard)
+                .ThenInclude(s => s.FuelCard)
                 .Include(s => s.ChaffeurVehicles)
                 .Include(s => s.DrivingLicenses)
                 .Include(s => s.Requests)));

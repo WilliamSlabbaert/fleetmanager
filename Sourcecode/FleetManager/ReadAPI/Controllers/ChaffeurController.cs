@@ -41,8 +41,6 @@ namespace ReadAPI.Controllers
         {
             DateTime date = DateTime.Now;
             _managerChaffeur.AddChaffeur(new Chaffeur("testFirst", "testLast", "testCity", "testStreet", "12", date, "testNationalNr", true));
-            //_managerVehicle.AddVehicle(new Vehicle(123, Overall.CarTypes.Passengercar, 111, Overall.FuelTypes.Diesel,"BMW","1 series",DateTime.Now));
-
             if (_managerChaffeur._errors.Count != 0)
             {
                 return BadRequest(_managerChaffeur._errors);
