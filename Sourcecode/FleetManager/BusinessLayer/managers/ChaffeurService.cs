@@ -34,38 +34,60 @@ namespace BusinessLayer.managers
             this._errors = new List<GenericResponse>();
         }
 
-        public void AddChaffeur(Chaffeur ch)
+        public Chaffeur AddChaffeur(Chaffeur ch)
         {
             var results = _validator.Validate(ch);
+            var temp = _mapper.Map<ChaffeurEntity>(ch);
             if (results.IsValid == false)
             {
                 _errors = _mapper.Map<List<GenericResponse>>(results.Errors);
             }
             else
             {
-                var temp = _repo.GetAll(null);
-                if (temp.FirstOrDefault(s => s.NationalInsurenceNumber == ch.NationalInsurenceNumber) == null)
+                _repo.AddEntity(temp);
+                _repo.Save();
+            }
+            return _mapper.Map<Chaffeur>(temp);
+        }
+        public bool checkExistingChaffeur(Chaffeur ch)
+        {
+            if(ch.Id != 0){
+                var temp = _repo.GetAll(null).Where(s => s.Id != ch.Id);
+                var result = temp.FirstOrDefault(s => s.NationalInsurenceNumber == ch.NationalInsurenceNumber);
+                if(result == null)
                 {
-                    _repo.AddEntity(_mapper.Map<ChaffeurEntity>(ch));
-                    _repo.Save();
+                    return true;
                 }
                 else
                 {
-                    throw new Exception("Chaffeur already exists.");
+                    return false;
+                }
+            }
+            else
+            {
+                var result1 = _repo.GetAll(null).FirstOrDefault(s => s.NationalInsurenceNumber == ch.NationalInsurenceNumber);
+                if (result1 == null)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
                 }
             }
         }
 
         public Chaffeur GetChaffeurById(int id)
         {
-            return _mapper.Map<Chaffeur>(_repo.GetById(
+            var temp = _repo.GetById(
             filter: x => x.Id == id
             , x => x.Include(s => s.ChaffeurFuelCards)
             .ThenInclude(s => s.FuelCard)
             .Include(s => s.DrivingLicenses)
             .Include(s => s.Requests)
             .Include(s => s.ChaffeurVehicles)
-            .ThenInclude(s => s.Vehicle)));
+            .ThenInclude(s => s.Vehicle));
+            return _mapper.Map<Chaffeur>(temp);
         }
 
         public void UpdateChaffeur(Chaffeur ch)
@@ -131,12 +153,14 @@ namespace BusinessLayer.managers
         }
         public List<Chaffeur> GetAllChaffeurs()
         {
-            return _mapper.Map<List<Chaffeur>>(this._repo.GetAll(
+            var temp = this._repo.GetAll(
                 x => x.Include(s => s.ChaffeurFuelCards)
                 .ThenInclude(s => s.FuelCard)
                 .Include(s => s.ChaffeurVehicles)
                 .Include(s => s.DrivingLicenses)
-                .Include(s => s.Requests)));
+                .Include(s => s.Requests));
+
+            return _mapper.Map<List<Chaffeur>>(temp);
         }
     }
 }

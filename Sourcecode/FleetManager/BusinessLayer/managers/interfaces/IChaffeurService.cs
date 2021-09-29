@@ -13,7 +13,8 @@ namespace BusinessLayer.managers.interfaces
     {
         public List<GenericResponse> _errors { get; set; }
         public Chaffeur GetChaffeurById(int id);
-        public void AddChaffeur(Chaffeur ch);
+        public Chaffeur AddChaffeur(Chaffeur ch);
+        public bool checkExistingChaffeur(Chaffeur ch);
         public void UpdateChaffeur(Chaffeur ch);
         public void AddVehicleToChaffeur(int chnr, int vhnr);
         public List<Chaffeur> GetAllChaffeurs();

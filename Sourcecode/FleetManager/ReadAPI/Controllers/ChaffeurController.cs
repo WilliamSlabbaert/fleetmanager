@@ -39,15 +39,30 @@ namespace ReadAPI.Controllers
         [HttpPost]
         public ActionResult Add()
         {
-            DateTime date = DateTime.Now;
-            _managerChaffeur.AddChaffeur(new Chaffeur("testFirst", "testLast", "testCity", "testStreet", "12", date, "testNationalNr", true));
-            if (_managerChaffeur._errors.Count != 0)
+            try
             {
-                return BadRequest(_managerChaffeur._errors);
-            }
-            else
+                DateTime date = DateTime.Now;
+                var ch = new Chaffeur("testFirst", "testLast", "testCity", "testStreet", "12", date, "testNationalNr2", true);
+                if (_managerChaffeur.checkExistingChaffeur(ch))
+                {
+                    var result = _managerChaffeur.AddChaffeur(ch);
+                    if (_managerChaffeur._errors.Count != 0)
+                    {
+                        return BadRequest(_managerChaffeur._errors);
+                    }
+                    else
+                    {
+                        return Ok(result);
+                    }
+                }
+                else
+                {
+                    return BadRequest("Chaffeur with same national insurence number already exists.");
+                }
+                
+            }catch(Exception e)
             {
-                return Ok(_managerChaffeur.GetAllChaffeurs());
+                return BadRequest(e);
             }
         }
         [HttpGet("{id}")]
