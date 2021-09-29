@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.mediator.commands
 {
-    public class AddVehicleCommand : IRequest
+    public class AddVehicleCommand : IRequest<Vehicle>
     {
         public Vehicle _vehicle { get; private set; }
         public List<GenericResponse> _errors { get; set; }

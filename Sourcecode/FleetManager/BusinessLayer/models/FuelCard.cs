@@ -31,6 +31,7 @@ namespace BusinessLayer.models
         public int Id { get; set; }
         public string CardNumber { get; set; }
         public string Pin { get; set; }
+        public DateTime ValidityDate { get; set; }
         public bool IsActive { get; set; }
         public List<AuthenticationType> AuthenticationTypes { get; set; }
         public List<FuelType> FuelType { get; set; }

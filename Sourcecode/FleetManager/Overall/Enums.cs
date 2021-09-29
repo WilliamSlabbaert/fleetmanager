@@ -31,7 +31,9 @@ namespace Overall
         [Description("Discount on fuel.")]
         DiscountFuel,
         [Description("Discount on carwash.")]
-        DiscountCarwash
+        DiscountCarwash, 
+        [Description("Discount on tires.")]
+        DiscountTires
 
     }
     public enum AuthenticationTypes

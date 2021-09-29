@@ -15,6 +15,7 @@ namespace BusinessLayer.models
 
         public int Id { get; set; }
         public string Plate { get; set; }
+        public bool IsActive { get; set; }
         public int VehicleId { get; set; }
         public Vehicle Vehicle { get; set; }
     }

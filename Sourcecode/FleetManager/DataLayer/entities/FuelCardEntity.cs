@@ -16,6 +16,7 @@ namespace DataLayer.entities
         public string CardNumber { get; set; }
         public string Pin { get; set; }
         public bool IsActive { get; set; }
+        public DateTime ValidityDate { get; set; }
         public List<FuelEntity> FuelType { get; set; }
         public List<ExtraServiceEntity> Services { get; set; }
         public List<ChaffeurEntityFuelCardEntity> ChaffeurFuelCards { get; set; }

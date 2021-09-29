@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.mediator.handlers
 {
-    public class AddVehicleHandler : IRequestHandler<AddVehicleCommand>
+    public class AddVehicleHandler : IRequestHandler<AddVehicleCommand, Vehicle>
     {
         private readonly IGenericRepo<VehicleEntity> _vehicleRepo;
         private readonly IMapper _mapper;
@@ -26,20 +26,20 @@ namespace BusinessLayer.mediator.handlers
             this._mapper = mapper;
             this._validator = validator;
         }
-        public Task<Unit> Handle(AddVehicleCommand request, CancellationToken cancellationToken)
+        Task<Vehicle> IRequestHandler<AddVehicleCommand, Vehicle>.Handle(AddVehicleCommand request, CancellationToken cancellationToken)
         {
             var results = _validator.Validate(request._vehicle);
-            if(results.IsValid == false)
+            var temp = _mapper.Map<VehicleEntity>(request._vehicle);
+            if (results.IsValid == false)
             {
                 request._errors = _mapper.Map<List<GenericResponse>>(results.Errors);
             }
             else
             {
-                var temp = _mapper.Map<VehicleEntity>(request._vehicle);
                 _vehicleRepo.AddEntity(temp);
                 _vehicleRepo.Save();
             }
-            return Task.FromResult(Unit.Value);
+            return Task.FromResult(_mapper.Map<Vehicle>(temp));
         }
     }
 }
