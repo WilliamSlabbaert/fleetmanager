@@ -117,7 +117,7 @@ namespace BusinessLayer.managers
             }
             return _mapper.Map<Chaffeur>(temp);
         }
-        public void AddVehicleToChaffeur(int chaffeurNr, int vehicleNr)
+        public Chaffeur AddVehicleToChaffeur(int chaffeurNr, int vehicleNr)
         {
             VehicleEntity vh = GetVehicleEntity(vehicleNr);
             ChaffeurEntity ch = GetChaffeurEntity(chaffeurNr);
@@ -133,7 +133,12 @@ namespace BusinessLayer.managers
                 }
                 else
                 {
+                    foreach (var chvh in ch.ChaffeurVehicles)
+                    {
+                        chvh.IsActive = false;
+                    }
                     ch.ChaffeurVehicles.Add(new ChaffeurEntityVehicleEntity(vh, ch, true));
+                    _repo.UpdateEntity(ch);
                     _repo.Save();
                 }
             }
@@ -141,6 +146,33 @@ namespace BusinessLayer.managers
             {
                 throw new Exception("Vehicle is already in Chaffeurs list.");
             }
+            return _mapper.Map<Chaffeur>(ch);
+        }
+        public Chaffeur UpdateVehicleToChaffeur(int chaffeurNr, int vehicleNr, bool active)
+        {
+            VehicleEntity vh = GetVehicleEntity(vehicleNr);
+            ChaffeurEntity ch = GetChaffeurEntity(chaffeurNr);
+
+            var chmodel = _mapper.Map<Chaffeur>(ch);
+            if (chmodel.CheckVehicle(vh.Id) == false)
+            {
+                var temp = ch.ChaffeurVehicles.FirstOrDefault(s => s.Vehicle.Id == vehicleNr);
+                if(active == true)
+                {
+                    foreach (var chvh in ch.ChaffeurVehicles)
+                    {
+                        chvh.IsActive = false;
+                    }
+                }
+                temp.IsActive = active;
+                _repo.UpdateEntity(ch);
+                _repo.Save();
+            }
+            else
+            {
+                throw new Exception("Vehicle doesn't exist in Chaffeurs list.");
+            }
+            return _mapper.Map<Chaffeur>(ch);
         }
 
         public ChaffeurEntity GetChaffeurEntity(int id)

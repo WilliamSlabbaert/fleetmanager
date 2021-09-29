@@ -18,10 +18,12 @@ namespace ReadAPI.Controllers
     {
         private readonly ILogger<ChaffeurController> _logger;
         private IChaffeurService _managerChaffeur;
-        public ChaffeurController(ILogger<ChaffeurController> logger, IChaffeurService man)
+        private IVehicleService _managerVehicle;
+        public ChaffeurController(ILogger<ChaffeurController> logger, IChaffeurService man, IVehicleService managerVehicle)
         {
             _logger = logger;
             _managerChaffeur = man;
+            _managerVehicle = managerVehicle;
         }
 
         [HttpGet]
@@ -88,6 +90,64 @@ namespace ReadAPI.Controllers
                     else
                     {
                         return BadRequest("Chaffeur with same national insurence number already exists.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+        [HttpPost("{id}/Vehicles/{vehicleId}")]
+        public ActionResult<Vehicle> AddVehicleToChaffeur(int id, int vehicleId)
+        {
+            try
+            {
+                var ch = _managerChaffeur.GetChaffeurById(id);
+                if (ch == null)
+                {
+                    return NotFound("This chaffeur doesn't exist");
+                }
+                else
+                {
+                    var vh = _managerVehicle.GetVehicleById(vehicleId);
+                    if (vh == null)
+                    {
+                        return NotFound("This Vehicle doesn't exist");
+                    }
+                    else
+                    {
+                        var result = _managerChaffeur.AddVehicleToChaffeur(id,vehicleId);
+                        return Ok(result);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+        [HttpPut("{id}/Vehicles/{vehicleId}")]
+        public ActionResult<Vehicle> UpdateVehicleToChaffeur(int id, int vehicleId)
+        {
+            try
+            {
+                var ch = _managerChaffeur.GetChaffeurById(id);
+                if (ch == null)
+                {
+                    return NotFound("This chaffeur doesn't exist");
+                }
+                else
+                {
+                    var vh = _managerVehicle.GetVehicleById(vehicleId);
+                    if (vh == null)
+                    {
+                        return NotFound("This Vehicle doesn't exist");
+                    }
+                    else
+                    {
+                        var result = _managerChaffeur.UpdateVehicleToChaffeur(id, vehicleId,true);
+                        return Ok(result);
                     }
                 }
             }

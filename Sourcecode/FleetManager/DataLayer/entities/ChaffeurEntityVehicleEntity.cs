@@ -20,9 +20,7 @@ namespace DataLayer.entities
         public ChaffeurEntityVehicleEntity(VehicleEntity vehicle, ChaffeurEntity chaffeur, bool isActive)
         {
             Vehicle = vehicle;
-            VehicleId = vehicle.Id;
             Chaffeur = chaffeur;
-            ChaffeurId = chaffeur.Id;
             IsActive = isActive;
         }
 
