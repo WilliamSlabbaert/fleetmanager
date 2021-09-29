@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.mediator.handlers
 {
-    public class AddLicensePlateToVehicleHandler : IRequestHandler<AddLicensePlateToVehicleCommand>
+    public class AddLicensePlateToVehicleHandler : IRequestHandler<AddLicensePlateToVehicleCommand, LicensePlate>
     {
         private readonly IGenericRepo<VehicleEntity> _vehicleRepo;
         private readonly IMapper _mapper;
@@ -27,26 +27,26 @@ namespace BusinessLayer.mediator.handlers
             this._mapper = mapper;
             this._validator = validator;
         }
-        public Task<Unit> Handle(AddLicensePlateToVehicleCommand request, CancellationToken cancellationToken)
+
+        Task<LicensePlate> IRequestHandler<AddLicensePlateToVehicleCommand, LicensePlate>.Handle(AddLicensePlateToVehicleCommand request, CancellationToken cancellationToken)
         {
             var temp = _vehicleRepo.GetById(
                 filter: s => s.Id == request.vehicleId,
-                s=>s.Include(s=>s.LicensePlates));
+                s => s.Include(s => s.LicensePlates));
 
             var results = _validator.Validate(request.licensePlate);
-
+            var temp2 = _mapper.Map<LicensePlateEntity>(request.licensePlate);
             if (results.IsValid == false)
             {
                 request._errors = _mapper.Map<List<GenericResponse>>(results.Errors);
             }
             else
             {
-                var temp2 = _mapper.Map<LicensePlateEntity>(request.licensePlate);
                 temp.LicensePlates.Add(temp2);
                 _vehicleRepo.UpdateEntity(temp);
                 _vehicleRepo.Save();
             }
-            return Task.FromResult(Unit.Value);
+            return Task.FromResult(_mapper.Map<LicensePlate>(temp2));
         }
     }
 }

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.mediator.commands
 {
-    public class AddLicensePlateToVehicleCommand : IRequest
+    public class AddLicensePlateToVehicleCommand : IRequest<LicensePlate>
     {
         public AddLicensePlateToVehicleCommand(int vehicleId, LicensePlate licensePlate)
         {

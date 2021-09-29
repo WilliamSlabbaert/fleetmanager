@@ -8,9 +8,10 @@ namespace BusinessLayer.models
 {
     public class LicensePlate
     {
-        public LicensePlate(string plate)
+        public LicensePlate(string plate, bool active = false)
         {
-            Plate = plate.ToUpper();
+            this.Plate = plate.ToUpper();
+            this.IsActive = active;
         }
 
         public int Id { get; set; }

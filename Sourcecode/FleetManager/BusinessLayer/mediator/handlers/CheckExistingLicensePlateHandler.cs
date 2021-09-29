@@ -24,12 +24,31 @@ namespace BusinessLayer.mediator.handlers
         }
         public Task<bool> Handle(CheckExistingLicensePlateQuery request, CancellationToken cancellationToken)
         {
-            var temp = _licensePlateRepo.GetAll(null).FirstOrDefault(s => s.Plate.Equals(request.licensePlate.Plate));
-            if(temp == null)
+            if(request.licensePlate.Id == 0)
             {
-                return Task.FromResult(true);
+                var temp = _licensePlateRepo.GetAll(null).FirstOrDefault(s => s.Plate == request.licensePlate.Plate);
+                if(temp == null)
+                {
+                    return Task.FromResult(true);
+                }
+                else
+                {
+                    return Task.FromResult(false);
+                }
             }
-            return Task.FromResult(false);
+            else
+            {
+                var temp = _licensePlateRepo.GetAll(null).Where(s=> s.Id != request.licensePlate.Id);
+                var temp2 = temp.FirstOrDefault(s => s.Plate == request.licensePlate.Plate);
+                if (temp2 == null)
+                {
+                    return Task.FromResult(true);
+                }
+                else
+                {
+                    return Task.FromResult(false);
+                }
+            }
         }
     }
 }
