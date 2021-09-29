@@ -44,7 +44,10 @@ namespace BusinessLayer.mediator.handlers
             {
                 if(request._licensePlate.IsActive == true)
                 {
-                    vehicle.LicensePlates.Select(s =>  { s.IsActive = false; return s; }); 
+                    foreach (var plate in vehicle.LicensePlates)
+                    {
+                        plate.IsActive = false;
+                    }
                 }
                 licenseplate.Plate = request._licensePlate.Plate;
                 licenseplate.IsActive = request._licensePlate.IsActive;

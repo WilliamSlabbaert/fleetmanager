@@ -42,6 +42,13 @@ namespace BusinessLayer.mediator.handlers
             }
             else
             {
+                if (temp2.IsActive == true)
+                {
+                    foreach(var plate in temp.LicensePlates)
+                    {
+                        plate.IsActive = false;
+                    }
+                }
                 temp.LicensePlates.Add(temp2);
                 _vehicleRepo.UpdateEntity(temp);
                 _vehicleRepo.Save();

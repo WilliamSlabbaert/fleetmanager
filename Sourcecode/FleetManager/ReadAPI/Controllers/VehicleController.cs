@@ -112,7 +112,7 @@ namespace ReadAPI.Controllers
         {
             try
             {
-                var plate = new LicensePlate("Test3",true);
+                var plate = new LicensePlate("Test6",true);
                 var command = new CheckExistingLicensePlateQuery(plate);
                 var vh = _mediator.Send(new GetVehicleByIdQuery(id));
                 if (vh.Result == null)
