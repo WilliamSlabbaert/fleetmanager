@@ -90,18 +90,32 @@ namespace BusinessLayer.managers
             return _mapper.Map<Chaffeur>(temp);
         }
 
-        public void UpdateChaffeur(Chaffeur ch)
+        public Chaffeur UpdateChaffeur(Chaffeur ch, int id)
         {
             var results = _validator.Validate(ch);
+            var temp = GetChaffeurEntity(id);
             if (results.IsValid == false)
             {
                 _errors = _mapper.Map<List<GenericResponse>>(results.Errors);
             }
             else
             {
-                _repo.UpdateEntity(_mapper.Map<ChaffeurEntity>(ch));
+                temp.FirstName = ch.FirstName;
+                temp.LastName = ch.LastName;
+
+                temp.IsActive = ch.IsActive;
+                temp.City = ch.City;
+
+                temp.Street = ch.Street;
+                temp.HouseNumber = ch.HouseNumber;
+
+                temp.DateOfBirth = ch.DateOfBirth;
+                temp.NationalInsurenceNumber = ch.NationalInsurenceNumber;
+
+                _repo.UpdateEntity(temp);
                 _repo.Save();
             }
+            return _mapper.Map<Chaffeur>(temp);
         }
         public void AddVehicleToChaffeur(int chaffeurNr, int vehicleNr)
         {

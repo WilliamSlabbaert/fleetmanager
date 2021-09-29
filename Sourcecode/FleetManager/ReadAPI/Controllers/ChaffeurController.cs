@@ -65,6 +65,37 @@ namespace ReadAPI.Controllers
                 return BadRequest(e);
             }
         }
+        [HttpPut("{id}")]
+        public ActionResult<Chaffeur> UpdateById(int id)
+        {
+            try
+            {
+                DateTime date = DateTime.Now;
+                var ch1 = new Chaffeur("testFirst", "testLast", "testCity", "testStreet", "132", date, "testNationalNr2", true) { Id = id};
+
+                var ch = _managerChaffeur.GetChaffeurById(id);
+                if (ch == null)
+                {
+                    return NotFound("This chaffeur doesn't exist");
+                }
+                else
+                {
+                    if (_managerChaffeur.checkExistingChaffeur(ch1))
+                    {
+                        var result = _managerChaffeur.UpdateChaffeur(ch1,id);
+                        return Ok(result);
+                    }
+                    else
+                    {
+                        return BadRequest("Chaffeur with same national insurence number already exists.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
         [HttpGet("{id}")]
         public ActionResult<Chaffeur> GetById(int id)
         {
@@ -116,6 +147,39 @@ namespace ReadAPI.Controllers
                 return BadRequest(ex);
             }
         }
-
+        [HttpGet("{id}/Requests")]
+        public ActionResult<List<Vehicle>> GetallRequestsById(int id)
+        {
+            try
+            {
+                var ch = _managerChaffeur.GetChaffeurById(id);
+                if (ch == null)
+                {
+                    return NotFound("This chaffeur doesn't exist");
+                }
+                return Ok(ch.Requests);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+        [HttpGet("{id}/Drivinglicenses")]
+        public ActionResult<List<Vehicle>> GetallDrivingLicensesById(int id)
+        {
+            try
+            {
+                var ch = _managerChaffeur.GetChaffeurById(id);
+                if (ch == null)
+                {
+                    return NotFound("This chaffeur doesn't exist");
+                }
+                return Ok(ch.DrivingLicenses);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
     }
 }
