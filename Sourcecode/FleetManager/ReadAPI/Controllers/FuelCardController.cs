@@ -38,17 +38,23 @@ namespace ReadAPI.Controllers
         [HttpPost("Fuelcard")]
         public ActionResult Add()
         {
-            //_fuelCardManager.AddFuelCard(new FuelCard("testNr","1234",true));
-            _fuelCardManager.AddFuelCardToChaffeur(1, 1);
-            if(_fuelCardManager._errors.Count != 0)
+            var temp = new FuelCard("testNr1", "1234", true);
+            if (_fuelCardManager.CheckExistingFuelCard(temp))
             {
-                return BadRequest(_fuelCardManager._errors);
+                var result = _fuelCardManager.AddFuelCard(temp);
+                if (_fuelCardManager._errors.Count != 0)
+                {
+                    return BadRequest(_fuelCardManager._errors);
+                }
+                else
+                {
+                    return Ok(result);
+                }
             }
             else
             {
-                return Ok(_fuelCardManager.GetAllFuelCards());
+                return BadRequest("Fuelcard already exists.");
             }
-
         }
         [HttpGet("Fuelcard/{id}")]
         public ActionResult<FuelCard> GetFuelCardByID(int id)

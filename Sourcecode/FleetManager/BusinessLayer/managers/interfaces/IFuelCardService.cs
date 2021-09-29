@@ -12,7 +12,8 @@ namespace BusinessLayer.managers.interfaces
     {
         public List<GenericResponse> _errors { get; set; }
         public FuelCard GetFuelCardById(int id);
-        public void AddFuelCard(FuelCard fc);
+        public FuelCard AddFuelCard(FuelCard fc);
+        public bool CheckExistingFuelCard(FuelCard fc);
         public void AddFuelCardToChaffeur(int fuelcardNr, int chaffeurNr);
         public void UpdateFuelCard(FuelCard fc);
         public List<FuelCard> GetAllFuelCards();

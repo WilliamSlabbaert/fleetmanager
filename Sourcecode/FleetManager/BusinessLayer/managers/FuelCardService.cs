@@ -32,17 +32,31 @@ namespace BusinessLayer.managers
             _errors = new List<GenericResponse>();
         }
 
-        public void AddFuelCard(FuelCard fc)
+        public FuelCard AddFuelCard(FuelCard fc)
         {
             var results = _validator.Validate(fc);
-            if(results.IsValid == false)
+            var temp = _mapper.Map<FuelCardEntity>(fc);
+            if (results.IsValid == false)
             {
                 _errors = _mapper.Map<List<GenericResponse>>(results.Errors);
             }
             else
             {
-                _repo.AddEntity(_mapper.Map<FuelCardEntity>(fc));
+                _repo.AddEntity(temp);
                 _repo.Save();
+            }
+            return _mapper.Map<FuelCard>(temp);
+        }
+        public bool CheckExistingFuelCard(FuelCard fc)
+        {
+            var temp = _repo.GetAll(null).FirstOrDefault(s => s.CardNumber == fc.CardNumber);
+            if(temp == null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
