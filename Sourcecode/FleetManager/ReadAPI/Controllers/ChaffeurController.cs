@@ -19,11 +19,13 @@ namespace ReadAPI.Controllers
         private readonly ILogger<ChaffeurController> _logger;
         private IChaffeurService _managerChaffeur;
         private IVehicleService _managerVehicle;
-        public ChaffeurController(ILogger<ChaffeurController> logger, IChaffeurService man, IVehicleService managerVehicle)
+        private IDrivingLicenseService _drivingLicenseManager;
+        public ChaffeurController(ILogger<ChaffeurController> logger, IChaffeurService man, IVehicleService managerVehicle, IDrivingLicenseService drivingLicenseManager)
         {
             _logger = logger;
             _managerChaffeur = man;
             _managerVehicle = managerVehicle;
+            _drivingLicenseManager = drivingLicenseManager;
         }
 
         [HttpGet]
@@ -239,6 +241,77 @@ namespace ReadAPI.Controllers
             catch (Exception ex)
             {
                 return BadRequest(ex);
+            }
+        }
+        [HttpPost("{id}/Drivinglicenses")]
+        public ActionResult AddDrivinglicense(int id)
+        {
+            try
+            {
+                var ch = _managerChaffeur.GetChaffeurById(id);
+                if (ch == null)
+                {
+                    return NotFound("This chaffeur doesn't exist");
+                }
+                else
+                {
+                    var license = new DrivingLicense(Overall.License.B);
+
+                    if (_drivingLicenseManager.CheckExistingDrivingLicense(1, license))
+                    {
+                        var result = _drivingLicenseManager.AddDrivingLicense(license, 1);
+                        if (_drivingLicenseManager._errors.Count != 0)
+                        {
+                            return BadRequest(_drivingLicenseManager._errors);
+                        }
+                        else
+                        {
+                            return Ok(result);
+                        }
+                    }
+                    else
+                    {
+                        return BadRequest("Chaffeur already has this driving license.");
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+        }
+        [HttpDelete("{id}/Drivinglicenses/{drivinglicenseId}")]
+        public ActionResult<FuelCard> DeleteFuelCardByID(int id,int drivinglicenseId)
+        {
+            try
+            {
+                var ch = _managerChaffeur.GetChaffeurById(id);
+                if (ch == null)
+                {
+                    return NotFound("This chaffeur doesn't exist");
+                }
+                else
+                {
+                    var license = _drivingLicenseManager.GetAllDrivingLicenseById(drivinglicenseId);
+                    if (license == null)
+                    {
+                        return NotFound("This drivinglicense doesn't exist.");
+                    }
+                    else
+                    {
+                        var temp = ch.DrivingLicenses.FirstOrDefault(s => s.Id == license.Id);
+                        if (temp == null)
+                        {
+                            return NotFound("This drivinglicense doesn't exist in chaffeurs list.");
+                        }
+                        var result = _drivingLicenseManager.DeleteDrivingLicense(drivinglicenseId,id);
+                        return Ok(result);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
             }
         }
     }

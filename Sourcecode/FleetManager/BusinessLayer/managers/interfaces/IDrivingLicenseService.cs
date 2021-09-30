@@ -11,8 +11,10 @@ namespace BusinessLayer.managers.interfaces
     public interface IDrivingLicenseService
     {
         public List<GenericResponse> _errors { get; set; }
-        public void AddDrivingLicense(DrivingLicense drivinglicense, int chaffeurid);
+        public DrivingLicense AddDrivingLicense(DrivingLicense drivinglicense, int chaffeurid);
         public List<DrivingLicense> GetAllDrivingLicenses();
+        public Chaffeur DeleteDrivingLicense(int drivinglicense, int chaffeurid);
         public DrivingLicense GetAllDrivingLicenseById(int id);
+        public bool CheckExistingDrivingLicense(int id, DrivingLicense license);
     }
 }

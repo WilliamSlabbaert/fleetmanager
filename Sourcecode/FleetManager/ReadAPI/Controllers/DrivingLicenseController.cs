@@ -51,27 +51,8 @@ namespace ReadAPI.Controllers
                 return BadRequest(ex);
             }
         }
-        [HttpPost("Drivinglicense")]
-        public ActionResult Add()
-        {
-            try
-            {
-                
-                _drivingLicenseManager.AddDrivingLicense(new DrivingLicense(Overall.License.A),1);
-                if (_drivingLicenseManager._errors.Count != 0)
-                {
-                    return BadRequest(_drivingLicenseManager._errors);
-                }
-                else
-                {
-                    return Ok(_drivingLicenseManager.GetAllDrivingLicenses());
-                }
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e);
-            }
-        }
+        
+        
         [HttpGet("Drivinglicense/{id}/Chaffeur")]
         public ActionResult<Chaffeur> GetFuelCardByIDChaffeur(int id)
         {

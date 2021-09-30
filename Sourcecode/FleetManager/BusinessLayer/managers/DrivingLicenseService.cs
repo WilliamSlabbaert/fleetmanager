@@ -29,21 +29,34 @@ namespace BusinessLayer.managers
             this._validator = validator;
             _errors = new List<GenericResponse>();
         }
-        public void AddDrivingLicense(DrivingLicense drivinglicense, int chaffeurid)
+        public DrivingLicense AddDrivingLicense(DrivingLicense drivinglicense, int chaffeurid)
         {
             var ch = GetChaffeurEntity(chaffeurid);
             var results = _validator.Validate(drivinglicense);
-            if(results.IsValid == false)
+            var dl = _mapper.Map<DrivingLicenseEntity>(drivinglicense);
+            if (results.IsValid == false)
             {
                 _errors = _mapper.Map<List<GenericResponse>>(results.Errors);
             }
             else
             {
-                var dl = _mapper.Map<DrivingLicenseEntity>(drivinglicense);
                 ch.DrivingLicenses.Add(dl);
                 _chrepo.UpdateEntity(ch);
                 _chrepo.Save();
             }
+            return _mapper.Map<DrivingLicense>(dl);
+        }
+        public Chaffeur DeleteDrivingLicense(int drivinglicense, int chaffeurid)
+        {
+            var temp = GetChaffeurEntity(chaffeurid);
+            var temp2 = temp.DrivingLicenses.FirstOrDefault(s=> s.Id == drivinglicense);
+            if(temp2  != null)
+            {
+                temp.DrivingLicenses.Remove(temp2);
+                _chrepo.UpdateEntity(temp);
+                _chrepo.Save();
+            }
+            return _mapper.Map<Chaffeur>(temp);
         }
         public List<DrivingLicense> GetAllDrivingLicenses()
         {
@@ -58,7 +71,7 @@ namespace BusinessLayer.managers
         }
         public ChaffeurEntity GetChaffeurEntity(int id)
         {
-            return _chrepo.GetById(
+            var temp = _chrepo.GetById(
             filter: x => x.Id == id
             , x => x.Include(s => s.ChaffeurFuelCards)
             .ThenInclude(s => s.FuelCard)
@@ -66,6 +79,13 @@ namespace BusinessLayer.managers
             .Include(s => s.Requests)
             .Include(s => s.ChaffeurVehicles)
             .ThenInclude(s => s.Vehicle));
+            return temp;
+
+        }
+        public bool CheckExistingDrivingLicense(int id, DrivingLicense license)
+        {
+            var temp = _mapper.Map<Chaffeur>(GetChaffeurEntity(id));
+            return temp.CheckDrivingLicense(license);
         }
     }
 }
