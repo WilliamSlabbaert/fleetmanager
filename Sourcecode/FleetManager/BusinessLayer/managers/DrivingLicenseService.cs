@@ -32,25 +32,28 @@ namespace BusinessLayer.managers
         public DrivingLicense AddDrivingLicense(DrivingLicense drivinglicense, int chaffeurid)
         {
             var ch = GetChaffeurEntity(chaffeurid);
-            var results = _validator.Validate(drivinglicense);
             var dl = _mapper.Map<DrivingLicenseEntity>(drivinglicense);
+
+            ch.DrivingLicenses.Add(dl);
+            _chrepo.UpdateEntity(ch);
+            _chrepo.Save();
+            return _mapper.Map<DrivingLicense>(dl);
+        }
+        public bool CheckValidationDrivingLicense(DrivingLicense drivinglicense)
+        {
+            var results = _validator.Validate(drivinglicense);
             if (results.IsValid == false)
             {
                 _errors = _mapper.Map<List<GenericResponse>>(results.Errors);
+                return false;
             }
-            else
-            {
-                ch.DrivingLicenses.Add(dl);
-                _chrepo.UpdateEntity(ch);
-                _chrepo.Save();
-            }
-            return _mapper.Map<DrivingLicense>(dl);
+            return true;
         }
         public Chaffeur DeleteDrivingLicense(int drivinglicense, int chaffeurid)
         {
             var temp = GetChaffeurEntity(chaffeurid);
-            var temp2 = temp.DrivingLicenses.FirstOrDefault(s=> s.Id == drivinglicense);
-            if(temp2  != null)
+            var temp2 = temp.DrivingLicenses.FirstOrDefault(s => s.Id == drivinglicense);
+            if (temp2 != null)
             {
                 temp.DrivingLicenses.Remove(temp2);
                 _chrepo.UpdateEntity(temp);

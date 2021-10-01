@@ -41,12 +41,12 @@ namespace ReadAPI.Controllers
                 return BadRequest(ex);
             }
         }
-        [HttpGet("{id}")]
-        public ActionResult<Chaffeur> GetById(int id)
+        [HttpGet("{chaffeurId}")]
+        public ActionResult<Chaffeur> GetById(int chaffeurId)
         {
             try
             {
-                var ch = _managerChaffeur.GetChaffeurById(id);
+                var ch = _managerChaffeur.GetChaffeurById(chaffeurId);
                 if (ch == null)
                 {
                     return NotFound("This chaffeur doesn't exist");
@@ -58,12 +58,12 @@ namespace ReadAPI.Controllers
                 return BadRequest(ex);
             }
         }
-        [HttpGet("{id}/Vehicles")]
-        public ActionResult<List<Vehicle>> GetallVehiclesById(int id)
+        [HttpGet("{chaffeurId}/Vehicles")]
+        public ActionResult<List<Vehicle>> GetallVehiclesById(int chaffeurId)
         {
             try
             {
-                var ch = _managerChaffeur.GetChaffeurById(id);
+                var ch = _managerChaffeur.GetChaffeurById(chaffeurId);
                 if (ch == null)
                 {
                     return NotFound("This chaffeur doesn't exist");
@@ -75,12 +75,12 @@ namespace ReadAPI.Controllers
                 return BadRequest(ex);
             }
         }
-        [HttpGet("{id}/Fuelcards")]
-        public ActionResult<List<Vehicle>> GetallFuelCardsById(int id)
+        [HttpGet("{chaffeurId}/Fuelcards")]
+        public ActionResult<List<Vehicle>> GetallFuelCardsById(int chaffeurId)
         {
             try
             {
-                var ch = _managerChaffeur.GetChaffeurById(id);
+                var ch = _managerChaffeur.GetChaffeurById(chaffeurId);
                 if (ch == null)
                 {
                     return NotFound("This chaffeur doesn't exist");
@@ -92,12 +92,12 @@ namespace ReadAPI.Controllers
                 return BadRequest(ex);
             }
         }
-        [HttpGet("{id}/Requests")]
-        public ActionResult<List<Vehicle>> GetallRequestsById(int id)
+        [HttpGet("{chaffeurId}/Requests")]
+        public ActionResult<List<Vehicle>> GetallRequestsById(int chaffeurId)
         {
             try
             {
-                var ch = _managerChaffeur.GetChaffeurById(id);
+                var ch = _managerChaffeur.GetChaffeurById(chaffeurId);
                 if (ch == null)
                 {
                     return NotFound("This chaffeur doesn't exist");
@@ -109,12 +109,12 @@ namespace ReadAPI.Controllers
                 return BadRequest(ex);
             }
         }
-        [HttpGet("{id}/Drivinglicenses")]
-        public ActionResult<List<Vehicle>> GetallDrivingLicensesById(int id)
+        [HttpGet("{chaffeurId}/Drivinglicenses")]
+        public ActionResult<List<Vehicle>> GetallDrivingLicensesById(int chaffeurId)
         {
             try
             {
-                var ch = _managerChaffeur.GetChaffeurById(id);
+                var ch = _managerChaffeur.GetChaffeurById(chaffeurId);
                 if (ch == null)
                 {
                     return NotFound("This chaffeur doesn't exist");
@@ -135,7 +135,7 @@ namespace ReadAPI.Controllers
             {
                 DateTime date = DateTime.Now;
                 var ch = new Chaffeur("testFirstazezae", "testLast", "testCity", "testStreet", "12", date, "testNationalNr3", true);
-                if (_managerChaffeur.CheckExistingChaffeur(ch,0))
+                if (_managerChaffeur.CheckExistingChaffeur(ch, 0))
                 {
                     if (_managerChaffeur.CheckValidationChaffeur(ch) == false)
                     {
@@ -151,18 +151,19 @@ namespace ReadAPI.Controllers
                 {
                     return BadRequest("Chaffeur with same national insurence number already exists.");
                 }
-                
-            }catch(Exception e)
+
+            }
+            catch (Exception e)
             {
                 return BadRequest(e);
             }
         }
-        [HttpPost("{id}/Vehicles/{vehicleId}")]
-        public ActionResult<Vehicle> AddVehicleToChaffeur(int id, int vehicleId)
+        [HttpPost("{chaffeurId}/Vehicles/{vehicleId}")]
+        public ActionResult<Vehicle> AddVehicleToChaffeur(int chaffeurId, int vehicleId)
         {
             try
             {
-                var ch = _managerChaffeur.GetChaffeurById(id);
+                var ch = _managerChaffeur.GetChaffeurById(chaffeurId);
                 if (ch == null)
                 {
                     return NotFound("This chaffeur doesn't exist");
@@ -176,7 +177,7 @@ namespace ReadAPI.Controllers
                     }
                     else
                     {
-                        var result = _managerChaffeur.AddVehicleToChaffeur(id, vehicleId);
+                        var result = _managerChaffeur.AddVehicleToChaffeur(chaffeurId, vehicleId);
                         return Ok(result);
                     }
                 }
@@ -186,12 +187,12 @@ namespace ReadAPI.Controllers
                 return BadRequest(ex);
             }
         }
-        [HttpPost("{id}/Drivinglicenses")]
-        public ActionResult AddDrivinglicense(int id)
+        [HttpPost("{chaffeurId}/Drivinglicenses")]
+        public ActionResult AddDrivinglicense(int chaffeurId)
         {
             try
             {
-                var ch = _managerChaffeur.GetChaffeurById(id);
+                var ch = _managerChaffeur.GetChaffeurById(chaffeurId);
                 if (ch == null)
                 {
                     return NotFound("This chaffeur doesn't exist");
@@ -199,22 +200,21 @@ namespace ReadAPI.Controllers
                 else
                 {
                     var license = new DrivingLicense(Overall.License.B);
-
-                    if (_drivingLicenseManager.CheckExistingDrivingLicense(1, license))
+                    if (_drivingLicenseManager.CheckValidationDrivingLicense(license) == false)
                     {
-                        var result = _drivingLicenseManager.AddDrivingLicense(license, 1);
-                        if (_drivingLicenseManager._errors.Count != 0)
-                        {
-                            return BadRequest(_drivingLicenseManager._errors);
-                        }
-                        else
-                        {
-                            return Ok(result);
-                        }
+                        return BadRequest(_drivingLicenseManager._errors);
                     }
                     else
                     {
-                        return BadRequest("Chaffeur already has this driving license.");
+                        if (_drivingLicenseManager.CheckExistingDrivingLicense(chaffeurId, license))
+                        {
+                            var result = _drivingLicenseManager.AddDrivingLicense(license, chaffeurId);
+                            return Ok(result);
+                        }
+                        else
+                        {
+                            return BadRequest("Chaffeur already has this driving license.");
+                        }
                     }
                 }
             }
@@ -225,22 +225,22 @@ namespace ReadAPI.Controllers
         }
 
         // -------PUT-------
-        [HttpPut("{id}")]
-        public ActionResult<Chaffeur> UpdateById(int id)
+        [HttpPut("{chaffeurId}")]
+        public ActionResult<Chaffeur> UpdateById(int chaffeurId)
         {
             try
             {
                 DateTime date = DateTime.Now;
-                var ch1 = new Chaffeur("William", "Slabbaert", "testCity", "testStreet", "132", date, "testNationalNr77", false) ;
+                var ch1 = new Chaffeur("William", "Slabbaert", "testCity", "testStreet", "132", date, "testNationalNr77", false);
 
-                var ch = _managerChaffeur.GetChaffeurById(id);
+                var ch = _managerChaffeur.GetChaffeurById(chaffeurId);
                 if (ch == null)
                 {
                     return NotFound("This chaffeur doesn't exist");
                 }
                 else
                 {
-                    if (_managerChaffeur.CheckExistingChaffeur(ch1,id))
+                    if (_managerChaffeur.CheckExistingChaffeur(ch1, chaffeurId))
                     {
                         if (_managerChaffeur.CheckValidationChaffeur(ch) == false)
                         {
@@ -248,7 +248,7 @@ namespace ReadAPI.Controllers
                         }
                         else
                         {
-                            var result = _managerChaffeur.UpdateChaffeur(ch1, id);
+                            var result = _managerChaffeur.UpdateChaffeur(ch1, chaffeurId);
                             return Ok(result);
                         }
                     }
@@ -263,13 +263,13 @@ namespace ReadAPI.Controllers
                 return BadRequest(ex);
             }
         }
-        
-        [HttpPut("{id}/Vehicles/{vehicleId}")]
-        public ActionResult<Vehicle> UpdateVehicleToChaffeur(int id, int vehicleId)
+
+        [HttpPut("{chaffeurId}/Vehicles/{vehicleId}")]
+        public ActionResult<Vehicle> UpdateVehicleToChaffeur(int chaffeurId, int vehicleId)
         {
             try
             {
-                var ch = _managerChaffeur.GetChaffeurById(id);
+                var ch = _managerChaffeur.GetChaffeurById(chaffeurId);
                 if (ch == null)
                 {
                     return NotFound("This chaffeur doesn't exist");
@@ -283,7 +283,7 @@ namespace ReadAPI.Controllers
                     }
                     else
                     {
-                        var result = _managerChaffeur.UpdateVehicleToChaffeur(id, vehicleId,true);
+                        var result = _managerChaffeur.UpdateVehicleToChaffeur(chaffeurId, vehicleId, true);
                         return Ok(result);
                     }
                 }
@@ -293,15 +293,15 @@ namespace ReadAPI.Controllers
                 return BadRequest(ex);
             }
         }
-        
+
         // ------DELETE-------
-        
-        [HttpDelete("{id}/Drivinglicenses/{drivinglicenseId}")]
-        public ActionResult<FuelCard> DeleteFuelCardByID(int id,int drivinglicenseId)
+
+        [HttpDelete("{chaffeurId}/Drivinglicenses/{drivinglicenseId}")]
+        public ActionResult<FuelCard> DeleteFuelCardByID(int chaffeurId, int drivinglicenseId)
         {
             try
             {
-                var ch = _managerChaffeur.GetChaffeurById(id);
+                var ch = _managerChaffeur.GetChaffeurById(chaffeurId);
                 if (ch == null)
                 {
                     return NotFound("This chaffeur doesn't exist");
@@ -320,7 +320,7 @@ namespace ReadAPI.Controllers
                         {
                             return NotFound("This drivinglicense doesn't exist in chaffeurs list.");
                         }
-                        var result = _drivingLicenseManager.DeleteDrivingLicense(drivinglicenseId,id);
+                        var result = _drivingLicenseManager.DeleteDrivingLicense(drivinglicenseId, chaffeurId);
                         return Ok(result);
                     }
                 }

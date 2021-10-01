@@ -26,7 +26,6 @@ namespace ReadAPI.Controllers
         {
             try
             {
-                //_drivingLicenseManager.AddDrivingLicense(new DrivingLicense(Overall.License.A),1);
                 return Ok(_drivingLicenseManager.GetAllDrivingLicenses());
             }
             catch(Exception e)

@@ -14,6 +14,7 @@ namespace BusinessLayer.managers.interfaces
         public DrivingLicense AddDrivingLicense(DrivingLicense drivinglicense, int chaffeurid);
         public List<DrivingLicense> GetAllDrivingLicenses();
         public Chaffeur DeleteDrivingLicense(int drivinglicense, int chaffeurid);
+        public bool CheckValidationDrivingLicense(DrivingLicense drivinglicense);
         public DrivingLicense GetAllDrivingLicenseById(int id);
         public bool CheckExistingDrivingLicense(int id, DrivingLicense license);
     }
