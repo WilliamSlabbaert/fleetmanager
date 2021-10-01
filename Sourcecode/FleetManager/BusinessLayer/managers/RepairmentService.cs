@@ -29,9 +29,10 @@ namespace BusinessLayer.managers
             this._validator = validator;
             this._errors = new List<GenericResponse>();
         }
-        public void AddRepairment(Repairment repairment, int requestId)
+        public Repairment AddRepairment(Repairment repairment, int requestId)
         {
             var rq = GetRequestEntity(requestId);
+            var rm = _mapper.Map<RepairmentEntity>(repairment);
             var results = _validator.Validate(repairment);
             if(results.IsValid == false)
             {
@@ -39,13 +40,34 @@ namespace BusinessLayer.managers
             }
             else
             {
-                var rm = _mapper.Map<RepairmentEntity>(repairment);
                 rq.Repairment.Add(rm);
                 _rqrepo.UpdateEntity(rq);
                 _repo.Save();
             }
-
+            return _mapper.Map<Repairment>(rm);
         }
+        public Repairment UpdateRepairment(Repairment repairment, int requestId, int repairmentId)
+        {
+            var rq = GetRequestEntity(requestId);
+            var rm = GetRepairmentEntityById(repairmentId);
+            var results = _validator.Validate(repairment);
+            if (results.IsValid == false)
+            {
+                _errors = _mapper.Map<List<GenericResponse>>(results.Errors);
+            }
+            else
+            {
+                rm.Request = rq;
+                rm.RequestId = rq.Id;
+                rm.Date = repairment.Date;
+                rm.Company = repairment.Company;
+                rm.Description = repairment.Description;
+                _repo.UpdateEntity(rm);
+                _repo.Save();
+            }
+            return _mapper.Map<Repairment>(rm);
+        }
+
 
         public List<Repairment> GetAllRepairments()
         {
@@ -57,6 +79,12 @@ namespace BusinessLayer.managers
             return _mapper.Map<Repairment>(_repo.GetById(
                 filter: x => x.Id == id,
                 x => x.Include(s => s.Request)));
+        }
+        public RepairmentEntity GetRepairmentEntityById(int id)
+        {
+            return _repo.GetById(
+                filter: x => x.Id == id,
+                x => x.Include(s => s.Request));
         }
 
         public RequestEntity GetRequestEntity(int id)
