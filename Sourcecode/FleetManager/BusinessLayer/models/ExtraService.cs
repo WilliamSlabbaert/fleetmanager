@@ -9,6 +9,11 @@ namespace BusinessLayer.models
 {
     public class ExtraService
     {
+        public ExtraService(ExtraServices service)
+        {
+            Service = service;
+        }
+
         public int Id { get; set; }
         public ExtraServices Service { get; set; }
         public int FuelCardId { get; set; }

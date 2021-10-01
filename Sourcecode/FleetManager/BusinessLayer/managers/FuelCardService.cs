@@ -21,9 +21,10 @@ namespace BusinessLayer.managers
         private readonly IMapper _mapper;
         private readonly IValidator<FuelCard> _validator;
         private readonly IValidator<FuelType> _validatorft;
+        private readonly IValidator<ExtraService> _validatores;
         private readonly IValidator<FuelCardChaffeur> _validatorfcch;
         public List<GenericResponse> _errors { get; set; }
-        public FuelCardService(IGenericRepo<FuelCardEntity> repo, IMapper mapper, IGenericRepo<ChaffeurEntity> chrepo, IValidator<FuelCard> _validator, IValidator<FuelCardChaffeur> validatorfcch,IValidator<FuelType> ft)
+        public FuelCardService(IGenericRepo<FuelCardEntity> repo, IMapper mapper, IGenericRepo<ChaffeurEntity> chrepo, IValidator<FuelCard> _validator, IValidator<FuelCardChaffeur> validatorfcch,IValidator<FuelType> ft, IValidator<ExtraService> validatores)
         {
             this._repo = repo;
             this._mapper = mapper;
@@ -31,6 +32,7 @@ namespace BusinessLayer.managers
             this._validator = _validator;
             this._validatorfcch = validatorfcch;
             this._validatorft = ft;
+            this._validatores = validatores;
             _errors = new List<GenericResponse>();
         }
 
@@ -89,6 +91,23 @@ namespace BusinessLayer.managers
 
             return _mapper.Map<FuelCard>(result);
         }
+        public FuelCard AddService(ExtraService extraService, int fuelcardId)
+        {
+            var result = _validatores.Validate(extraService);
+            var fc = GetFuelCardEntity(fuelcardId);
+            var extraS = _mapper.Map<ExtraServiceEntity>(extraService);
+            if (result.IsValid == false)
+            {
+                _errors = _mapper.Map<List<GenericResponse>>(result.Errors);
+            }
+            else
+            {
+                fc.Services.Add(extraS);
+                _repo.UpdateEntity(fc);
+                _repo.Save();
+            }
+            return _mapper.Map<FuelCard>(fc);
+        }
 
         public void AddFuelCardToChaffeur(int fuelcardNr, int chaffeurNr)
         {
@@ -113,6 +132,18 @@ namespace BusinessLayer.managers
             {
                 throw new Exception("Fuelcard already in chaffeur list.");
             }
+        }
+        public FuelCard DeleteService(int id,int fuelcardId)
+        {
+            var temp = GetFuelCardEntity(fuelcardId);
+            var obj = temp.Services.FirstOrDefault(s => s.Id == id);
+
+            temp.Services.Remove(obj);
+            _repo.UpdateEntity(temp);
+            _repo.Save();
+
+            return _mapper.Map<FuelCard>(temp);
+
         }
         public List<FuelCard> GetAllFuelCards()
         {

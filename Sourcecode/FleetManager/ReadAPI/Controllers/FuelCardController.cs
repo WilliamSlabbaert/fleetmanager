@@ -173,5 +173,63 @@ namespace ReadAPI.Controllers
                 return BadRequest(ex);
             }
         }
+        [HttpPost("Fuelcard/{id}/Services")]
+        public ActionResult<FuelCard> AddService(int id)
+        {
+            try
+            {
+                var vh = _fuelCardManager.GetFuelCardById(id);
+                var ser = new ExtraService(Overall.ExtraServices.DiscountCarwash); 
+                if (vh == null)
+                {
+                    return NotFound("This fuelcard doesn't exist");
+                }
+                else
+                {
+                    if (vh.CheckExistingSerives(ser))
+                    {
+                        var temp = _fuelCardManager.AddService(ser, id);
+                        return Ok(temp);
+                    }
+                    else
+                    {
+                        return BadRequest("Service already exists in fuelcards list.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+        [HttpDelete("Fuelcard/{id}/Services/{service}")]
+        public ActionResult<FuelCard> DeleteService(int id,int service)
+        {
+            try
+            {
+                var vh = _fuelCardManager.GetFuelCardById(id);
+                if (vh == null)
+                {
+                    return NotFound("This fuelcard doesn't exist");
+                }
+                else
+                {
+                    var temp = vh.Services.FirstOrDefault(s => s.Id == service);
+                    if (temp != null)
+                    {
+                        var result = _fuelCardManager.DeleteService(service,id);
+                        return Ok(result);
+                    }
+                    else
+                    {
+                        return BadRequest("Service doesn't exist in fuelcards list.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
     }
 }

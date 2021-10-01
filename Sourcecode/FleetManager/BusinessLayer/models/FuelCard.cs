@@ -36,6 +36,15 @@ namespace BusinessLayer.models
             }
             return false;
         }
+        public bool CheckExistingSerives(ExtraService service)
+        {
+            var result = Services.FirstOrDefault(s=> s.Service == service.Service);
+            if (result == null)
+            {
+                return true;
+            }
+            return false;
+        }
 
         public int Id { get; set; }
         public string CardNumber { get; set; }
