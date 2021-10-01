@@ -36,25 +36,18 @@ namespace BusinessLayer.managers
 
         public Chaffeur AddChaffeur(Chaffeur ch)
         {
-            var results = _validator.Validate(ch);
             var temp = _mapper.Map<ChaffeurEntity>(ch);
-            if (results.IsValid == false)
-            {
-                _errors = _mapper.Map<List<GenericResponse>>(results.Errors);
-            }
-            else
-            {
-                _repo.AddEntity(temp);
-                _repo.Save();
-            }
+            _repo.AddEntity(temp);
+            _repo.Save();
             return _mapper.Map<Chaffeur>(temp);
         }
-        public bool checkExistingChaffeur(Chaffeur ch)
+        public bool CheckExistingChaffeur(Chaffeur ch,int id)
         {
-            if(ch.Id != 0){
-                var temp = _repo.GetAll(null).Where(s => s.Id != ch.Id);
+            if (id != 0)
+            {
+                var temp = _repo.GetAll(null).Where(s => s.Id != id);
                 var result = temp.FirstOrDefault(s => s.NationalInsurenceNumber == ch.NationalInsurenceNumber);
-                if(result == null)
+                if (result == null)
                 {
                     return true;
                 }
@@ -92,29 +85,22 @@ namespace BusinessLayer.managers
 
         public Chaffeur UpdateChaffeur(Chaffeur ch, int id)
         {
-            var results = _validator.Validate(ch);
             var temp = GetChaffeurEntity(id);
-            if (results.IsValid == false)
-            {
-                _errors = _mapper.Map<List<GenericResponse>>(results.Errors);
-            }
-            else
-            {
-                temp.FirstName = ch.FirstName;
-                temp.LastName = ch.LastName;
 
-                temp.IsActive = ch.IsActive;
-                temp.City = ch.City;
+            temp.FirstName = ch.FirstName;
+            temp.LastName = ch.LastName;
 
-                temp.Street = ch.Street;
-                temp.HouseNumber = ch.HouseNumber;
+            temp.IsActive = ch.IsActive;
+            temp.City = ch.City;
 
-                temp.DateOfBirth = ch.DateOfBirth;
-                temp.NationalInsurenceNumber = ch.NationalInsurenceNumber;
+            temp.Street = ch.Street;
+            temp.HouseNumber = ch.HouseNumber;
 
-                _repo.UpdateEntity(temp);
-                _repo.Save();
-            }
+            temp.DateOfBirth = ch.DateOfBirth;
+            temp.NationalInsurenceNumber = ch.NationalInsurenceNumber;
+
+            _repo.UpdateEntity(temp);
+            _repo.Save();
             return _mapper.Map<Chaffeur>(temp);
         }
         public Chaffeur AddVehicleToChaffeur(int chaffeurNr, int vehicleNr)
@@ -148,6 +134,16 @@ namespace BusinessLayer.managers
             }
             return _mapper.Map<Chaffeur>(ch);
         }
+        public bool CheckValidationChaffeur(Chaffeur chaffeur)
+        {
+            var results = _validator.Validate(chaffeur);
+            if (results.IsValid == false)
+            {
+                _errors = _mapper.Map<List<GenericResponse>>(results.Errors);
+                return false;
+            }
+            return true;
+        }
         public Chaffeur UpdateVehicleToChaffeur(int chaffeurNr, int vehicleNr, bool active)
         {
             VehicleEntity vh = GetVehicleEntity(vehicleNr);
@@ -157,7 +153,7 @@ namespace BusinessLayer.managers
             if (chmodel.CheckVehicle(vh.Id) == false)
             {
                 var temp = ch.ChaffeurVehicles.FirstOrDefault(s => s.Vehicle.Id == vehicleNr);
-                if(active == true)
+                if (active == true)
                 {
                     foreach (var chvh in ch.ChaffeurVehicles)
                     {

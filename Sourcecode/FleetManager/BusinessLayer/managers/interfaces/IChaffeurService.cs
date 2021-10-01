@@ -15,7 +15,8 @@ namespace BusinessLayer.managers.interfaces
         public Chaffeur GetChaffeurById(int id);
         public Chaffeur AddChaffeur(Chaffeur ch);
         public Chaffeur UpdateVehicleToChaffeur(int chaffeurNr, int vehicleNr, bool active);
-        public bool checkExistingChaffeur(Chaffeur ch);
+        public bool CheckValidationChaffeur(Chaffeur chaffeur);
+        public bool CheckExistingChaffeur(Chaffeur ch, int id);
         public Chaffeur UpdateChaffeur(Chaffeur ch, int id);
         public Chaffeur AddVehicleToChaffeur(int chaffeurNr, int vehicleNr);
         public List<Chaffeur> GetAllChaffeurs();

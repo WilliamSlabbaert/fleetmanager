@@ -119,7 +119,6 @@ namespace ReadAPI.Controllers
                         }
                     }
                 }
-                return Ok(vh.Request);
             }
             catch (Exception ex)
             {
