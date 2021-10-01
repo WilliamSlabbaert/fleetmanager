@@ -27,6 +27,15 @@ namespace BusinessLayer.models
             Services = new List<ExtraService>();
             ChaffeurFuelCards = new List<FuelCardChaffeur>();
         }
+        public bool CheckExistingFuelType(FuelType fuelType)
+        {
+            var result = FuelType.FirstOrDefault(s => s.Fuel == fuelType.Fuel);
+            if(result == null)
+            {
+                return true;
+            }
+            return false;
+        }
 
         public int Id { get; set; }
         public string CardNumber { get; set; }

@@ -90,5 +90,88 @@ namespace ReadAPI.Controllers
                 return BadRequest(ex);
             }
         }
+        [HttpGet("Fuelcard/{id}/Fueltypes")]
+        public ActionResult<List<FuelType>> GetFuelCardFuelsByID(int id)
+        {
+            try
+            {
+                var vh = _fuelCardManager.GetFuelCardById(id);
+                if (vh == null)
+                {
+                    return NotFound("This fuelcard doesn't exist");
+                }
+                return Ok(vh.FuelType);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+        [HttpPost("Fuelcard/{id}/Fueltypes")]
+        public ActionResult<FuelCard> AddFuelsTpFuelcardByID(int id)
+        {
+            try
+            {
+                var vh = _fuelCardManager.GetFuelCardById(id);
+                if (vh == null)
+                {
+                    return NotFound("This fuelcard doesn't exist");
+                }
+                else
+                {
+                    var fueltype = new FuelType(Overall.FuelTypes.Diesel);
+                    var check = vh.CheckExistingFuelType(fueltype);
+                    if (check)
+                    {
+                        var fuelcard = _fuelCardManager.AddFuelType(id,fueltype);
+                        if (_fuelCardManager._errors.Count != 0)
+                        {
+                            return BadRequest(_fuelCardManager._errors);
+                        }
+                        else
+                        {
+                            return Ok(fuelcard);
+                        }
+                    }
+                    else
+                    {
+                        return BadRequest("This fueltype already exists in fuelcards list.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+        [HttpDelete("Fuelcard/{id}/Fueltypes/{fuelId}")]
+        public ActionResult<FuelCard> DeleteFuelFromFuelcardByID(int id,int fuelId)
+        {
+            try
+            {
+                var vh = _fuelCardManager.GetFuelCardById(id);
+                if (vh == null)
+                {
+                    return NotFound("This fuelcard doesn't exist");
+                }
+                else
+                {
+                    var fl = vh.FuelType.FirstOrDefault(s => s.Id == fuelId);
+                    if(fl == null)
+                    {
+                        return NotFound("This fueltype doesn't exist in this fuelcards list.");
+                    }
+                    else
+                    {
+                        var temp = _fuelCardManager.DeleteFuelType(id,fuelId);
+                        return Ok(temp);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
     }
 }

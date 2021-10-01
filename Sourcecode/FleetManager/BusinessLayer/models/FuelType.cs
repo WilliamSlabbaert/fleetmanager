@@ -9,6 +9,11 @@ namespace BusinessLayer.models
 {
     public class FuelType
     {
+        public FuelType(FuelTypes fuel)
+        {
+            Fuel = fuel;
+        }
+
         public int Id { get; set; }
         public FuelTypes Fuel { get; set; }
         public int FuelCardId { get; set; }

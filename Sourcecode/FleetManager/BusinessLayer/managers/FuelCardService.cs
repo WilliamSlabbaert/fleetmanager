@@ -20,15 +20,17 @@ namespace BusinessLayer.managers
         private readonly IGenericRepo<ChaffeurEntity> _chrepo;
         private readonly IMapper _mapper;
         private readonly IValidator<FuelCard> _validator;
+        private readonly IValidator<FuelType> _validatorft;
         private readonly IValidator<FuelCardChaffeur> _validatorfcch;
         public List<GenericResponse> _errors { get; set; }
-        public FuelCardService(IGenericRepo<FuelCardEntity> repo, IMapper mapper, IGenericRepo<ChaffeurEntity> chrepo, IValidator<FuelCard> _validator, IValidator<FuelCardChaffeur> validatorfcch)
+        public FuelCardService(IGenericRepo<FuelCardEntity> repo, IMapper mapper, IGenericRepo<ChaffeurEntity> chrepo, IValidator<FuelCard> _validator, IValidator<FuelCardChaffeur> validatorfcch,IValidator<FuelType> ft)
         {
             this._repo = repo;
             this._mapper = mapper;
             this._chrepo = chrepo;
             this._validator = _validator;
             this._validatorfcch = validatorfcch;
+            this._validatorft = ft;
             _errors = new List<GenericResponse>();
         }
 
@@ -47,6 +49,22 @@ namespace BusinessLayer.managers
             }
             return _mapper.Map<FuelCard>(temp);
         }
+        public FuelCard AddFuelType(int fuelcardId, FuelType type)
+        {
+            var result = _validatorft.Validate(type);
+            var fc = GetFuelCardEntity(fuelcardId);
+            if(result.IsValid == false)
+            {
+                _errors = _mapper.Map<List<GenericResponse>>(result.Errors);
+            }
+            else
+            {
+                fc.FuelType.Add(_mapper.Map<FuelEntity>(type));
+                _repo.UpdateEntity(fc);
+                _repo.Save();
+            }
+            return _mapper.Map<FuelCard>(fc);
+        }
         public bool CheckExistingFuelCard(FuelCard fc)
         {
             var temp = _repo.GetAll(null).FirstOrDefault(s => s.CardNumber == fc.CardNumber);
@@ -58,6 +76,18 @@ namespace BusinessLayer.managers
             {
                 return false;
             }
+        }
+        public FuelCard DeleteFuelType(int id, int fuelid)
+        {
+            var result = GetFuelCardEntity(id);
+
+            var dl = result.FuelType.FirstOrDefault(s => s.Id == fuelid);
+            result.FuelType.Remove(dl);
+
+            _repo.UpdateEntity(result);
+            _repo.Save();
+
+            return _mapper.Map<FuelCard>(result);
         }
 
         public void AddFuelCardToChaffeur(int fuelcardNr, int chaffeurNr)

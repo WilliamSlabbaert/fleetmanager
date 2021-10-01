@@ -14,6 +14,8 @@ namespace BusinessLayer.managers.interfaces
         public FuelCard GetFuelCardById(int id);
         public FuelCard AddFuelCard(FuelCard fc);
         public bool CheckExistingFuelCard(FuelCard fc);
+        public FuelCard AddFuelType(int fuelcardId, FuelType type);
+        public FuelCard DeleteFuelType(int id, int fuelid);
         public void AddFuelCardToChaffeur(int fuelcardNr, int chaffeurNr);
         public void UpdateFuelCard(FuelCard fc);
         public List<FuelCard> GetAllFuelCards();
