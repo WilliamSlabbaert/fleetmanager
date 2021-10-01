@@ -29,22 +29,40 @@ namespace BusinessLayer.managers
             this._validator = validator;
             this._errors = new List<GenericResponse>();
         }
-        public void AddMaintenance(Maintenance Maintenance, int requestId)
+        public Maintenance AddMaintenance(Maintenance maintenance, int requestId)
         {
             var rq = GetRequestEntity(requestId);
-            var results = _validator.Validate(Maintenance);
+
+            var rm = _mapper.Map<MaintenanceEntity>(maintenance);
+            rq.Maintenance.Add(rm);
+            _rqrepo.UpdateEntity(rq);
+            _repo.Save();
+            return _mapper.Map<Maintenance>(rm);
+        }
+        public bool ValidateMaintance(Maintenance maintenance)
+        {
+            var results = _validator.Validate(maintenance);
             if (results.IsValid == false)
             {
                 _errors = _mapper.Map<List<GenericResponse>>(results.Errors);
+                return false;
             }
-            else
-            {
-                var rm = _mapper.Map<MaintenanceEntity>(Maintenance);
-                rq.Maintenance.Add(rm);
-                _rqrepo.UpdateEntity(rq);
-                _repo.Save();
-            }
+            return true;
+        }
+        public Maintenance UpdateMaintenance(Maintenance maintenance, int requestId, int maintenanceId)
+        {
+            var request = GetRequestEntity(requestId);
+            var EditMaintenance = GetMaintenanceEntityById(maintenanceId);
+            EditMaintenance.Request = request;
+            EditMaintenance.RequestId = request.Id;
+            EditMaintenance.Price = maintenance.Price;
+            EditMaintenance.Date = maintenance.Date;
+            EditMaintenance.Garage = maintenance.Garage;
 
+            _repo.UpdateEntity(EditMaintenance);
+            _repo.Save();
+
+            return _mapper.Map<Maintenance>(EditMaintenance);
         }
 
         public List<Maintenance> GetAllMaintenances()
@@ -58,20 +76,18 @@ namespace BusinessLayer.managers
                 filter: x => x.Id == id,
                 x => x.Include(s => s.Request)));
         }
+        public MaintenanceEntity GetMaintenanceEntityById(int id)
+        {
+            return _repo.GetById(
+                filter: x => x.Id == id,
+                x => x.Include(s => s.Request));
+        }
 
         public RequestEntity GetRequestEntity(int id)
         {
-            try
-            {
-                return _rqrepo.GetById(
-                filter: x => x.Id == id,
-                x => x.Include(x => x.Maintenance));
-            }
-            catch
-            {
-                throw new Exception("Request is null.");
-            }
-
+            return _rqrepo.GetById(
+            filter: x => x.Id == id,
+            x => x.Include(x => x.Maintenance));
         }
     }
 }

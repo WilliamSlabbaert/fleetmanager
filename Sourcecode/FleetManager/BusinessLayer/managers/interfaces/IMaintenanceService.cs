@@ -11,8 +11,10 @@ namespace BusinessLayer.managers.interfaces
     public interface IMaintenanceService
     {
         public List<GenericResponse> _errors { get; set; }
-        public void AddMaintenance(Maintenance Maintenance, int requestId);
+        public Maintenance AddMaintenance(Maintenance Maintenance, int requestId);
+        public Maintenance UpdateMaintenance(Maintenance maintenance, int requestId, int maintenanceId);
         public List<Maintenance> GetAllMaintenances();
+        public bool ValidateMaintance(Maintenance maintenance);
         public Maintenance GetMaintenanceById(int id);
     }
 }
