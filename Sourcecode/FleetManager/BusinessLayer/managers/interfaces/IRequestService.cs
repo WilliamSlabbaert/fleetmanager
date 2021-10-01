@@ -11,7 +11,8 @@ namespace BusinessLayer.managers.interfaces
     public interface IRequestService
     {
         public List<GenericResponse> _errors { get; set; }
-        public void AddRequest(Request request, int chaffeurId, int vehicleId);
+        public Request AddRequest(Request request, int chaffeurId, int vehicleId);
+        public Request UpdateRequest(Request request, int vehicleid, int chaffeurid, int id);
         public Request GetRequestById(int id);
         public List<Request> GetAllRequests();
     }

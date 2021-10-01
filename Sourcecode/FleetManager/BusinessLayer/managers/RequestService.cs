@@ -31,61 +31,121 @@ namespace BusinessLayer.managers
             this._validator = validator;
             _errors = new List<GenericResponse>();
         }
-        public void AddRequest(Request request, int chaffeurId, int vehicleId)
+        public Request AddRequest(Request request, int chaffeurId, int vehicleId)
         {
             ChaffeurEntity ch = GetChaffeurEntity(chaffeurId);
             VehicleEntity vh = GetVehicleEntity(vehicleId);
             var results = _validator.Validate(request);
+            var rq = _mapper.Map<RequestEntity>(request);
+            var temp = ch.ChaffeurVehicles.FirstOrDefault(s=> s.VehicleId == vehicleId);
 
-            if(results.IsValid == false)
+            if(temp != null)
             {
-                _errors = _mapper.Map<List<GenericResponse>>(results.Errors);
+                if (results.IsValid == false)
+                {
+                    _errors = _mapper.Map<List<GenericResponse>>(results.Errors);
+                }
+                else
+                {
+                    rq.Chaffeur = ch;
+                    rq.ChaffeurId = ch.Id;
+                    rq.Vehicle = vh;
+                    rq.VehicleId = vh.Id;
+
+                    _repo.AddEntity(rq);
+                    _repo.Save();
+                }
             }
             else
             {
-                var rq = _mapper.Map<RequestEntity>(request);
-                rq.Chaffeur = ch;
-                rq.ChaffeurId = ch.Id;
-                rq.Vehicle = vh;
-                rq.VehicleId = vh.Id;
-
-                _repo.AddEntity(rq);
-                _repo.Save();
+                throw new Exception("Vehicle doesn't exist in chaffeurs list.");
             }
+            return _mapper.Map<Request>(rq);
         }
         public List<Request> GetAllRequests()
         {
-            return _mapper.Map<List<Request>>(_repo.GetAll(
+            var temp = _mapper.Map<List<Request>>(_repo.GetAll(
                 x => x.Include(s => s.Chaffeur)
                 .Include(s => s.Maintenance)
                 .Include(s => s.Repairment)
                 .Include(s => s.Vehicle)));
+            return temp;
         }
         public Request GetRequestById(int id)
         {
-            return _mapper.Map<Request>(_repo.GetById(
+            var temp = _mapper.Map<Request>(_repo.GetById(
                 filter: x => x.Id == id,
                 x => x.Include(s => s.Chaffeur)
                 .Include(s => s.Maintenance)
                 .Include(s => s.Repairment)
                 .Include(s => s.Vehicle)));
+            return temp;
         }
 
         public VehicleEntity GetVehicleEntity(int id)
         {
-            return _vhrepo.GetById(
-            filter: f => f.Id == id,
-            x => x.Include(s => s.Requests)
-            .Include(s => s.ChaffeurVehicles)
-            .ThenInclude(s => s.Chaffeur));
+            var temp = _vhrepo.GetById(
+           filter: f => f.Id == id,
+           x => x.Include(s => s.Requests)
+           .Include(s => s.ChaffeurVehicles)
+           .ThenInclude(s => s.Chaffeur));
+            return temp;
         }
         public ChaffeurEntity GetChaffeurEntity(int id)
         {
-            return _chrepo.GetById(
+            var temp = _chrepo.GetById(
             filter: f => f.Id == id,
             x => x.Include(s => s.Requests)
             .Include(s => s.ChaffeurVehicles)
             .ThenInclude(s => s.Vehicle));
+            return temp;
+        }
+        public Request UpdateRequest(Request request,int vehicleid,int chaffeurid, int id)
+        {
+            var ch = GetChaffeurEntity(chaffeurid);
+            var vh = GetVehicleEntity(vehicleid);
+
+            var rq = GetRequestEntityById(id);
+
+            var result = _validator.Validate(request);
+            var temp = ch.ChaffeurVehicles.FirstOrDefault(s => s.VehicleId == vehicleid);
+
+            if (temp != null)
+            {
+                if (result.IsValid == false)
+                {
+                    _errors = _mapper.Map<List<GenericResponse>>(result.Errors);
+                }
+                else
+                {
+                    var rq2 = _mapper.Map<RequestEntity>(request);
+                    rq.Chaffeur = ch;
+                    rq.ChaffeurId = ch.Id;
+                    rq.Vehicle = vh;
+                    rq.VehicleId = vh.Id;
+                    rq.StartDate = rq2.StartDate;
+                    rq.EndDate = rq2.EndDate;
+                    rq.Status = rq2.Status;
+                    _repo.UpdateEntity(rq);
+                    _repo.Save();
+                }
+            }
+            else
+            {
+                throw new Exception("Vehicle doesn't exist in chaffeurs list.");
+            }
+
+            return _mapper.Map<Request>(rq);
+        }
+        public RequestEntity GetRequestEntityById(int id)
+        {
+            var temp = _repo.GetById(
+                filter: x => x.Id == id,
+                x => x.Include(s => s.Chaffeur)
+                .Include(s => s.Maintenance)
+                .Include(s => s.Repairment)
+                .Include(s => s.Vehicle));
+            return temp;
         }
     }
 }
