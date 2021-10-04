@@ -203,7 +203,43 @@ namespace ReadAPI.Controllers
                 return BadRequest(ex);
             }
         }
-        
+        [HttpPost("Fuelcard/{id}/Authentications")]
+        public ActionResult<FuelCard> AddFuelCardAuthenticationTypesByID(int id)
+        {
+            try
+            {
+                var vh = _fuelCardManager.GetFuelCardById(id);
+                var temp = new AuthenticationType(Overall.AuthenticationTypes.PINKM);
+                if (vh == null)
+                {
+                    return NotFound("This fuelcard doesn't exist");
+                }
+                else
+                {
+                    if(_fuelCardManager.CheckValidationAuthentication(temp) == false)
+                    {
+                        return BadRequest(_fuelCardManager._errors);
+                    }
+                    else
+                    {
+                        if (vh.CheckExistingAuthentications(temp))
+                        {
+                            var result = _fuelCardManager.AddAuthentication(temp,id);
+                            return Ok(result);
+                        }
+                        else
+                        {
+                            return BadRequest("This fuelcard already has this authentication type.");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
         // -------PUT-------
 
         [HttpPut("Fuelcard/{id}")]

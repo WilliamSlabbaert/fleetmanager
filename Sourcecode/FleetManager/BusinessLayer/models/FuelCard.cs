@@ -46,6 +46,15 @@ namespace BusinessLayer.models
             }
             return false;
         }
+        public bool CheckExistingAuthentications(AuthenticationType type)
+        {
+            var result = AuthenticationTypes.FirstOrDefault(s => s.type == type.type);
+            if (result == null)
+            {
+                return true;
+            }
+            return false;
+        }
 
         public int Id { get; set; }
         public string CardNumber { get; set; }

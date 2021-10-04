@@ -29,6 +29,7 @@ namespace BusinessLayer
             CreateMap<RepairmentEntity, Repairment>().ReverseMap();
             CreateMap<RequestEntity, Request>().ReverseMap();
             CreateMap<ChaffeurEntityVehicleEntity, VehicleChaffeur>().ReverseMap();
+            CreateMap<KilometerHistoryEntity, KilometerHistory>().ReverseMap();
 
             CreateMap<ValidationFailure, GenericResponse>()
                 .ForMember(s => s.Input, opt=> opt.MapFrom(src => src.AttemptedValue))

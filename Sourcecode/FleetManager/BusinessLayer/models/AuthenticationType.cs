@@ -9,6 +9,11 @@ namespace BusinessLayer.models
 {
     public class AuthenticationType
     {
+        public AuthenticationType(AuthenticationTypes type)
+        {
+            this.type = type;
+        }
+
         public int Id { get; set; }
         public AuthenticationTypes type { get; set; }
         public int FuelCardId { get; set; }

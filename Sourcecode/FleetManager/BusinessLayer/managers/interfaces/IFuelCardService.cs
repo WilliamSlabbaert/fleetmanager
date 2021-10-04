@@ -12,18 +12,20 @@ namespace BusinessLayer.managers.interfaces
     {
         public List<GenericResponse> _errors { get; set; }
         public FuelCard GetFuelCardById(int id);
-        public FuelCard AddFuelCard(FuelCard fc);
+        public List<FuelCard> GetAllFuelCards();
         public bool CheckExistingFuelCard(FuelCard fc);
         public bool CheckValidationService(ExtraService extraService);
         public bool CheckValidationFuelType(FuelType fueltype);
         public bool CheckValidationFuelCard(FuelCard fuelcard);
+        public bool CheckValidationAuthentication(AuthenticationType authenticationType);
+        public FuelCard AddAuthentication(AuthenticationType authenticationType, int fuelcardId);
+        public FuelCard AddFuelCard(FuelCard fc);
         public FuelCard AddFuelType(int fuelcardId, FuelType type);
-        public FuelCard DeleteFuelType(int id, int fuelid);
         public FuelCard AddService(ExtraService extraService, int fuelcardId);
-        public FuelCard DeleteService(int id, int fuelcardId);
         public Chaffeur AddFuelCardToChaffeur(int fuelcardNr, int chaffeurNr);
+        public FuelCard DeleteFuelType(int id, int fuelid);
+        public FuelCard DeleteService(int id, int fuelcardId);
         public Chaffeur UpdateChaffeurFuelCard(int fuelcardNr, int chaffeurNr, bool isactive);
         public FuelCard UpdateFuelCard(FuelCard fuelcard, int fuelcardId);
-        public List<FuelCard> GetAllFuelCards();
     }
 }

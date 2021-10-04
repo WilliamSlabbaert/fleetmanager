@@ -23,8 +23,9 @@ namespace BusinessLayer.managers
         private readonly IValidator<FuelType> _validatorft;
         private readonly IValidator<ExtraService> _validatores;
         private readonly IValidator<FuelCardChaffeur> _validatorfcch;
+        private readonly IValidator<AuthenticationType> _validatorat;
         public List<GenericResponse> _errors { get; set; }
-        public FuelCardService(IGenericRepo<FuelCardEntity> repo, IMapper mapper, IGenericRepo<ChaffeurEntity> chrepo, IValidator<FuelCard> _validator, IValidator<FuelCardChaffeur> validatorfcch, IValidator<FuelType> ft, IValidator<ExtraService> validatores)
+        public FuelCardService(IGenericRepo<FuelCardEntity> repo, IMapper mapper, IGenericRepo<ChaffeurEntity> chrepo, IValidator<FuelCard> _validator, IValidator<FuelCardChaffeur> validatorfcch, IValidator<FuelType> ft, IValidator<ExtraService> validatores, IValidator<AuthenticationType> validatorat)
         {
             this._repo = repo;
             this._mapper = mapper;
@@ -33,6 +34,7 @@ namespace BusinessLayer.managers
             this._validatorfcch = validatorfcch;
             this._validatorft = ft;
             this._validatores = validatores;
+            this._validatorat = validatorat;
             _errors = new List<GenericResponse>();
         }
 
@@ -122,6 +124,26 @@ namespace BusinessLayer.managers
                 return false;
             }
             return true;
+        }
+        public bool CheckValidationAuthentication(AuthenticationType authenticationType)
+        {
+            var result = _validatorat.Validate(authenticationType);
+            if (result.IsValid == false)
+            {
+                _errors = _mapper.Map<List<GenericResponse>>(result.Errors);
+                return false;
+            }
+            return true;
+        }
+        public FuelCard AddAuthentication(AuthenticationType authenticationType, int fuelcardId)
+        {
+            var fuelcard = GetFuelCardEntity(fuelcardId);
+            var aT = _mapper.Map<AuthenticationTypeEntity>(authenticationType);
+            fuelcard.AuthenticationTypes.Add(aT);
+            _repo.UpdateEntity(fuelcard);
+            _repo.Save();
+
+            return _mapper.Map<FuelCard>(fuelcard);
         }
 
         public Chaffeur AddFuelCardToChaffeur(int fuelcardNr, int chaffeurNr)
