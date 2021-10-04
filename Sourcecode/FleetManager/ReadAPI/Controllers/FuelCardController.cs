@@ -12,6 +12,7 @@ namespace ReadAPI.Controllers
 {
     public class FuelCardController : Controller
     {
+        
         private readonly ILogger<FuelCardController> _logger;
         private IChaffeurService _managerChaffeur;
         private IFuelCardService _fuelCardManager ;
@@ -86,6 +87,24 @@ namespace ReadAPI.Controllers
                 return BadRequest(ex);
             }
         }
+        [HttpGet("Fuelcard/{id}/Authentications")]
+        public ActionResult<List<FuelType>> GetFuelCardAuthenticationTypesByID(int id)
+        {
+            try
+            {
+                var vh = _fuelCardManager.GetFuelCardById(id);
+                if (vh == null)
+                {
+                    return NotFound("This fuelcard doesn't exist");
+                }
+                return Ok(vh.AuthenticationTypes);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+  
         // ------POST------
         [HttpPost("Fuelcard")]
         public ActionResult Add()
@@ -114,6 +133,7 @@ namespace ReadAPI.Controllers
         {
             try
             {
+                var fueltype = new FuelType(Overall.FuelTypes.Diesel);
                 var vh = _fuelCardManager.GetFuelCardById(id);
                 if (vh == null)
                 {
@@ -121,23 +141,23 @@ namespace ReadAPI.Controllers
                 }
                 else
                 {
-                    var fueltype = new FuelType(Overall.FuelTypes.Diesel);
-                    var check = vh.CheckExistingFuelType(fueltype);
-                    if (check)
+                    
+                    if (_fuelCardManager.CheckValidationFuelType(fueltype) == false)
                     {
-                        var fuelcard = _fuelCardManager.AddFuelType(id,fueltype);
-                        if (_fuelCardManager._errors.Count != 0)
-                        {
-                            return BadRequest(_fuelCardManager._errors);
-                        }
-                        else
-                        {
-                            return Ok(fuelcard);
-                        }
+                        return BadRequest(_fuelCardManager._errors);
                     }
                     else
                     {
-                        return BadRequest("This fueltype already exists in fuelcards list.");
+                        var check = vh.CheckExistingFuelType(fueltype);
+                        if (check)
+                        {
+                            var fuelcard = _fuelCardManager.AddFuelType(id, fueltype);
+                            return Ok(fuelcard);
+                        }
+                        else
+                        {
+                            return BadRequest("This fueltype already exists in fuelcards list.");
+                        }
                     }
                 }
             }
@@ -159,15 +179,23 @@ namespace ReadAPI.Controllers
                 }
                 else
                 {
-                    if (vh.CheckExistingSerives(ser))
+                    if (_fuelCardManager.CheckValidationService(ser))
                     {
-                        var temp = _fuelCardManager.AddService(ser, id);
-                        return Ok(temp);
+                        if (vh.CheckExistingSerives(ser))
+                        {
+                            var temp = _fuelCardManager.AddService(ser, id);
+                            return Ok(temp);
+                        }
+                        else
+                        {
+                            return BadRequest("Service already exists in fuelcards list.");
+                        }
                     }
                     else
                     {
-                        return BadRequest("Service already exists in fuelcards list.");
+                        return BadRequest(_fuelCardManager._errors);
                     }
+                    
                 }
             }
             catch (Exception ex)
@@ -175,6 +203,7 @@ namespace ReadAPI.Controllers
                 return BadRequest(ex);
             }
         }
+        
         // -------PUT-------
 
         [HttpPut("Fuelcard/{id}")]

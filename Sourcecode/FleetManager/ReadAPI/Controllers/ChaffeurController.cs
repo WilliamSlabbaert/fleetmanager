@@ -406,7 +406,7 @@ namespace ReadAPI.Controllers
         // ------DELETE-------
 
         [HttpDelete("{chaffeurId}/Drivinglicenses/{drivinglicenseId}")]
-        public ActionResult<FuelCard> DeleteFuelCardByID(int chaffeurId, int drivinglicenseId)
+        public ActionResult<FuelCard> DeleteDrivinglicensesByID(int chaffeurId, int drivinglicenseId)
         {
             try
             {
