@@ -17,11 +17,12 @@ namespace BusinessLayer.models
             ChaffeurFuelCards = new List<FuelCardChaffeur>();
         }
 
-        public FuelCard(string cardNumber, string pin, bool isActive)
+        public FuelCard(string cardNumber, string pin, bool isActive,DateTime validityDate)
         {
             CardNumber = cardNumber;
             Pin = pin;
             IsActive = isActive;
+            ValidityDate = validityDate;
             AuthenticationTypes = new List<AuthenticationType>();
             FuelType = new List<FuelType>();
             Services = new List<ExtraService>();

@@ -61,14 +61,30 @@ namespace BusinessLayer.managers
         }
         public bool CheckExistingFuelCard(FuelCard fc)
         {
-            var temp = _repo.GetAll(null).FirstOrDefault(s => s.CardNumber == fc.CardNumber);
-            if (temp == null)
+            if(fc.Id != 0)
             {
-                return true;
+                var tempList = _repo.GetAll(null).Where(s => s.Id != fc.Id);
+                var temp = tempList.FirstOrDefault(s => s.CardNumber == fc.CardNumber);
+                if (temp == null)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             else
             {
-                return false;
+                var temp = _repo.GetAll(null).FirstOrDefault(s => s.CardNumber == fc.CardNumber);
+                if (temp == null)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
         }
         public FuelCard DeleteFuelType(int id, int fuelid)
@@ -210,9 +226,17 @@ namespace BusinessLayer.managers
             .Include(s => s.Requests));
             return ch;
         }
-        public void UpdateFuelCard(FuelCard fc)
+        public FuelCard UpdateFuelCard(FuelCard fuelcard, int fuelcardId)
         {
-            this._repo.UpdateEntity(_mapper.Map<FuelCardEntity>(fc));
+            var fc = GetFuelCardEntity(fuelcardId);
+            fc.CardNumber = fuelcard.CardNumber;
+            fc.IsActive = fuelcard.IsActive;
+            fc.Pin = fuelcard.Pin;
+            fc.ValidityDate = fuelcard.ValidityDate;
+
+            _repo.UpdateEntity(fc);
+            _repo.Save();
+            return _mapper.Map<FuelCard>(fc);
         }
     }
 }

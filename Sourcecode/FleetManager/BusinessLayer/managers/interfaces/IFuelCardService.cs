@@ -21,7 +21,7 @@ namespace BusinessLayer.managers.interfaces
         public bool CheckValidationFuelCard(FuelCard fuelcard);
         public Chaffeur AddFuelCardToChaffeur(int fuelcardNr, int chaffeurNr);
         public Chaffeur UpdateChaffeurFuelCard(int fuelcardNr, int chaffeurNr, bool isactive);
-        public void UpdateFuelCard(FuelCard fc);
+        public FuelCard UpdateFuelCard(FuelCard fuelcard, int fuelcardId);
         public List<FuelCard> GetAllFuelCards();
     }
 }

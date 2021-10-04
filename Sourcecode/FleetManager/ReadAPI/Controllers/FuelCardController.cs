@@ -90,7 +90,7 @@ namespace ReadAPI.Controllers
         [HttpPost("Fuelcard")]
         public ActionResult Add()
         {
-            var temp = new FuelCard("123", "1234", true);
+            var temp = new FuelCard("123", "1234", true,DateTime.Now);
             if (_fuelCardManager.CheckValidationFuelCard(temp) == false)
             {
                 return BadRequest(_fuelCardManager._errors);
@@ -108,7 +108,7 @@ namespace ReadAPI.Controllers
                 }
             }
         }
-       
+        
         [HttpPost("Fuelcard/{id}/Fueltypes")]
         public ActionResult<FuelCard> AddFuelsTpFuelcardByID(int id)
         {
@@ -175,6 +175,39 @@ namespace ReadAPI.Controllers
                 return BadRequest(ex);
             }
         }
+        // -------PUT-------
+
+        [HttpPut("Fuelcard/{id}")]
+        public ActionResult<FuelCard> UpdateFuelCardFuelsByID(int id)
+        {
+            try
+            {
+                var vh = _fuelCardManager.GetFuelCardById(id);
+                var temp = new FuelCard("testPut2", "4321", true, DateTime.Now) { Id=id};
+                if (vh == null)
+                {
+                    return NotFound("This fuelcard doesn't exist");
+                }
+                else
+                {
+                    if (_fuelCardManager.CheckExistingFuelCard(temp))
+                    {
+                        var result = _fuelCardManager.UpdateFuelCard(temp, id);
+                        return Ok(result);
+                    }
+                    else
+                    {
+                        return BadRequest("Fuelcard with same cardnumber already exists.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
+
         // -------DELETE-------
 
         [HttpDelete("Fuelcard/{id}/Fueltypes/{fuelId}")]
