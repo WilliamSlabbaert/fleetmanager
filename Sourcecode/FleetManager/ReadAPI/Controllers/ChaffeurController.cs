@@ -20,12 +20,14 @@ namespace ReadAPI.Controllers
         private IChaffeurService _managerChaffeur;
         private IVehicleService _managerVehicle;
         private IDrivingLicenseService _drivingLicenseManager;
-        public ChaffeurController(ILogger<ChaffeurController> logger, IChaffeurService man, IVehicleService managerVehicle, IDrivingLicenseService drivingLicenseManager)
+        private IFuelCardService _fuelCardManager;
+        public ChaffeurController(ILogger<ChaffeurController> logger, IChaffeurService man, IVehicleService managerVehicle, IDrivingLicenseService drivingLicenseManager, IFuelCardService fuelCardManager)
         {
             _logger = logger;
             _managerChaffeur = man;
             _managerVehicle = managerVehicle;
             _drivingLicenseManager = drivingLicenseManager;
+            _fuelCardManager = fuelCardManager;
         }
         // -------GET-------
 
@@ -90,6 +92,42 @@ namespace ReadAPI.Controllers
             catch (Exception ex)
             {
                 return BadRequest(ex);
+            }
+        }
+        [HttpGet("{chaffeurId}/Fuelcards/{fuelcardId}")]
+        public ActionResult GetFuelCard(int chaffeurId, int fuelcardId)
+        {
+            try
+            {
+                var ch = _managerChaffeur.GetChaffeurById(chaffeurId);
+                if (ch == null)
+                {
+                    return NotFound("This chaffeur doesn't exist.");
+                }
+                else
+                {
+                    var fc = _fuelCardManager.GetFuelCardById(fuelcardId);
+                    if (fc == null)
+                    {
+                        return NotFound("This fuelcard doesn't exist.");
+                    }
+                    else
+                    {
+                        var result = ch.ChaffeurFuelCards.FirstOrDefault(s => s.FuelCard.Id == fuelcardId);
+                        if (result != null)
+                        {
+                            return Ok(result.FuelCard);
+                        }
+                        else
+                        {
+                            return BadRequest("This fuelcard doesn't exist in chaffeurs list.");
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
             }
         }
         [HttpGet("{chaffeurId}/Requests")]
@@ -223,6 +261,42 @@ namespace ReadAPI.Controllers
                 return BadRequest(e);
             }
         }
+        [HttpPost("{chaffeurId}/FuelCards/{fuelcardId}")]
+        public ActionResult AddFuelCard(int chaffeurId, int fuelcardId)
+        {
+            try
+            {
+                var ch = _managerChaffeur.GetChaffeurById(chaffeurId);
+                if (ch == null)
+                {
+                    return NotFound("This chaffeur doesn't exist.");
+                }
+                else
+                {
+                    var fc = _fuelCardManager.GetFuelCardById(fuelcardId);
+                    if(fc == null)
+                    {
+                        return NotFound("This fuelcard doesn't exist.");
+                    }
+                    else
+                    {
+                        if (ch.CheckFuelCard(fuelcardId))
+                        {
+                            var result = _fuelCardManager.AddFuelCardToChaffeur(fuelcardId, chaffeurId);
+                            return Ok(result);
+                        }
+                        else
+                        {
+                            return BadRequest("This fuelcard exists in chafeurs list.");
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+        }
 
         // -------PUT-------
         [HttpPut("{chaffeurId}")]
@@ -293,7 +367,42 @@ namespace ReadAPI.Controllers
                 return BadRequest(ex);
             }
         }
-
+        [HttpPut("{chaffeurId}/FuelCards/{fuelcardId}")]
+        public ActionResult UpdateFuelCardActivity(int chaffeurId, int fuelcardId)
+        {
+            try
+            {
+                var ch = _managerChaffeur.GetChaffeurById(chaffeurId);
+                if (ch == null)
+                {
+                    return NotFound("This chaffeur doesn't exist.");
+                }
+                else
+                {
+                    var fc = _fuelCardManager.GetFuelCardById(fuelcardId);
+                    if (fc == null)
+                    {
+                        return NotFound("This fuelcard doesn't exist.");
+                    }
+                    else
+                    {
+                        if (ch.CheckFuelCard(fuelcardId) == false)
+                        {
+                            var result = _fuelCardManager.UpdateChaffeurFuelCard(fuelcardId, chaffeurId,true);
+                            return Ok(result);
+                        }
+                        else
+                        {
+                            return BadRequest("This fuelcard doesn't exist in chaffeurs list.");
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+        }
         // ------DELETE-------
 
         [HttpDelete("{chaffeurId}/Drivinglicenses/{drivinglicenseId}")]

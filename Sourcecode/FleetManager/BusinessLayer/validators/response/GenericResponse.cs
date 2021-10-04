@@ -11,5 +11,6 @@ namespace BusinessLayer.validators.response
         public string Property { get; set; }
         public string Error { get; set; }
         public string Input { get; set; }
+        //public string Type { get; set; }
     }
 }

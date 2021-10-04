@@ -18,7 +18,9 @@ namespace BusinessLayer.managers.interfaces
         public FuelCard DeleteFuelType(int id, int fuelid);
         public FuelCard AddService(ExtraService extraService, int fuelcardId);
         public FuelCard DeleteService(int id, int fuelcardId);
-        public void AddFuelCardToChaffeur(int fuelcardNr, int chaffeurNr);
+        public bool CheckValidationFuelCard(FuelCard fuelcard);
+        public Chaffeur AddFuelCardToChaffeur(int fuelcardNr, int chaffeurNr);
+        public Chaffeur UpdateChaffeurFuelCard(int fuelcardNr, int chaffeurNr, bool isactive);
         public void UpdateFuelCard(FuelCard fc);
         public List<FuelCard> GetAllFuelCards();
     }

@@ -21,7 +21,7 @@ namespace ReadAPI.Controllers
             _managerChaffeur = man;
             _fuelCardManager = man2;
         }
-
+        // ------GET-------
         [HttpGet("Fuelcard")]
         public ActionResult<List<FuelCard>> Get()
         {
@@ -33,27 +33,6 @@ namespace ReadAPI.Controllers
             catch (Exception ex)
             {
                 return BadRequest(ex);
-            }
-        }
-        [HttpPost("Fuelcard")]
-        public ActionResult Add()
-        {
-            var temp = new FuelCard("testNr1", "1234", true);
-            if (_fuelCardManager.CheckExistingFuelCard(temp))
-            {
-                var result = _fuelCardManager.AddFuelCard(temp);
-                if (_fuelCardManager._errors.Count != 0)
-                {
-                    return BadRequest(_fuelCardManager._errors);
-                }
-                else
-                {
-                    return Ok(result);
-                }
-            }
-            else
-            {
-                return BadRequest("Fuelcard already exists.");
             }
         }
         [HttpGet("Fuelcard/{id}")]
@@ -83,7 +62,7 @@ namespace ReadAPI.Controllers
                 {
                     return NotFound("This fuelcard doesn't exist");
                 }
-                return Ok(vh.ChaffeurFuelCards.Select(s=>s.Chaffeur));
+                return Ok(vh.ChaffeurFuelCards.Select(s => s.Chaffeur));
             }
             catch (Exception ex)
             {
@@ -107,6 +86,29 @@ namespace ReadAPI.Controllers
                 return BadRequest(ex);
             }
         }
+        // ------POST------
+        [HttpPost("Fuelcard")]
+        public ActionResult Add()
+        {
+            var temp = new FuelCard("123", "1234", true);
+            if (_fuelCardManager.CheckValidationFuelCard(temp) == false)
+            {
+                return BadRequest(_fuelCardManager._errors);
+            }
+            else
+            {
+                if (_fuelCardManager.CheckExistingFuelCard(temp))
+                {
+                    var result = _fuelCardManager.AddFuelCard(temp);
+                    return Ok(result);
+                }
+                else
+                {
+                    return BadRequest("Fuelcard already exists.");
+                }
+            }
+        }
+       
         [HttpPost("Fuelcard/{id}/Fueltypes")]
         public ActionResult<FuelCard> AddFuelsTpFuelcardByID(int id)
         {
@@ -144,6 +146,37 @@ namespace ReadAPI.Controllers
                 return BadRequest(ex);
             }
         }
+        [HttpPost("Fuelcard/{id}/Services")]
+        public ActionResult<FuelCard> AddService(int id)
+        {
+            try
+            {
+                var vh = _fuelCardManager.GetFuelCardById(id);
+                var ser = new ExtraService(Overall.ExtraServices.DiscountCarwash);
+                if (vh == null)
+                {
+                    return NotFound("This fuelcard doesn't exist");
+                }
+                else
+                {
+                    if (vh.CheckExistingSerives(ser))
+                    {
+                        var temp = _fuelCardManager.AddService(ser, id);
+                        return Ok(temp);
+                    }
+                    else
+                    {
+                        return BadRequest("Service already exists in fuelcards list.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+        // -------DELETE-------
+
         [HttpDelete("Fuelcard/{id}/Fueltypes/{fuelId}")]
         public ActionResult<FuelCard> DeleteFuelFromFuelcardByID(int id,int fuelId)
         {
@@ -173,35 +206,7 @@ namespace ReadAPI.Controllers
                 return BadRequest(ex);
             }
         }
-        [HttpPost("Fuelcard/{id}/Services")]
-        public ActionResult<FuelCard> AddService(int id)
-        {
-            try
-            {
-                var vh = _fuelCardManager.GetFuelCardById(id);
-                var ser = new ExtraService(Overall.ExtraServices.DiscountCarwash); 
-                if (vh == null)
-                {
-                    return NotFound("This fuelcard doesn't exist");
-                }
-                else
-                {
-                    if (vh.CheckExistingSerives(ser))
-                    {
-                        var temp = _fuelCardManager.AddService(ser, id);
-                        return Ok(temp);
-                    }
-                    else
-                    {
-                        return BadRequest("Service already exists in fuelcards list.");
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
-            }
-        }
+        
         [HttpDelete("Fuelcard/{id}/Services/{service}")]
         public ActionResult<FuelCard> DeleteService(int id,int service)
         {

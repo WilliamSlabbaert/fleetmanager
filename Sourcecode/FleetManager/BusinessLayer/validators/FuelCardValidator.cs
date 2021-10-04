@@ -14,18 +14,25 @@ namespace BusinessLayer.validators
         public FuelCardValidator()
         {
             RuleFor(c => c.CardNumber)
-                .NotNull().WithMessage("Card number  property is empty.")
+                .NotNull().WithMessage("Card number property is empty.");
+
+            RuleFor(c => c.CardNumber)
                 .Must(x => x.Length > 0).WithMessage("Card number is too short.")
-                .Matches(new Regex("^[a-zA-Z0-9]*$")).WithMessage("Card number cannot contain symbols.");
+                .Matches(new Regex("^[a-zA-Z0-9]*$")).WithMessage("Card number cannot contain symbols.")
+                .When(x => x == null);
 
             RuleFor(c => c.IsActive)
                 .NotNull().WithMessage("Is Active property is empty.");
 
             RuleFor(c => c.Pin)
-                .NotNull().WithMessage("Pin property is empty.")
+                .NotNull().WithMessage("Pin property is empty.");
+
+
+            RuleFor(c => c.Pin)
                 .Must(x => x.Length > 0).WithMessage("Pin is too short.")
                 .Must(x => x.Length <= 4).WithMessage("Pin too short.")
-                .Matches(new Regex("^[0-9]*$")).WithMessage("Pin cannot contain symbols and letters.");
+                .Matches(new Regex("^[0-9]*$")).WithMessage("Pin cannot contain symbols and letters.")
+                .When(x => x == null);
         }
     }
 }
