@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(FleetManagerContext))]
-    [Migration("20210929075103_initialCreate")]
-    partial class initialCreate
+    [Migration("20211005082944_intialCreate")]
+    partial class intialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -217,6 +217,29 @@ namespace DataLayer.Migrations
                     b.ToTable("Invoices");
                 });
 
+            modelBuilder.Entity("DataLayer.entities.KilometerHistoryEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("Kilometers")
+                        .HasColumnType("float");
+
+                    b.Property<int>("VehicleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("VehicleId");
+
+                    b.ToTable("Kilometers");
+                });
+
             modelBuilder.Entity("DataLayer.entities.LicensePlateEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -311,6 +334,9 @@ namespace DataLayer.Migrations
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
                     b.Property<int>("VehicleId")
                         .HasColumnType("int");
 
@@ -341,9 +367,6 @@ namespace DataLayer.Migrations
 
                     b.Property<int>("FuelType")
                         .HasColumnType("int");
-
-                    b.Property<double>("Kilometers")
-                        .HasColumnType("float");
 
                     b.Property<string>("Model")
                         .HasColumnType("nvarchar(max)");
@@ -449,6 +472,17 @@ namespace DataLayer.Migrations
                     b.Navigation("Maintenance");
                 });
 
+            modelBuilder.Entity("DataLayer.entities.KilometerHistoryEntity", b =>
+                {
+                    b.HasOne("DataLayer.entities.VehicleEntity", "Vehicle")
+                        .WithMany("Kilometers")
+                        .HasForeignKey("VehicleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Vehicle");
+                });
+
             modelBuilder.Entity("DataLayer.entities.LicensePlateEntity", b =>
                 {
                     b.HasOne("DataLayer.entities.VehicleEntity", "Vehicle")
@@ -538,6 +572,8 @@ namespace DataLayer.Migrations
             modelBuilder.Entity("DataLayer.entities.VehicleEntity", b =>
                 {
                     b.Navigation("ChaffeurVehicles");
+
+                    b.Navigation("Kilometers");
 
                     b.Navigation("LicensePlates");
 

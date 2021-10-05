@@ -15,6 +15,7 @@ namespace DataLayer.entities
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string Status { get; set; }
+        public Overall.RequestType Type { get; set; }
         public int VehicleId { get; set; }
         public VehicleEntity Vehicle { get; set; }
         public int ChaffeurId { get; set; }

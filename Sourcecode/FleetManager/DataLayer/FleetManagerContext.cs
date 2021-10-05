@@ -18,6 +18,7 @@ namespace DataLayer
         public DbSet<RepairmentEntity> Repairments { get; set; }
         public DbSet<RequestEntity> Requests { get; set; }
         public DbSet<VehicleEntity> Vehicles { get; set; }
+        public DbSet<KilometerHistoryEntity> Kilometers { get; set; }
         public FleetManagerContext(DbContextOptions<FleetManagerContext> options) : base(options)
         {
             

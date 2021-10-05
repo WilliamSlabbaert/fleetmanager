@@ -19,6 +19,12 @@ namespace Overall
         LPG,
         Electric
     }
+    public enum RequestType
+    {
+        Fuelcard,
+        Maintenance,
+        Repairment
+    }
     public enum CarTypes
     {
         [Description("Passenger car.")]

@@ -8,17 +8,19 @@ namespace BusinessLayer.models
 {
     public class Request
     {
-        public Request(DateTime startDate, DateTime endDate, string status)
+        public Request(DateTime startDate, DateTime endDate, string status, Overall.RequestType type)
         {
             StartDate = startDate;
             EndDate = endDate;
             Status = status;
+            Type = type;
         }
 
         public int Id { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string Status { get; set; }
+        public Overall.RequestType Type { get; set; }
         public int VehicleId { get; set; }
         public Vehicle Vehicle { get; set; }
         public int ChaffeurId { get; set; }

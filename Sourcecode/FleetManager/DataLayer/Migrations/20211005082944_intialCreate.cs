@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataLayer.Migrations
 {
-    public partial class initialCreate : Migration
+    public partial class intialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -54,7 +54,6 @@ namespace DataLayer.Migrations
                     Model = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BuildDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Type = table.Column<int>(type: "int", nullable: false),
-                    Kilometers = table.Column<double>(type: "float", nullable: false),
                     FuelType = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -193,6 +192,27 @@ namespace DataLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Kilometers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Kilometers = table.Column<double>(type: "float", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    VehicleId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Kilometers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Kilometers_Vehicles_VehicleId",
+                        column: x => x.VehicleId,
+                        principalTable: "Vehicles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "LicensePlates",
                 columns: table => new
                 {
@@ -222,6 +242,7 @@ namespace DataLayer.Migrations
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Type = table.Column<int>(type: "int", nullable: false),
                     VehicleId = table.Column<int>(type: "int", nullable: false),
                     ChaffeurId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -342,6 +363,11 @@ namespace DataLayer.Migrations
                 column: "MaintenanceId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Kilometers_VehicleId",
+                table: "Kilometers",
+                column: "VehicleId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_LicensePlates_VehicleId",
                 table: "LicensePlates",
                 column: "VehicleId");
@@ -389,6 +415,9 @@ namespace DataLayer.Migrations
 
             migrationBuilder.DropTable(
                 name: "Invoices");
+
+            migrationBuilder.DropTable(
+                name: "Kilometers");
 
             migrationBuilder.DropTable(
                 name: "LicensePlates");

@@ -70,7 +70,7 @@ namespace ReadAPI.Controllers
         [HttpPost("Request")]
         public ActionResult Add()
         {
-            var result = _managerRequest.AddRequest(new Request(DateTime.Now, DateTime.Now, "test"), 1, 1);
+            var result = _managerRequest.AddRequest(new Request(DateTime.Now, DateTime.Now, "test",Overall.RequestType.Fuelcard), 1, 1);
 
             if(_managerRequest._errors.Count != 0)
             {
@@ -84,7 +84,7 @@ namespace ReadAPI.Controllers
         [HttpPut("Request/{id}")]
         public ActionResult Update(int id)
         {
-            var result = _managerRequest.UpdateRequest(new Request(DateTime.Now, DateTime.Now, "test2"),vehicleid: 1,chaffeurid: 2, id: id);
+            var result = _managerRequest.UpdateRequest(new Request(DateTime.Now, DateTime.Now, "test2", Overall.RequestType.Fuelcard),vehicleid: 1,chaffeurid: 2, id: id);
             if (_managerRequest._errors.Count != 0)
             {
                 return BadRequest(_managerRequest._errors);

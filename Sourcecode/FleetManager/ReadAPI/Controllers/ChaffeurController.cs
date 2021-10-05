@@ -18,16 +18,12 @@ namespace ReadAPI.Controllers
     {
         private readonly ILogger<ChaffeurController> _logger;
         private IChaffeurService _managerChaffeur;
-        private IVehicleService _managerVehicle;
-        private IDrivingLicenseService _drivingLicenseManager;
         private IFuelCardService _fuelCardManager;
-        public ChaffeurController(ILogger<ChaffeurController> logger, IChaffeurService man, IVehicleService managerVehicle, IDrivingLicenseService drivingLicenseManager, IFuelCardService fuelCardManager)
+        public ChaffeurController(ILogger<ChaffeurController> logger, IChaffeurService man, IFuelCardService fuelCardManager)
         {
-            _logger = logger;
-            _managerChaffeur = man;
-            _managerVehicle = managerVehicle;
-            _drivingLicenseManager = drivingLicenseManager;
-            _fuelCardManager = fuelCardManager;
+            this._logger = logger;
+            this._managerChaffeur = man;
+            this._fuelCardManager = fuelCardManager;
         }
         // -------GET-------
 

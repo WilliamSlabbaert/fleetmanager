@@ -14,13 +14,14 @@ namespace BusinessLayer.models
             ChaffeurVehicles = new List<VehicleChaffeur>();
             Requests = new List<Request>();
             LicensePlates = new List<LicensePlate>();
+            Kilometers = new List<KilometerHistory>();
         }
 
-        public Vehicle(int chassis, CarTypes type, double kilometers, FuelTypes fuel, string brand, string model, DateTime build)
+        public Vehicle(int chassis, CarTypes type, FuelTypes fuel, string brand, string model, DateTime build)
         {
             Chassis = chassis;
             Type = type;
-            Kilometers = kilometers;
+            Kilometers = new List<KilometerHistory>();
             ChaffeurVehicles = new List<VehicleChaffeur>();
             Requests = new List<Request>();
             LicensePlates = new List<LicensePlate>();
@@ -36,8 +37,8 @@ namespace BusinessLayer.models
         public string Model { get; set; }
         public DateTime BuildDate { get; set; }
         public CarTypes Type { get; set; }
-        public double Kilometers { get; set; }
         public FuelTypes FuelType { get; set; }
+        public List<KilometerHistory> Kilometers { get; set; }
         public List<VehicleChaffeur> ChaffeurVehicles { get; set; }
         public List<Request> Requests { get; set; }
         public List<LicensePlate> LicensePlates { get; set; }
