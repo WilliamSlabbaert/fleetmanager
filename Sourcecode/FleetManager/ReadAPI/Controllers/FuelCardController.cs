@@ -109,7 +109,7 @@ namespace ReadAPI.Controllers
         [HttpPost("Fuelcard")]
         public ActionResult Add()
         {
-            var temp = new FuelCard("123", "1234", true,DateTime.Now);
+            var temp = new FuelCard("123", null, true,DateTime.Now);
             if (_fuelCardManager.CheckValidationFuelCard(temp) == false)
             {
                 return BadRequest(_fuelCardManager._errors);
