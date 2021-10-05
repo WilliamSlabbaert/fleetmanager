@@ -45,8 +45,7 @@ namespace BusinessLayer.managers
         {
             if (id != 0)
             {
-                var temp = _repo.GetAll(null).Where(s => s.Id != id);
-                var result = temp.FirstOrDefault(s => s.NationalInsurenceNumber == ch.NationalInsurenceNumber);
+                var result = _repo.GetAll(null).FirstOrDefault(s => s.NationalInsurenceNumber == ch.NationalInsurenceNumber && s.Id != ch.Id);
                 if (result == null)
                 {
                     return true;
@@ -80,7 +79,20 @@ namespace BusinessLayer.managers
             .Include(s => s.Requests)
             .Include(s => s.ChaffeurVehicles)
             .ThenInclude(s => s.Vehicle));
+            if(temp == null)
+            {
+                throw new Exception("Chaffeur not found.");
+            }
             return _mapper.Map<Chaffeur>(temp);
+        }
+        public FuelCard GetFuelcardFromChaffeur(Chaffeur chaffeur, int fuelcardId)
+        {
+            var result = chaffeur.ChaffeurFuelCards.FirstOrDefault(s => s.FuelCard.Id == fuelcardId);
+            if(result == null)
+            {
+                 throw new Exception("FuelCard not found in chaffeurs list.");
+            }
+            return result.FuelCard;
         }
 
         public Chaffeur UpdateChaffeur(Chaffeur ch, int id)

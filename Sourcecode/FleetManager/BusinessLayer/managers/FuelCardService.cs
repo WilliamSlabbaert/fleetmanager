@@ -228,13 +228,18 @@ namespace BusinessLayer.managers
 
         public FuelCard GetFuelCardById(int id)
         {
-            return _mapper.Map<FuelCard>(_repo.GetById(
+            var temp = _mapper.Map<FuelCard>(_repo.GetById(
                 filter: x => x.Id == id,
                 x => x.Include(s => s.Services)
                 .Include(s => s.FuelType)
                 .Include(s => s.AuthenticationTypes)
                 .Include(s => s.ChaffeurFuelCards)
                 .ThenInclude(s => s.Chaffeur)));
+            if(temp == null)
+            {
+                throw new Exception("Fuelcard not found.");
+            }
+            return temp;
         }
         public FuelCardEntity GetFuelCardEntity(int id)
         {
