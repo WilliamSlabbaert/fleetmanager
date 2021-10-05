@@ -223,5 +223,65 @@ namespace BusinessLayer.managers
             resp.ReturnValue = _mapper.Map<List<Chaffeur>>(temp);
             return resp;
         }
+        public GenericResult GetChaffeurVehicles(int chaffeurId)
+        {
+            var temp = GetChaffeurEntity(chaffeurId);
+            var resp = new GenericResult();
+            if (temp == null)
+            {
+                resp.Message = "Chaffeur not found.";
+                resp.SetStatusCode(Overall.ResponseType.NotFound);
+                return resp;
+            }
+            resp.Message = "Ok";
+            resp.SetStatusCode(Overall.ResponseType.OK);
+            resp.ReturnValue = _mapper.Map<Chaffeur>(temp).ChaffeurVehicles;
+            return resp;
+        }
+        public GenericResult GetChaffeurRequests(int chaffeurId)
+        {
+            var temp = GetChaffeurEntity(chaffeurId);
+            var resp = new GenericResult();
+            if (temp == null)
+            {
+                resp.Message = "Chaffeur not found.";
+                resp.SetStatusCode(Overall.ResponseType.NotFound);
+                return resp;
+            }
+            resp.Message = "Ok";
+            resp.SetStatusCode(Overall.ResponseType.OK);
+            resp.ReturnValue = _mapper.Map<Chaffeur>(temp).Requests;
+            return resp;
+        }
+        public GenericResult GetChaffeurFuelcards(int chaffeurId)
+        {
+            var temp = GetChaffeurEntity(chaffeurId);
+            var resp = new GenericResult();
+            if (temp == null)
+            {
+                resp.Message = "Chaffeur not found.";
+                resp.SetStatusCode(Overall.ResponseType.NotFound);
+                return resp;
+            }
+            resp.Message = "Ok";
+            resp.SetStatusCode(Overall.ResponseType.OK);
+            resp.ReturnValue = _mapper.Map<Chaffeur>(temp).ChaffeurFuelCards;
+            return resp;
+        }
+        public GenericResult GetChaffeurDrivingLicenses(int chaffeurId)
+        {
+            var temp = GetChaffeurEntity(chaffeurId);
+            var resp = new GenericResult();
+            if (temp == null)
+            {
+                resp.Message = "Chaffeur not found.";
+                resp.SetStatusCode(Overall.ResponseType.NotFound);
+                return resp;
+            }
+            resp.Message = "Ok";
+            resp.SetStatusCode(Overall.ResponseType.OK);
+            resp.ReturnValue = _mapper.Map<Chaffeur>(temp).DrivingLicenses;
+            return resp;
+        }
     }
 }

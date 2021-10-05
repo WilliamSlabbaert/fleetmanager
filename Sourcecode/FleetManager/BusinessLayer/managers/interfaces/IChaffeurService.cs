@@ -14,6 +14,10 @@ namespace BusinessLayer.managers.interfaces
         public List<GenericResponse> _errors { get; set; }
         public GenericResult GetAllChaffeurs();
         public GenericResult GetChaffeurById(int id);
+        public GenericResult GetChaffeurVehicles(int chaffeurId);
+        public GenericResult GetChaffeurRequests(int chaffeurId);
+        public GenericResult GetChaffeurFuelcards(int chaffeurId);
+        public GenericResult GetChaffeurDrivingLicenses(int chaffeurId);
         public FuelCard GetFuelcardFromChaffeur(Chaffeur chaffeur, int fuelcardId);
         public Chaffeur AddChaffeur(Chaffeur ch);
         public Chaffeur UpdateVehicleToChaffeur(int chaffeurNr, int vehicleNr, bool active);

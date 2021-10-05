@@ -58,8 +58,8 @@ namespace ReadAPI.Controllers
         {
             try
             {
-                var ch = (Chaffeur)_managerChaffeur.GetChaffeurById(chaffeurId).ReturnValue;
-                return Ok(ch.ChaffeurVehicles.Select(s => s.Vehicle));
+                var ch = _managerChaffeur.GetChaffeurVehicles(chaffeurId);
+                return Ok(ch);
             }
             catch (Exception ex)
             {
@@ -67,40 +67,25 @@ namespace ReadAPI.Controllers
             }
         }
         [HttpGet("{chaffeurId}/Fuelcards")]
-        public ActionResult<GenericResult> GetallFuelCardsById(int chaffeurId)
+        public ActionResult<GenericResult> GetallFuelCards(int chaffeurId)
         {
             try
             {
-                var ch = (Chaffeur)_managerChaffeur.GetChaffeurById(chaffeurId).ReturnValue;
-                return Ok(ch.ChaffeurFuelCards.Select(s => s.FuelCard));
+                var ch = _managerChaffeur.GetChaffeurFuelcards(chaffeurId);
+                return Ok(ch);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
-        [HttpGet("{chaffeurId}/Fuelcards/{fuelcardId}")]
-        public ActionResult<GenericResult> GetFuelCard(int chaffeurId, int fuelcardId)
-        {
-            try
-            {
-                var ch = (Chaffeur)_managerChaffeur.GetChaffeurById(chaffeurId).ReturnValue;
-                var fc = _fuelCardManager.GetFuelCardById(fuelcardId);
-                var result = _managerChaffeur.GetFuelcardFromChaffeur(ch,fuelcardId);
-                return Ok(result);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
         [HttpGet("{chaffeurId}/Requests")]
-        public ActionResult<GenericResult> GetallRequestsById(int chaffeurId)
+        public ActionResult<GenericResult> GetallRequests(int chaffeurId)
         {
             try
             {
-                var ch = (Chaffeur)_managerChaffeur.GetChaffeurById(chaffeurId).ReturnValue;
-                return Ok(ch.Requests);
+                var ch = _managerChaffeur.GetChaffeurRequests(chaffeurId);
+                return Ok(ch);
             }
             catch (Exception ex)
             {
@@ -112,8 +97,8 @@ namespace ReadAPI.Controllers
         {
             try
             {
-                var ch = (Chaffeur)_managerChaffeur.GetChaffeurById(chaffeurId).ReturnValue;
-                return Ok(ch.DrivingLicenses);
+                var ch = _managerChaffeur.GetChaffeurDrivingLicenses(chaffeurId);
+                return Ok(ch);
             }
             catch (Exception ex)
             {
