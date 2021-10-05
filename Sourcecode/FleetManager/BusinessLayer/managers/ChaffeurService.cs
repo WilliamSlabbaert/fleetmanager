@@ -271,6 +271,7 @@ namespace BusinessLayer.managers
         public GenericResult GetChaffeurDrivingLicenses(int chaffeurId)
         {
             var temp = GetChaffeurEntity(chaffeurId);
+
             var resp = new GenericResult();
             if (temp == null)
             {

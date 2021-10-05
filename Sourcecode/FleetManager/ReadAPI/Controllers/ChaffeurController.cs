@@ -46,6 +46,7 @@ namespace ReadAPI.Controllers
             try
             {
                 var ch = _managerChaffeur.GetChaffeurById(chaffeurId);
+                
                 return Ok(ch);
             }
             catch (Exception ex)
