@@ -14,25 +14,25 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.mediator.handlers
 {
-    class CheckExistingVehicleHandler : IRequestHandler<CheckExistingVehicleQuery, bool>
+    class CheckExistingVehicleHandler : IRequestHandler<CheckExistingVehicleQuery,bool>
     {
         private readonly IGenericRepo<VehicleEntity> _vehicleRepo;
-        private readonly IMapper _mapper;
         private readonly IValidator<Vehicle> _validator;
-        public CheckExistingVehicleHandler(IGenericRepo<VehicleEntity> vehicleRepo, IMapper mapper, IValidator<Vehicle> validator)
+        public CheckExistingVehicleHandler(IGenericRepo<VehicleEntity> vehicleRepo,IValidator<Vehicle> validator)
         {
             this._vehicleRepo = vehicleRepo;
-            this._mapper = mapper;
             this._validator = validator;
         }
+
         public Task<bool> Handle(CheckExistingVehicleQuery request, CancellationToken cancellationToken)
         {
             var results = _vehicleRepo.GetAll(null).FirstOrDefault(s => s.Chassis == request.vehicle.Chassis);
-            if(results == null)
+            _validator.Validate(request.vehicle);
+            if (results != null)
             {
-                return Task.FromResult(true);
+                return Task.FromResult(false);
             }
-            return Task.FromResult(false);
+            return Task.FromResult(true);
         }
     }
 }

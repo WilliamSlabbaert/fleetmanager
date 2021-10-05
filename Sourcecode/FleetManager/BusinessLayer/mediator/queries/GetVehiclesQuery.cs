@@ -1,4 +1,5 @@
 ﻿using BusinessLayer.models;
+using BusinessLayer.validators.response;
 using DataLayer.entities;
 using MediatR;
 using System;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.mediator.queries
 {
-    public class GetVehiclesQuery : IRequest<List<Vehicle>>
+    public class GetVehiclesQuery : IRequest<GenericResult>
     {
 
     }

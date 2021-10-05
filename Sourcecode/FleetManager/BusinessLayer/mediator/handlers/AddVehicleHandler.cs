@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BusinessLayer.mediator.commands;
+using BusinessLayer.mediator.queries;
 using BusinessLayer.models;
 using BusinessLayer.validators.response;
 using DataLayer.entities;
@@ -19,26 +20,24 @@ namespace BusinessLayer.mediator.handlers
     {
         private readonly IGenericRepo<VehicleEntity> _vehicleRepo;
         private readonly IMapper _mapper;
-        private readonly IValidator<Vehicle> _validator;
-        public AddVehicleHandler(IGenericRepo<VehicleEntity> vehicleRepo, IMapper mapper, IValidator<Vehicle> validator)
+        private readonly IMediator _mediator;
+
+        public AddVehicleHandler(IGenericRepo<VehicleEntity> vehicleRepo, IMapper mapper, IMediator mediator)
         {
             this._vehicleRepo = vehicleRepo;
             this._mapper = mapper;
-            this._validator = validator;
+            this._mediator = mediator;
         }
         Task<Vehicle> IRequestHandler<AddVehicleCommand, Vehicle>.Handle(AddVehicleCommand request, CancellationToken cancellationToken)
         {
-            var results = _validator.Validate(request._vehicle);
             var temp = _mapper.Map<VehicleEntity>(request._vehicle);
-            if (results.IsValid == false)
+            var result = _mediator.Send(new CheckExistingVehicleQuery(request._vehicle));
+            if (result.Result == false)
             {
-                request._errors = _mapper.Map<List<GenericResponse>>(results.Errors);
+                //return Task.FromResult(result: new GenericResponse());
             }
-            else
-            {
-                _vehicleRepo.AddEntity(temp);
-                _vehicleRepo.Save();
-            }
+            _vehicleRepo.AddEntity(temp);
+            _vehicleRepo.Save();
             return Task.FromResult(_mapper.Map<Vehicle>(temp));
         }
     }

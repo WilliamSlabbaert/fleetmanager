@@ -3,6 +3,7 @@ using BusinessLayer.managers;
 using BusinessLayer.managers.interfaces;
 using BusinessLayer.validators;
 using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -39,6 +40,7 @@ namespace ReadAPI
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ReadAPI", Version = "v1" });
             });
             services.AddBLLService(connect: @"Data Source=DESKTOP-2KEN9DG;Initial Catalog=FleetManagerTest;Integrated Security=True");
+            services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<VehicleValidator>());
             services.AddControllersWithViews()
             .AddNewtonsoftJson(options =>
             options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);

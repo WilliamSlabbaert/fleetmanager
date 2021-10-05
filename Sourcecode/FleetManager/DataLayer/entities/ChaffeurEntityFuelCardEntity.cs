@@ -17,9 +17,7 @@ namespace DataLayer.entities
         public ChaffeurEntityFuelCardEntity(ChaffeurEntity chaffeur, FuelCardEntity fuelCard, bool isActive)
         {
             Chaffeur = chaffeur;
-            ChaffeurId = chaffeur.Id;
             FuelCard = fuelCard;
-            FuelCardId = fuelCard.Id;
             IsActive = isActive;
         }
 

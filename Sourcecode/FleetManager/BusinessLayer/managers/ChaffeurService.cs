@@ -37,35 +37,25 @@ namespace BusinessLayer.managers
         public Chaffeur AddChaffeur(Chaffeur ch)
         {
             var temp = _mapper.Map<ChaffeurEntity>(ch);
+            var check = CheckExistingChaffeur(ch,ch.Id);
+            if(check == false)
+            {
+                throw new Exception("Chaffeur with same national insurence number already exists.");
+            }
             _repo.AddEntity(temp);
             _repo.Save();
             return _mapper.Map<Chaffeur>(temp);
         }
-        public bool CheckExistingChaffeur(Chaffeur ch,int id)
+        public bool CheckExistingChaffeur(Chaffeur ch, int id)
         {
-            if (id != 0)
+            var result = _repo.GetAll(null).FirstOrDefault(s => s.NationalInsurenceNumber == ch.NationalInsurenceNumber && s.Id != id);
+            if (result == null)
             {
-                var result = _repo.GetAll(null).FirstOrDefault(s => s.NationalInsurenceNumber == ch.NationalInsurenceNumber && s.Id != ch.Id);
-                if (result == null)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return true;
             }
             else
             {
-                var result1 = _repo.GetAll(null).FirstOrDefault(s => s.NationalInsurenceNumber == ch.NationalInsurenceNumber);
-                if (result1 == null)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return false;
             }
         }
 
@@ -79,7 +69,7 @@ namespace BusinessLayer.managers
             .Include(s => s.Requests)
             .Include(s => s.ChaffeurVehicles)
             .ThenInclude(s => s.Vehicle));
-            if(temp == null)
+            if (temp == null)
             {
                 throw new Exception("Chaffeur not found.");
             }
@@ -88,9 +78,9 @@ namespace BusinessLayer.managers
         public FuelCard GetFuelcardFromChaffeur(Chaffeur chaffeur, int fuelcardId)
         {
             var result = chaffeur.ChaffeurFuelCards.FirstOrDefault(s => s.FuelCard.Id == fuelcardId);
-            if(result == null)
+            if (result == null)
             {
-                 throw new Exception("FuelCard not found in chaffeurs list.");
+                throw new Exception("FuelCard not found in chaffeurs list.");
             }
             return result.FuelCard;
         }

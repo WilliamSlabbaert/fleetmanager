@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BusinessLayer.mediator.queries;
 using BusinessLayer.models;
+using BusinessLayer.validators.response;
 using DataLayer.entities;
 using DataLayer.repositories;
 using FluentValidation;
@@ -15,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.mediator.handlers
 {
-    public class GetVehicleByIdHandler : IRequestHandler<GetVehicleByIdQuery, Vehicle>
+    public class GetVehicleByIdHandler : IRequestHandler<GetVehicleByIdQuery, GenericResult>
     {
         private readonly IGenericRepo<VehicleEntity> _vehicleRepo;
         private readonly IMapper _mapper;
@@ -26,16 +27,27 @@ namespace BusinessLayer.mediator.handlers
             this._mapper = mapper;
             this._validator = validator;
         }
-        public Task<Vehicle> Handle(GetVehicleByIdQuery request, CancellationToken cancellationToken)
+        Task<GenericResult> IRequestHandler<GetVehicleByIdQuery, GenericResult>.Handle(GetVehicleByIdQuery request, CancellationToken cancellationToken)
         {
-            return Task.FromResult(_mapper.Map<Vehicle>(
+            var temp = Task.FromResult(_mapper.Map<Vehicle>(
                 _vehicleRepo.GetById(
-                    filter: s=> s.Id == request.Id,
-                    s => s.Include(s=> s.Requests)
-                    .Include(s=>s.ChaffeurVehicles)
-                    .ThenInclude(s=>s.Chaffeur)
-                    .Include(s=>s.LicensePlates))
+                    filter: s => s.Id == request.Id,
+                    s => s.Include(s => s.Requests)
+                    .Include(s => s.ChaffeurVehicles)
+                    .ThenInclude(s => s.Chaffeur)
+                    .Include(s => s.LicensePlates))
                 ));
+            var result = new GenericResult();
+            if (temp == null)
+            {
+                result.Message = "Vehicle is not found.";
+                result.SetStatusCode(Overall.ResponseType.NotFound);
+                return Task.FromResult(result);
+            }
+            result.Message = "Vehicle is found.";
+            result.SetStatusCode(Overall.ResponseType.OK);
+            result.ReturnValue = temp.Result;
+            return Task.FromResult(result);
         }
     }
 }

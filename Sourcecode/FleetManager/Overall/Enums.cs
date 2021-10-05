@@ -25,6 +25,15 @@ namespace Overall
         Maintenance,
         Repairment
     }
+    public enum ResponseType
+    {
+        [Description("200")]
+        OK,
+        [Description("400")]
+        BadRequest,
+        [Description("404")]
+        NotFound
+    }
     public enum CarTypes
     {
         [Description("Passenger car.")]

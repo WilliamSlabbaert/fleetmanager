@@ -12,12 +12,10 @@ namespace BusinessLayer.mediator.commands
     public class AddVehicleCommand : IRequest<Vehicle>
     {
         public Vehicle _vehicle { get; private set; }
-        public List<GenericResponse> _errors { get; set; }
 
         public AddVehicleCommand(Vehicle vehicle)
         {
             this._vehicle = vehicle;
-            this._errors = new List<GenericResponse>();
         }
     }
 }

@@ -29,33 +29,16 @@ namespace WriteAPI.Controllers
         }
         // -------POST-------
         [HttpPost]
-        public ActionResult Add()
+        public ActionResult Add([FromBody] Chaffeur chaffeur)
         {
             try
             {
-                DateTime date = DateTime.Now;
-                var ch = new Chaffeur("testFirstazezae", "testLast", "testCity", "testStreet", "12", date, "testNationalNr3", true);
-                if (_managerChaffeur.CheckExistingChaffeur(ch, 0))
-                {
-                    if (_managerChaffeur.CheckValidationChaffeur(ch) == false)
-                    {
-                        return BadRequest(_managerChaffeur._errors);
-                    }
-                    else
-                    {
-                        var result = _managerChaffeur.AddChaffeur(ch);
-                        return Ok(result);
-                    }
-                }
-                else
-                {
-                    return BadRequest("Chaffeur with same national insurence number already exists.");
-                }
-
+                var result = _managerChaffeur.AddChaffeur(chaffeur);
+                return Ok(result);
             }
             catch (Exception e)
             {
-                return BadRequest(e);
+                return BadRequest(e.Message);
             }
         }
         [HttpPost("{chaffeurId}/Vehicles/{vehicleId}")]
@@ -64,23 +47,10 @@ namespace WriteAPI.Controllers
             try
             {
                 var ch = _managerChaffeur.GetChaffeurById(chaffeurId);
-                if (ch == null)
-                {
-                    return NotFound("This chaffeur doesn't exist");
-                }
-                else
-                {
-                    var vh = _managerVehicle.GetVehicleById(vehicleId);
-                    if (vh == null)
-                    {
-                        return NotFound("This Vehicle doesn't exist");
-                    }
-                    else
-                    {
-                        var result = _managerChaffeur.AddVehicleToChaffeur(chaffeurId, vehicleId);
-                        return Ok(result);
-                    }
-                }
+                var vh = _managerVehicle.GetVehicleById(vehicleId);
+
+                var result = _managerChaffeur.AddVehicleToChaffeur(chaffeurId, vehicleId);
+                return Ok(result);
             }
             catch (Exception ex)
             {

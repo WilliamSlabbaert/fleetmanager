@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BusinessLayer.mediator.queries;
 using BusinessLayer.models;
+using BusinessLayer.validators.response;
 using DataLayer.entities;
 using DataLayer.repositories;
 using FluentValidation;
@@ -15,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.mediator.handlers
 {
-    public class GetVehiclesHandler : IRequestHandler<GetVehiclesQuery, List<Vehicle>>
+    public class GetVehiclesHandler : IRequestHandler<GetVehiclesQuery, GenericResult>
     {
         private readonly IGenericRepo<VehicleEntity> _vehicleRepo;
         private readonly IMapper _mapper;
@@ -26,13 +27,23 @@ namespace BusinessLayer.mediator.handlers
             this._mapper = mapper;
             this._validator = validator;
         }
-        public Task<List<Vehicle>> Handle(GetVehiclesQuery request, CancellationToken cancellationToken)
+
+
+        Task<GenericResult> IRequestHandler<GetVehiclesQuery, GenericResult>.Handle(GetVehiclesQuery request, CancellationToken cancellationToken)
         {
-            return Task.FromResult(_mapper.Map<List<Vehicle>>(_vehicleRepo.GetAll(
-                s=> s.Include(s=> s.ChaffeurVehicles)
-                .ThenInclude(s=> s.Chaffeur)
-                .Include(s=>s.LicensePlates)
-                .Include(s=>s.Requests)).ToList()));
+
+            var temp =  Task.FromResult(_mapper.Map<List<Vehicle>>(_vehicleRepo.GetAll(
+                s => s.Include(s => s.ChaffeurVehicles)
+                .ThenInclude(s => s.Chaffeur)
+                .Include(s => s.LicensePlates)
+                .Include(s => s.Requests)).ToList())).Result;
+            var response = new GenericResult()
+            {
+                Message = "OK",
+                ReturnValue = temp
+            };
+            response.SetStatusCode(Overall.ResponseType.OK);
+            return Task.FromResult(response);
         }
     }
 }
