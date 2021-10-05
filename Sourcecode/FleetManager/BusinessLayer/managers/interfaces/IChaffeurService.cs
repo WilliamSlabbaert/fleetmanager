@@ -12,8 +12,8 @@ namespace BusinessLayer.managers.interfaces
     public interface IChaffeurService 
     {
         public List<GenericResponse> _errors { get; set; }
-        public List<Chaffeur> GetAllChaffeurs();
-        public Chaffeur GetChaffeurById(int id);
+        public GenericResult GetAllChaffeurs();
+        public GenericResult GetChaffeurById(int id);
         public FuelCard GetFuelcardFromChaffeur(Chaffeur chaffeur, int fuelcardId);
         public Chaffeur AddChaffeur(Chaffeur ch);
         public Chaffeur UpdateVehicleToChaffeur(int chaffeurNr, int vehicleNr, bool active);

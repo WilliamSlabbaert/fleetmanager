@@ -1,6 +1,7 @@
 ﻿using BusinessLayer;
 using BusinessLayer.managers.interfaces;
 using BusinessLayer.models;
+using BusinessLayer.validators.response;
 using DataLayer.entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -28,7 +29,7 @@ namespace ReadAPI.Controllers
         // -------GET-------
 
         [HttpGet]
-        public ActionResult<List<Chaffeur>> GetAllChaffeurs()
+        public ActionResult<GenericResult> GetAllChaffeurs()
         {
             try
             {
@@ -40,7 +41,7 @@ namespace ReadAPI.Controllers
             }
         }
         [HttpGet("{chaffeurId}")]
-        public ActionResult<Chaffeur> GetById(int chaffeurId)
+        public ActionResult<GenericResult> GetById(int chaffeurId)
         {
             try
             {
@@ -49,74 +50,74 @@ namespace ReadAPI.Controllers
             }
             catch (Exception ex)
             {
-                return NotFound(ex.Message);
+                return BadRequest(ex.Message);
             }
         }
         [HttpGet("{chaffeurId}/Vehicles")]
-        public ActionResult<List<Vehicle>> GetallVehiclesById(int chaffeurId)
+        public ActionResult<GenericResult> GetallVehiclesById(int chaffeurId)
         {
             try
             {
-                var ch = _managerChaffeur.GetChaffeurById(chaffeurId);
+                var ch = (Chaffeur)_managerChaffeur.GetChaffeurById(chaffeurId).ReturnValue;
                 return Ok(ch.ChaffeurVehicles.Select(s => s.Vehicle));
             }
             catch (Exception ex)
             {
-                return NotFound(ex.Message);
+                return BadRequest(ex.Message);
             }
         }
         [HttpGet("{chaffeurId}/Fuelcards")]
-        public ActionResult<List<FuelCard>> GetallFuelCardsById(int chaffeurId)
+        public ActionResult<GenericResult> GetallFuelCardsById(int chaffeurId)
         {
             try
             {
-                var ch = _managerChaffeur.GetChaffeurById(chaffeurId);
+                var ch = (Chaffeur)_managerChaffeur.GetChaffeurById(chaffeurId).ReturnValue;
                 return Ok(ch.ChaffeurFuelCards.Select(s => s.FuelCard));
             }
             catch (Exception ex)
             {
-                return NotFound(ex.Message);
+                return BadRequest(ex.Message);
             }
         }
         [HttpGet("{chaffeurId}/Fuelcards/{fuelcardId}")]
-        public ActionResult<FuelCard> GetFuelCard(int chaffeurId, int fuelcardId)
+        public ActionResult<GenericResult> GetFuelCard(int chaffeurId, int fuelcardId)
         {
             try
             {
-                var ch = _managerChaffeur.GetChaffeurById(chaffeurId);
+                var ch = (Chaffeur)_managerChaffeur.GetChaffeurById(chaffeurId).ReturnValue;
                 var fc = _fuelCardManager.GetFuelCardById(fuelcardId);
                 var result = _managerChaffeur.GetFuelcardFromChaffeur(ch,fuelcardId);
                 return Ok(result);
             }
             catch (Exception e)
             {
-                return NotFound(e.Message);
+                return BadRequest(e.Message);
             }
         }
         [HttpGet("{chaffeurId}/Requests")]
-        public ActionResult<List<Vehicle>> GetallRequestsById(int chaffeurId)
+        public ActionResult<GenericResult> GetallRequestsById(int chaffeurId)
         {
             try
             {
-                var ch = _managerChaffeur.GetChaffeurById(chaffeurId);
+                var ch = (Chaffeur)_managerChaffeur.GetChaffeurById(chaffeurId).ReturnValue;
                 return Ok(ch.Requests);
             }
             catch (Exception ex)
             {
-                return NotFound(ex.Message);
+                return BadRequest(ex.Message);
             }
         }
         [HttpGet("{chaffeurId}/Drivinglicenses")]
-        public ActionResult<List<Vehicle>> GetallDrivingLicensesById(int chaffeurId)
+        public ActionResult<GenericResult> GetallDrivingLicensesById(int chaffeurId)
         {
             try
             {
-                var ch = _managerChaffeur.GetChaffeurById(chaffeurId);
+                var ch = (Chaffeur)_managerChaffeur.GetChaffeurById(chaffeurId).ReturnValue;
                 return Ok(ch.DrivingLicenses);
             }
             catch (Exception ex)
             {
-                return NotFound(ex.Message);
+                return BadRequest(ex.Message);
             }
         }
     }

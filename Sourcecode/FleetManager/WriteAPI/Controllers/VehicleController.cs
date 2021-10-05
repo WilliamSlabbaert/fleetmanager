@@ -78,42 +78,7 @@ namespace WriteAPI.Controllers
         {
             try
             {
-                var vh = _mediator.Send(new GetVehicleByIdQuery(id));
-                if (vh.Result == null)
-                {
-                    return NotFound("This vehicle doesn't exist");
-                }
-                else
-                {
-                    var lp = _mediator.Send(new GetLicensePlateFromVehicleQuery(id, licenseId));
-                    if (lp.Result == null)
-                    {
-                        return NotFound("This licenseplate doesn't exist");
-                    }
-                    else
-                    {
-                        var plate = new LicensePlate("TEST3", true) { Id = licenseId };
-                        var command = new CheckExistingLicensePlateQuery(plate);
-                        var command2 = new UpdateLicensePlateFromVehicleCommand(id, licenseId, plate);
-                        var result = _mediator.Send(command);
-                        if (result.Result)
-                        {
-                            var result2 = _mediator.Send(command2);
-                            if (command2._errors.Count != 0)
-                            {
-                                return BadRequest(command2._errors);
-                            }
-                            else
-                            {
-                                return Ok(result2.Result);
-                            }
-                        }
-                        else
-                        {
-                            return BadRequest("Licenseplate already exists.");
-                        }
-                    }
-                }
+                return BadRequest();
             }
             catch (Exception ex)
             {

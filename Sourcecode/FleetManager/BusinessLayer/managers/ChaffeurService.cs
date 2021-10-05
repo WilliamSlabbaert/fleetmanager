@@ -59,7 +59,7 @@ namespace BusinessLayer.managers
             }
         }
 
-        public Chaffeur GetChaffeurById(int id)
+        public GenericResult GetChaffeurById(int id)
         {
             var temp = _repo.GetById(
             filter: x => x.Id == id
@@ -69,11 +69,18 @@ namespace BusinessLayer.managers
             .Include(s => s.Requests)
             .Include(s => s.ChaffeurVehicles)
             .ThenInclude(s => s.Vehicle));
+
+            var resp = new GenericResult();
             if (temp == null)
             {
-                throw new Exception("Chaffeur not found.");
+                resp.Message = "Chaffeur not found.";
+                resp.SetStatusCode(Overall.ResponseType.NotFound);
+                return resp;
             }
-            return _mapper.Map<Chaffeur>(temp);
+            resp.Message = "Ok";
+            resp.SetStatusCode(Overall.ResponseType.OK);
+            resp.ReturnValue = _mapper.Map<Chaffeur>(temp);
+            return resp;
         }
         public FuelCard GetFuelcardFromChaffeur(Chaffeur chaffeur, int fuelcardId)
         {
@@ -195,7 +202,7 @@ namespace BusinessLayer.managers
             .Include(s => s.Requests));
             return vh;
         }
-        public List<Chaffeur> GetAllChaffeurs()
+        public GenericResult GetAllChaffeurs()
         {
             var temp = this._repo.GetAll(
                 x => x.Include(s => s.ChaffeurFuelCards)
@@ -204,7 +211,17 @@ namespace BusinessLayer.managers
                 .Include(s => s.DrivingLicenses)
                 .Include(s => s.Requests));
 
-            return _mapper.Map<List<Chaffeur>>(temp);
+            var resp = new GenericResult();
+            if (temp == null)
+            {
+                resp.Message = "Chaffeur not found.";
+                resp.SetStatusCode(Overall.ResponseType.NotFound);
+                return resp;
+            }
+            resp.Message = "Ok";
+            resp.SetStatusCode(Overall.ResponseType.OK);
+            resp.ReturnValue = _mapper.Map<List<Chaffeur>>(temp);
+            return resp;
         }
     }
 }

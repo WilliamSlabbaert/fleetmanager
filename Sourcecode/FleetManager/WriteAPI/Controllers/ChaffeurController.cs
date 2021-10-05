@@ -98,7 +98,7 @@ namespace WriteAPI.Controllers
         {
             try
             {
-                var ch = _managerChaffeur.GetChaffeurById(chaffeurId);
+                var ch = (Chaffeur)_managerChaffeur.GetChaffeurById(chaffeurId).ReturnValue;
                 if (ch == null)
                 {
                     return NotFound("This chaffeur doesn't exist.");
@@ -139,7 +139,7 @@ namespace WriteAPI.Controllers
                 DateTime date = DateTime.Now;
                 var ch1 = new Chaffeur("William", "Slabbaert", "testCity", "testStreet", "132", date, "testNationalNr77", false);
 
-                var ch = _managerChaffeur.GetChaffeurById(chaffeurId);
+                var ch = (Chaffeur)_managerChaffeur.GetChaffeurById(chaffeurId).ReturnValue;
                 if (ch == null)
                 {
                     return NotFound("This chaffeur doesn't exist");
@@ -204,7 +204,7 @@ namespace WriteAPI.Controllers
         {
             try
             {
-                var ch = _managerChaffeur.GetChaffeurById(chaffeurId);
+                var ch = (Chaffeur)_managerChaffeur.GetChaffeurById(chaffeurId).ReturnValue;
                 if (ch == null)
                 {
                     return NotFound("This chaffeur doesn't exist.");
@@ -242,7 +242,7 @@ namespace WriteAPI.Controllers
         {
             try
             {
-                var ch = _managerChaffeur.GetChaffeurById(chaffeurId);
+                var ch = (Chaffeur)_managerChaffeur.GetChaffeurById(chaffeurId).ReturnValue;
                 if (ch == null)
                 {
                     return NotFound("This chaffeur doesn't exist");
