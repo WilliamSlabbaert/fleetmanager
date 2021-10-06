@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BusinessLayer.managers.interfaces;
+using BusinessLayer.mediator.commands;
 using BusinessLayer.models;
 using BusinessLayer.validators;
 using BusinessLayer.validators.response;
@@ -7,6 +8,7 @@ using DataLayer.entities;
 using DataLayer.repositories;
 using FluentValidation;
 using FluentValidation.Results;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -23,14 +25,16 @@ namespace BusinessLayer.managers
         private readonly IMapper _mapper;
         private readonly IValidator<Chaffeur> _validator;
         private readonly IValidator<VehicleChaffeur> _validatorvhch;
+        private IMediator _mediator;
         public List<GenericResponse> _errors { get; set; }
-        public ChaffeurService(IGenericRepo<ChaffeurEntity> repo, IMapper mapper, IGenericRepo<VehicleEntity> vhrepo, IValidator<Chaffeur> val, IValidator<VehicleChaffeur> validatorvhch)
+        public ChaffeurService(IGenericRepo<ChaffeurEntity> repo, IMapper mapper, IGenericRepo<VehicleEntity> vhrepo, IValidator<Chaffeur> val, IValidator<VehicleChaffeur> validatorvhch, IMediator mediator)
         {
             this._repo = repo;
             this._mapper = mapper;
             this._vhrepo = vhrepo;
             this._validator = val;
             this._validatorvhch = validatorvhch;
+            this._mediator = mediator;
             this._errors = new List<GenericResponse>();
         }
 
@@ -211,78 +215,79 @@ namespace BusinessLayer.managers
                 .Include(s => s.DrivingLicenses)
                 .Include(s => s.Requests));
 
-            var resp = new GenericResult();
+            var message = "OK";
+            var code = Overall.ResponseType.OK;
+            var value = _mapper.Map<List<Chaffeur>>(temp);
             if (temp == null)
             {
-                resp.Message = "Chaffeur not found.";
-                resp.SetStatusCode(Overall.ResponseType.NotFound);
-                return resp;
+                message = "Chaffeur not found";
+                code = Overall.ResponseType.NotFound;
+                value = null;
             }
-            resp.Message = "Ok";
-            resp.SetStatusCode(Overall.ResponseType.OK);
-            resp.ReturnValue = _mapper.Map<List<Chaffeur>>(temp);
-            return resp;
+            var resp = _mediator.Send(new CreateGenericResultCommand(message,code,value));
+            return resp.Result;
         }
         public GenericResult GetChaffeurVehicles(int chaffeurId)
         {
             var temp = GetChaffeurEntity(chaffeurId);
-            var resp = new GenericResult();
+
+            var message = "OK";
+            var code = Overall.ResponseType.OK;
+            var value = _mapper.Map<Chaffeur>(temp).ChaffeurVehicles;
             if (temp == null)
             {
-                resp.Message = "Chaffeur not found.";
-                resp.SetStatusCode(Overall.ResponseType.NotFound);
-                return resp;
+                message = "Chaffeur not found";
+                code = Overall.ResponseType.NotFound;
+                value = null;
             }
-            resp.Message = "Ok";
-            resp.SetStatusCode(Overall.ResponseType.OK);
-            resp.ReturnValue = _mapper.Map<Chaffeur>(temp).ChaffeurVehicles;
-            return resp;
+            var resp = _mediator.Send(new CreateGenericResultCommand(message, code, value));
+            return resp.Result;
         }
         public GenericResult GetChaffeurRequests(int chaffeurId)
         {
             var temp = GetChaffeurEntity(chaffeurId);
-            var resp = new GenericResult();
+            var message = "OK";
+            var code = Overall.ResponseType.OK;
+            var value = _mapper.Map<Chaffeur>(temp).Requests;
             if (temp == null)
             {
-                resp.Message = "Chaffeur not found.";
-                resp.SetStatusCode(Overall.ResponseType.NotFound);
-                return resp;
+                message = "Chaffeur not found";
+                code = Overall.ResponseType.NotFound;
+                value = null;
             }
-            resp.Message = "Ok";
-            resp.SetStatusCode(Overall.ResponseType.OK);
-            resp.ReturnValue = _mapper.Map<Chaffeur>(temp).Requests;
-            return resp;
+            var resp = _mediator.Send(new CreateGenericResultCommand(message, code, value));
+            return resp.Result;
         }
         public GenericResult GetChaffeurFuelcards(int chaffeurId)
         {
             var temp = GetChaffeurEntity(chaffeurId);
-            var resp = new GenericResult();
+            var message = "OK";
+            var code = Overall.ResponseType.OK;
+            var value = _mapper.Map<Chaffeur>(temp).ChaffeurFuelCards;
             if (temp == null)
             {
-                resp.Message = "Chaffeur not found.";
-                resp.SetStatusCode(Overall.ResponseType.NotFound);
-                return resp;
+                message = "Chaffeur not found";
+                code = Overall.ResponseType.NotFound;
+                value = null;
             }
-            resp.Message = "Ok";
-            resp.SetStatusCode(Overall.ResponseType.OK);
-            resp.ReturnValue = _mapper.Map<Chaffeur>(temp).ChaffeurFuelCards;
-            return resp;
+            var resp = _mediator.Send(new CreateGenericResultCommand(message, code, value));
+            return resp.Result;
         }
         public GenericResult GetChaffeurDrivingLicenses(int chaffeurId)
         {
             var temp = GetChaffeurEntity(chaffeurId);
 
-            var resp = new GenericResult();
+            var message = "OK";
+            var code = Overall.ResponseType.OK;
+            var value = _mapper.Map<Chaffeur>(temp).DrivingLicenses;
             if (temp == null)
             {
-                resp.Message = "Chaffeur not found.";
-                resp.SetStatusCode(Overall.ResponseType.NotFound);
-                return resp;
+                message = "Chaffeur not found";
+                code = Overall.ResponseType.NotFound;
+                value = null;
             }
-            resp.Message = "Ok";
-            resp.SetStatusCode(Overall.ResponseType.OK);
-            resp.ReturnValue = _mapper.Map<Chaffeur>(temp).DrivingLicenses;
-            return resp;
+            var resp = _mediator.Send(new CreateGenericResultCommand(message, code, value));
+            return resp.Result;
         }
     }
 }
