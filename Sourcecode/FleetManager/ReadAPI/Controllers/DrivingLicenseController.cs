@@ -1,6 +1,7 @@
 ﻿using BusinessLayer;
 using BusinessLayer.managers.interfaces;
 using BusinessLayer.models;
+using BusinessLayer.validators.response;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -23,10 +24,11 @@ namespace ReadAPI.Controllers
         }
         // ------GET------
         [HttpGet("Drivinglicense")]
-        public ActionResult<List<DrivingLicense>> GetAll()
+        public ActionResult<GenericResult> GetAll()
         {
             try
             {
+                //_drivingLicenseManager.AddDrivingLicense(new DrivingLicense(Overall.License.AM),1);
                 return Ok(_drivingLicenseManager.GetAllDrivingLicenses());
             }
             catch(Exception e)
@@ -40,10 +42,6 @@ namespace ReadAPI.Controllers
             try
             {
                 var vh = _drivingLicenseManager.GetAllDrivingLicenseById(id);
-                if (vh == null)
-                {
-                    return NotFound("This drivinglicense doesn't exist");
-                }
                 return Ok(vh);
             }
             catch (Exception ex)
@@ -53,17 +51,13 @@ namespace ReadAPI.Controllers
         }
         
         
-        [HttpGet("Drivinglicense/{id}/Chaffeur")]
+        [HttpGet("Drivinglicense/{id}/Chaffeurs")]
         public ActionResult<Chaffeur> GetFuelCardByIDChaffeur(int id)
         {
             try
             {
-                var vh = _drivingLicenseManager.GetAllDrivingLicenseById(id);
-                if (vh == null)
-                {
-                    return NotFound("This drivinglicense doesn't exist");
-                }
-                return Ok(vh.Chaffeur);
+                var vh = _drivingLicenseManager.GetDrivingLicenseChaffeurById(id);
+                return Ok(vh);
             }
             catch (Exception ex)
             {

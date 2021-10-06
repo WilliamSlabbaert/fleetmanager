@@ -41,8 +41,8 @@ namespace BusinessLayer.managers
         public Chaffeur AddChaffeur(Chaffeur ch)
         {
             var temp = _mapper.Map<ChaffeurEntity>(ch);
-            var check = CheckExistingChaffeur(ch,ch.Id);
-            if(check == false)
+            var check = CheckExistingChaffeur(ch, ch.Id);
+            if (check == false)
             {
                 throw new Exception("Chaffeur with same national insurence number already exists.");
             }
@@ -215,74 +215,40 @@ namespace BusinessLayer.managers
                 .Include(s => s.DrivingLicenses)
                 .Include(s => s.Requests));
 
-            var message = "OK";
-            var code = Overall.ResponseType.OK;
             var value = _mapper.Map<List<Chaffeur>>(temp);
-            if (temp == null)
-            {
-                message = "Chaffeur not found";
-                code = Overall.ResponseType.NotFound;
-                value = null;
-            }
-            var resp = _mediator.Send(new CreateGenericResultCommand(message,code,value));
-            return resp.Result;
+            return CreateResult(temp == null, value);
         }
         public GenericResult GetChaffeurVehicles(int chaffeurId)
         {
             var temp = GetChaffeurEntity(chaffeurId);
-
-            var message = "OK";
-            var code = Overall.ResponseType.OK;
-            var value = _mapper.Map<Chaffeur>(temp).ChaffeurVehicles;
-            if (temp == null)
-            {
-                message = "Chaffeur not found";
-                code = Overall.ResponseType.NotFound;
-                value = null;
-            }
-            var resp = _mediator.Send(new CreateGenericResultCommand(message, code, value));
-            return resp.Result;
+            var value = temp == null ? null : _mapper.Map<Chaffeur>(temp).ChaffeurVehicles;
+            return CreateResult(temp == null, value);
         }
         public GenericResult GetChaffeurRequests(int chaffeurId)
         {
             var temp = GetChaffeurEntity(chaffeurId);
-            var message = "OK";
-            var code = Overall.ResponseType.OK;
-            var value = _mapper.Map<Chaffeur>(temp).Requests;
-            if (temp == null)
-            {
-                message = "Chaffeur not found";
-                code = Overall.ResponseType.NotFound;
-                value = null;
-            }
-            var resp = _mediator.Send(new CreateGenericResultCommand(message, code, value));
-            return resp.Result;
+            var value = temp == null ? null : _mapper.Map<Chaffeur>(temp).Requests;
+            return CreateResult(temp == null, value);
         }
         public GenericResult GetChaffeurFuelcards(int chaffeurId)
         {
             var temp = GetChaffeurEntity(chaffeurId);
-            var message = "OK";
-            var code = Overall.ResponseType.OK;
-            var value = _mapper.Map<Chaffeur>(temp).ChaffeurFuelCards;
-            if (temp == null)
-            {
-                message = "Chaffeur not found";
-                code = Overall.ResponseType.NotFound;
-                value = null;
-            }
-            var resp = _mediator.Send(new CreateGenericResultCommand(message, code, value));
-            return resp.Result;
+            var value = temp == null ? null : _mapper.Map<Chaffeur>(temp).ChaffeurFuelCards;
+            return CreateResult(temp == null, value);
         }
         public GenericResult GetChaffeurDrivingLicenses(int chaffeurId)
         {
             var temp = GetChaffeurEntity(chaffeurId);
-
+            var value = temp == null ? null : _mapper.Map<Chaffeur>(temp).DrivingLicenses;
+            return CreateResult(temp == null, value);
+        }
+        public GenericResult CreateResult(bool check, object value)
+        {
             var message = "OK";
             var code = Overall.ResponseType.OK;
-            var value = _mapper.Map<Chaffeur>(temp).DrivingLicenses;
-            if (temp == null)
+            if (check)
             {
-                message = "Chaffeur not found";
+                message = "Chaffeur('s) not found";
                 code = Overall.ResponseType.NotFound;
                 value = null;
             }

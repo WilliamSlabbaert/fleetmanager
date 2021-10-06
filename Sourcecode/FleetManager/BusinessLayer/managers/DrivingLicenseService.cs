@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using BusinessLayer.managers.interfaces;
+using BusinessLayer.mediator.commands;
 using BusinessLayer.models;
 using BusinessLayer.validators.response;
 using DataLayer.entities;
 using DataLayer.repositories;
 using FluentValidation;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -20,13 +22,15 @@ namespace BusinessLayer.managers
         private readonly IGenericRepo<ChaffeurEntity> _chrepo;
         private readonly IMapper _mapper;
         private readonly IValidator<DrivingLicense> _validator;
+        private IMediator _mediator;
         public List<GenericResponse> _errors { get; set; }
-        public DrivingLicenseService(IGenericRepo<DrivingLicenseEntity> repo, IMapper mapper, IGenericRepo<ChaffeurEntity> chrepo, IValidator<DrivingLicense> validator)
+        public DrivingLicenseService(IGenericRepo<DrivingLicenseEntity> repo, IMapper mapper, IGenericRepo<ChaffeurEntity> chrepo, IValidator<DrivingLicense> validator, IMediator mediator)
         {
             this._repo = repo;
             this._mapper = mapper;
             this._chrepo = chrepo;
             this._validator = validator;
+            this._mediator = mediator;
             _errors = new List<GenericResponse>();
         }
         public DrivingLicense AddDrivingLicense(DrivingLicense drivinglicense, int chaffeurid)
@@ -61,16 +65,29 @@ namespace BusinessLayer.managers
             }
             return _mapper.Map<Chaffeur>(temp);
         }
-        public List<DrivingLicense> GetAllDrivingLicenses()
+        public GenericResult GetAllDrivingLicenses()
         {
-            return _mapper.Map<List<DrivingLicense>>(_repo.GetAll(
+            var temp = _mapper.Map<List<DrivingLicense>>(_repo.GetAll(
                 s => s.Include(x => x.Chaffeur)));
+            var value = temp == null ? null : _mapper.Map<List<DrivingLicense>>(temp);
+            return CreateResult(temp == null, value);
         }
-        public DrivingLicense GetAllDrivingLicenseById(int id)
+        public GenericResult GetAllDrivingLicenseById(int id)
         {
-            return _mapper.Map<DrivingLicense>(_repo.GetById(
+            var value = _mapper.Map<DrivingLicense>(_repo.GetById(
                 filter: x => x.Id == id,
                 including: s => s.Include(x => x.Chaffeur)));
+
+            return CreateResult(value == null, value);
+        }
+        public GenericResult GetDrivingLicenseChaffeurById(int id)
+        {
+            var temp = _mapper.Map<DrivingLicense>(_repo.GetById(
+                filter: x => x.Id == id,
+                including: s => s.Include(x => x.Chaffeur)));
+
+            var value = temp == null ? null : temp.Chaffeur;
+            return CreateResult(temp == null, value);
         }
         public ChaffeurEntity GetChaffeurEntity(int id)
         {
@@ -90,5 +107,19 @@ namespace BusinessLayer.managers
             var temp = _mapper.Map<Chaffeur>(GetChaffeurEntity(id));
             return temp.CheckDrivingLicense(license);
         }
+        public GenericResult CreateResult(bool check, object value)
+        {
+            var message = "OK";
+            var code = Overall.ResponseType.OK;
+            if (check)
+            {
+                message = "Driving license('s) not found";
+                code = Overall.ResponseType.NotFound;
+                value = null;
+            }
+            var resp = _mediator.Send(new CreateGenericResultCommand(message, code, value));
+            return resp.Result;
+        }
+
     }
 }

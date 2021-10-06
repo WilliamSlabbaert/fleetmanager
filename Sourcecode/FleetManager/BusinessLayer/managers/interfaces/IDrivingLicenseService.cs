@@ -11,11 +11,12 @@ namespace BusinessLayer.managers.interfaces
     public interface IDrivingLicenseService
     {
         public List<GenericResponse> _errors { get; set; }
+        public GenericResult GetAllDrivingLicenseById(int id);
+        public GenericResult GetAllDrivingLicenses();
+        public GenericResult GetDrivingLicenseChaffeurById(int id);
         public DrivingLicense AddDrivingLicense(DrivingLicense drivinglicense, int chaffeurid);
-        public List<DrivingLicense> GetAllDrivingLicenses();
         public Chaffeur DeleteDrivingLicense(int drivinglicense, int chaffeurid);
         public bool CheckValidationDrivingLicense(DrivingLicense drivinglicense);
-        public DrivingLicense GetAllDrivingLicenseById(int id);
         public bool CheckExistingDrivingLicense(int id, DrivingLicense license);
     }
 }
