@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using BusinessLayer.managers.interfaces;
+using BusinessLayer.mediator.commands;
 using BusinessLayer.models;
 using BusinessLayer.validators.response;
 using DataLayer.entities;
 using DataLayer.repositories;
 using FluentValidation;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -20,14 +22,16 @@ namespace BusinessLayer.managers
         private readonly IGenericRepo<RepairmentEntity> _repo;
         private readonly IMapper _mapper;
         private readonly IValidator<Repairment> _validator;
+        private IMediator _mediator;
         public List<GenericResponse> _errors { get; set; }
-        public RepairmentService(IGenericRepo<RequestEntity> rqrepo, IMapper mapper, IGenericRepo<RepairmentEntity> repo, IValidator<Repairment> validator)
+        public RepairmentService(IGenericRepo<RequestEntity> rqrepo, IMapper mapper, IGenericRepo<RepairmentEntity> repo, IValidator<Repairment> validator, IMediator mediator)
         {
             this._repo = repo;
             this._rqrepo = rqrepo;
             this._mapper = mapper;
             this._validator = validator;
             this._errors = new List<GenericResponse>();
+            this._mediator = mediator;
         }
         public Repairment AddRepairment(Repairment repairment, int requestId)
         {
@@ -69,17 +73,29 @@ namespace BusinessLayer.managers
         }
 
 
-        public List<Repairment> GetAllRepairments()
+        public GenericResult GetAllRepairments()
         {
-            return _mapper.Map<List<Repairment>>(_repo.GetAll(
+            var temp = _mapper.Map<List<Repairment>>(_repo.GetAll(
                 x => x.Include(s => s.Request)));
+
+            var value = temp == null ? null : temp;
+            return CreateResult(temp == null, value);
         }
-        public Repairment GetRepairmentById(int id)
+        public GenericResult GetRepairmentById(int id)
         {
-            return _mapper.Map<Repairment>(_repo.GetById(
-                filter: x => x.Id == id,
-                x => x.Include(s => s.Request)));
+            var temp = _mapper.Map<Repairment>(GetRepairmentEntityById(id));
+
+            var value = temp == null ? null : temp;
+            return CreateResult(temp == null, value);
         }
+        public GenericResult GetRepairmentRequestById(int id)
+        {
+            var temp = _mapper.Map<Repairment>(GetRepairmentEntityById(id));
+
+            var value = temp == null ? null : temp.Request;
+            return CreateResult(temp == null, value);
+        }
+
         public RepairmentEntity GetRepairmentEntityById(int id)
         {
             return _repo.GetById(
@@ -100,6 +116,19 @@ namespace BusinessLayer.managers
                 throw new Exception("Request is null.");
             }
 
+        }
+        public GenericResult CreateResult(bool check, object value)
+        {
+            var message = "OK";
+            var code = Overall.ResponseType.OK;
+            if (check)
+            {
+                message = "Repairment('s) not found";
+                code = Overall.ResponseType.NotFound;
+                value = null;
+            }
+            var resp = _mediator.Send(new CreateGenericResultCommand(message, code, value));
+            return resp.Result;
         }
     }
 }
