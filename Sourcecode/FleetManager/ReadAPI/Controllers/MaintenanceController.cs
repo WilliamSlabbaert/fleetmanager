@@ -27,6 +27,7 @@ namespace ReadAPI.Controllers
         {
             try
             {
+                //_managerMaintenance.AddMaintenance(new Maintenance(DateTime.Now,123,"test"),1);
                 var temp = _managerMaintenance.GetAllMaintenances();
                 return Ok(temp);
             }
@@ -42,10 +43,6 @@ namespace ReadAPI.Controllers
             try
             {
                 var vh = _managerMaintenance.GetMaintenanceById(id);
-                if (vh == null)
-                {
-                    return NotFound("This Maintenance doesn't exist");
-                }
                 return Ok(vh);
             }
             catch (Exception ex)
@@ -58,12 +55,21 @@ namespace ReadAPI.Controllers
         {
             try
             {
-                var vh = _managerMaintenance.GetMaintenanceById(id);
-                if (vh == null)
-                {
-                    return NotFound("This Maintenance doesn't exist");
-                }
-                return Ok(vh.Request);
+                var vh = _managerMaintenance.GetMaintenanceRequestById(id);
+                return Ok(vh);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+        [HttpGet("Maintenance/{id}/Invoices")]
+        public ActionResult<GenericResult> GetByIdInvoices(int id)
+        {
+            try
+            {
+                var vh = _managerMaintenance.GetMaintenanceInvoicesById(id);
+                return Ok(vh);
             }
             catch (Exception ex)
             {

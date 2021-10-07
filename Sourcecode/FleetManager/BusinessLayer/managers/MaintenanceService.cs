@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using BusinessLayer.managers.interfaces;
+using BusinessLayer.mediator.commands;
 using BusinessLayer.models;
 using BusinessLayer.validators.response;
 using DataLayer.entities;
 using DataLayer.repositories;
 using FluentValidation;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -20,13 +22,15 @@ namespace BusinessLayer.managers
         private readonly IGenericRepo<MaintenanceEntity> _repo;
         private readonly IMapper _mapper;
         private readonly IValidator<Maintenance> _validator;
+        private IMediator _mediator;
         public List<GenericResponse> _errors { get; set; }
-        public MaintenanceService(IGenericRepo<RequestEntity> rqrepo, IMapper mapper, IGenericRepo<MaintenanceEntity> repo, IValidator<Maintenance> validator)
+        public MaintenanceService(IGenericRepo<RequestEntity> rqrepo, IMapper mapper, IGenericRepo<MaintenanceEntity> repo, IValidator<Maintenance> validator,IMediator mediator)
         {
             this._repo = repo;
             this._rqrepo = rqrepo;
             this._mapper = mapper;
             this._validator = validator;
+            this._mediator = mediator;
             this._errors = new List<GenericResponse>();
         }
         public Maintenance AddMaintenance(Maintenance maintenance, int requestId)
@@ -65,16 +69,40 @@ namespace BusinessLayer.managers
             return _mapper.Map<Maintenance>(EditMaintenance);
         }
 
-        public List<Maintenance> GetAllMaintenances()
+        public GenericResult GetAllMaintenances()
         {
-            return _mapper.Map<List<Maintenance>>(_repo.GetAll(
+            var temp = _mapper.Map<List<Maintenance>>(_repo.GetAll(
                 x => x.Include(s => s.Request)));
+
+            var value = temp == null ? null : temp;
+            return CreateResult(temp == null, value);
         }
-        public Maintenance GetMaintenanceById(int id)
+        public GenericResult GetMaintenanceById(int id)
         {
-            return _mapper.Map<Maintenance>(_repo.GetById(
+            var temp = _mapper.Map<Maintenance>(_repo.GetById(
                 filter: x => x.Id == id,
                 x => x.Include(s => s.Request)));
+
+            var value = temp == null ? null : temp;
+            return CreateResult(temp == null, value);
+        }
+        public GenericResult GetMaintenanceInvoicesById(int id)
+        {
+            var temp = _mapper.Map<Maintenance>(_repo.GetById(
+                filter: x => x.Id == id,
+                x => x.Include(s => s.Request)));
+
+            var value = temp == null ? null : temp.Invoices;
+            return CreateResult(temp == null, value);
+        }
+        public GenericResult GetMaintenanceRequestById(int id)
+        {
+            var temp = _mapper.Map<Maintenance>(_repo.GetById(
+                filter: x => x.Id == id,
+                x => x.Include(s => s.Request)));
+
+            var value = temp == null ? null : temp.Request;
+            return CreateResult(temp == null, value);
         }
         public MaintenanceEntity GetMaintenanceEntityById(int id)
         {
@@ -88,6 +116,19 @@ namespace BusinessLayer.managers
             return _rqrepo.GetById(
             filter: x => x.Id == id,
             x => x.Include(x => x.Maintenance));
+        }
+        public GenericResult CreateResult(bool check, object value)
+        {
+            var message = "OK";
+            var code = Overall.ResponseType.OK;
+            if (check)
+            {
+                message = "Maintenance('s) not found";
+                code = Overall.ResponseType.NotFound;
+                value = null;
+            }
+            var resp = _mediator.Send(new CreateGenericResultCommand(message, code, value));
+            return resp.Result;
         }
     }
 }
