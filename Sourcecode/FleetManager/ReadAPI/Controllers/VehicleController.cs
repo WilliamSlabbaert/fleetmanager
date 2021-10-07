@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace ReadAPI.Controllers
 {
+    [ApiController]
     public class VehicleController : Controller
     {
         private readonly ILogger<VehicleController> _logger;

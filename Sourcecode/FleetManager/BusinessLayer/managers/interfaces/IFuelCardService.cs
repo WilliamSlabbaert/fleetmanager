@@ -11,8 +11,11 @@ namespace BusinessLayer.managers.interfaces
     public interface IFuelCardService
     {
         public List<GenericResponse> _errors { get; set; }
-        public FuelCard GetFuelCardById(int id);
-        public List<FuelCard> GetAllFuelCards();
+        public GenericResult GetFuelCardById(int id);
+        public GenericResult GetAllFuelCards();
+        public GenericResult GetFuelcardCHaffeurs(int id);
+        public GenericResult GetFuelcardFuelTypes(int id);
+        public GenericResult GetFuelcardAuthenications(int id);
         public bool CheckExistingFuelCard(FuelCard fc);
         public bool CheckValidationService(ExtraService extraService);
         public bool CheckValidationFuelType(FuelType fueltype);

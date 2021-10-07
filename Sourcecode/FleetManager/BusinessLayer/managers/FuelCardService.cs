@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using BusinessLayer.managers.interfaces;
+using BusinessLayer.mediator.commands;
 using BusinessLayer.models;
 using BusinessLayer.validators.response;
 using DataLayer.entities;
 using DataLayer.repositories;
 using FluentValidation;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -24,8 +26,9 @@ namespace BusinessLayer.managers
         private readonly IValidator<ExtraService> _validatores;
         private readonly IValidator<FuelCardChaffeur> _validatorfcch;
         private readonly IValidator<AuthenticationType> _validatorat;
+        private IMediator _mediator;
         public List<GenericResponse> _errors { get; set; }
-        public FuelCardService(IGenericRepo<FuelCardEntity> repo, IMapper mapper, IGenericRepo<ChaffeurEntity> chrepo, IValidator<FuelCard> _validator, IValidator<FuelCardChaffeur> validatorfcch, IValidator<FuelType> ft, IValidator<ExtraService> validatores, IValidator<AuthenticationType> validatorat)
+        public FuelCardService(IGenericRepo<FuelCardEntity> repo, IMapper mapper, IGenericRepo<ChaffeurEntity> chrepo, IValidator<FuelCard> _validator, IValidator<FuelCardChaffeur> validatorfcch, IValidator<FuelType> ft, IValidator<ExtraService> validatores, IValidator<AuthenticationType> validatorat,IMediator mediator)
         {
             this._repo = repo;
             this._mapper = mapper;
@@ -35,6 +38,7 @@ namespace BusinessLayer.managers
             this._validatorft = ft;
             this._validatores = validatores;
             this._validatorat = validatorat;
+            this._mediator = mediator;
             _errors = new List<GenericResponse>();
         }
 
@@ -217,29 +221,46 @@ namespace BusinessLayer.managers
             return _mapper.Map<FuelCard>(temp);
 
         }
-        public List<FuelCard> GetAllFuelCards()
+        public GenericResult GetAllFuelCards()
         {
-            return _mapper.Map<List<FuelCard>>(this._repo.GetAll(
+            var temp = _mapper.Map<List<FuelCard>>(this._repo.GetAll(
                 x => x.Include(s => s.Services)
                 .Include(s => s.FuelType)
                 .Include(s => s.AuthenticationTypes)
                 .Include(s => s.ChaffeurFuelCards)));
+
+            var value = temp == null ? null : temp;
+            return CreateResult(temp == null, value);
         }
 
-        public FuelCard GetFuelCardById(int id)
+        public GenericResult GetFuelCardById(int id)
         {
-            var temp = _mapper.Map<FuelCard>(_repo.GetById(
-                filter: x => x.Id == id,
-                x => x.Include(s => s.Services)
-                .Include(s => s.FuelType)
-                .Include(s => s.AuthenticationTypes)
-                .Include(s => s.ChaffeurFuelCards)
-                .ThenInclude(s => s.Chaffeur)));
-            if(temp == null)
-            {
-                throw new Exception("Fuelcard not found.");
-            }
-            return temp;
+            var temp = _mapper.Map<FuelCard>(GetFuelCardEntity(id));
+
+            var value = temp == null ? null : temp;
+            return CreateResult(temp == null, value);
+        }
+        
+        public GenericResult GetFuelcardCHaffeurs(int id)
+        {
+            var temp = GetFuelCardEntity(id);
+
+            var value = temp == null ? null : temp.ChaffeurFuelCards;
+            return CreateResult(temp == null, value);
+        }
+        public GenericResult GetFuelcardFuelTypes(int id)
+        {
+            var temp = GetFuelCardEntity(id);
+
+            var value = temp == null ? null : temp.FuelType;
+            return CreateResult(temp == null, value);
+        }
+        public GenericResult GetFuelcardAuthenications(int id)
+        {
+            var temp = GetFuelCardEntity(id);
+
+            var value = temp == null ? null : temp.AuthenticationTypes;
+            return CreateResult(temp == null, value);
         }
         public FuelCardEntity GetFuelCardEntity(int id)
         {
@@ -271,6 +292,19 @@ namespace BusinessLayer.managers
             _repo.UpdateEntity(fc);
             _repo.Save();
             return _mapper.Map<FuelCard>(fc);
+        }
+        public GenericResult CreateResult(bool check, object value)
+        {
+            var message = "OK";
+            var code = Overall.ResponseType.OK;
+            if (check)
+            {
+                message = "Fuelcard('s) not found";
+                code = Overall.ResponseType.NotFound;
+                value = null;
+            }
+            var resp = _mediator.Send(new CreateGenericResultCommand(message, code, value));
+            return resp.Result;
         }
     }
 }

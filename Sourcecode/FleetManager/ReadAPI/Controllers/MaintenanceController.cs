@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace ReadAPI.Controllers
 {
+    [ApiController]
     public class MaintenanceController : Controller
     {
         private readonly ILogger<MaintenanceController> _logger;

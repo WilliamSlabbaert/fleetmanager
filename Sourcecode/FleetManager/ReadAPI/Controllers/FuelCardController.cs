@@ -1,6 +1,7 @@
 ﻿using BusinessLayer;
 using BusinessLayer.managers.interfaces;
 using BusinessLayer.models;
+using BusinessLayer.validators.response;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace ReadAPI.Controllers
 {
+    [ApiController]
     public class FuelCardController : Controller
     {
         
@@ -24,7 +26,7 @@ namespace ReadAPI.Controllers
         }
         // ------GET-------
         [HttpGet("Fuelcard")]
-        public ActionResult<List<FuelCard>> Get()
+        public ActionResult<GenericResult> Get()
         {
             try
             {
@@ -33,58 +35,46 @@ namespace ReadAPI.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
         }
         [HttpGet("Fuelcard/{id}")]
-        public ActionResult<FuelCard> GetFuelCardByID(int id)
+        public ActionResult<GenericResult> GetFuelCardByID(int id)
         {
             try
             {
                 var vh = _fuelCardManager.GetFuelCardById(id);
-                if (vh == null)
-                {
-                    return NotFound("This fuelcard doesn't exist");
-                }
                 return Ok(vh);
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
         }
         [HttpGet("Fuelcard/{id}/Chaffeurs")]
-        public ActionResult<List<Chaffeur>> GetFuelCardChaffeursByID(int id)
+        public ActionResult<GenericResult> GetFuelCardChaffeursByID(int id)
         {
             try
             {
-                var vh = _fuelCardManager.GetFuelCardById(id);
-                if (vh == null)
-                {
-                    return NotFound("This fuelcard doesn't exist");
-                }
-                return Ok(vh.ChaffeurFuelCards.Select(s => s.Chaffeur));
+                var vh = _fuelCardManager.GetFuelcardCHaffeurs(id);
+                return Ok(vh);
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
         }
         [HttpGet("Fuelcard/{id}/Fueltypes")]
-        public ActionResult<List<FuelType>> GetFuelCardFuelsByID(int id)
+        public ActionResult<GenericResult> GetFuelCardFuelsByID(int id)
         {
             try
             {
-                var vh = _fuelCardManager.GetFuelCardById(id);
-                if (vh == null)
-                {
-                    return NotFound("This fuelcard doesn't exist");
-                }
-                return Ok(vh.FuelType);
+                var vh = _fuelCardManager.GetFuelcardFuelTypes((id));
+                return Ok(vh);
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
         }
         [HttpGet("Fuelcard/{id}/Authentications")]
@@ -92,20 +82,17 @@ namespace ReadAPI.Controllers
         {
             try
             {
-                var vh = _fuelCardManager.GetFuelCardById(id);
-                if (vh == null)
-                {
-                    return NotFound("This fuelcard doesn't exist");
-                }
-                return Ok(vh.AuthenticationTypes);
+                var vh = _fuelCardManager.GetFuelcardAuthenications(id);
+                return Ok(vh);
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
         }
   
         // ------POST------
+        /*
         [HttpPost("Fuelcard")]
         public ActionResult Add()
         {
@@ -333,6 +320,6 @@ namespace ReadAPI.Controllers
             {
                 return BadRequest(ex);
             }
-        }
+        }*/
     }
 }
