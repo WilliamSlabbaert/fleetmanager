@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BusinessLayer.mediator.commands;
 using BusinessLayer.mediator.queries;
 using BusinessLayer.models;
 using BusinessLayer.validators.response;
@@ -21,11 +22,13 @@ namespace BusinessLayer.mediator.handlers
         private readonly IGenericRepo<VehicleEntity> _vehicleRepo;
         private readonly IMapper _mapper;
         private readonly IValidator<Vehicle> _validator;
-        public GetVehicleByIdHandler(IGenericRepo<VehicleEntity> vehicleRepo, IMapper mapper, IValidator<Vehicle> validator)
+        private IMediator _mediator;
+        public GetVehicleByIdHandler(IGenericRepo<VehicleEntity> vehicleRepo, IMapper mapper, IValidator<Vehicle> validator, IMediator mediator)
         {
             this._vehicleRepo = vehicleRepo;
             this._mapper = mapper;
             this._validator = validator;
+            this._mediator = mediator;
         }
         Task<GenericResult> IRequestHandler<GetVehicleByIdQuery, GenericResult>.Handle(GetVehicleByIdQuery request, CancellationToken cancellationToken)
         {
@@ -37,17 +40,23 @@ namespace BusinessLayer.mediator.handlers
                     .ThenInclude(s => s.Chaffeur)
                     .Include(s => s.LicensePlates))
                 ));
-            var result = new GenericResult();
-            if (temp == null)
-            {
-                result.Message = "Vehicle is not found.";
-                result.SetStatusCode(Overall.ResponseType.NotFound);
-                return Task.FromResult(result);
-            }
-            result.Message = "Ok";
-            result.SetStatusCode(Overall.ResponseType.OK);
-            result.ReturnValue = temp.Result;
+            var value = temp == null ? null : _mapper.Map<Vehicle>(temp).Kilometers;
+            var result = CreateResult(temp == null, value);
+
             return Task.FromResult(result);
+        }
+        public GenericResult CreateResult(bool check, object value)
+        {
+            var message = "OK";
+            var code = Overall.ResponseType.OK;
+            if (check)
+            {
+                message = "Vehicle('s) not found";
+                code = Overall.ResponseType.NotFound;
+                value = null;
+            }
+            var resp = _mediator.Send(new CreateGenericResultCommand(message, code, value));
+            return resp.Result;
         }
     }
 }

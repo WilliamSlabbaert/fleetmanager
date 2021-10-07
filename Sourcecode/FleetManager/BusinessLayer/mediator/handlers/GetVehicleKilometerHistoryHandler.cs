@@ -5,7 +5,6 @@ using BusinessLayer.models;
 using BusinessLayer.validators.response;
 using DataLayer.entities;
 using DataLayer.repositories;
-using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -17,24 +16,25 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.mediator.handlers
 {
-    public class GetVehicleLicensePlatesHandler : IRequestHandler<GetVehicleLicensePlatesQuery, GenericResult>
+    public class GetVehicleKilometerHistoryHandler : IRequestHandler<GetVehicleKilometerHistoryQuery, GenericResult>
     {
         private readonly IGenericRepo<VehicleEntity> _vehicleRepo;
         private readonly IMapper _mapper;
         private IMediator _mediator;
-        public GetVehicleLicensePlatesHandler(IGenericRepo<VehicleEntity> vehicleRepo, IMapper mapper, IMediator mediator)
+        public GetVehicleKilometerHistoryHandler(IGenericRepo<VehicleEntity> vehicleRepo, IMapper mapper, IMediator mediator)
         {
             this._vehicleRepo = vehicleRepo;
             this._mapper = mapper;
             this._mediator = mediator;
         }
-        public Task<GenericResult> Handle(GetVehicleLicensePlatesQuery request, CancellationToken cancellationToken)
+        public Task<GenericResult> Handle(GetVehicleKilometerHistoryQuery request, CancellationToken cancellationToken)
         {
-            var vehicles = _vehicleRepo.GetAll(s => s.Include(x => x.LicensePlates));
+            var vehicles = _vehicleRepo.GetAll(s => s.Include(x => x.Requests));
             var temp = vehicles.FirstOrDefault(s => s.Id == request.Id);
 
             var value = temp == null ? null : _mapper.Map<Vehicle>(temp).Kilometers;
             var result = CreateResult(temp == null, value);
+
             return Task.FromResult(result);
         }
         public GenericResult CreateResult(bool check, object value)

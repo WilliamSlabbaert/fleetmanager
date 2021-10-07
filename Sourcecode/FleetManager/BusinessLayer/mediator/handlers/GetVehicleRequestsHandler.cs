@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using BusinessLayer.mediator.commands;
 using BusinessLayer.mediator.queries;
+using BusinessLayer.models;
 using BusinessLayer.validators.response;
 using DataLayer.entities;
 using DataLayer.repositories;
@@ -18,27 +20,34 @@ namespace BusinessLayer.mediator.handlers
     {
         private readonly IGenericRepo<VehicleEntity> _vehicleRepo;
         private readonly IMapper _mapper;
-        public GetVehicleRequestsHandler(IGenericRepo<VehicleEntity> vehicleRepo, IMapper mapper)
+        private IMediator _mediator;
+        public GetVehicleRequestsHandler(IGenericRepo<VehicleEntity> vehicleRepo, IMapper mapper, IMediator mediator)
         {
             this._vehicleRepo = vehicleRepo;
             this._mapper = mapper;
+            this._mediator = mediator;
         }
         public Task<GenericResult> Handle(GetVehicleRequestsQuery request, CancellationToken cancellationToken)
         {
             var vehicles = _vehicleRepo.GetAll(s => s.Include(x => x.Requests));
             var temp = vehicles.FirstOrDefault(s => s.Id == request.Id);
 
-            var result = new GenericResult();
-            if (temp == null)
-            {
-                result.Message = "Vehicle is not found.";
-                result.SetStatusCode(Overall.ResponseType.NotFound);
-                return Task.FromResult(result);
-            }
-            result.Message = "Ok";
-            result.SetStatusCode(Overall.ResponseType.OK);
-            result.ReturnValue = temp.Requests;
+            var value = temp == null ? null : _mapper.Map<Vehicle>(temp);
+            var result = CreateResult(temp == null, value);
             return Task.FromResult(result);
+        }
+        public GenericResult CreateResult(bool check, object value)
+        {
+            var message = "OK";
+            var code = Overall.ResponseType.OK;
+            if (check)
+            {
+                message = "Vehicle('s) not found";
+                code = Overall.ResponseType.NotFound;
+                value = null;
+            }
+            var resp = _mediator.Send(new CreateGenericResultCommand(message, code, value));
+            return resp.Result;
         }
     }
 }

@@ -89,5 +89,18 @@ namespace ReadAPI.Controllers
                 return BadRequest(ex);
             }
         }
+        [HttpGet("Vehicle/{id}/KilometerHistory")]
+        public ActionResult<GenericResult> GetVehicleKilometersByID(int id)
+        {
+            try
+            {
+                var vh = _mediator.Send(new GetVehicleRequestsQuery(id));
+                return Ok(vh.Result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
     }
 }
