@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.managers.interfaces;
 using BusinessLayer.models;
+using BusinessLayer.validators.response;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -22,7 +23,7 @@ namespace ReadAPI.Controllers
             _managerRequest = managerRequest;
         }
         [HttpGet("Maintenance")]
-        public ActionResult<List<Maintenance>> Getall()
+        public ActionResult<GenericResult> Getall()
         {
             try
             {
@@ -34,6 +35,42 @@ namespace ReadAPI.Controllers
                 return BadRequest(ex);
             }
         }
+
+        [HttpGet("Maintenance/{id}")]
+        public ActionResult<GenericResult> GetById(int id)
+        {
+            try
+            {
+                var vh = _managerMaintenance.GetMaintenanceById(id);
+                if (vh == null)
+                {
+                    return NotFound("This Maintenance doesn't exist");
+                }
+                return Ok(vh);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+        [HttpGet("Maintenance/{id}/Request")]
+        public ActionResult<GenericResult> GetByIdRequest(int id)
+        {
+            try
+            {
+                var vh = _managerMaintenance.GetMaintenanceById(id);
+                if (vh == null)
+                {
+                    return NotFound("This Maintenance doesn't exist");
+                }
+                return Ok(vh.Request);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+        /*
         [HttpPost("Maintenance")]
         public ActionResult Add()
         {
@@ -56,40 +93,6 @@ namespace ReadAPI.Controllers
             }
         }
 
-        [HttpGet("Maintenance/{id}")]
-        public ActionResult<Maintenance> GetById(int id)
-        {
-            try
-            {
-                var vh = _managerMaintenance.GetMaintenanceById(id);
-                if (vh == null)
-                {
-                    return NotFound("This Maintenance doesn't exist");
-                }
-                return Ok(vh);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
-            }
-        }
-        [HttpGet("Maintenance/{id}/Request")]
-        public ActionResult<Request> GetByIdRequest(int id)
-        {
-            try
-            {
-                var vh = _managerMaintenance.GetMaintenanceById(id);
-                if (vh == null)
-                {
-                    return NotFound("This Maintenance doesn't exist");
-                }
-                return Ok(vh.Request);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
-            }
-        }
         [HttpPut("Maintenance/{id}/Request/{requestId}")]
         public ActionResult<Request> UpdateMaintenance(int id, int requestId)
         {
@@ -125,6 +128,6 @@ namespace ReadAPI.Controllers
             {
                 return BadRequest(ex);
             }
-        }
+        }*/
     }
 }

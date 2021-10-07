@@ -38,7 +38,7 @@ namespace ReadAPI.Controllers
             }
         }
         [HttpGet("Drivinglicense/{id}")]
-        public ActionResult<FuelCard> GetFuelCardByID(int id)
+        public ActionResult<GenericResult> GetFuelCardByID(int id)
         {
             try
             {
@@ -53,7 +53,7 @@ namespace ReadAPI.Controllers
         
         
         [HttpGet("Drivinglicense/{id}/Chaffeurs")]
-        public ActionResult<Chaffeur> GetFuelCardByIDChaffeur(int id)
+        public ActionResult<GenericResult> GetFuelCardByIDChaffeur(int id)
         {
             try
             {

@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using BusinessLayer.managers.interfaces;
+using BusinessLayer.mediator.commands;
 using BusinessLayer.models;
 using BusinessLayer.validators.response;
 using DataLayer.entities;
 using DataLayer.repositories;
 using FluentValidation;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -21,14 +23,16 @@ namespace BusinessLayer.managers
         private readonly IGenericRepo<VehicleEntity> _vhrepo;
         private readonly IMapper _mapper;
         private readonly IValidator<Request> _validator;
+        private IMediator _mediator;
         public List<GenericResponse> _errors { get; set; }
-        public RequestService(IGenericRepo<RequestEntity> repo, IMapper mapper, IGenericRepo<ChaffeurEntity> chrepo, IGenericRepo<VehicleEntity> vhrepo, IValidator<Request> validator)
+        public RequestService(IGenericRepo<RequestEntity> repo, IMapper mapper, IGenericRepo<ChaffeurEntity> chrepo, IGenericRepo<VehicleEntity> vhrepo, IValidator<Request> validator, IMediator mediator)
         {
             this._repo = repo;
             this._mapper = mapper;
             this._chrepo = chrepo;
             this._vhrepo = vhrepo;
             this._validator = validator;
+            this._mediator = mediator;
             _errors = new List<GenericResponse>();
         }
         public Request AddRequest(Request request, int chaffeurId, int vehicleId)
@@ -62,26 +66,47 @@ namespace BusinessLayer.managers
             }
             return _mapper.Map<Request>(rq);
         }
-        public List<Request> GetAllRequests()
+        public GenericResult GetAllRequests()
         {
             var temp = _mapper.Map<List<Request>>(_repo.GetAll(
                 x => x.Include(s => s.Chaffeur)
                 .Include(s => s.Maintenance)
                 .Include(s => s.Repairment)
                 .Include(s => s.Vehicle)));
-            return temp;
-        }
-        public Request GetRequestById(int id)
-        {
-            var temp = _mapper.Map<Request>(_repo.GetById(
-                filter: x => x.Id == id,
-                x => x.Include(s => s.Chaffeur)
-                .Include(s => s.Maintenance)
-                .Include(s => s.Repairment)
-                .Include(s => s.Vehicle)));
-            return temp;
-        }
 
+            var value = temp == null ? null : temp;
+            return CreateResult(temp == null, value);
+        }
+        public GenericResult GetRequestById(int id)
+        {
+            var temp = _mapper.Map<Request>(GetRequestEntityById(id));
+            var value = temp == null ? null : temp;
+            return CreateResult(temp == null, value);
+        }
+        public GenericResult GetRequestChaffeur(int id)
+        {
+            var temp = _mapper.Map<Request>(GetRequestEntityById(id));
+            var value = temp == null ? null : temp.Chaffeur;
+            return CreateResult(temp == null, value);
+        }
+        public GenericResult GetRequestVehicle(int id)
+        {
+            var temp = _mapper.Map<Request>(GetRequestEntityById(id));
+            var value = temp == null ? null : temp.Vehicle;
+            return CreateResult(temp == null, value);
+        }
+        public GenericResult GetRequestRepairs(int id)
+        {
+            var temp = _mapper.Map<Request>(GetRequestEntityById(id));
+            var value = temp == null ? null : temp.Repairment;
+            return CreateResult(temp == null, value);
+        }
+        public GenericResult GetRequestMaintenance(int id)
+        {
+            var temp = _mapper.Map<Request>(GetRequestEntityById(id));
+            var value = temp == null ? null : temp.Maintenance;
+            return CreateResult(temp == null, value);
+        }
         public VehicleEntity GetVehicleEntity(int id)
         {
             var temp = _vhrepo.GetById(
@@ -146,6 +171,19 @@ namespace BusinessLayer.managers
                 .Include(s => s.Repairment)
                 .Include(s => s.Vehicle));
             return temp;
+        }
+        public GenericResult CreateResult(bool check, object value)
+        {
+            var message = "OK";
+            var code = Overall.ResponseType.OK;
+            if (check)
+            {
+                message = "Request('s) not found";
+                code = Overall.ResponseType.NotFound;
+                value = null;
+            }
+            var resp = _mediator.Send(new CreateGenericResultCommand(message, code, value));
+            return resp.Result;
         }
     }
 }

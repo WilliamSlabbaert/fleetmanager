@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.managers.interfaces;
 using BusinessLayer.models;
+using BusinessLayer.validators.response;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -21,9 +22,9 @@ namespace ReadAPI.Controllers
         }
 
         [HttpGet("Request")]
-        public ActionResult<List<Request>> GetAll()
+        public ActionResult<GenericResult> GetAll()
         {
-            //_managerRequest.AddRequest(new Request(DateTime.Now,DateTime.Now,"test"),1,1);
+            //_managerRequest.AddRequest(new Request(DateTime.Now,DateTime.Now,"test",Overall.RequestType.Fuelcard),2,1);
             try
             {
                 var temp = _managerRequest.GetAllRequests();
@@ -35,15 +36,11 @@ namespace ReadAPI.Controllers
             }
         }
         [HttpGet("Request/{id}")]
-        public ActionResult<FuelCard> GetById(int id)
+        public ActionResult<GenericResult> GetById(int id)
         {
             try
             {
                 var vh = _managerRequest.GetRequestById(id);
-                if (vh == null)
-                {
-                    return NotFound("This request doesn't exist");
-                }
                 return Ok(vh);
             }
             catch (Exception ex)
@@ -51,23 +48,60 @@ namespace ReadAPI.Controllers
                 return BadRequest(ex);
             }
         }
-        [HttpGet("Request/{id}/Maintenance")]
-        public ActionResult<List<Maintenance>> GetByIdMaintenance(int id)
+        [HttpGet("Request/{id}/Maintenances")]
+        public ActionResult<GenericResult> GetByIdMaintenance(int id)
         {
             try
             {
-                var vh = _managerRequest.GetRequestById(id);
-                if (vh == null)
-                {
-                    return NotFound("This request doesn't exist");
-                }
-                return Ok(vh.Maintenance);
+                var vh = _managerRequest.GetRequestMaintenance(id);
+                return Ok(vh);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex);
             }
         }
+        [HttpGet("Request/{id}/Repairments")]
+        public ActionResult<GenericResult> GetByIdRepairments(int id)
+        {
+            try
+            {
+                var vh = _managerRequest.GetRequestRepairs(id);
+                return Ok(vh);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+        [HttpGet("Request/{id}/Chaffeur")]
+        public ActionResult<GenericResult> GetByIdChaffeur(int id)
+        {
+            try
+            {
+                var vh = _managerRequest.GetRequestChaffeur(id);
+                return Ok(vh);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+        [HttpGet("Request/{id}/Vehicle")]
+        public ActionResult<GenericResult> GetByIdVehicle(int id)
+        {
+            try
+            {
+                var vh = _managerRequest.GetRequestVehicle(id);
+                return Ok(vh);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
+        /*
         [HttpPost("Request")]
         public ActionResult Add()
         {
@@ -94,23 +128,6 @@ namespace ReadAPI.Controllers
             {
                 return Ok(result);
             }
-        }
-        [HttpGet("Request/{id}/Repairments")]
-        public ActionResult<List<Maintenance>> GetByIdRepairments(int id)
-        {
-            try
-            {
-                var vh = _managerRequest.GetRequestById(id);
-                if (vh == null)
-                {
-                    return NotFound("This request doesn't exist");
-                }
-                return Ok(vh.Repairment);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
-            }
-        }
+        }*/
     }
 }

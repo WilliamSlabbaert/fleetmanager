@@ -78,7 +78,7 @@ namespace ReadAPI.Controllers
             }
         }
         [HttpGet("Fuelcard/{id}/Authentications")]
-        public ActionResult<List<FuelType>> GetFuelCardAuthenticationTypesByID(int id)
+        public ActionResult<GenericResult> GetFuelCardAuthenticationTypesByID(int id)
         {
             try
             {

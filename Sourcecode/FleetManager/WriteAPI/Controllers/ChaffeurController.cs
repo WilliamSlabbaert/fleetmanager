@@ -28,6 +28,7 @@ namespace WriteAPI.Controllers
             _fuelCardManager = fuelCardManager;
         }
         // -------POST-------
+        /*
         [HttpPost]
         public ActionResult Add([FromBody] Chaffeur chaffeur)
         {
@@ -270,6 +271,6 @@ namespace WriteAPI.Controllers
             {
                 return BadRequest(e);
             }
-        }
+        }*/
     }
 }
