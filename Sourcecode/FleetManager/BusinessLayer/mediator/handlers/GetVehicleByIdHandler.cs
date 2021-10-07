@@ -40,7 +40,7 @@ namespace BusinessLayer.mediator.handlers
                     .ThenInclude(s => s.Chaffeur)
                     .Include(s => s.LicensePlates))
                 ));
-            var value = temp == null ? null : _mapper.Map<Vehicle>(temp).Kilometers;
+            var value = temp == null ? null : _mapper.Map<Vehicle>(temp);
             var result = CreateResult(temp == null, value);
 
             return Task.FromResult(result);

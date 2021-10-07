@@ -33,7 +33,7 @@ namespace BusinessLayer.mediator.handlers
             var vehicles = _vehicleRepo.GetAll(s => s.Include(x => x.LicensePlates));
             var temp = vehicles.FirstOrDefault(s => s.Id == request.Id);
 
-            var value = temp == null ? null : _mapper.Map<Vehicle>(temp).Kilometers;
+            var value = temp == null ? null : _mapper.Map<Vehicle>(temp).LicensePlates;
             var result = CreateResult(temp == null, value);
             return Task.FromResult(result);
         }
