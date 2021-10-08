@@ -28,20 +28,20 @@ namespace WriteAPI.Controllers
             _fuelCardManager = fuelCardManager;
         }
         // -------POST-------
-        /*
         [HttpPost]
         public ActionResult Add([FromBody] Chaffeur chaffeur)
         {
             try
             {
-                var result = _managerChaffeur.AddChaffeur(chaffeur);
-                return Ok(result);
+                //var result = _managerChaffeur.AddChaffeur(chaffeur);
+                return Ok();
             }
             catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
         }
+        /*
         [HttpPost("{chaffeurId}/Vehicles/{vehicleId}")]
         public ActionResult<Vehicle> AddVehicleToChaffeur(int chaffeurId, int vehicleId)
         {

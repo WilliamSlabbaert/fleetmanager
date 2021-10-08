@@ -34,6 +34,40 @@ namespace ReadAPI.Controllers
                 return BadRequest(ex);
             }
         }
+        
+
+        [HttpGet("Repairment/{id}")]
+        public ActionResult<Repairment> GetById(int id)
+        {
+            try
+            {
+                var vh = _managerRepairment.GetRepairmentById(id);
+                if (vh == null)
+                {
+                    return NotFound("This repairment doesn't exist");
+                }
+                return Ok(vh);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
+        [HttpGet("Repairment/{id}/Request")]
+        public ActionResult<Request> GetByIdRequest(int id)
+        {
+            try
+            {
+                var vh = _managerRepairment.GetRepairmentRequestById(id);
+                return Ok(vh);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+        /*
         [HttpPost("Repairment")]
         public ActionResult Add()
         {
@@ -48,24 +82,6 @@ namespace ReadAPI.Controllers
                 {
                     return Ok(temp);
                 }
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
-            }
-        }
-
-        [HttpGet("Repairment/{id}")]
-        public ActionResult<Repairment> GetById(int id)
-        {
-            try
-            {
-                var vh = _managerRepairment.GetRepairmentById(id);
-                if (vh == null)
-                {
-                    return NotFound("This repairment doesn't exist");
-                }
-                return Ok(vh);
             }
             catch (Exception ex)
             {
@@ -100,23 +116,6 @@ namespace ReadAPI.Controllers
             {
                 return BadRequest(ex);
             }
-        }
-        [HttpGet("Repairment/{id}/Request")]
-        public ActionResult<Request> GetByIdRequest(int id)
-        {
-            try
-            {
-                var vh = _managerRepairment.GetRepairmentById(id);
-                if (vh == null)
-                {
-                    return NotFound("This repairment doesn't exist");
-                }
-                return Ok(vh.Request);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
-            }
-        }
+        }*/
     }
 }
