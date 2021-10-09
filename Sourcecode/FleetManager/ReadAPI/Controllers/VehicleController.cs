@@ -19,17 +19,19 @@ namespace ReadAPI.Controllers
     {
         private readonly ILogger<VehicleController> _logger;
         private IMediator _mediator;
-        public VehicleController(ILogger<VehicleController> logger, IMediator mediator)
+        private readonly IVehicleService vehi;
+        public VehicleController(ILogger<VehicleController> logger, IMediator mediator, IVehicleService vehi)
         {
             _logger = logger;
             _mediator = mediator;
+            this.vehi = vehi;
         }
         [HttpGet("Vehicle")]
         public ActionResult<GenericResult> GetAllVehicles()
         {
             try
             {
-                return Ok(_mediator.Send(new GetVehiclesQuery()).Result);
+                return Ok(vehi.GetAllVehicles());
             }
             catch (Exception e)
             {

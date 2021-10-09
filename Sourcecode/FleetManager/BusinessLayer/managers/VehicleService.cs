@@ -55,12 +55,10 @@ namespace BusinessLayer.managers
         }
         public List<Vehicle> GetAllVehicles()
         {
-            return _mapper.Map<List<Vehicle>>(this._vehicleRepo.GetAll(
-                x => x.Include(s => s.LicensePlates)
-                .Include(s => s.Requests)
-                .Include(s => s.LicensePlates)
-                .Include(s => s.ChaffeurVehicles)
-                .ThenInclude(s => s.Chaffeur)));
+            var temp = new DataLayer.entities.paging.GenericParemeters();
+            temp.PageSize = 3;
+            temp.PageNumber = 2;
+            return _mapper.Map<List<Vehicle>>(this._vehicleRepo.GetAllWithPaging(null,temp));
         }
         public void UpdateVehicle(Vehicle ch)
         {

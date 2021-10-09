@@ -1,5 +1,6 @@
 ﻿using DataLayer.entities;
 using DataLayer.entities.generic;
+using DataLayer.entities.paging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using System;
@@ -37,6 +38,18 @@ namespace DataLayer.repositories
         public IQueryable<T> GetAll(Func<IQueryable<T>, IIncludableQueryable<T, object>> including)
         {
             var query = _table.AsQueryable();
+
+            if (including != null)
+            {
+                query = including(query);
+            }
+            return query;
+        }
+        public IQueryable<T> GetAllWithPaging(Func<IQueryable<T>, IIncludableQueryable<T, object>> including, GenericParemeters genericParemeters)
+        {
+            var query = _table
+                .Skip((genericParemeters.PageNumber - 1) * genericParemeters.PageSize)
+                .Take(genericParemeters.PageSize);
 
             if (including != null)
             {
