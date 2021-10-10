@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.models;
 using BusinessLayer.validators.response;
+using DataLayer.entities.paging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace BusinessLayer.managers.interfaces
         public GenericResult GetFuelcardCHaffeurs(int id);
         public GenericResult GetFuelcardFuelTypes(int id);
         public GenericResult GetFuelcardAuthenications(int id);
+        public GenericResult GetAllFuelCardsPaging(GenericParemeters parameters);
         public bool CheckExistingFuelCard(FuelCard fc);
         public bool CheckValidationService(ExtraService extraService);
         public bool CheckValidationFuelType(FuelType fueltype);

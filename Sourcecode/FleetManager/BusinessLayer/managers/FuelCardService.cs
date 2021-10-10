@@ -4,6 +4,7 @@ using BusinessLayer.mediator.commands;
 using BusinessLayer.models;
 using BusinessLayer.validators.response;
 using DataLayer.entities;
+using DataLayer.entities.paging;
 using DataLayer.repositories;
 using FluentValidation;
 using MediatR;
@@ -228,6 +229,17 @@ namespace BusinessLayer.managers
                 .Include(s => s.FuelType)
                 .Include(s => s.AuthenticationTypes)
                 .Include(s => s.ChaffeurFuelCards)));
+
+            var value = temp == null ? null : temp;
+            return CreateResult(temp == null, value);
+        }
+        public GenericResult GetAllFuelCardsPaging(GenericParemeters parameters)
+        {
+            var temp = _mapper.Map<List<FuelCard>>(this._repo.GetAllWithPaging(
+                x => x.Include(s => s.Services)
+                .Include(s => s.FuelType)
+                .Include(s => s.AuthenticationTypes)
+                .Include(s => s.ChaffeurFuelCards),parameters));
 
             var value = temp == null ? null : temp;
             return CreateResult(temp == null, value);

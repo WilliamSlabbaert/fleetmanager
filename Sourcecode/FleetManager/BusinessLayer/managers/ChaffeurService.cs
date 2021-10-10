@@ -5,6 +5,7 @@ using BusinessLayer.models;
 using BusinessLayer.validators;
 using BusinessLayer.validators.response;
 using DataLayer.entities;
+using DataLayer.entities.paging;
 using DataLayer.repositories;
 using FluentValidation;
 using FluentValidation.Results;
@@ -214,6 +215,18 @@ namespace BusinessLayer.managers
                 .Include(s => s.ChaffeurVehicles)
                 .Include(s => s.DrivingLicenses)
                 .Include(s => s.Requests));
+
+            var value = _mapper.Map<List<Chaffeur>>(temp);
+            return CreateResult(temp == null, value);
+        }
+        public GenericResult GetAllChaffeursPaging(GenericParemeters parameters)
+        {
+            var temp = this._repo.GetAllWithPaging(
+                x => x.Include(s => s.ChaffeurFuelCards)
+                .ThenInclude(s => s.FuelCard)
+                .Include(s => s.ChaffeurVehicles)
+                .Include(s => s.DrivingLicenses)
+                .Include(s => s.Requests),parameters);
 
             var value = _mapper.Map<List<Chaffeur>>(temp);
             return CreateResult(temp == null, value);

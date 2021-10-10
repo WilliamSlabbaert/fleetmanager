@@ -4,6 +4,7 @@ using BusinessLayer.mediator.commands;
 using BusinessLayer.models;
 using BusinessLayer.validators.response;
 using DataLayer.entities;
+using DataLayer.entities.paging;
 using DataLayer.repositories;
 using FluentValidation;
 using MediatR;
@@ -69,6 +70,13 @@ namespace BusinessLayer.managers
         {
             var temp = _mapper.Map<List<DrivingLicense>>(_repo.GetAll(
                 s => s.Include(x => x.Chaffeur)));
+            var value = temp == null ? null : _mapper.Map<List<DrivingLicense>>(temp);
+            return CreateResult(temp == null, value);
+        }
+        public GenericResult GetAllDrivingLicensesPaging(GenericParemeters parameters)
+        {
+            var temp = _mapper.Map<List<DrivingLicense>>(_repo.GetAllWithPaging(
+                s => s.Include(x => x.Chaffeur),parameters));
             var value = temp == null ? null : _mapper.Map<List<DrivingLicense>>(temp);
             return CreateResult(temp == null, value);
         }
