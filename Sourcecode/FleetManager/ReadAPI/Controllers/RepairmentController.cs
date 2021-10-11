@@ -28,7 +28,7 @@ namespace ReadAPI.Controllers
             try
             {
                 var temp = _managerRepairment.GetAllRepairmentsPaging(parameter);
-                return Ok(temp);
+                return (temp.StatusCode == 200) ? Ok(temp) : NotFound(temp);
             }
             catch (Exception ex)
             {
@@ -42,12 +42,8 @@ namespace ReadAPI.Controllers
         {
             try
             {
-                var vh = _managerRepairment.GetRepairmentById(id);
-                if (vh == null)
-                {
-                    return NotFound("This repairment doesn't exist");
-                }
-                return Ok(vh);
+                var temp = _managerRepairment.GetRepairmentById(id);
+                return (temp.StatusCode == 200) ? Ok(temp) : NotFound(temp);
             }
             catch (Exception ex)
             {
@@ -60,8 +56,8 @@ namespace ReadAPI.Controllers
         {
             try
             {
-                var vh = _managerRepairment.GetRepairmentRequestById(id);
-                return Ok(vh);
+                var temp = _managerRepairment.GetRepairmentRequestById(id);
+                return (temp.StatusCode == 200) ? Ok(temp) : NotFound(temp);
             }
             catch (Exception ex)
             {

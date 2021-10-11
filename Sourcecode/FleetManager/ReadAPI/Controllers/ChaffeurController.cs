@@ -34,7 +34,8 @@ namespace ReadAPI.Controllers
         {
             try
             {
-                return Ok(_managerChaffeur.GetAllChaffeursPaging(parameter));
+                var temp = _managerChaffeur.GetAllChaffeursPaging(parameter);
+                return (temp.StatusCode == 200) ? Ok(temp) : BadRequest(temp); 
             }
             catch (Exception ex)
             {
@@ -47,8 +48,8 @@ namespace ReadAPI.Controllers
             try
             {
                 var ch = _managerChaffeur.GetChaffeurById(chaffeurId);
-                
-                return Ok(ch);
+
+                return (ch.StatusCode == 200) ? Ok(ch) : NotFound(ch);
             }
             catch (Exception ex)
             {
@@ -61,7 +62,7 @@ namespace ReadAPI.Controllers
             try
             {
                 var ch = _managerChaffeur.GetChaffeurVehicles(chaffeurId);
-                return Ok(ch);
+                return (ch.StatusCode == 200) ? Ok(ch) : NotFound(ch);
             }
             catch (Exception ex)
             {
@@ -74,7 +75,7 @@ namespace ReadAPI.Controllers
             try
             {
                 var ch = _managerChaffeur.GetChaffeurFuelcards(chaffeurId);
-                return Ok(ch);
+                return (ch.StatusCode == 200) ? Ok(ch) : NotFound(ch);
             }
             catch (Exception ex)
             {
@@ -87,7 +88,7 @@ namespace ReadAPI.Controllers
             try
             {
                 var ch = _managerChaffeur.GetChaffeurRequests(chaffeurId);
-                return Ok(ch);
+                return (ch.StatusCode == 200) ? Ok(ch) : NotFound(ch);
             }
             catch (Exception ex)
             {
@@ -100,7 +101,7 @@ namespace ReadAPI.Controllers
             try
             {
                 var ch = _managerChaffeur.GetChaffeurDrivingLicenses(chaffeurId);
-                return Ok(ch);
+                return (ch.StatusCode == 200) ? Ok(ch) : NotFound(ch);
             }
             catch (Exception ex)
             {

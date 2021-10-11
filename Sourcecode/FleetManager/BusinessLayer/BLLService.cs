@@ -5,6 +5,7 @@ using BusinessLayer.mediator.commands;
 using BusinessLayer.mediator.queries;
 using BusinessLayer.models;
 using BusinessLayer.validators;
+using BusinessLayer.validators.mediator;
 using DataLayer;
 using DataLayer.entities;
 using DataLayer.repositories;
@@ -26,7 +27,6 @@ namespace BusinessLayer
         public static void AddBLLService(this IServiceCollection services,string connect)
         {
             services.AddDBContext(connect: connect);
-
             AddBLLMapper(services);
             AddBLLManagers(services);
             AddBLLValidators(services);

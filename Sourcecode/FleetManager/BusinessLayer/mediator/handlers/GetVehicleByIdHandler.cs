@@ -32,15 +32,15 @@ namespace BusinessLayer.mediator.handlers
         }
         Task<GenericResult> IRequestHandler<GetVehicleByIdQuery, GenericResult>.Handle(GetVehicleByIdQuery request, CancellationToken cancellationToken)
         {
-            var temp = Task.FromResult(_mapper.Map<Vehicle>(
+            var temp = _mapper.Map<Vehicle>(
                 _vehicleRepo.GetById(
                     filter: s => s.Id == request.Id,
                     s => s.Include(s => s.Requests)
                     .Include(s => s.ChaffeurVehicles)
                     .ThenInclude(s => s.Chaffeur)
-                    .Include(s => s.LicensePlates))
+                    .Include(s => s.LicensePlates)
                 ));
-            var value = temp == null ? null : _mapper.Map<Vehicle>(temp);
+            var value = temp == null ? null : temp;
             var result = CreateResult(temp == null, value);
 
             return Task.FromResult(result);

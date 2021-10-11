@@ -32,8 +32,8 @@ namespace ReadAPI.Controllers
         {
             try
             {
-                var vh = _mediator.Send(new GetVehiclesPagingQuery(parameter));
-                return Ok(vh.Result);
+                var temp = _mediator.Send(new GetVehiclesPagingQuery(parameter));
+                return (temp.Result.StatusCode == 200) ? Ok(temp.Result) : NotFound(temp.Result);
             }
             catch (Exception e)
             {
@@ -46,8 +46,8 @@ namespace ReadAPI.Controllers
         {
             try
             {
-                var vh = _mediator.Send(new GetVehicleByIdQuery(id));
-                return Ok(vh.Result);
+                var temp = _mediator.Send(new GetVehicleByIdQuery(id));
+                return (temp.Result.StatusCode == 200) ? Ok(temp.Result) : NotFound(temp.Result);
             }
             catch (Exception ex)
             {
@@ -59,8 +59,8 @@ namespace ReadAPI.Controllers
         {
             try
             {
-                var vh = _mediator.Send(new GetVehicleChaffeursQuery(id));
-                return Ok(vh.Result);
+                var temp = _mediator.Send(new GetVehicleChaffeursQuery(id));
+                return (temp.Result.StatusCode == 200) ? Ok(temp.Result) : NotFound(temp.Result);
             }
             catch (Exception ex)
             {
@@ -72,8 +72,8 @@ namespace ReadAPI.Controllers
         {
             try
             {
-                var vh = _mediator.Send(new GetVehicleLicensePlatesQuery(id));
-                return Ok(vh.Result);
+                var temp = _mediator.Send(new GetVehicleLicensePlatesQuery(id));
+                return (temp.Result.StatusCode == 200) ? Ok(temp.Result) : NotFound(temp.Result);
             }
             catch (Exception ex)
             {
@@ -85,8 +85,8 @@ namespace ReadAPI.Controllers
         {
             try
             {
-                var vh = _mediator.Send(new GetVehicleRequestsQuery(id));
-                return Ok(vh.Result);
+                var temp = _mediator.Send(new GetVehicleRequestsQuery(id));
+                return (temp.Result.StatusCode == 200) ? Ok(temp.Result) : NotFound(temp.Result);
             }
             catch (Exception ex)
             {
@@ -98,8 +98,8 @@ namespace ReadAPI.Controllers
         {
             try
             {
-                var vh = _mediator.Send(new GetVehicleKilometerHistoryQuery(id));
-                return Ok(vh.Result);
+                var temp = _mediator.Send(new GetVehicleKilometerHistoryQuery(id));
+                return (temp.Result.StatusCode == 200) ? Ok(temp.Result) : NotFound(temp.Result);
             }
             catch (Exception ex)
             {

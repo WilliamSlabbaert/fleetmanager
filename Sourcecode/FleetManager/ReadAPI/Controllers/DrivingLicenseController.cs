@@ -43,8 +43,8 @@ namespace ReadAPI.Controllers
         {
             try
             {
-                var vh = _drivingLicenseManager.GetAllDrivingLicenseById(id);
-                return Ok(vh);
+                var ch = _drivingLicenseManager.GetAllDrivingLicenseById(id);
+                return (ch.StatusCode == 200) ? Ok(ch) : NotFound(ch);
             }
             catch (Exception ex)
             {
@@ -58,8 +58,8 @@ namespace ReadAPI.Controllers
         {
             try
             {
-                var vh = _drivingLicenseManager.GetDrivingLicenseChaffeurById(id);
-                return Ok(vh);
+                var ch = _drivingLicenseManager.GetDrivingLicenseChaffeurById(id);
+                return (ch.StatusCode == 200) ? Ok(ch) : NotFound(ch);
             }
             catch (Exception ex)
             {

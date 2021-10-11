@@ -32,7 +32,7 @@ namespace ReadAPI.Controllers
             try
             {
                 var temp = _fuelCardManager.GetAllFuelCardsPaging(parameter);
-                return Ok(temp);
+                return (temp.StatusCode == 200) ? Ok(temp) : NotFound(temp);
             }
             catch (Exception ex)
             {
@@ -44,8 +44,8 @@ namespace ReadAPI.Controllers
         {
             try
             {
-                var vh = _fuelCardManager.GetFuelCardById(id);
-                return Ok(vh);
+                var temp = _fuelCardManager.GetFuelCardById(id);
+                return (temp.StatusCode == 200) ? Ok(temp) : NotFound(temp);
             }
             catch (Exception ex)
             {
@@ -57,8 +57,8 @@ namespace ReadAPI.Controllers
         {
             try
             {
-                var vh = _fuelCardManager.GetFuelcardCHaffeurs(id);
-                return Ok(vh);
+                var temp = _fuelCardManager.GetFuelcardCHaffeurs(id);
+                return (temp.StatusCode == 200) ? Ok(temp) : NotFound(temp);
             }
             catch (Exception ex)
             {
@@ -70,8 +70,8 @@ namespace ReadAPI.Controllers
         {
             try
             {
-                var vh = _fuelCardManager.GetFuelcardFuelTypes((id));
-                return Ok(vh);
+                var temp = _fuelCardManager.GetFuelcardFuelTypes((id));
+                return (temp.StatusCode == 200) ? Ok(temp) : NotFound(temp);
             }
             catch (Exception ex)
             {
@@ -83,8 +83,8 @@ namespace ReadAPI.Controllers
         {
             try
             {
-                var vh = _fuelCardManager.GetFuelcardAuthenications(id);
-                return Ok(vh);
+                var temp = _fuelCardManager.GetFuelcardAuthenications(id);
+                return (temp.StatusCode == 200) ? Ok(temp) : NotFound(temp);
             }
             catch (Exception ex)
             {

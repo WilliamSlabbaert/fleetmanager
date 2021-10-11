@@ -29,7 +29,7 @@ namespace ReadAPI.Controllers
             try
             {
                 var temp = _managerRequest.GetAllRequestsPaging(parameter);
-                return Ok(temp);
+                return (temp.StatusCode == 200) ? Ok(temp) : NotFound(temp);
             }
             catch (Exception ex)
             {
@@ -41,8 +41,8 @@ namespace ReadAPI.Controllers
         {
             try
             {
-                var vh = _managerRequest.GetRequestById(id);
-                return Ok(vh);
+                var temp = _managerRequest.GetRequestById(id);
+                return (temp.StatusCode == 200) ? Ok(temp) : NotFound(temp);
             }
             catch (Exception ex)
             {
@@ -54,8 +54,8 @@ namespace ReadAPI.Controllers
         {
             try
             {
-                var vh = _managerRequest.GetRequestMaintenance(id);
-                return Ok(vh);
+                var temp = _managerRequest.GetRequestMaintenance(id);
+                return (temp.StatusCode == 200) ? Ok(temp) : NotFound(temp);
             }
             catch (Exception ex)
             {
@@ -67,8 +67,8 @@ namespace ReadAPI.Controllers
         {
             try
             {
-                var vh = _managerRequest.GetRequestRepairs(id);
-                return Ok(vh);
+                var temp = _managerRequest.GetRequestRepairs(id);
+                return (temp.StatusCode == 200) ? Ok(temp) : NotFound(temp);
             }
             catch (Exception ex)
             {
@@ -80,8 +80,8 @@ namespace ReadAPI.Controllers
         {
             try
             {
-                var vh = _managerRequest.GetRequestChaffeur(id);
-                return Ok(vh);
+                var temp = _managerRequest.GetRequestChaffeur(id);
+                return (temp.StatusCode == 200) ? Ok(temp) : NotFound(temp);
             }
             catch (Exception ex)
             {
@@ -93,8 +93,8 @@ namespace ReadAPI.Controllers
         {
             try
             {
-                var vh = _managerRequest.GetRequestVehicle(id);
-                return Ok(vh);
+                var temp = _managerRequest.GetRequestVehicle(id);
+                return (temp.StatusCode == 200) ? Ok(temp) : NotFound(temp);
             }
             catch (Exception ex)
             {

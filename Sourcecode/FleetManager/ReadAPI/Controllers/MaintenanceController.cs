@@ -30,7 +30,7 @@ namespace ReadAPI.Controllers
             {
                 //_managerMaintenance.AddMaintenance(new Maintenance(DateTime.Now,123,"test"),1);
                 var temp = _managerMaintenance.GetAllMaintenancesPaging(parameter);
-                return Ok(temp);
+                return (temp.StatusCode == 200) ? Ok(temp) : NotFound(temp);
             }
             catch (Exception ex)
             {
@@ -43,8 +43,9 @@ namespace ReadAPI.Controllers
         {
             try
             {
-                var vh = _managerMaintenance.GetMaintenanceById(id);
-                return Ok(vh);
+                var temp = _managerMaintenance.GetMaintenanceById(id);
+                return (temp.StatusCode == 200) ? Ok(temp) : NotFound(temp);
+
             }
             catch (Exception ex)
             {
@@ -56,8 +57,8 @@ namespace ReadAPI.Controllers
         {
             try
             {
-                var vh = _managerMaintenance.GetMaintenanceRequestById(id);
-                return Ok(vh);
+                var temp = _managerMaintenance.GetMaintenanceRequestById(id);
+                return (temp.StatusCode == 200) ? Ok(temp) : NotFound(temp);
             }
             catch (Exception ex)
             {
@@ -69,8 +70,8 @@ namespace ReadAPI.Controllers
         {
             try
             {
-                var vh = _managerMaintenance.GetMaintenanceInvoicesById(id);
-                return Ok(vh);
+                var temp = _managerMaintenance.GetMaintenanceInvoicesById(id);
+                return (temp.StatusCode == 200) ? Ok(temp) : NotFound(temp);
             }
             catch (Exception ex)
             {

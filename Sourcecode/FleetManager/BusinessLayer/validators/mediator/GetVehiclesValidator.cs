@@ -15,6 +15,16 @@ namespace BusinessLayer.validators.mediator
             RuleFor(s => s._parameters)
                 .NotNull()
                 .WithMessage("Parameters can't be null.");
+
+            RuleFor(s => s)
+                .Must(s=> s._parameters.PageNumber > 0)
+                .WithMessage("Pagenumber can't be 0.")
+                .When(s=> s != null);
+
+            RuleFor(s => s)
+                .Must(s => s._parameters.PageSize > 0)
+                .WithMessage("Pagesize can't be 0.")
+                .When(s => s != null);
         }
     }
 }
