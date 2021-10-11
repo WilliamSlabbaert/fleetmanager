@@ -98,7 +98,7 @@ namespace ReadAPI.Controllers
         {
             try
             {
-                var vh = _mediator.Send(new GetVehicleRequestsQuery(id));
+                var vh = _mediator.Send(new GetVehicleKilometerHistoryQuery(id));
                 return Ok(vh.Result);
             }
             catch (Exception ex)

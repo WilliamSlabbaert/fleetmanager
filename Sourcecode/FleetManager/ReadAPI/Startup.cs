@@ -2,8 +2,10 @@ using BusinessLayer;
 using BusinessLayer.managers;
 using BusinessLayer.managers.interfaces;
 using BusinessLayer.validators;
+using BusinessLayer.validators.mediator;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -36,6 +38,7 @@ namespace ReadAPI
 
             services.AddControllers();
             services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<VehicleValidator>());
+            services.AddTransient(typeof(IPipelineBehavior<,>),typeof(ValidationBehavior<,>));
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ReadAPI", Version = "v1" });
