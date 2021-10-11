@@ -1,7 +1,7 @@
 ﻿using BusinessLayer.models;
 using BusinessLayer.validators.response;
-using DataLayer.entities.paging;
 using FluentValidation.Results;
+using Overall.paging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +19,7 @@ namespace BusinessLayer.managers.interfaces
         public GenericResult GetChaffeurRequests(int chaffeurId);
         public GenericResult GetChaffeurFuelcards(int chaffeurId);
         public GenericResult GetChaffeurDrivingLicenses(int chaffeurId);
-        public GenericResult GetAllChaffeursPaging(GenericParemeters parameters);
+        public GenericResult GetAllChaffeursPaging(GenericParameter parameters);
         public FuelCard GetFuelcardFromChaffeur(Chaffeur chaffeur, int fuelcardId);
         public Chaffeur AddChaffeur(Chaffeur ch);
         public Chaffeur UpdateVehicleToChaffeur(int chaffeurNr, int vehicleNr, bool active);

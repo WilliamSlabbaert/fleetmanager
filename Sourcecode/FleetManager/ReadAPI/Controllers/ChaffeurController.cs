@@ -6,6 +6,7 @@ using DataLayer.entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Overall.paging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,11 +30,11 @@ namespace ReadAPI.Controllers
         // -------GET-------
 
         [HttpGet]
-        public ActionResult<GenericResult> GetAllChaffeurs()
+        public ActionResult<GenericResult> GetAllChaffeurs([FromQuery] GenericParameter parameter)
         {
             try
             {
-                return Ok(_managerChaffeur.GetAllChaffeurs());
+                return Ok(_managerChaffeur.GetAllChaffeursPaging(parameter));
             }
             catch (Exception ex)
             {

@@ -4,6 +4,7 @@ using BusinessLayer.models;
 using BusinessLayer.validators.response;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Overall.paging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,11 +27,11 @@ namespace ReadAPI.Controllers
         }
         // ------GET-------
         [HttpGet("Fuelcard")]
-        public ActionResult<GenericResult> Get()
+        public ActionResult<GenericResult> Get([FromQuery] GenericParameter parameter)
         {
             try
             {
-                var temp = _fuelCardManager.GetAllFuelCards();
+                var temp = _fuelCardManager.GetAllFuelCardsPaging(parameter);
                 return Ok(temp);
             }
             catch (Exception ex)

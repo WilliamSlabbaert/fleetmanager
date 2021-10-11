@@ -1,6 +1,6 @@
 ﻿using BusinessLayer.models;
 using BusinessLayer.validators.response;
-using DataLayer.entities.paging;
+using Overall.paging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +14,7 @@ namespace BusinessLayer.managers.interfaces
         public List<GenericResponse> _errors { get; set; }
         public GenericResult GetAllDrivingLicenseById(int id);
         public GenericResult GetAllDrivingLicenses();
-        public GenericResult GetAllDrivingLicensesPaging(GenericParemeters parameters);
+        public GenericResult GetAllDrivingLicensesPaging(GenericParameter parameters);
         public GenericResult GetDrivingLicenseChaffeurById(int id);
         public DrivingLicense AddDrivingLicense(DrivingLicense drivinglicense, int chaffeurid);
         public Chaffeur DeleteDrivingLicense(int drivinglicense, int chaffeurid);

@@ -3,6 +3,7 @@ using BusinessLayer.models;
 using BusinessLayer.validators.response;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Overall.paging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,12 +23,12 @@ namespace ReadAPI.Controllers
         }
 
         [HttpGet("Request")]
-        public ActionResult<GenericResult> GetAll()
+        public ActionResult<GenericResult> GetAll([FromQuery] GenericParameter parameter)
         {
             //_managerRequest.AddRequest(new Request(DateTime.Now,DateTime.Now,"test",Overall.RequestType.Fuelcard),2,1);
             try
             {
-                var temp = _managerRequest.GetAllRequests();
+                var temp = _managerRequest.GetAllRequestsPaging(parameter);
                 return Ok(temp);
             }
             catch (Exception ex)

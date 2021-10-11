@@ -4,6 +4,7 @@ using BusinessLayer.models;
 using BusinessLayer.validators.response;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Overall.paging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,12 +26,12 @@ namespace ReadAPI.Controllers
         }
         // ------GET------
         [HttpGet("Drivinglicense")]
-        public ActionResult<GenericResult> GetAll()
+        public ActionResult<GenericResult> GetAll([FromQuery] GenericParameter parameter)
         {
             try
             {
                 //_drivingLicenseManager.AddDrivingLicense(new DrivingLicense(Overall.License.AM),1);
-                return Ok(_drivingLicenseManager.GetAllDrivingLicenses());
+                return Ok(_drivingLicenseManager.GetAllDrivingLicensesPaging(parameter));
             }
             catch(Exception e)
             {

@@ -1,6 +1,6 @@
 ﻿using BusinessLayer.validators.response;
-using DataLayer.entities.paging;
 using MediatR;
+using Overall.paging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +11,11 @@ namespace BusinessLayer.mediator.queries
 {
     public class GetVehiclesPagingQuery : IRequest<GenericResult>
     {
-        public GetVehiclesPagingQuery(GenericParemeters parameters)
+        public GetVehiclesPagingQuery(GenericParameter parameters)
         {
             _parameters = parameters;
         }
 
-        public GenericParemeters _parameters { get; private set; }
+        public GenericParameter _parameters { get; private set; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using BusinessLayer.models;
 using BusinessLayer.validators.response;
-using DataLayer.entities.paging;
+using Overall.paging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +16,7 @@ namespace BusinessLayer.managers.interfaces
         public GenericResult GetMaintenanceById(int id);
         public GenericResult GetMaintenanceInvoicesById(int id);
         public GenericResult GetMaintenanceRequestById(int id);
-        public GenericResult GetAllMaintenancesPaging(GenericParemeters parameters);
+        public GenericResult GetAllMaintenancesPaging(GenericParameter parameters);
         public Maintenance AddMaintenance(Maintenance Maintenance, int requestId);
         public Maintenance UpdateMaintenance(Maintenance maintenance, int requestId, int maintenanceId);
         public bool ValidateMaintance(Maintenance maintenance);

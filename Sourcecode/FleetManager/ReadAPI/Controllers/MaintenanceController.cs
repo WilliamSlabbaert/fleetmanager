@@ -3,6 +3,7 @@ using BusinessLayer.models;
 using BusinessLayer.validators.response;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Overall.paging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,12 +24,12 @@ namespace ReadAPI.Controllers
             _managerRequest = managerRequest;
         }
         [HttpGet("Maintenance")]
-        public ActionResult<GenericResult> Getall()
+        public ActionResult<GenericResult> Getall([FromQuery] GenericParameter parameter)
         {
             try
             {
                 //_managerMaintenance.AddMaintenance(new Maintenance(DateTime.Now,123,"test"),1);
-                var temp = _managerMaintenance.GetAllMaintenances();
+                var temp = _managerMaintenance.GetAllMaintenancesPaging(parameter);
                 return Ok(temp);
             }
             catch (Exception ex)

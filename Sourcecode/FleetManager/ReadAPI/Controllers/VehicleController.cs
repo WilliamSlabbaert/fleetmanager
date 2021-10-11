@@ -7,6 +7,7 @@ using BusinessLayer.validators.response;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Overall.paging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,11 +28,12 @@ namespace ReadAPI.Controllers
             this.vehi = vehi;
         }
         [HttpGet("Vehicle")]
-        public ActionResult<GenericResult> GetAllVehicles()
+        public ActionResult<GenericResult> GetAllVehicles([FromQuery] GenericParameter parameter)
         {
             try
             {
-                return Ok(vehi.GetAllVehicles());
+                var vh = _mediator.Send(new GetVehiclesPagingQuery(parameter));
+                return Ok(vh.Result);
             }
             catch (Exception e)
             {

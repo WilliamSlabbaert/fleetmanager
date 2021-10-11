@@ -6,6 +6,7 @@ using DataLayer.entities;
 using DataLayer.repositories;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using Overall.paging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,7 +56,7 @@ namespace BusinessLayer.managers
         }
         public List<Vehicle> GetAllVehicles()
         {
-            var temp = new DataLayer.entities.paging.GenericParemeters();
+            var temp = new GenericParameter();
             temp.PageSize = 3;
             temp.PageNumber = 2;
             return _mapper.Map<List<Vehicle>>(this._vehicleRepo.GetAllWithPaging(null,temp));

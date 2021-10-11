@@ -5,12 +5,12 @@ using BusinessLayer.models;
 using BusinessLayer.validators;
 using BusinessLayer.validators.response;
 using DataLayer.entities;
-using DataLayer.entities.paging;
 using DataLayer.repositories;
 using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Overall.paging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -219,7 +219,7 @@ namespace BusinessLayer.managers
             var value = _mapper.Map<List<Chaffeur>>(temp);
             return CreateResult(temp == null, value);
         }
-        public GenericResult GetAllChaffeursPaging(GenericParemeters parameters)
+        public GenericResult GetAllChaffeursPaging(GenericParameter parameters)
         {
             var temp = this._repo.GetAllWithPaging(
                 x => x.Include(s => s.ChaffeurFuelCards)

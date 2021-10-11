@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataLayer.entities.paging
+namespace Overall.paging
 {
-    public class GenericParemeters
+    public class GenericParameter
     {
-        const int maxPageSize = 5;
+        const int maxPageSize = 10;
         public int PageNumber { get; set; } = 1;
-        private int _pageSize = 4;
+        private int _pageSize = 1;
         public int PageSize
         {
             get

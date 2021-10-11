@@ -1,7 +1,7 @@
 ﻿using DataLayer.entities;
 using DataLayer.entities.generic;
-using DataLayer.entities.paging;
 using Microsoft.EntityFrameworkCore.Query;
+using Overall.paging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +14,7 @@ namespace DataLayer.repositories
     public interface IGenericRepo<T> where T : class, IGeneralEntities
     {
         IQueryable<T> GetAll(Func<IQueryable<T>, IIncludableQueryable<T, object>> including);
-        public IQueryable<T> GetAllWithPaging(Func<IQueryable<T>, IIncludableQueryable<T, object>> including, GenericParemeters genericParemeters);
+        public IQueryable<T> GetAllWithPaging(Func<IQueryable<T>, IIncludableQueryable<T, object>> including, GenericParameter genericParemeters);
         public T GetById(Expression<Func<T, bool>> filter, Func<IQueryable<T>, IIncludableQueryable<T, object>> including);
         void AddEntity(T obj);
         void UpdateEntity(T obj);

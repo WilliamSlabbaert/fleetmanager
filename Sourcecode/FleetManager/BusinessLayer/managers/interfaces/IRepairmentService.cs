@@ -1,6 +1,6 @@
 ﻿using BusinessLayer.models;
 using BusinessLayer.validators.response;
-using DataLayer.entities.paging;
+using Overall.paging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +15,7 @@ namespace BusinessLayer.managers.interfaces
         public GenericResult GetAllRepairments();
         public GenericResult GetRepairmentById(int id);
         public GenericResult GetRepairmentRequestById(int id);
-        public GenericResult GetAllRepairmentsPaging(GenericParemeters parameters);
+        public GenericResult GetAllRepairmentsPaging(GenericParameter parameters);
         public Repairment AddRepairment(Repairment repairment, int requestId);
         public Repairment UpdateRepairment(Repairment repairment, int requestId, int repairmentId);
         

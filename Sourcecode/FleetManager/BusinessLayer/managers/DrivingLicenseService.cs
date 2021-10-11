@@ -4,11 +4,11 @@ using BusinessLayer.mediator.commands;
 using BusinessLayer.models;
 using BusinessLayer.validators.response;
 using DataLayer.entities;
-using DataLayer.entities.paging;
 using DataLayer.repositories;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Overall.paging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -73,7 +73,7 @@ namespace BusinessLayer.managers
             var value = temp == null ? null : _mapper.Map<List<DrivingLicense>>(temp);
             return CreateResult(temp == null, value);
         }
-        public GenericResult GetAllDrivingLicensesPaging(GenericParemeters parameters)
+        public GenericResult GetAllDrivingLicensesPaging(GenericParameter parameters)
         {
             var temp = _mapper.Map<List<DrivingLicense>>(_repo.GetAllWithPaging(
                 s => s.Include(x => x.Chaffeur),parameters));

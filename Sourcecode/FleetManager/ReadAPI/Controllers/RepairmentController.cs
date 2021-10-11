@@ -2,6 +2,7 @@
 using BusinessLayer.models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Overall.paging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,11 +23,11 @@ namespace ReadAPI.Controllers
             _managerRequest = managerRequest;
         }
         [HttpGet("Repairment")]
-        public ActionResult<List<Repairment>> Getall()
+        public ActionResult<List<Repairment>> Getall([FromQuery] GenericParameter parameter)
         {
             try
             {
-                var temp = _managerRepairment.GetAllRepairments();
+                var temp = _managerRepairment.GetAllRepairmentsPaging(parameter);
                 return Ok(temp);
             }
             catch (Exception ex)
