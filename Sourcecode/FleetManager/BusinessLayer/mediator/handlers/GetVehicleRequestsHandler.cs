@@ -2,6 +2,7 @@
 using BusinessLayer.mediator.commands;
 using BusinessLayer.mediator.queries;
 using BusinessLayer.models;
+using BusinessLayer.models.general;
 using BusinessLayer.validators.response;
 using DataLayer.entities;
 using DataLayer.repositories;
@@ -16,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.mediator.handlers
 {
-    public class GetVehicleRequestsHandler : IRequestHandler<GetVehicleRequestsQuery, GenericResult>
+    public class GetVehicleRequestsHandler : IRequestHandler<GetVehicleRequestsQuery, GenericResult<IGeneralModels>>
     {
         private readonly IGenericRepo<VehicleEntity> _vehicleRepo;
         private readonly IMapper _mapper;
@@ -27,7 +28,7 @@ namespace BusinessLayer.mediator.handlers
             this._mapper = mapper;
             this._mediator = mediator;
         }
-        public Task<GenericResult> Handle(GetVehicleRequestsQuery request, CancellationToken cancellationToken)
+        public Task<GenericResult<IGeneralModels>> Handle(GetVehicleRequestsQuery request, CancellationToken cancellationToken)
         {
             var vehicles = _vehicleRepo.GetAll(s => s.Include(x => x.Requests));
             var temp = vehicles.FirstOrDefault(s => s.Id == request.Id);
@@ -36,7 +37,7 @@ namespace BusinessLayer.mediator.handlers
             var result = CreateResult(temp == null, value);
             return Task.FromResult(result);
         }
-        public GenericResult CreateResult(bool check, object value)
+        public GenericResult<IGeneralModels> CreateResult(bool check, object value)
         {
             var message = "OK";
             var code = Overall.ResponseType.OK;

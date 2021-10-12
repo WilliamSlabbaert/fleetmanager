@@ -1,6 +1,7 @@
 ﻿using BusinessLayer;
 using BusinessLayer.managers.interfaces;
 using BusinessLayer.models;
+using BusinessLayer.models.general;
 using BusinessLayer.validators.response;
 using DataLayer.entities;
 using Microsoft.AspNetCore.Mvc;
@@ -30,7 +31,7 @@ namespace ReadAPI.Controllers
         // -------GET-------
 
         [HttpGet]
-        public ActionResult<GenericResult> GetAllChaffeurs([FromQuery] GenericParameter parameter)
+        public ActionResult<GenericResult<IGeneralModels>> GetAllChaffeurs([FromQuery] GenericParameter parameter)
         {
             try
             {
@@ -43,7 +44,7 @@ namespace ReadAPI.Controllers
             }
         }
         [HttpGet("{chaffeurId}")]
-        public ActionResult<GenericResult> GetById(int chaffeurId)
+        public ActionResult<GenericResult<IGeneralModels>> GetById(int chaffeurId)
         {
             try
             {
@@ -56,7 +57,7 @@ namespace ReadAPI.Controllers
             }
         }
         [HttpGet("{chaffeurId}/Vehicles")]
-        public ActionResult<GenericResult> GetallVehiclesById(int chaffeurId)
+        public ActionResult<GenericResult<IGeneralModels>> GetallVehiclesById(int chaffeurId)
         {
             try
             {
@@ -69,7 +70,7 @@ namespace ReadAPI.Controllers
             }
         }
         [HttpGet("{chaffeurId}/Fuelcards")]
-        public ActionResult<GenericResult> GetallFuelCards(int chaffeurId)
+        public ActionResult<GenericResult<IGeneralModels>> GetallFuelCards(int chaffeurId)
         {
             try
             {
@@ -82,7 +83,7 @@ namespace ReadAPI.Controllers
             }
         }
         [HttpGet("{chaffeurId}/Requests")]
-        public ActionResult<GenericResult> GetallRequests(int chaffeurId)
+        public ActionResult<GenericResult<IGeneralModels>> GetallRequests(int chaffeurId)
         {
             try
             {
@@ -95,7 +96,7 @@ namespace ReadAPI.Controllers
             }
         }
         [HttpGet("{chaffeurId}/Drivinglicenses")]
-        public ActionResult<GenericResult> GetallDrivingLicensesById(int chaffeurId)
+        public ActionResult<GenericResult<IGeneralModels>> GetallDrivingLicensesById(int chaffeurId)
         {
             try
             {

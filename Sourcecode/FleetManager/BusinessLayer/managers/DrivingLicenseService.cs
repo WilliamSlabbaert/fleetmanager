@@ -2,6 +2,7 @@
 using BusinessLayer.managers.interfaces;
 using BusinessLayer.mediator.commands;
 using BusinessLayer.models;
+using BusinessLayer.models.general;
 using BusinessLayer.validators.response;
 using DataLayer.entities;
 using DataLayer.repositories;
@@ -66,21 +67,21 @@ namespace BusinessLayer.managers
             }
             return _mapper.Map<Chaffeur>(temp);
         }
-        public GenericResult GetAllDrivingLicenses()
+        public GenericResult<IGeneralModels> GetAllDrivingLicenses()
         {
             var temp = _mapper.Map<List<DrivingLicense>>(_repo.GetAll(
                 s => s.Include(x => x.Chaffeur)));
             var value = temp == null ? null : _mapper.Map<List<DrivingLicense>>(temp);
             return CreateResult(temp == null, value);
         }
-        public GenericResult GetAllDrivingLicensesPaging(GenericParameter parameters)
+        public GenericResult<IGeneralModels> GetAllDrivingLicensesPaging(GenericParameter parameters)
         {
             var temp = _mapper.Map<List<DrivingLicense>>(_repo.GetAllWithPaging(
                 s => s.Include(x => x.Chaffeur),parameters));
             var value = temp == null ? null : _mapper.Map<List<DrivingLicense>>(temp);
             return CreateResult(temp == null, value);
         }
-        public GenericResult GetAllDrivingLicenseById(int id)
+        public GenericResult<IGeneralModels> GetAllDrivingLicenseById(int id)
         {
             var value = _mapper.Map<DrivingLicense>(_repo.GetById(
                 filter: x => x.Id == id,
@@ -88,7 +89,7 @@ namespace BusinessLayer.managers
 
             return CreateResult(value == null, value);
         }
-        public GenericResult GetDrivingLicenseChaffeurById(int id)
+        public GenericResult<IGeneralModels> GetDrivingLicenseChaffeurById(int id)
         {
             var temp = _mapper.Map<DrivingLicense>(_repo.GetById(
                 filter: x => x.Id == id,
@@ -115,7 +116,7 @@ namespace BusinessLayer.managers
             var temp = _mapper.Map<Chaffeur>(GetChaffeurEntity(id));
             return temp.CheckDrivingLicense(license);
         }
-        public GenericResult CreateResult(bool check, object value)
+        public GenericResult<IGeneralModels> CreateResult(bool check, object value)
         {
             var message = "OK";
             var code = Overall.ResponseType.OK;

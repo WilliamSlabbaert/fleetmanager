@@ -2,6 +2,7 @@
 using BusinessLayer.managers.interfaces;
 using BusinessLayer.mediator.commands;
 using BusinessLayer.models;
+using BusinessLayer.models.general;
 using BusinessLayer.validators.response;
 using DataLayer.entities;
 using DataLayer.repositories;
@@ -74,7 +75,7 @@ namespace BusinessLayer.managers
         }
 
 
-        public GenericResult GetAllRepairments()
+        public GenericResult<IGeneralModels> GetAllRepairments()
         {
             var temp = _mapper.Map<List<Repairment>>(_repo.GetAll(
                 x => x.Include(s => s.Request)));
@@ -82,7 +83,7 @@ namespace BusinessLayer.managers
             var value = temp == null ? null : temp;
             return CreateResult(temp == null, value);
         }
-        public GenericResult GetAllRepairmentsPaging(GenericParameter parameters)
+        public GenericResult<IGeneralModels> GetAllRepairmentsPaging(GenericParameter parameters)
         {
             var temp = _mapper.Map<List<Repairment>>(_repo.GetAllWithPaging(
                 x => x.Include(s => s.Request),parameters));
@@ -90,14 +91,14 @@ namespace BusinessLayer.managers
             var value = temp == null ? null : temp;
             return CreateResult(temp == null, value);
         }
-        public GenericResult GetRepairmentById(int id)
+        public GenericResult<IGeneralModels> GetRepairmentById(int id)
         {
             var temp = _mapper.Map<Repairment>(GetRepairmentEntityById(id));
 
             var value = temp == null ? null : temp;
             return CreateResult(temp == null, value);
         }
-        public GenericResult GetRepairmentRequestById(int id)
+        public GenericResult<IGeneralModels> GetRepairmentRequestById(int id)
         {
             var temp = _mapper.Map<Repairment>(GetRepairmentEntityById(id));
 
@@ -126,7 +127,7 @@ namespace BusinessLayer.managers
             }
 
         }
-        public GenericResult CreateResult(bool check, object value)
+        public GenericResult<IGeneralModels> CreateResult(bool check, object value)
         {
             var message = "OK";
             var code = Overall.ResponseType.OK;

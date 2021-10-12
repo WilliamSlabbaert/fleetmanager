@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.managers.interfaces;
 using BusinessLayer.models;
+using BusinessLayer.models.general;
 using BusinessLayer.validators.response;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -24,7 +25,7 @@ namespace ReadAPI.Controllers
             _managerRequest = managerRequest;
         }
         [HttpGet("Maintenance")]
-        public ActionResult<GenericResult> Getall([FromQuery] GenericParameter parameter)
+        public ActionResult<GenericResult<IGeneralModels>> Getall([FromQuery] GenericParameter parameter)
         {
             try
             {
@@ -39,7 +40,7 @@ namespace ReadAPI.Controllers
         }
 
         [HttpGet("Maintenance/{id}")]
-        public ActionResult<GenericResult> GetById(int id)
+        public ActionResult<GenericResult<IGeneralModels>> GetById(int id)
         {
             try
             {
@@ -53,7 +54,7 @@ namespace ReadAPI.Controllers
             }
         }
         [HttpGet("Maintenance/{id}/Request")]
-        public ActionResult<GenericResult> GetByIdRequest(int id)
+        public ActionResult<GenericResult<IGeneralModels>> GetByIdRequest(int id)
 
         {
             try
@@ -67,7 +68,7 @@ namespace ReadAPI.Controllers
             }
         }
         [HttpGet("Maintenance/{id}/Invoices")]
-        public ActionResult<GenericResult> GetByIdInvoices(int id)
+        public ActionResult<GenericResult<IGeneralModels>> GetByIdInvoices(int id)
         {
             try
             {

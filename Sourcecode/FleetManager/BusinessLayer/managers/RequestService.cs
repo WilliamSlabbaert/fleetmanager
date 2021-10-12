@@ -2,6 +2,7 @@
 using BusinessLayer.managers.interfaces;
 using BusinessLayer.mediator.commands;
 using BusinessLayer.models;
+using BusinessLayer.models.general;
 using BusinessLayer.validators.response;
 using DataLayer.entities;
 using DataLayer.repositories;
@@ -67,7 +68,7 @@ namespace BusinessLayer.managers
             }
             return _mapper.Map<Request>(rq);
         }
-        public GenericResult GetAllRequests()
+        public GenericResult<IGeneralModels> GetAllRequests()
         {
             var temp = _mapper.Map<List<Request>>(_repo.GetAll(
                 x => x.Include(s => s.Chaffeur)
@@ -78,7 +79,7 @@ namespace BusinessLayer.managers
             var value = temp == null ? null : temp;
             return CreateResult(temp == null, value);
         }
-        public GenericResult GetAllRequestsPaging(GenericParameter parameters)
+        public GenericResult<IGeneralModels> GetAllRequestsPaging(GenericParameter parameters)
         {
             var temp = _mapper.Map<List<Request>>(_repo.GetAllWithPaging(
                 x => x.Include(s => s.Chaffeur)
@@ -89,31 +90,31 @@ namespace BusinessLayer.managers
             var value = temp == null ? null : temp;
             return CreateResult(temp == null, value);
         }
-        public GenericResult GetRequestById(int id)
+        public GenericResult<IGeneralModels> GetRequestById(int id)
         {
             var temp = _mapper.Map<Request>(GetRequestEntityById(id));
             var value = temp == null ? null : temp;
             return CreateResult(temp == null, value);
         }
-        public GenericResult GetRequestChaffeur(int id)
+        public GenericResult<IGeneralModels> GetRequestChaffeur(int id)
         {
             var temp = _mapper.Map<Request>(GetRequestEntityById(id));
             var value = temp == null ? null : temp.Chaffeur;
             return CreateResult(temp == null, value);
         }
-        public GenericResult GetRequestVehicle(int id)
+        public GenericResult<IGeneralModels> GetRequestVehicle(int id)
         {
             var temp = _mapper.Map<Request>(GetRequestEntityById(id));
             var value = temp == null ? null : temp.Vehicle;
             return CreateResult(temp == null, value);
         }
-        public GenericResult GetRequestRepairs(int id)
+        public GenericResult<IGeneralModels> GetRequestRepairs(int id)
         {
             var temp = _mapper.Map<Request>(GetRequestEntityById(id));
             var value = temp == null ? null : temp.Repairment;
             return CreateResult(temp == null, value);
         }
-        public GenericResult GetRequestMaintenance(int id)
+        public GenericResult<IGeneralModels> GetRequestMaintenance(int id)
         {
             var temp = _mapper.Map<Request>(GetRequestEntityById(id));
             var value = temp == null ? null : temp.Maintenance;
@@ -184,7 +185,7 @@ namespace BusinessLayer.managers
                 .Include(s => s.Vehicle));
             return temp;
         }
-        public GenericResult CreateResult(bool check, object value)
+        public GenericResult<IGeneralModels> CreateResult(bool check, object value)
         {
             var message = "OK";
             var code = Overall.ResponseType.OK;

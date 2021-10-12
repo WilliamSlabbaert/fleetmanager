@@ -3,6 +3,7 @@ using BusinessLayer.managers.interfaces;
 using BusinessLayer.mediator.commands;
 using BusinessLayer.mediator.queries;
 using BusinessLayer.models;
+using BusinessLayer.models.general;
 using BusinessLayer.validators.response;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -28,7 +29,7 @@ namespace ReadAPI.Controllers
             this.vehi = vehi;
         }
         [HttpGet("Vehicle")]
-        public ActionResult<GenericResult> GetAllVehicles([FromQuery] GenericParameter parameter)
+        public ActionResult<GenericResult<IGeneralModels>> GetAllVehicles([FromQuery] GenericParameter parameter)
         {
             try
             {
@@ -42,7 +43,7 @@ namespace ReadAPI.Controllers
         }
 
         [HttpGet("Vehicle/{id}")]
-        public ActionResult<GenericResult> GetVehicleByID(int id)
+        public ActionResult<GenericResult<IGeneralModels>> GetVehicleByID(int id)
         {
             try
             {
@@ -55,7 +56,7 @@ namespace ReadAPI.Controllers
             }
         }
         [HttpGet("Vehicle/{id}/Chaffeurs")]
-        public ActionResult<GenericResult> GetVehicleChaffeursByID(int id)
+        public ActionResult<GenericResult<IGeneralModels>> GetVehicleChaffeursByID(int id)
         {
             try
             {
@@ -68,7 +69,7 @@ namespace ReadAPI.Controllers
             }
         }
         [HttpGet("Vehicle/{id}/Licenseplates")]
-        public ActionResult<GenericResult> GetVehicleLicensePlatesByID(int id)
+        public ActionResult<GenericResult<IGeneralModels>> GetVehicleLicensePlatesByID(int id)
         {
             try
             {
@@ -81,7 +82,7 @@ namespace ReadAPI.Controllers
             }
         }
         [HttpGet("Vehicle/{id}/Requests")]
-        public ActionResult<GenericResult> GetVehicleRequestsByID(int id)
+        public ActionResult<GenericResult<IGeneralModels>> GetVehicleRequestsByID(int id)
         {
             try
             {
@@ -94,7 +95,7 @@ namespace ReadAPI.Controllers
             }
         }
         [HttpGet("Vehicle/{id}/KilometerHistory")]
-        public ActionResult<GenericResult> GetVehicleKilometersByID(int id)
+        public ActionResult<GenericResult<IGeneralModels>> GetVehicleKilometersByID(int id)
         {
             try
             {

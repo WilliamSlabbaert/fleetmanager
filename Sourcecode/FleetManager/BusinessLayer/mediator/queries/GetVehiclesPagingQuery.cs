@@ -1,4 +1,5 @@
-﻿using BusinessLayer.validators.response;
+﻿using BusinessLayer.models.general;
+using BusinessLayer.validators.response;
 using MediatR;
 using Overall.paging;
 using System;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.mediator.queries
 {
-    public class GetVehiclesPagingQuery : IRequest<GenericResult>
+    public class GetVehiclesPagingQuery : IRequest<GenericResult<IGeneralModels>>
     {
         public GetVehiclesPagingQuery(GenericParameter parameters)
         {

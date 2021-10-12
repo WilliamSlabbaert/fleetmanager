@@ -1,4 +1,5 @@
 ﻿using BusinessLayer.models;
+using BusinessLayer.models.general;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.validators.response
 {
-    public class GenericResult
+    public class GenericResult<T> where T : class, IGeneralModels
     {
         public string Message { get; set; }
         public int StatusCode { get; private set; }

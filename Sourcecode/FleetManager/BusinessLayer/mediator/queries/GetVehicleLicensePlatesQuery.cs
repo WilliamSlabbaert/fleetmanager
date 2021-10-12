@@ -1,4 +1,5 @@
-﻿using BusinessLayer.validators.response;
+﻿using BusinessLayer.models.general;
+using BusinessLayer.validators.response;
 using DataLayer.entities;
 using DataLayer.entities.generic;
 using MediatR;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.mediator.queries
 {
-    public class GetVehicleLicensePlatesQuery :  IRequest<GenericResult>
+    public class GetVehicleLicensePlatesQuery :  IRequest<GenericResult<IGeneralModels>>
     {
         public int Id { get; private set; }
 

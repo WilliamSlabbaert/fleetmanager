@@ -2,6 +2,7 @@
 using BusinessLayer.managers.interfaces;
 using BusinessLayer.mediator.commands;
 using BusinessLayer.models;
+using BusinessLayer.models.general;
 using BusinessLayer.validators;
 using BusinessLayer.validators.response;
 using DataLayer.entities;
@@ -64,7 +65,7 @@ namespace BusinessLayer.managers
             }
         }
 
-        public GenericResult GetChaffeurById(int id)
+        public GenericResult<IGeneralModels> GetChaffeurById(int id)
         {
             var temp = _repo.GetById(
             filter: x => x.Id == id
@@ -75,17 +76,8 @@ namespace BusinessLayer.managers
             .Include(s => s.ChaffeurVehicles)
             .ThenInclude(s => s.Vehicle));
 
-            var resp = new GenericResult();
-            if (temp == null)
-            {
-                resp.Message = "Chaffeur not found.";
-                resp.SetStatusCode(Overall.ResponseType.NotFound);
-                return resp;
-            }
-            resp.Message = "Ok";
-            resp.SetStatusCode(Overall.ResponseType.OK);
-            resp.ReturnValue = _mapper.Map<Chaffeur>(temp);
-            return resp;
+            var value = temp == null ? null : _mapper.Map<Chaffeur>(temp);
+            return CreateResult(temp == null, value);
         }
         public FuelCard GetFuelcardFromChaffeur(Chaffeur chaffeur, int fuelcardId)
         {
@@ -207,7 +199,7 @@ namespace BusinessLayer.managers
             .Include(s => s.Requests));
             return vh;
         }
-        public GenericResult GetAllChaffeurs()
+        public GenericResult<IGeneralModels> GetAllChaffeurs()
         {
             var temp = this._repo.GetAll(
                 x => x.Include(s => s.ChaffeurFuelCards)
@@ -219,7 +211,7 @@ namespace BusinessLayer.managers
             var value = _mapper.Map<List<Chaffeur>>(temp);
             return CreateResult(temp == null, value);
         }
-        public GenericResult GetAllChaffeursPaging(GenericParameter parameters)
+        public GenericResult<IGeneralModels> GetAllChaffeursPaging(GenericParameter parameters)
         {
             var temp = this._repo.GetAllWithPaging(
                 x => x.Include(s => s.ChaffeurFuelCards)
@@ -231,31 +223,31 @@ namespace BusinessLayer.managers
             var value = _mapper.Map<List<Chaffeur>>(temp);
             return CreateResult(temp == null, value);
         }
-        public GenericResult GetChaffeurVehicles(int chaffeurId)
+        public GenericResult<IGeneralModels> GetChaffeurVehicles(int chaffeurId)
         {
             var temp = GetChaffeurEntity(chaffeurId);
             var value = temp == null ? null : _mapper.Map<Chaffeur>(temp).ChaffeurVehicles;
             return CreateResult(temp == null, value);
         }
-        public GenericResult GetChaffeurRequests(int chaffeurId)
+        public GenericResult<IGeneralModels> GetChaffeurRequests(int chaffeurId)
         {
             var temp = GetChaffeurEntity(chaffeurId);
             var value = temp == null ? null : _mapper.Map<Chaffeur>(temp).Requests;
             return CreateResult(temp == null, value);
         }
-        public GenericResult GetChaffeurFuelcards(int chaffeurId)
+        public GenericResult<IGeneralModels> GetChaffeurFuelcards(int chaffeurId)
         {
             var temp = GetChaffeurEntity(chaffeurId);
             var value = temp == null ? null : _mapper.Map<Chaffeur>(temp).ChaffeurFuelCards;
             return CreateResult(temp == null, value);
         }
-        public GenericResult GetChaffeurDrivingLicenses(int chaffeurId)
+        public GenericResult<IGeneralModels> GetChaffeurDrivingLicenses(int chaffeurId)
         {
             var temp = GetChaffeurEntity(chaffeurId);
             var value = temp == null ? null : _mapper.Map<Chaffeur>(temp).DrivingLicenses;
             return CreateResult(temp == null, value);
         }
-        public GenericResult CreateResult(bool check, object value)
+        public GenericResult<IGeneralModels> CreateResult(bool check, object value)
         {
             var message = "OK";
             var code = Overall.ResponseType.OK;

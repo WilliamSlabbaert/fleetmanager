@@ -1,6 +1,7 @@
 ﻿using BusinessLayer;
 using BusinessLayer.managers.interfaces;
 using BusinessLayer.models;
+using BusinessLayer.models.general;
 using BusinessLayer.validators.response;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -26,7 +27,7 @@ namespace ReadAPI.Controllers
         }
         // ------GET------
         [HttpGet("Drivinglicense")]
-        public ActionResult<GenericResult> GetAll([FromQuery] GenericParameter parameter)
+        public ActionResult<GenericResult<IGeneralModels>> GetAll([FromQuery] GenericParameter parameter)
         {
             try
             {
@@ -39,7 +40,7 @@ namespace ReadAPI.Controllers
             }
         }
         [HttpGet("Drivinglicense/{id}")]
-        public ActionResult<GenericResult> GetFuelCardByID(int id)
+        public ActionResult<GenericResult<IGeneralModels>> GetFuelCardByID(int id)
         {
             try
             {
@@ -54,7 +55,7 @@ namespace ReadAPI.Controllers
         
         
         [HttpGet("Drivinglicense/{id}/Chaffeurs")]
-        public ActionResult<GenericResult> GetFuelCardByIDChaffeur(int id)
+        public ActionResult<GenericResult<IGeneralModels>> GetFuelCardByIDChaffeur(int id)
         {
             try
             {

@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.managers.interfaces;
 using BusinessLayer.models;
+using BusinessLayer.models.general;
 using BusinessLayer.validators.response;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -23,7 +24,7 @@ namespace ReadAPI.Controllers
         }
 
         [HttpGet("Request")]
-        public ActionResult<GenericResult> GetAll([FromQuery] GenericParameter parameter)
+        public ActionResult<GenericResult<IGeneralModels>> GetAll([FromQuery] GenericParameter parameter)
         {
             //_managerRequest.AddRequest(new Request(DateTime.Now,DateTime.Now,"test",Overall.RequestType.Fuelcard),2,1);
             try
@@ -37,7 +38,7 @@ namespace ReadAPI.Controllers
             }
         }
         [HttpGet("Request/{id}")]
-        public ActionResult<GenericResult> GetById(int id)
+        public ActionResult<GenericResult<IGeneralModels>> GetById(int id)
         {
             try
             {
@@ -50,7 +51,7 @@ namespace ReadAPI.Controllers
             }
         }
         [HttpGet("Request/{id}/Maintenances")]
-        public ActionResult<GenericResult> GetByIdMaintenance(int id)
+        public ActionResult<GenericResult<IGeneralModels>> GetByIdMaintenance(int id)
         {
             try
             {
@@ -63,7 +64,7 @@ namespace ReadAPI.Controllers
             }
         }
         [HttpGet("Request/{id}/Repairments")]
-        public ActionResult<GenericResult> GetByIdRepairments(int id)
+        public ActionResult<GenericResult<IGeneralModels>> GetByIdRepairments(int id)
         {
             try
             {
@@ -76,7 +77,7 @@ namespace ReadAPI.Controllers
             }
         }
         [HttpGet("Request/{id}/Chaffeur")]
-        public ActionResult<GenericResult> GetByIdChaffeur(int id)
+        public ActionResult<GenericResult<IGeneralModels>> GetByIdChaffeur(int id)
         {
             try
             {
@@ -89,7 +90,7 @@ namespace ReadAPI.Controllers
             }
         }
         [HttpGet("Request/{id}/Vehicle")]
-        public ActionResult<GenericResult> GetByIdVehicle(int id)
+        public ActionResult<GenericResult<IGeneralModels>> GetByIdVehicle(int id)
         {
             try
             {

@@ -1,4 +1,5 @@
 ﻿using BusinessLayer.models;
+using BusinessLayer.models.general;
 using BusinessLayer.validators.response;
 using Overall.paging;
 using System;
@@ -12,12 +13,12 @@ namespace BusinessLayer.managers.interfaces
     public interface IFuelCardService
     {
         public List<GenericResponse> _errors { get; set; }
-        public GenericResult GetFuelCardById(int id);
-        public GenericResult GetAllFuelCards();
-        public GenericResult GetFuelcardCHaffeurs(int id);
-        public GenericResult GetFuelcardFuelTypes(int id);
-        public GenericResult GetFuelcardAuthenications(int id);
-        public GenericResult GetAllFuelCardsPaging(GenericParameter parameters);
+        public GenericResult<IGeneralModels> GetFuelCardById(int id);
+        public GenericResult<IGeneralModels> GetAllFuelCards();
+        public GenericResult<IGeneralModels> GetFuelcardCHaffeurs(int id);
+        public GenericResult<IGeneralModels> GetFuelcardFuelTypes(int id);
+        public GenericResult<IGeneralModels> GetFuelcardAuthenications(int id);
+        public GenericResult<IGeneralModels> GetAllFuelCardsPaging(GenericParameter parameters);
         public bool CheckExistingFuelCard(FuelCard fc);
         public bool CheckValidationService(ExtraService extraService);
         public bool CheckValidationFuelType(FuelType fueltype);

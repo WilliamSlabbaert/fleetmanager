@@ -2,6 +2,7 @@
 using BusinessLayer.managers.interfaces;
 using BusinessLayer.mediator.commands;
 using BusinessLayer.models;
+using BusinessLayer.models.general;
 using BusinessLayer.validators.response;
 using DataLayer.entities;
 using DataLayer.repositories;
@@ -222,7 +223,7 @@ namespace BusinessLayer.managers
             return _mapper.Map<FuelCard>(temp);
 
         }
-        public GenericResult GetAllFuelCards()
+        public GenericResult<IGeneralModels> GetAllFuelCards()
         {
             var temp = _mapper.Map<List<FuelCard>>(this._repo.GetAll(
                 x => x.Include(s => s.Services)
@@ -233,7 +234,7 @@ namespace BusinessLayer.managers
             var value = temp == null ? null : temp;
             return CreateResult(temp == null, value);
         }
-        public GenericResult GetAllFuelCardsPaging(GenericParameter parameters)
+        public GenericResult<IGeneralModels> GetAllFuelCardsPaging(GenericParameter parameters)
         {
             var temp = _mapper.Map<List<FuelCard>>(this._repo.GetAllWithPaging(
                 x => x.Include(s => s.Services)
@@ -245,7 +246,7 @@ namespace BusinessLayer.managers
             return CreateResult(temp == null, value);
         }
 
-        public GenericResult GetFuelCardById(int id)
+        public GenericResult<IGeneralModels> GetFuelCardById(int id)
         {
             var temp = _mapper.Map<FuelCard>(GetFuelCardEntity(id));
 
@@ -253,21 +254,21 @@ namespace BusinessLayer.managers
             return CreateResult(temp == null, value);
         }
         
-        public GenericResult GetFuelcardCHaffeurs(int id)
+        public GenericResult<IGeneralModels> GetFuelcardCHaffeurs(int id)
         {
             var temp = GetFuelCardEntity(id);
 
             var value = temp == null ? null : temp.ChaffeurFuelCards;
             return CreateResult(temp == null, value);
         }
-        public GenericResult GetFuelcardFuelTypes(int id)
+        public GenericResult<IGeneralModels> GetFuelcardFuelTypes(int id)
         {
             var temp = GetFuelCardEntity(id);
 
             var value = temp == null ? null : temp.FuelType;
             return CreateResult(temp == null, value);
         }
-        public GenericResult GetFuelcardAuthenications(int id)
+        public GenericResult<IGeneralModels> GetFuelcardAuthenications(int id)
         {
             var temp = GetFuelCardEntity(id);
 
@@ -305,7 +306,7 @@ namespace BusinessLayer.managers
             _repo.Save();
             return _mapper.Map<FuelCard>(fc);
         }
-        public GenericResult CreateResult(bool check, object value)
+        public GenericResult<IGeneralModels> CreateResult(bool check, object value)
         {
             var message = "OK";
             var code = Overall.ResponseType.OK;

@@ -1,4 +1,5 @@
-﻿using BusinessLayer.validators.response;
+﻿using BusinessLayer.models.general;
+using BusinessLayer.validators.response;
 using MediatR;
 using Overall;
 using System;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.mediator.commands
 {
-    public class CreateGenericResultCommand : IRequest<GenericResult>
+    public class CreateGenericResultCommand : IRequest<GenericResult<IGeneralModels>>
     {
         public CreateGenericResultCommand(string message, ResponseType type, object value)
         {

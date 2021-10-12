@@ -2,6 +2,7 @@
 using BusinessLayer.mediator.commands;
 using BusinessLayer.mediator.queries;
 using BusinessLayer.models;
+using BusinessLayer.models.general;
 using BusinessLayer.validators.response;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -28,7 +29,7 @@ namespace WriteAPI.Controllers
         {
             try
             {
-                var temp = new GenericResult();
+                var temp = new GenericResult<IGeneralModels>();
                 temp.SetStatusCode(Overall.ResponseType.BadRequest);
                 var result = await _mediator.Send(new AddVehicleCommand(vehicle));
                 return Ok(result);

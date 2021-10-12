@@ -2,6 +2,7 @@
 using BusinessLayer.managers.interfaces;
 using BusinessLayer.mediator.commands;
 using BusinessLayer.models;
+using BusinessLayer.models.general;
 using BusinessLayer.validators.response;
 using DataLayer.entities;
 using DataLayer.repositories;
@@ -70,7 +71,7 @@ namespace BusinessLayer.managers
             return _mapper.Map<Maintenance>(EditMaintenance);
         }
 
-        public GenericResult GetAllMaintenances()
+        public GenericResult<IGeneralModels> GetAllMaintenances()
         {
             var temp = _mapper.Map<List<Maintenance>>(_repo.GetAll(
                 x => x.Include(s => s.Request)));
@@ -78,7 +79,7 @@ namespace BusinessLayer.managers
             var value = temp == null ? null : temp;
             return CreateResult(temp == null, value);
         }
-        public GenericResult GetAllMaintenancesPaging(GenericParameter parameters)
+        public GenericResult<IGeneralModels> GetAllMaintenancesPaging(GenericParameter parameters)
         {
             var temp = _mapper.Map<List<Maintenance>>(_repo.GetAllWithPaging(
                 x => x.Include(s => s.Request),parameters));
@@ -86,7 +87,7 @@ namespace BusinessLayer.managers
             var value = temp == null ? null : temp;
             return CreateResult(temp == null, value);
         }
-        public GenericResult GetMaintenanceById(int id)
+        public GenericResult<IGeneralModels> GetMaintenanceById(int id)
         {
             var temp = _mapper.Map<Maintenance>(_repo.GetById(
                 filter: x => x.Id == id,
@@ -95,7 +96,7 @@ namespace BusinessLayer.managers
             var value = temp == null ? null : temp;
             return CreateResult(temp == null, value);
         }
-        public GenericResult GetMaintenanceInvoicesById(int id)
+        public GenericResult<IGeneralModels> GetMaintenanceInvoicesById(int id)
         {
             var temp = _mapper.Map<Maintenance>(_repo.GetById(
                 filter: x => x.Id == id,
@@ -104,7 +105,7 @@ namespace BusinessLayer.managers
             var value = temp == null ? null : temp.Invoices;
             return CreateResult(temp == null, value);
         }
-        public GenericResult GetMaintenanceRequestById(int id)
+        public GenericResult<IGeneralModels> GetMaintenanceRequestById(int id)
         {
             var temp = _mapper.Map<Maintenance>(_repo.GetById(
                 filter: x => x.Id == id,
@@ -126,7 +127,7 @@ namespace BusinessLayer.managers
             filter: x => x.Id == id,
             x => x.Include(x => x.Maintenance));
         }
-        public GenericResult CreateResult(bool check, object value)
+        public GenericResult<IGeneralModels> CreateResult(bool check, object value)
         {
             var message = "OK";
             var code = Overall.ResponseType.OK;
