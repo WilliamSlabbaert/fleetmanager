@@ -1,4 +1,5 @@
 ﻿using BusinessLayer.models;
+using BusinessLayer.models.general;
 using Overall;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Linq;
 
 namespace BusinessLayer
 {
-    public class Chaffeur
+    public class Chaffeur : IGeneralModels
     {
         public int Id { get; set; }
         public string FirstName { get; set; }

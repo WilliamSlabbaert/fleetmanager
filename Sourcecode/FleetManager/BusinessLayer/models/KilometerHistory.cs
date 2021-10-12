@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusinessLayer.models.general;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.models
 {
-    public class KilometerHistory
+    public class KilometerHistory : IGeneralModels
     {
         public int Id { get; set; }
         public double Kilometers { get; set; }

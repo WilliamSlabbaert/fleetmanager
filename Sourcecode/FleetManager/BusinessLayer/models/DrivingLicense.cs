@@ -1,4 +1,5 @@
-﻿using Overall;
+﻿using BusinessLayer.models.general;
+using Overall;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.models
 {
-    public class DrivingLicense
+    public class DrivingLicense : IGeneralModels
     {
         public DrivingLicense(License type)
         {

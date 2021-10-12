@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusinessLayer.models.general;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.models
 {
-    public class Repairment
+    public class Repairment : IGeneralModels
     {
         public Repairment(DateTime date, string description, string company)
         {
