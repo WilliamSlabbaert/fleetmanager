@@ -14,6 +14,7 @@ namespace BusinessLayer.managers.interfaces
     public interface IChaffeurService 
     {
         public List<GenericResponse> _errors { get; set; }
+        public object GetHeaders(GenericParameter parameters);
         public GenericResult<IGeneralModels> GetAllChaffeurs();
         public GenericResult<IGeneralModels> GetChaffeurById(int id);
         public GenericResult<IGeneralModels> GetChaffeurVehicles(int chaffeurId);

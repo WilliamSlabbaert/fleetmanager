@@ -5,6 +5,7 @@ using BusinessLayer.models.general;
 using BusinessLayer.validators.response;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Overall.paging;
 using System;
 using System.Collections.Generic;
@@ -33,6 +34,8 @@ namespace ReadAPI.Controllers
             try
             {
                 var temp = _fuelCardManager.GetAllFuelCardsPaging(parameter);
+                var metadata = _fuelCardManager.GetHeaders(parameter);
+                Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
                 return (temp.StatusCode == 200) ? Ok(temp) : NotFound(temp);
             }
             catch (Exception ex)

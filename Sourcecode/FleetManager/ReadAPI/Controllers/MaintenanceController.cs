@@ -4,6 +4,7 @@ using BusinessLayer.models.general;
 using BusinessLayer.validators.response;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Overall.paging;
 using System;
 using System.Collections.Generic;
@@ -31,6 +32,8 @@ namespace ReadAPI.Controllers
             {
                 //_managerMaintenance.AddMaintenance(new Maintenance(DateTime.Now,123,"test"),1);
                 var temp = _managerMaintenance.GetAllMaintenancesPaging(parameter);
+                var metadata = _managerMaintenance.GetHeaders(parameter);
+                Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
                 return (temp.StatusCode == 200) ? Ok(temp) : NotFound(temp);
             }
             catch (Exception ex)

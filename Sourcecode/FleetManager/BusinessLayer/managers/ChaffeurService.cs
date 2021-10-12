@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BusinessLayer.managers.interfaces;
 using BusinessLayer.mediator.commands;
+using BusinessLayer.mediator.queries;
 using BusinessLayer.models;
 using BusinessLayer.models.general;
 using BusinessLayer.validators;
@@ -220,7 +221,7 @@ namespace BusinessLayer.managers
                 .Include(s => s.DrivingLicenses)
                 .Include(s => s.Requests),parameters);
 
-            var value = _mapper.Map<List<Chaffeur>>(temp);
+            var value = temp;
             return CreateResult(temp == null, value);
         }
         public GenericResult<IGeneralModels> GetChaffeurVehicles(int chaffeurId)
@@ -259,6 +260,20 @@ namespace BusinessLayer.managers
             }
             var resp = _mediator.Send(new CreateGenericResultCommand(message, code, value));
             return resp.Result;
+        }
+        public object GetHeaders(GenericParameter parameters)
+        {
+            var temp = _repo.GetAll(null);
+            var temp2 = _mediator.Send(new GetHeadersQuery(parameters,temp)).Result;
+            var metadata = new
+            {
+                temp2.TotalCount,
+                temp2.PageSize,
+                temp2.CurrentPage,
+                temp2.HasNext,
+                temp2.HasPrevious
+            };
+            return metadata;
         }
     }
 }

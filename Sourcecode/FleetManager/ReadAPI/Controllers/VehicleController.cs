@@ -8,6 +8,7 @@ using BusinessLayer.validators.response;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Overall.paging;
 using System;
 using System.Collections.Generic;
@@ -21,12 +22,12 @@ namespace ReadAPI.Controllers
     {
         private readonly ILogger<VehicleController> _logger;
         private IMediator _mediator;
-        private readonly IVehicleService vehi;
-        public VehicleController(ILogger<VehicleController> logger, IMediator mediator, IVehicleService vehi)
+        private readonly IVehicleService _repo;
+        public VehicleController(ILogger<VehicleController> logger, IMediator mediator, IVehicleService repo)
         {
             _logger = logger;
             _mediator = mediator;
-            this.vehi = vehi;
+            this._repo = repo;
         }
         [HttpGet("Vehicle")]
         public ActionResult<GenericResult<IGeneralModels>> GetAllVehicles([FromQuery] GenericParameter parameter)
@@ -34,6 +35,8 @@ namespace ReadAPI.Controllers
             try
             {
                 var temp = _mediator.Send(new GetVehiclesPagingQuery(parameter));
+                var metadata = _repo.GetHeaders(parameter);
+                Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
                 return (temp.Result.StatusCode == 200) ? Ok(temp.Result) : BadRequest(temp.Result);
             }
             catch (Exception e)

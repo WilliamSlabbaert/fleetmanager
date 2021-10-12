@@ -21,5 +21,6 @@ namespace BusinessLayer.managers.interfaces
         public Chaffeur DeleteDrivingLicense(int drivinglicense, int chaffeurid);
         public bool CheckValidationDrivingLicense(DrivingLicense drivinglicense);
         public bool CheckExistingDrivingLicense(int id, DrivingLicense license);
+        public object GetHeaders(GenericParameter parameters);
     }
 }

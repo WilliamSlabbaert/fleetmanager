@@ -5,6 +5,7 @@ using BusinessLayer.models.general;
 using BusinessLayer.validators.response;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Overall.paging;
 using System;
 using System.Collections.Generic;
@@ -32,7 +33,10 @@ namespace ReadAPI.Controllers
             try
             {
                 //_drivingLicenseManager.AddDrivingLicense(new DrivingLicense(Overall.License.AM),1);
-                return Ok(_drivingLicenseManager.GetAllDrivingLicensesPaging(parameter));
+                var temp = _drivingLicenseManager.GetAllDrivingLicensesPaging(parameter);
+                var metadata = _drivingLicenseManager.GetHeaders(parameter);
+                Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+                return Ok(temp);
             }
             catch(Exception e)
             {

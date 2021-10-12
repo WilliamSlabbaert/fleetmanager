@@ -33,15 +33,13 @@ namespace ReadAPI.Controllers
         [HttpGet]
         public ActionResult<GenericResult<IGeneralModels>> GetAllChaffeurs([FromQuery] GenericParameter parameter)
         {
-            try
-            {
-                var temp = _managerChaffeur.GetAllChaffeursPaging(parameter);
-                return (temp.StatusCode == 200) ? Ok(temp) : BadRequest(temp); 
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
-            }
+
+            var temp = _managerChaffeur.GetAllChaffeursPaging(parameter);
+            var metadata = _managerChaffeur.GetHeaders(parameter);
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+            return (temp.StatusCode == 200) ? Ok(temp) : BadRequest(temp);
+
+
         }
         [HttpGet("{chaffeurId}")]
         public ActionResult<GenericResult<IGeneralModels>> GetById(int chaffeurId)
@@ -49,6 +47,7 @@ namespace ReadAPI.Controllers
             try
             {
                 var ch = _managerChaffeur.GetChaffeurById(chaffeurId);
+
                 return (ch.StatusCode == 200) ? Ok(ch) : NotFound(ch);
             }
             catch (Exception ex)
