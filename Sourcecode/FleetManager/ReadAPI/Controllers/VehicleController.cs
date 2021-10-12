@@ -33,7 +33,7 @@ namespace ReadAPI.Controllers
             try
             {
                 var temp = _mediator.Send(new GetVehiclesPagingQuery(parameter));
-                return (temp.Result.StatusCode == 200) ? Ok(temp.Result) : NotFound(temp.Result);
+                return (temp.Result.StatusCode == 200) ? Ok(temp.Result) : BadRequest(temp.Result);
             }
             catch (Exception e)
             {

@@ -18,7 +18,7 @@ namespace BusinessLayer.validators.mediator
                 .When(s => s != null);
 
             RuleFor(s => s.Id)
-                .NotEmpty()
+                .NotNull()
                 .WithMessage("Id can't be null.");
         }
     }

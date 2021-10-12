@@ -16,6 +16,7 @@ namespace DataLayer.repositories
         IQueryable<T> GetAll(Func<IQueryable<T>, IIncludableQueryable<T, object>> including);
         public IQueryable<T> GetAllWithPaging(Func<IQueryable<T>, IIncludableQueryable<T, object>> including, GenericParameter genericParemeters);
         public T GetById(Expression<Func<T, bool>> filter, Func<IQueryable<T>, IIncludableQueryable<T, object>> including);
+        public IQueryable<T> GetByFilter(Expression<Func<T, bool>> filter, Func<IQueryable<T>, IIncludableQueryable<T, object>> including, GenericParameter genericParemeters);
         void AddEntity(T obj);
         void UpdateEntity(T obj);
         void DeleteEntity(int id);

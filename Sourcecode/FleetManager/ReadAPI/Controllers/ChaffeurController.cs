@@ -48,7 +48,6 @@ namespace ReadAPI.Controllers
             try
             {
                 var ch = _managerChaffeur.GetChaffeurById(chaffeurId);
-
                 return (ch.StatusCode == 200) ? Ok(ch) : NotFound(ch);
             }
             catch (Exception ex)

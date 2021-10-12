@@ -69,6 +69,18 @@ namespace DataLayer.repositories
             }
             return query.FirstOrDefault();
         }
+        public IQueryable<T> GetByFilter(Expression<Func<T, bool>> filter, Func<IQueryable<T>, IIncludableQueryable<T, object>> including, GenericParameter genericParemeters)
+        {
+            var query = _table.Where(filter)
+                .Skip((genericParemeters.PageNumber - 1) * genericParemeters.PageSize)
+                .Take(genericParemeters.PageSize); ;
+
+            if (including != null)
+            {
+                query = including(query);
+            }
+            return query;
+        }
 
         public void Save()
         {
