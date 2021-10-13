@@ -17,8 +17,8 @@ namespace BusinessLayer.managers.interfaces
         public GenericResult<IGeneralModels> GetAllDrivingLicenses();
         public GenericResult<IGeneralModels> GetAllDrivingLicensesPaging(GenericParameter parameters);
         public GenericResult<IGeneralModels> GetDrivingLicenseChaffeurById(int id);
-        public DrivingLicense AddDrivingLicense(DrivingLicense drivinglicense, int chaffeurid);
-        public Chaffeur DeleteDrivingLicense(int drivinglicense, int chaffeurid);
+        public GenericResult<IGeneralModels> AddDrivingLicense(DrivingLicense drivinglicense, int chaffeurid);
+        public GenericResult<IGeneralModels> DeleteDrivingLicense(int drivinglicense, int chaffeurid);
         public bool CheckValidationDrivingLicense(DrivingLicense drivinglicense);
         public bool CheckExistingDrivingLicense(int id, DrivingLicense license);
         public object GetHeaders(GenericParameter parameters);

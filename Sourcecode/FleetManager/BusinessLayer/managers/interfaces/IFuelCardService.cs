@@ -29,10 +29,10 @@ namespace BusinessLayer.managers.interfaces
         public FuelCard AddFuelCard(FuelCard fc);
         public FuelCard AddFuelType(int fuelcardId, FuelType type);
         public FuelCard AddService(ExtraService extraService, int fuelcardId);
-        public Chaffeur AddFuelCardToChaffeur(int fuelcardNr, int chaffeurNr);
+        public GenericResult<IGeneralModels> AddFuelCardToChaffeur(int fuelcardNr, int chaffeurNr);
         public FuelCard DeleteFuelType(int id, int fuelid);
         public FuelCard DeleteService(int id, int fuelcardId);
-        public Chaffeur UpdateChaffeurFuelCard(int fuelcardNr, int chaffeurNr, bool isactive);
+        public GenericResult<IGeneralModels> UpdateChaffeurFuelCard(int fuelcardNr, int chaffeurNr, bool isactive);
         public FuelCard UpdateFuelCard(FuelCard fuelcard, int fuelcardId);
     }
 }

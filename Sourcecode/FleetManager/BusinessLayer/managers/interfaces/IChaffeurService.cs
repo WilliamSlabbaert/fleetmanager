@@ -23,11 +23,11 @@ namespace BusinessLayer.managers.interfaces
         public GenericResult<IGeneralModels> GetChaffeurDrivingLicenses(int chaffeurId);
         public GenericResult<IGeneralModels> GetAllChaffeursPaging(GenericParameter parameters);
         public FuelCard GetFuelcardFromChaffeur(Chaffeur chaffeur, int fuelcardId);
-        public Chaffeur AddChaffeur(Chaffeur ch);
-        public Chaffeur UpdateVehicleToChaffeur(int chaffeurNr, int vehicleNr, bool active);
+        public GenericResult<IGeneralModels> AddChaffeur(Chaffeur ch);
+        public GenericResult<IGeneralModels> UpdateVehicleToChaffeur(int chaffeurNr, int vehicleNr, bool active);
         public bool CheckValidationChaffeur(Chaffeur chaffeur);
         public bool CheckExistingChaffeur(Chaffeur ch, int id);
-        public Chaffeur UpdateChaffeur(Chaffeur ch, int id);
-        public Chaffeur AddVehicleToChaffeur(int chaffeurNr, int vehicleNr);
+        public GenericResult<IGeneralModels> UpdateChaffeur(Chaffeur ch, int id);
+        public GenericResult<IGeneralModels> AddVehicleToChaffeur(int chaffeurNr, int vehicleNr);
     }
 }

@@ -153,31 +153,28 @@ namespace BusinessLayer.managers
             return _mapper.Map<FuelCard>(fuelcard);
         }
 
-        public Chaffeur AddFuelCardToChaffeur(int fuelcardNr, int chaffeurNr)
+        public GenericResult<IGeneralModels> AddFuelCardToChaffeur(int fuelcardNr, int chaffeurNr)
         {
             ChaffeurEntity ch = GetChaffeurEntity(chaffeurNr);
             FuelCardEntity fc = GetFuelCardEntity(fuelcardNr);
+            var result = new GenericResult<IGeneralModels>() { Message = "Fuelcard already exist's in chaffeurs list." };
             var tempch = _mapper.Map<Chaffeur>(ch);
-            // var fuelcardCh = new FuelCardChaffeur(_mapper.Map<Chaffeur>(ch), _mapper.Map<FuelCard>(fc), true)
             if (tempch.CheckFuelCard(fuelcardNr))
             {
-                foreach (var card in ch.ChaffeurFuelCards)
-                {
-                    card.IsActive = false;
-                }
-                ch.ChaffeurFuelCards.Add(new ChaffeurEntityFuelCardEntity(ch, fc, true));
+                ch.ChaffeurFuelCards.Add(new ChaffeurEntityFuelCardEntity(ch, fc, false));
                 _chrepo.UpdateEntity(ch);
                 _chrepo.Save();
+                result.SetStatusCode(Overall.ResponseType.OK);
+                result.Message = "Ok";
+                result.ReturnValue = ch;
+                return result;
             }
-            else
-            {
-                throw new Exception("Fuelcard already in chaffeur list.");
-            }
-            return _mapper.Map<Chaffeur>(ch);
+            return result;
         }
-        public Chaffeur UpdateChaffeurFuelCard(int fuelcardNr, int chaffeurNr, bool isactive)
+        public GenericResult<IGeneralModels> UpdateChaffeurFuelCard(int fuelcardNr, int chaffeurNr, bool isactive)
         {
             ChaffeurEntity ch = GetChaffeurEntity(chaffeurNr);
+            var result = new GenericResult<IGeneralModels>() { Message = "Fuelcard doesn't in chaffeurs list." };
             if (isactive == true)
             {
                 foreach (var card in ch.ChaffeurFuelCards)
@@ -186,10 +183,17 @@ namespace BusinessLayer.managers
                 }
             }
             var fuelcard = ch.ChaffeurFuelCards.FirstOrDefault(s => s.FuelCard.Id == fuelcardNr);
+            if(fuelcard == null)
+            {
+                return result;
+            }
             fuelcard.IsActive = isactive;
             _chrepo.UpdateEntity(ch);
             _chrepo.Save();
-            return _mapper.Map<Chaffeur>(ch);
+            result.SetStatusCode(Overall.ResponseType.OK);
+            result.Message = "Ok";
+            result.ReturnValue = _mapper.Map<Chaffeur>(ch);
+            return result;
 
         }
         public bool CheckValidationFuelCardChaffeur(FuelCardChaffeur fuelCardChaffeur)

@@ -41,17 +41,22 @@ namespace BusinessLayer.managers
             this._errors = new List<GenericResponse>();
         }
 
-        public Chaffeur AddChaffeur(Chaffeur ch)
+        public GenericResult<IGeneralModels> AddChaffeur(Chaffeur ch)
         {
             var temp = _mapper.Map<ChaffeurEntity>(ch);
             var check = CheckExistingChaffeur(ch, ch.Id);
+            var result = new GenericResult<IGeneralModels>() { Message = "Chaffeur with same national insurence number already exists." };
             if (check == false)
             {
-                throw new Exception("Chaffeur with same national insurence number already exists.");
+                return result;
             }
+
             _repo.AddEntity(temp);
             _repo.Save();
-            return _mapper.Map<Chaffeur>(temp);
+            result.Message = "Ok";
+            result.SetStatusCode(Overall.ResponseType.OK);
+            result.ReturnValue = _mapper.Map<Chaffeur>(temp);
+            return result;
         }
         public bool CheckExistingChaffeur(Chaffeur ch, int id)
         {
@@ -90,8 +95,14 @@ namespace BusinessLayer.managers
             return result.FuelCard;
         }
 
-        public Chaffeur UpdateChaffeur(Chaffeur ch, int id)
+        public GenericResult<IGeneralModels> UpdateChaffeur(Chaffeur ch, int id)
         {
+            var check = CheckExistingChaffeur(ch, ch.Id);
+            var result = new GenericResult<IGeneralModels>() { Message = "Chaffeur with same national insurence number already exists." };
+            if (check == false)
+            {
+                return result;
+            }
             var temp = GetChaffeurEntity(id);
 
             temp.FirstName = ch.FirstName;
@@ -108,38 +119,34 @@ namespace BusinessLayer.managers
 
             _repo.UpdateEntity(temp);
             _repo.Save();
-            return _mapper.Map<Chaffeur>(temp);
+            result.SetStatusCode(Overall.ResponseType.OK);
+            result.Message = "Ok";
+            result.ReturnValue = _mapper.Map<Chaffeur>(temp);
+            return result;
         }
-        public Chaffeur AddVehicleToChaffeur(int chaffeurNr, int vehicleNr)
+        public GenericResult<IGeneralModels> AddVehicleToChaffeur(int chaffeurNr, int vehicleNr)
         {
             VehicleEntity vh = GetVehicleEntity(vehicleNr);
             ChaffeurEntity ch = GetChaffeurEntity(chaffeurNr);
+            var result = new GenericResult<IGeneralModels>() { Message = "Vehicle is already in Chaffeurs list." };
 
             var chmodel = _mapper.Map<Chaffeur>(ch);
             if (chmodel.CheckVehicle(vh.Id))
             {
-                var vhch = new VehicleChaffeur(_mapper.Map<Vehicle>(vh), _mapper.Map<Chaffeur>(ch), true);
-                var results = _validatorvhch.Validate(vhch);
-                if (results.IsValid == false)
-                {
-                    _errors = _mapper.Map<List<GenericResponse>>(results.Errors);
-                }
-                else
-                {
-                    foreach (var chvh in ch.ChaffeurVehicles)
-                    {
-                        chvh.IsActive = false;
-                    }
-                    ch.ChaffeurVehicles.Add(new ChaffeurEntityVehicleEntity(vh, ch, true));
-                    _repo.UpdateEntity(ch);
-                    _repo.Save();
-                }
+                var vhch = new ChaffeurEntityVehicleEntity(vh, ch, false);
+                ch.ChaffeurVehicles.Add(vhch);
+                _repo.UpdateEntity(ch);
+                _repo.Save();
+                result.SetStatusCode(Overall.ResponseType.OK);
+                result.Message = "Ok";
+                result.ReturnValue = _mapper.Map<Chaffeur>(ch);
+                return result;
             }
             else
             {
-                throw new Exception("Vehicle is already in Chaffeurs list.");
+                result.SetStatusCode(Overall.ResponseType.BadRequest);
+                return result;
             }
-            return _mapper.Map<Chaffeur>(ch);
         }
         public bool CheckValidationChaffeur(Chaffeur chaffeur)
         {
@@ -151,10 +158,11 @@ namespace BusinessLayer.managers
             }
             return true;
         }
-        public Chaffeur UpdateVehicleToChaffeur(int chaffeurNr, int vehicleNr, bool active)
+        public GenericResult<IGeneralModels> UpdateVehicleToChaffeur(int chaffeurNr, int vehicleNr, bool active)
         {
             VehicleEntity vh = GetVehicleEntity(vehicleNr);
             ChaffeurEntity ch = GetChaffeurEntity(chaffeurNr);
+            var result = new GenericResult<IGeneralModels>() { Message = "Vehicle is already in Chaffeurs list." };
 
             var chmodel = _mapper.Map<Chaffeur>(ch);
             if (chmodel.CheckVehicle(vh.Id) == false)
@@ -170,12 +178,16 @@ namespace BusinessLayer.managers
                 temp.IsActive = active;
                 _repo.UpdateEntity(ch);
                 _repo.Save();
+                result.SetStatusCode(Overall.ResponseType.OK);
+                result.Message = "Ok";
+                result.ReturnValue = _mapper.Map<Chaffeur>(ch);
+                return result;
             }
             else
             {
-                throw new Exception("Vehicle doesn't exist in Chaffeurs list.");
+                result.SetStatusCode(Overall.ResponseType.BadRequest);
+                return result;
             }
-            return _mapper.Map<Chaffeur>(ch);
         }
 
         public ChaffeurEntity GetChaffeurEntity(int id)
@@ -219,7 +231,7 @@ namespace BusinessLayer.managers
                 .ThenInclude(s => s.FuelCard)
                 .Include(s => s.ChaffeurVehicles)
                 .Include(s => s.DrivingLicenses)
-                .Include(s => s.Requests),parameters);
+                .Include(s => s.Requests), parameters);
 
             var value = temp;
             return CreateResult(temp == null, value);
@@ -264,7 +276,7 @@ namespace BusinessLayer.managers
         public object GetHeaders(GenericParameter parameters)
         {
             var temp = _repo.GetAll(null);
-            var temp2 = _mediator.Send(new GetHeadersQuery(parameters,temp)).Result;
+            var temp2 = _mediator.Send(new GetHeadersQuery(parameters, temp)).Result;
             var metadata = new
             {
                 temp2.TotalCount,

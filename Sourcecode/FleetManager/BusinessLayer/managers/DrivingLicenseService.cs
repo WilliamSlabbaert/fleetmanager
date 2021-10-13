@@ -36,15 +36,24 @@ namespace BusinessLayer.managers
             this._mediator = mediator;
             _errors = new List<GenericResponse>();
         }
-        public DrivingLicense AddDrivingLicense(DrivingLicense drivinglicense, int chaffeurid)
+        public GenericResult<IGeneralModels> AddDrivingLicense(DrivingLicense drivinglicense, int chaffeurid)
         {
             var ch = GetChaffeurEntity(chaffeurid);
             var dl = _mapper.Map<DrivingLicenseEntity>(drivinglicense);
+            var check = CheckExistingDrivingLicense(chaffeurid, drivinglicense);
+            var result = new GenericResult<IGeneralModels>() { Message = "Drivinglicense already exist's in chaffeurs list." };
+            if (check == false)
+            {
+                return result;
+            }
 
             ch.DrivingLicenses.Add(dl);
             _chrepo.UpdateEntity(ch);
             _chrepo.Save();
-            return _mapper.Map<DrivingLicense>(dl);
+            result.Message = "Ok";
+            result.SetStatusCode(Overall.ResponseType.OK);
+            result.ReturnValue = _mapper.Map<Chaffeur>(ch);
+            return result;
         }
         public bool CheckValidationDrivingLicense(DrivingLicense drivinglicense)
         {
@@ -56,17 +65,22 @@ namespace BusinessLayer.managers
             }
             return true;
         }
-        public Chaffeur DeleteDrivingLicense(int drivinglicense, int chaffeurid)
+        public GenericResult<IGeneralModels> DeleteDrivingLicense(int drivinglicense, int chaffeurid)
         {
             var temp = GetChaffeurEntity(chaffeurid);
             var temp2 = temp.DrivingLicenses.FirstOrDefault(s => s.Id == drivinglicense);
+            var result = new GenericResult<IGeneralModels>() { Message = "Drivinglicense doesn't exist in chaffeurs list." };
             if (temp2 != null)
             {
                 temp.DrivingLicenses.Remove(temp2);
                 _chrepo.UpdateEntity(temp);
                 _chrepo.Save();
+                result.SetStatusCode(Overall.ResponseType.OK);
+                result.Message = "Ok";
+                result.ReturnValue = _mapper.Map<Chaffeur>(temp);
+                return result;
             }
-            return _mapper.Map<Chaffeur>(temp);
+            return result;
         }
         public GenericResult<IGeneralModels> GetAllDrivingLicenses()
         {

@@ -12,8 +12,8 @@ namespace BusinessLayer.validators.response
     public class GenericResult<T> where T : class, IGeneralModels
     {
         public string Message { get; set; }
-        public int StatusCode { get; private set; }
-        public object ReturnValue { get; set; }
+        public int StatusCode { get; private set; } = 400;
+        public object ReturnValue { get; set; } = null;
         public void SetStatusCode(Overall.ResponseType type)
         {
             var fieldInfo = type.GetType().GetField(type.ToString());
