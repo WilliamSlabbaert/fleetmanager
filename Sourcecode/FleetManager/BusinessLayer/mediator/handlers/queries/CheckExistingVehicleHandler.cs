@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace BusinessLayer.mediator.handlers
+namespace BusinessLayer.mediator.handlers.queries
 {
     class CheckExistingVehicleHandler : IRequestHandler<CheckExistingVehicleQuery,bool>
     {
@@ -26,13 +26,27 @@ namespace BusinessLayer.mediator.handlers
 
         public Task<bool> Handle(CheckExistingVehicleQuery request, CancellationToken cancellationToken)
         {
-            var results = _vehicleRepo.GetAll(null).FirstOrDefault(s => s.Chassis == request.vehicle.Chassis);
-            _validator.Validate(request.vehicle);
-            if (results != null)
+            if(request.vehicle.Id == 0)
             {
-                return Task.FromResult(false);
+                var results = _vehicleRepo.GetAll(null).FirstOrDefault(s => s.Chassis == request.vehicle.Chassis);
+                _validator.Validate(request.vehicle);
+                if (results != null)
+                {
+                    return Task.FromResult(false);
+                }
+                return Task.FromResult(true); 
             }
-            return Task.FromResult(true);
+            else
+            {
+                var results = _vehicleRepo.GetAll(null).FirstOrDefault(s => s.Chassis == request.vehicle.Chassis && s.Id != request.vehicle.Id);
+                _validator.Validate(request.vehicle);
+                if (results != null)
+                {
+                    return Task.FromResult(false);
+                }
+                return Task.FromResult(true);
+            }
+            
         }
     }
 }

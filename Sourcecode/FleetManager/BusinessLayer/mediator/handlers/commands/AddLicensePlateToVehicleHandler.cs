@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BusinessLayer.mediator.commands;
 using BusinessLayer.models;
+using BusinessLayer.models.general;
 using BusinessLayer.validators.response;
 using DataLayer.entities;
 using DataLayer.repositories;
@@ -16,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.mediator.handlers
 {
-    public class AddLicensePlateToVehicleHandler : IRequestHandler<AddLicensePlateToVehicleCommand, LicensePlate>
+    public class AddLicensePlateToVehicleHandler : IRequestHandler<AddLicensePlateToVehicleCommand, GenericResult<IGeneralModels>>
     {
         private readonly IGenericRepo<VehicleEntity> _vehicleRepo;
         private readonly IMapper _mapper;
@@ -28,32 +29,28 @@ namespace BusinessLayer.mediator.handlers
             this._validator = validator;
         }
 
-        Task<LicensePlate> IRequestHandler<AddLicensePlateToVehicleCommand, LicensePlate>.Handle(AddLicensePlateToVehicleCommand request, CancellationToken cancellationToken)
+        public Task<GenericResult<IGeneralModels>> Handle(AddLicensePlateToVehicleCommand request, CancellationToken cancellationToken)
         {
             var temp = _vehicleRepo.GetById(
                 filter: s => s.Id == request.vehicleId,
                 s => s.Include(s => s.LicensePlates));
 
-            var results = _validator.Validate(request.licensePlate);
-            var temp2 = _mapper.Map<LicensePlateEntity>(request.licensePlate);
-            if (results.IsValid == false)
+            var respond = new GenericResult<IGeneralModels>() { Message = "Licenseplate already exist's in vehicle list." };
+            respond.SetStatusCode(Overall.ResponseType.BadRequest);
+
+            var temp2 = _mapper.Map<Vehicle>(temp);
+            if (temp2.CheckLicensePlates(request.licensePlate))
             {
-                request._errors = _mapper.Map<List<GenericResponse>>(results.Errors);
-            }
-            else
-            {
-                if (temp2.IsActive == true)
-                {
-                    foreach(var plate in temp.LicensePlates)
-                    {
-                        plate.IsActive = false;
-                    }
-                }
-                temp.LicensePlates.Add(temp2);
+                temp.LicensePlates.Add(_mapper.Map<LicensePlateEntity>(request.licensePlate));
                 _vehicleRepo.UpdateEntity(temp);
                 _vehicleRepo.Save();
+                respond.ReturnValue = temp;
+                respond.SetStatusCode(Overall.ResponseType.OK);
+                respond.Message = "Ok";
+                return Task.FromResult(respond);
             }
-            return Task.FromResult(_mapper.Map<LicensePlate>(temp2));
+
+            return Task.FromResult(respond);
         }
     }
 }

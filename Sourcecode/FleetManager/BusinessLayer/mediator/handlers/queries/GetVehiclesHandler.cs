@@ -16,34 +16,33 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace BusinessLayer.mediator.handlers
+namespace BusinessLayer.mediator.handlers.queries
 {
-    public class GetVehicleByIdHandler : IRequestHandler<GetVehicleByIdQuery, GenericResult<IGeneralModels>>
+    public class GetVehiclesHandler : IRequestHandler<GetVehiclesQuery, GenericResult<IGeneralModels>>
     {
         private readonly IGenericRepo<VehicleEntity> _vehicleRepo;
         private readonly IMapper _mapper;
         private readonly IValidator<Vehicle> _validator;
         private IMediator _mediator;
-        public GetVehicleByIdHandler(IGenericRepo<VehicleEntity> vehicleRepo, IMapper mapper, IValidator<Vehicle> validator, IMediator mediator)
+        public GetVehiclesHandler(IGenericRepo<VehicleEntity> vehicleRepo, IMapper mapper, IValidator<Vehicle> validator, IMediator mediator)
         {
             this._vehicleRepo = vehicleRepo;
             this._mapper = mapper;
             this._validator = validator;
             this._mediator = mediator;
         }
-        Task<GenericResult<IGeneralModels>> IRequestHandler<GetVehicleByIdQuery, GenericResult<IGeneralModels>>.Handle(GetVehicleByIdQuery request, CancellationToken cancellationToken)
-        {
-            var temp = _mapper.Map<Vehicle>(
-                _vehicleRepo.GetById(
-                    filter: s => s.Id == request.Id,
-                    s => s.Include(s => s.Requests)
-                    .Include(s => s.ChaffeurVehicles)
-                    .ThenInclude(s => s.Chaffeur)
-                    .Include(s => s.LicensePlates)
-                ));
-            var value = temp == null ? null : temp;
-            var result = CreateResult(temp == null, value);
 
+
+        Task<GenericResult<IGeneralModels>> IRequestHandler<GetVehiclesQuery, GenericResult<IGeneralModels>>.Handle(GetVehiclesQuery request, CancellationToken cancellationToken)
+        {
+            var temp =  Task.FromResult(_mapper.Map<List<Vehicle>>(_vehicleRepo.GetAll(
+                s => s.Include(s => s.ChaffeurVehicles)
+                .ThenInclude(s => s.Chaffeur)
+                .Include(s => s.LicensePlates)
+                .Include(s => s.Requests)).ToList())).Result;
+
+            var value = temp == null ? null : _mapper.Map<List<Vehicle>>(temp);
+            var result = CreateResult(temp == null, value);
             return Task.FromResult(result);
         }
         public GenericResult<IGeneralModels> CreateResult(bool check, object value)

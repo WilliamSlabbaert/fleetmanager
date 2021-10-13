@@ -31,6 +31,13 @@ namespace BusinessLayer.models
             Model = model;
             BuildDate = build;
         }
+        public bool CheckLicensePlates(LicensePlate licensePlate)
+        {
+            var temp = this.LicensePlates.FirstOrDefault(s => s.Plate == licensePlate.Plate && s.Id != licensePlate.Id);
+            if (temp == null)
+                return true;
+            return false;
+        }
 
         public int Id { get; set; }
         public int Chassis { get; set; }

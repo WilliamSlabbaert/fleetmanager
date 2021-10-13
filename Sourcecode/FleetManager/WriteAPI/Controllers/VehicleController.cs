@@ -25,12 +25,10 @@ namespace WriteAPI.Controllers
             _mediator = mediator;
         }
         [HttpPost("Vehicle")]
-        public async Task<ActionResult<Vehicle>> AddVehicle([FromBody] Vehicle vehicle)
+        public async Task<ActionResult<GenericResult<IGeneralModels>>> AddVehicle([FromBody] Vehicle vehicle)
         {
             try
             {
-                var temp = new GenericResult<IGeneralModels>();
-                temp.SetStatusCode(Overall.ResponseType.BadRequest);
                 var result = await _mediator.Send(new AddVehicleCommand(vehicle));
                 return Ok(result);
             }
@@ -39,35 +37,38 @@ namespace WriteAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpPost("Vehicle/{id}/Licenseplates")]
-        public ActionResult<List<Chaffeur>> AddLicenseplateToVehicle(int id)
+        [HttpPut("Vehicle/{id}")]
+        public async Task<ActionResult<GenericResult<IGeneralModels>>> UpdateVehicle(int id, [FromBody] Vehicle vehicle)
         {
             try
             {
-                var plate = new LicensePlate("Test6", true);
-                var command = new CheckExistingLicensePlateQuery(plate);
-                var vh = _mediator.Send(new GetVehicleByIdQuery(id));
-                if (vh.Result == null)
+
+                var vh = _mediator.Send(new GetVehicleByIdQuery(id)).Result;
+                if (vh.StatusCode != 200)
                 {
-                    return NotFound("This vehicle doesn't exist");
+                    return NotFound(vh);
                 }
-                else
+
+                var result = await _mediator.Send(new UpdateVehicleCommand(id,vehicle));
+                return result.StatusCode == 200 ? Ok(result) : BadRequest(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpPost("Vehicle/{id}/Licenseplates")]
+        public async Task<ActionResult<GenericResult<IGeneralModels>>> AddLicenseplateToVehicle(int id, [FromBody] LicensePlate licensePlate)
+        {
+            try
+            {
+                var vh = _mediator.Send(new GetVehicleByIdQuery(id)).Result;
+                if (vh.StatusCode != 200)
                 {
-                    if (_mediator.Send(command).Result)
-                    {
-                        var command2 = new AddLicensePlateToVehicleCommand(id, plate);
-                        var result = _mediator.Send(command2);
-                        if (command2._errors.Count != 0)
-                        {
-                            return BadRequest(command2._errors);
-                        }
-                        return Ok(result.Result);
-                    }
-                    else
-                    {
-                        return BadRequest("Licenseplate already exists.");
-                    }
+                    return NotFound(vh);
                 }
+                var result = await _mediator.Send(new AddLicensePlateToVehicleCommand(id, new LicensePlate(licensePlate.Plate)));
+                return result.StatusCode == 200 ? Ok(result) : BadRequest(result);
             }
             catch (Exception ex)
             {
@@ -75,11 +76,18 @@ namespace WriteAPI.Controllers
             }
         }
         [HttpPut("Vehicle/{id}/Licenseplates/{licenseId}")]
-        public ActionResult<List<Chaffeur>> PutLicenseplateToVehicle(int id, int licenseId)
+        public async Task<ActionResult<GenericResult<IGeneralModels>>> PutLicenseplateToVehicle(int id, int licenseId, [FromBody] LicensePlate licensePlate)
         {
             try
             {
-                return BadRequest();
+                var vh = _mediator.Send(new GetVehicleByIdQuery(id)).Result;
+                var lp = _mediator.Send(new GetLicensePlateByIdQuery(licenseId)).Result;
+                if (vh.StatusCode != 200 || lp.StatusCode != 200)
+                {
+                    return vh.StatusCode != 200 ? NotFound(vh) : NotFound(lp);
+                }
+                var result = await _mediator.Send(new UpdateLicensePlateFromVehicleCommand(id, licenseId ,licensePlate));
+                return result.StatusCode == 200 ? Ok(result) : BadRequest(result);
             }
             catch (Exception ex)
             {

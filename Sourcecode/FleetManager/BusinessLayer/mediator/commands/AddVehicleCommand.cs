@@ -1,4 +1,5 @@
 ﻿using BusinessLayer.models;
+using BusinessLayer.models.general;
 using BusinessLayer.validators.response;
 using MediatR;
 using System;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.mediator.commands
 {
-    public class AddVehicleCommand : IRequest<Vehicle>
+    public class AddVehicleCommand : IRequest<GenericResult<IGeneralModels>>
     {
         public Vehicle _vehicle { get; private set; }
 

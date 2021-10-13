@@ -2,6 +2,7 @@
 using BusinessLayer.mediator.commands;
 using BusinessLayer.mediator.queries;
 using BusinessLayer.models;
+using BusinessLayer.models.general;
 using BusinessLayer.validators.response;
 using DataLayer.entities;
 using DataLayer.repositories;
@@ -16,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.mediator.handlers
 {
-    public class AddVehicleHandler : IRequestHandler<AddVehicleCommand, Vehicle>
+    public class AddVehicleHandler : IRequestHandler<AddVehicleCommand, GenericResult<IGeneralModels>>
     {
         private readonly IGenericRepo<VehicleEntity> _vehicleRepo;
         private readonly IMapper _mapper;
@@ -28,17 +29,23 @@ namespace BusinessLayer.mediator.handlers
             this._mapper = mapper;
             this._mediator = mediator;
         }
-        Task<Vehicle> IRequestHandler<AddVehicleCommand, Vehicle>.Handle(AddVehicleCommand request, CancellationToken cancellationToken)
+
+        public Task<GenericResult<IGeneralModels>> Handle(AddVehicleCommand request, CancellationToken cancellationToken)
         {
             var temp = _mapper.Map<VehicleEntity>(request._vehicle);
             var result = _mediator.Send(new CheckExistingVehicleQuery(request._vehicle));
+            var respond = new GenericResult<IGeneralModels>() { Message = "Vehicle with same chasis number already exists." };
+            respond.SetStatusCode(Overall.ResponseType.BadRequest);
             if (result.Result == false)
             {
-                //return Task.FromResult(result: new GenericResponse());
+                return Task.FromResult(respond);
             }
             _vehicleRepo.AddEntity(temp);
             _vehicleRepo.Save();
-            return Task.FromResult(_mapper.Map<Vehicle>(temp));
+            respond.SetStatusCode(Overall.ResponseType.OK);
+            respond.Message = "Ok";
+            respond.ReturnValue = _mapper.Map<Vehicle>(temp);
+            return Task.FromResult(respond);
         }
     }
 }

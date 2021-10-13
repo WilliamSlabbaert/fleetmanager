@@ -10,16 +10,16 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.mediator.commands
 {
-    public class AddLicensePlateToVehicleCommand : IRequest<GenericResult<IGeneralModels>>
+    public class UpdateVehicleCommand : IRequest<GenericResult<IGeneralModels>>
     {
-        public AddLicensePlateToVehicleCommand(int vehicleId, LicensePlate licensePlate)
+        public UpdateVehicleCommand(int vehicleId, Vehicle vehicle)
         {
             this.vehicleId = vehicleId;
-            this.licensePlate = licensePlate;
+            this.vehicle = vehicle;
+            this.vehicle.Id = vehicleId;
         }
 
         public int vehicleId { get; private set; }
-        public LicensePlate licensePlate { get; private set; }
-
+        public Vehicle vehicle { get; private set; }
     }
 }

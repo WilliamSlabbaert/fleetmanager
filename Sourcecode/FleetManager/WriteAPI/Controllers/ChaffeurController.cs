@@ -31,7 +31,6 @@ namespace WriteAPI.Controllers
             _fuelCardManager = fuelCardManager;
             _mediator = mediator;
         }
-        // -------POST-------
         [HttpPost]
         public ActionResult<GenericResult<IGeneralModels>> Add([FromBody] Chaffeur chaffeur)
         {

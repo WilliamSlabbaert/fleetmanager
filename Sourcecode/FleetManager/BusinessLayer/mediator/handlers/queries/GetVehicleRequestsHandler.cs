@@ -15,27 +15,26 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace BusinessLayer.mediator.handlers
+namespace BusinessLayer.mediator.handlers.queries
 {
-    public class GetVehicleKilometerHistoryHandler : IRequestHandler<GetVehicleKilometerHistoryQuery, GenericResult<IGeneralModels>>
+    public class GetVehicleRequestsHandler : IRequestHandler<GetVehicleRequestsQuery, GenericResult<IGeneralModels>>
     {
         private readonly IGenericRepo<VehicleEntity> _vehicleRepo;
         private readonly IMapper _mapper;
         private IMediator _mediator;
-        public GetVehicleKilometerHistoryHandler(IGenericRepo<VehicleEntity> vehicleRepo, IMapper mapper, IMediator mediator)
+        public GetVehicleRequestsHandler(IGenericRepo<VehicleEntity> vehicleRepo, IMapper mapper, IMediator mediator)
         {
             this._vehicleRepo = vehicleRepo;
             this._mapper = mapper;
             this._mediator = mediator;
         }
-        public Task<GenericResult<IGeneralModels>> Handle(GetVehicleKilometerHistoryQuery request, CancellationToken cancellationToken)
+        public Task<GenericResult<IGeneralModels>> Handle(GetVehicleRequestsQuery request, CancellationToken cancellationToken)
         {
             var vehicles = _vehicleRepo.GetAll(s => s.Include(x => x.Requests));
             var temp = vehicles.FirstOrDefault(s => s.Id == request.Id);
 
-            var value = temp == null ? null : _mapper.Map<Vehicle>(temp).Kilometers;
+            var value = temp == null ? null : _mapper.Map<Vehicle>(temp);
             var result = CreateResult(temp == null, value);
-
             return Task.FromResult(result);
         }
         public GenericResult<IGeneralModels> CreateResult(bool check, object value)

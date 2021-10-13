@@ -15,7 +15,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace BusinessLayer.mediator.handlers
+namespace BusinessLayer.mediator.handlers.queries
 {
     public class GetVehicleChaffeursHandler : IRequestHandler<GetVehicleChaffeursQuery, GenericResult<IGeneralModels>>
     {

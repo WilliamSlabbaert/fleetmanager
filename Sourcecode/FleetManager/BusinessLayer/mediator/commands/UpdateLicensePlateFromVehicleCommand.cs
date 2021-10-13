@@ -1,4 +1,5 @@
 ﻿using BusinessLayer.models;
+using BusinessLayer.models.general;
 using BusinessLayer.validators.response;
 using MediatR;
 using System;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.mediator.commands
 {
-    public class UpdateLicensePlateFromVehicleCommand : IRequest<LicensePlate>
+    public class UpdateLicensePlateFromVehicleCommand : IRequest<GenericResult<IGeneralModels>>
     {
 
         public UpdateLicensePlateFromVehicleCommand(int vehicleId,int licensePlateId , LicensePlate licensePlate)
@@ -17,12 +18,11 @@ namespace BusinessLayer.mediator.commands
             _vehicleId = vehicleId;
             _licensePlateId = licensePlateId;
             _licensePlate = licensePlate;
-            _errors = new();
+            _licensePlate.Id = licensePlateId;
         }
 
         public int _vehicleId { get; set; }
         public int _licensePlateId { get; set; }
         public LicensePlate _licensePlate { get; set; }
-        public List<GenericResponse> _errors { get; set; }
     }
 }

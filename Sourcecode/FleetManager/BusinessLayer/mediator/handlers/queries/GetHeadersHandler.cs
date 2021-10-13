@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace BusinessLayer.mediator.handlers
+namespace BusinessLayer.mediator.handlers.queries
 {
     public class GetHeadersHandler : IRequestHandler<GetHeadersQuery, PagedList<IGeneralEntities>>
     {

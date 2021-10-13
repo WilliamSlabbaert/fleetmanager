@@ -6,6 +6,7 @@ using BusinessLayer.models.general;
 using BusinessLayer.validators.response;
 using DataLayer.entities;
 using DataLayer.repositories;
+using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -15,26 +16,34 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace BusinessLayer.mediator.handlers
+namespace BusinessLayer.mediator.handlers.queries
 {
-    public class GetVehicleRequestsHandler : IRequestHandler<GetVehicleRequestsQuery, GenericResult<IGeneralModels>>
+    public class GetVehicleByIdHandler : IRequestHandler<GetVehicleByIdQuery, GenericResult<IGeneralModels>>
     {
         private readonly IGenericRepo<VehicleEntity> _vehicleRepo;
         private readonly IMapper _mapper;
+        private readonly IValidator<Vehicle> _validator;
         private IMediator _mediator;
-        public GetVehicleRequestsHandler(IGenericRepo<VehicleEntity> vehicleRepo, IMapper mapper, IMediator mediator)
+        public GetVehicleByIdHandler(IGenericRepo<VehicleEntity> vehicleRepo, IMapper mapper, IValidator<Vehicle> validator, IMediator mediator)
         {
             this._vehicleRepo = vehicleRepo;
             this._mapper = mapper;
+            this._validator = validator;
             this._mediator = mediator;
         }
-        public Task<GenericResult<IGeneralModels>> Handle(GetVehicleRequestsQuery request, CancellationToken cancellationToken)
+        Task<GenericResult<IGeneralModels>> IRequestHandler<GetVehicleByIdQuery, GenericResult<IGeneralModels>>.Handle(GetVehicleByIdQuery request, CancellationToken cancellationToken)
         {
-            var vehicles = _vehicleRepo.GetAll(s => s.Include(x => x.Requests));
-            var temp = vehicles.FirstOrDefault(s => s.Id == request.Id);
-
-            var value = temp == null ? null : _mapper.Map<Vehicle>(temp);
+            var temp = _mapper.Map<Vehicle>(
+                _vehicleRepo.GetById(
+                    filter: s => s.Id == request.Id,
+                    s => s.Include(s => s.Requests)
+                    .Include(s => s.ChaffeurVehicles)
+                    .ThenInclude(s => s.Chaffeur)
+                    .Include(s => s.LicensePlates)
+                ));
+            var value = temp == null ? null : temp;
             var result = CreateResult(temp == null, value);
+
             return Task.FromResult(result);
         }
         public GenericResult<IGeneralModels> CreateResult(bool check, object value)
