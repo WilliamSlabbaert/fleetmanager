@@ -36,15 +36,16 @@ namespace BusinessLayer.managers
             this._mediator = mediator;
             this._errors = new List<GenericResponse>();
         }
-        public Maintenance AddMaintenance(Maintenance maintenance, int requestId)
+        public GenericResult<IGeneralModels> AddMaintenance(Maintenance maintenance, int requestId)
         {
             var rq = GetRequestEntity(requestId);
-
             var rm = _mapper.Map<MaintenanceEntity>(maintenance);
             rq.Maintenance.Add(rm);
             _rqrepo.UpdateEntity(rq);
             _repo.Save();
-            return _mapper.Map<Maintenance>(rm);
+            var respond = new GenericResult<IGeneralModels>() { ReturnValue = _mapper.Map<Request>(rq), Message = "Ok" };
+            respond.SetStatusCode(Overall.ResponseType.OK);
+            return respond;
         }
         public bool ValidateMaintance(Maintenance maintenance)
         {
@@ -56,20 +57,18 @@ namespace BusinessLayer.managers
             }
             return true;
         }
-        public Maintenance UpdateMaintenance(Maintenance maintenance, int requestId, int maintenanceId)
+        public GenericResult<IGeneralModels> DeleteMaintenance(int requestid, int maintenanceid)
         {
-            var request = GetRequestEntity(requestId);
-            var EditMaintenance = GetMaintenanceEntityById(maintenanceId);
-            EditMaintenance.Request = request;
-            EditMaintenance.RequestId = request.Id;
-            EditMaintenance.Price = maintenance.Price;
-            EditMaintenance.Date = maintenance.Date;
-            EditMaintenance.Garage = maintenance.Garage;
+            var request = GetRequestEntity(requestid);
+            var maintenance = request.Maintenance.FirstOrDefault(s=> s.Id == maintenanceid);
+            request.Maintenance.Remove(maintenance);
 
-            _repo.UpdateEntity(EditMaintenance);
-            _repo.Save();
+            _rqrepo.UpdateEntity(request);
+            _rqrepo.Save();
 
-            return _mapper.Map<Maintenance>(EditMaintenance);
+            var respond = new GenericResult<IGeneralModels>() { ReturnValue = _mapper.Map<Request>(request), Message = "Ok" };
+            respond.SetStatusCode(Overall.ResponseType.OK);
+            return respond;
         }
 
         public GenericResult<IGeneralModels> GetAllMaintenances()

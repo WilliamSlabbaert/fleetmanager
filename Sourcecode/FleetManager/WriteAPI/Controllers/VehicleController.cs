@@ -75,6 +75,7 @@ namespace WriteAPI.Controllers
                 return BadRequest(ex);
             }
         }
+        
         [HttpPut("Vehicle/{id}/Licenseplates/{licenseId}")]
         public async Task<ActionResult<GenericResult<IGeneralModels>>> PutLicenseplateToVehicle(int id, int licenseId, [FromBody] LicensePlate licensePlate)
         {
@@ -88,6 +89,43 @@ namespace WriteAPI.Controllers
                 }
                 var result = await _mediator.Send(new UpdateLicensePlateFromVehicleCommand(id, licenseId ,licensePlate));
                 return result.StatusCode == 200 ? Ok(result) : BadRequest(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+        [HttpPost("Vehicle/{id}/KilometerHistory")]
+        public async Task<ActionResult<GenericResult<IGeneralModels>>> AddKilometersToVehicle(int id, [FromBody] KilometerHistory kilometer)
+        {
+            try
+            {
+                var vh = _mediator.Send(new GetVehicleByIdQuery(id)).Result;
+                if (vh.StatusCode != 200)
+                {
+                    return NotFound(vh);
+                }
+                var result = await _mediator.Send(new AddKilometerHistoryCommand(id, kilometer));
+                return result.StatusCode == 200 ? Ok(result) : BadRequest(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+        [HttpDelete("Vehicle/{id}/KilometerHistory/{kilometerHistoryId}")]
+        public async Task<ActionResult<GenericResult<IGeneralModels>>> DeleteKilometersToVehicle(int id, int kilometerHistoryId)
+        {
+            try
+            {
+                var vh = _mediator.Send(new GetVehicleByIdQuery(id)).Result;
+                if (vh.StatusCode != 200)
+                {
+                    return NotFound(vh);
+                }
+                var result = await _mediator.Send(new DeleteKilometerHistoryCommand(kilometerHistoryId,id));
+                return result.StatusCode == 200 ? Ok(result) : BadRequest(result);
+
             }
             catch (Exception ex)
             {

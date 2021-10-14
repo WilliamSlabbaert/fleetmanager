@@ -13,10 +13,10 @@ namespace BusinessLayer.validators
         public KilometerHistoryValidator()
         {
             RuleFor(c => c.Date)
-                .NotNull().WithMessage("Date property is empty.");
+                .NotEmpty().WithMessage("Date property is empty.");
 
             RuleFor(c => c.Kilometers)
-                .NotNull().WithMessage("Date property is empty.");
+                .NotEmpty().WithMessage("Date property is empty.");
 
             RuleFor(c => c.Kilometers)
                 .Must(c => c >= 0).WithMessage("Kilometers property can't be lower then 0.");

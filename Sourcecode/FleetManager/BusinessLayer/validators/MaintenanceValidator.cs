@@ -17,7 +17,7 @@ namespace BusinessLayer.validators
 
             RuleFor(c => c.Price)
                 .NotNull().WithMessage("Price property is empty.")
-                .Must(x => x > 0).WithMessage("Price cannot be lower then 0.");
+                .Must(x => x >= 0).WithMessage("Price cannot be lower then 0.");
 
             RuleFor(c => c.Garage)
                 .NotNull().WithMessage("Garage property is empty.")

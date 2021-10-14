@@ -21,7 +21,7 @@ namespace BusinessLayer.managers.interfaces
         public GenericResult<IGeneralModels> GetRequestMaintenance(int id);
         public GenericResult<IGeneralModels> GetAllRequests();
         public GenericResult<IGeneralModels> GetAllRequestsPaging(GenericParameter parameters);
-        public Request AddRequest(Request request, int chaffeurId, int vehicleId);
-        public Request UpdateRequest(Request request, int vehicleid, int chaffeurid, int id);
+        public GenericResult<IGeneralModels> AddRequest(Request request, int chaffeurId, int vehicleId);
+        public GenericResult<IGeneralModels> UpdateRequest(Request request, int id);
     }
 }

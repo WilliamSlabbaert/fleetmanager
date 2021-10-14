@@ -23,13 +23,15 @@ namespace WriteAPI.Controllers
         private IDrivingLicenseService _drivingLicenseManager;
         private IMediator _mediator;
         private IFuelCardService _fuelCardManager;
-        public ChaffeurController(ILogger<ChaffeurController> logger, IChaffeurService man, IDrivingLicenseService drivingLicenseManager, IFuelCardService fuelCardManager, IMediator mediator)
+        private IRequestService _requestService;
+        public ChaffeurController(ILogger<ChaffeurController> logger, IChaffeurService man, IDrivingLicenseService drivingLicenseManager, IFuelCardService fuelCardManager, IMediator mediator, IRequestService requestService)
         {
             _logger = logger;
             _managerChaffeur = man;
             _drivingLicenseManager = drivingLicenseManager;
             _fuelCardManager = fuelCardManager;
             _mediator = mediator;
+            _requestService = requestService;
         }
         [HttpPost]
         public ActionResult<GenericResult<IGeneralModels>> Add([FromBody] Chaffeur chaffeur)
@@ -125,7 +127,7 @@ namespace WriteAPI.Controllers
         }
 
         [HttpDelete("{chaffeurId}/Drivinglicenses/{drivinglicenseId}")]
-        public ActionResult<FuelCard> DeleteDrivinglicensesByID(int chaffeurId, int drivinglicenseId)
+        public ActionResult<GenericResult<IGeneralModels>> DeleteDrivinglicensesByID(int chaffeurId, int drivinglicenseId)
         {
             try
             {
@@ -145,7 +147,7 @@ namespace WriteAPI.Controllers
         }
 
         [HttpPost("{chaffeurId}/FuelCards/{fuelcardId}")]
-        public ActionResult AddFuelCard(int chaffeurId, int fuelcardId)
+        public ActionResult<GenericResult<IGeneralModels>> AddFuelCard(int chaffeurId, int fuelcardId)
         {
             try
             {
@@ -164,7 +166,7 @@ namespace WriteAPI.Controllers
             }
         }
         [HttpPatch("{chaffeurId}/FuelCards/{fuelcardId}")]
-        public ActionResult UpdateFuelCardActivity(int chaffeurId, int fuelcardId, [FromBody] bool activity)
+        public ActionResult<GenericResult<IGeneralModels>> UpdateFuelCardActivity(int chaffeurId, int fuelcardId, [FromBody] bool activity)
         {
             try
             {
@@ -176,6 +178,25 @@ namespace WriteAPI.Controllers
                 }
                 var result = _fuelCardManager.UpdateChaffeurFuelCard(fuelcardId, chaffeurId,activity);
                 return result.StatusCode == 200 ? Ok(result) : BadRequest(result);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+        }
+        [HttpPost("{chaffeurId}/Vehicles/{vehicleId}/Requests")]
+        public ActionResult<GenericResult<IGeneralModels>> AddRequest(int chaffeurId, int vehicleId, [FromBody] Request request)
+        {
+            try
+            {
+                var check = _managerChaffeur.GetChaffeurById(chaffeurId);
+                var check2 = _mediator.Send(new GetVehicleByIdFromChaffeurQuery(chaffeurId,vehicleId)).Result;
+                if (check.StatusCode != 200 || check2.StatusCode != 200)
+                {
+                    return check.StatusCode != 200 ? NotFound(check) : NotFound(check2);
+                }
+                var result = _requestService.AddRequest(request, chaffeurId, vehicleId);
+                return Ok(result);
             }
             catch (Exception e)
             {

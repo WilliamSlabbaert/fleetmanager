@@ -38,36 +38,20 @@ namespace BusinessLayer.managers
             this._mediator = mediator;
             _errors = new List<GenericResponse>();
         }
-        public Request AddRequest(Request request, int chaffeurId, int vehicleId)
+        public GenericResult<IGeneralModels> AddRequest(Request request, int chaffeurId, int vehicleId)
         {
             ChaffeurEntity ch = GetChaffeurEntity(chaffeurId);
             VehicleEntity vh = GetVehicleEntity(vehicleId);
-            var results = _validator.Validate(request);
             var rq = _mapper.Map<RequestEntity>(request);
-            var temp = ch.ChaffeurVehicles.FirstOrDefault(s=> s.VehicleId == vehicleId);
+            rq.Chaffeur = ch;
+            rq.ChaffeurId = ch.Id;
+            rq.Vehicle = vh;
+            rq.VehicleId = vh.Id;
+            _repo.AddEntity(rq);
+            _repo.Save();
 
-            if(temp != null)
-            {
-                if (results.IsValid == false)
-                {
-                    _errors = _mapper.Map<List<GenericResponse>>(results.Errors);
-                }
-                else
-                {
-                    rq.Chaffeur = ch;
-                    rq.ChaffeurId = ch.Id;
-                    rq.Vehicle = vh;
-                    rq.VehicleId = vh.Id;
-
-                    _repo.AddEntity(rq);
-                    _repo.Save();
-                }
-            }
-            else
-            {
-                throw new Exception("Vehicle doesn't exist in chaffeurs list.");
-            }
-            return _mapper.Map<Request>(rq);
+            var resp = _mediator.Send(new CreateGenericResultCommand("Ok", Overall.ResponseType.OK, _mapper.Map<Request>(rq)));
+            return resp.Result;
         }
         public GenericResult<IGeneralModels> GetAllRequests()
         {
@@ -86,7 +70,7 @@ namespace BusinessLayer.managers
                 x => x.Include(s => s.Chaffeur)
                 .Include(s => s.Maintenance)
                 .Include(s => s.Repairment)
-                .Include(s => s.Vehicle),parameters));
+                .Include(s => s.Vehicle), parameters));
 
             var value = temp == null ? null : temp;
             return CreateResult(temp == null, value);
@@ -139,42 +123,19 @@ namespace BusinessLayer.managers
             .ThenInclude(s => s.Vehicle));
             return temp;
         }
-        public Request UpdateRequest(Request request,int vehicleid,int chaffeurid, int id)
+        public GenericResult<IGeneralModels> UpdateRequest(Request request, int id)
         {
-            var ch = GetChaffeurEntity(chaffeurid);
-            var vh = GetVehicleEntity(vehicleid);
-
             var rq = GetRequestEntityById(id);
 
-            var result = _validator.Validate(request);
-            var temp = ch.ChaffeurVehicles.FirstOrDefault(s => s.VehicleId == vehicleid);
+            rq.StartDate = request.StartDate;
+            rq.EndDate = request.EndDate;
+            rq.Status = request.Status;
+            rq.Type = request.Type;
+            _repo.UpdateEntity(rq);
+            _repo.Save();
 
-            if (temp != null)
-            {
-                if (result.IsValid == false)
-                {
-                    _errors = _mapper.Map<List<GenericResponse>>(result.Errors);
-                }
-                else
-                {
-                    var rq2 = _mapper.Map<RequestEntity>(request);
-                    rq.Chaffeur = ch;
-                    rq.ChaffeurId = ch.Id;
-                    rq.Vehicle = vh;
-                    rq.VehicleId = vh.Id;
-                    rq.StartDate = rq2.StartDate;
-                    rq.EndDate = rq2.EndDate;
-                    rq.Status = rq2.Status;
-                    _repo.UpdateEntity(rq);
-                    _repo.Save();
-                }
-            }
-            else
-            {
-                throw new Exception("Vehicle doesn't exist in chaffeurs list.");
-            }
-
-            return _mapper.Map<Request>(rq);
+            var resp = _mediator.Send(new CreateGenericResultCommand("Ok", Overall.ResponseType.OK, _mapper.Map<Request>(rq)));
+            return resp.Result;
         }
         public RequestEntity GetRequestEntityById(int id)
         {
