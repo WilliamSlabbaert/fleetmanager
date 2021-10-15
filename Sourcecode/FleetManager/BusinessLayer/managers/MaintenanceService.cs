@@ -4,6 +4,7 @@ using BusinessLayer.mediator.commands;
 using BusinessLayer.mediator.queries;
 using BusinessLayer.models;
 using BusinessLayer.models.general;
+using BusinessLayer.models.input;
 using BusinessLayer.validators.response;
 using DataLayer.entities;
 using DataLayer.repositories;
@@ -36,10 +37,11 @@ namespace BusinessLayer.managers
             this._mediator = mediator;
             this._errors = new List<GenericResponse>();
         }
-        public GenericResult<IGeneralModels> AddMaintenance(Maintenance maintenance, int requestId)
+        public GenericResult<IGeneralModels> AddMaintenance(MaintenanceDTO maintenance, int requestId)
         {
             var rq = GetRequestEntity(requestId);
-            var rm = _mapper.Map<MaintenanceEntity>(maintenance);
+            var temp = _mapper.Map<Maintenance>(maintenance);
+            var rm = _mapper.Map<MaintenanceEntity>(temp);
             rq.Maintenance.Add(rm);
             _rqrepo.UpdateEntity(rq);
             _repo.Save();
@@ -70,12 +72,13 @@ namespace BusinessLayer.managers
             respond.SetStatusCode(Overall.ResponseType.OK);
             return respond;
         }
-        public GenericResult<IGeneralModels> UpdateMaintenance(int maintenanceid, Maintenance maintenance)
+        public GenericResult<IGeneralModels> UpdateMaintenance(int maintenanceid, MaintenanceDTO maintenance)
         {
+            var temp = _mapper.Map<Maintenance>(maintenance);
             var mt = GetMaintenanceEntityById(maintenanceid);
-            mt.Garage = maintenance.Garage;
-            mt.Price = maintenance.Price;
-            mt.Date = maintenance.Date;
+            mt.Garage = temp.Garage;
+            mt.Price = temp.Price;
+            mt.Date = temp.Date;
 
             _repo.UpdateEntity(mt);
             _repo.Save();
@@ -142,10 +145,11 @@ namespace BusinessLayer.managers
             filter: x => x.Id == id,
             x => x.Include(x => x.Maintenance));
         }
-        public GenericResult<IGeneralModels> AddInvoice(int maintenanceId, Invoice invoice)
+        public GenericResult<IGeneralModels> AddInvoice(int maintenanceId, InvoiceDTO invoice)
         {
+            var temp = _mapper.Map<Invoice>(invoice);
             var maintenance = GetMaintenanceEntityById(maintenanceId);
-            maintenance.Invoices.Add(_mapper.Map<InvoiceEntity>(invoice));
+            maintenance.Invoices.Add(_mapper.Map<InvoiceEntity>(temp));
             _repo.UpdateEntity(maintenance);
             _repo.Save();
 

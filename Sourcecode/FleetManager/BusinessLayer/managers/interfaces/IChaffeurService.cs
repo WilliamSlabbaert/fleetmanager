@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.models;
 using BusinessLayer.models.general;
+using BusinessLayer.models.input;
 using BusinessLayer.validators.response;
 using FluentValidation.Results;
 using Overall.paging;
@@ -13,7 +14,6 @@ namespace BusinessLayer.managers.interfaces
 {
     public interface IChaffeurService 
     {
-        public List<GenericResponse> _errors { get; set; }
         public object GetHeaders(GenericParameter parameters);
         public GenericResult<IGeneralModels> GetAllChaffeurs();
         public GenericResult<IGeneralModels> GetChaffeurById(int id);
@@ -23,11 +23,9 @@ namespace BusinessLayer.managers.interfaces
         public GenericResult<IGeneralModels> GetChaffeurDrivingLicenses(int chaffeurId);
         public GenericResult<IGeneralModels> GetAllChaffeursPaging(GenericParameter parameters);
         public FuelCard GetFuelcardFromChaffeur(Chaffeur chaffeur, int fuelcardId);
-        public GenericResult<IGeneralModels> AddChaffeur(Chaffeur ch);
+        public GenericResult<IGeneralModels> AddChaffeur(ChaffeurDTO ch);
         public GenericResult<IGeneralModels> UpdateVehicleToChaffeur(int chaffeurNr, int vehicleNr, bool active);
-        public bool CheckValidationChaffeur(Chaffeur chaffeur);
-        public bool CheckExistingChaffeur(Chaffeur ch, int id);
-        public GenericResult<IGeneralModels> UpdateChaffeur(Chaffeur ch, int id);
+        public GenericResult<IGeneralModels> UpdateChaffeur(ChaffeurDTO ch, int id);
         public GenericResult<IGeneralModels> AddVehicleToChaffeur(int chaffeurNr, int vehicleNr);
     }
 }

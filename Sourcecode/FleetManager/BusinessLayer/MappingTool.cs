@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BusinessLayer.models;
+using BusinessLayer.models.input;
 using BusinessLayer.validators.response;
 using DataLayer.entities;
 using FluentValidation.Results;
@@ -35,6 +36,17 @@ namespace BusinessLayer
                 .ForMember(s => s.Input, opt=> opt.MapFrom(src => src.AttemptedValue))
                 .ForMember(s => s.Property, opt=> opt.MapFrom(src => src.PropertyName))
                 .ForMember(s => s.Error, opt => opt.MapFrom(src => src.ErrorMessage));
+
+            CreateMap<ChaffeurDTO, Chaffeur>();
+            CreateMap<DrivingLicenseDTO, DrivingLicense>();
+            CreateMap<RequestDTO, Request>();
+            CreateMap<MaintenanceDTO, Maintenance>();
+            CreateMap<RepairmentDTO, Repairment>();
+            CreateMap<FuelTypeDTO, FuelType>();
+            CreateMap<FuelCardDTO, FuelCard>();
+            CreateMap<ExtraServiceDTO, ExtraService>();
+            CreateMap<AuthenticationTypeDTO, AuthenticationType>();
+            CreateMap<InvoiceDTO, Invoice>();
 
         }
     }

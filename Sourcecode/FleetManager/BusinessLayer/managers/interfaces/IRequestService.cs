@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.models;
 using BusinessLayer.models.general;
+using BusinessLayer.models.input;
 using BusinessLayer.validators.response;
 using Overall.paging;
 using System;
@@ -21,7 +22,7 @@ namespace BusinessLayer.managers.interfaces
         public GenericResult<IGeneralModels> GetRequestMaintenance(int id);
         public GenericResult<IGeneralModels> GetAllRequests();
         public GenericResult<IGeneralModels> GetAllRequestsPaging(GenericParameter parameters);
-        public GenericResult<IGeneralModels> AddRequest(Request request, int chaffeurId, int vehicleId);
-        public GenericResult<IGeneralModels> UpdateRequest(Request request, int id);
+        public GenericResult<IGeneralModels> AddRequest(RequestDTO request, int chaffeurId, int vehicleId);
+        public GenericResult<IGeneralModels> UpdateRequest(RequestDTO request, int id);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using BusinessLayer.managers.interfaces;
 using BusinessLayer.models;
 using BusinessLayer.models.general;
+using BusinessLayer.models.input;
 using BusinessLayer.validators.response;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +23,7 @@ namespace WriteAPI.Controllers
             _fuelCardManager = fuelCardManager;
         }
         [HttpPost("FuelCards")]
-        public ActionResult<GenericResult<IGeneralModels>> AddFuelType([FromBody] FuelCard fuelcard)
+        public ActionResult<GenericResult<IGeneralModels>> AddFuelType([FromBody] FuelCardDTO fuelcard)
         {
             try
             {
@@ -36,7 +37,7 @@ namespace WriteAPI.Controllers
         }
 
         [HttpPut("FuelCards/{fuelcardId}")]
-        public ActionResult<GenericResult<IGeneralModels>> AddFuelCard(int fuelcardId,[FromBody] FuelCard fuelCard)
+        public ActionResult<GenericResult<IGeneralModels>> AddFuelCard(int fuelcardId,[FromBody] FuelCardDTO fuelCard)
         {
             try
             {
@@ -54,7 +55,7 @@ namespace WriteAPI.Controllers
             }
         }
         [HttpPost("FuelCards/{fuelcardId}/Fueltypes")]
-        public ActionResult<GenericResult<IGeneralModels>> AddFuelType(int fuelcardId, [FromBody] FuelType fuel)
+        public ActionResult<GenericResult<IGeneralModels>> AddFuelType(int fuelcardId, [FromBody] FuelTypeDTO fuel)
         {
             try
             {
@@ -90,7 +91,7 @@ namespace WriteAPI.Controllers
             }
         }
         [HttpPost("FuelCards/{fuelcardId}/ExtraServices")]
-        public ActionResult<GenericResult<IGeneralModels>> AddService(int fuelcardId, [FromBody] ExtraService service)
+        public ActionResult<GenericResult<IGeneralModels>> AddService(int fuelcardId, [FromBody] ExtraServiceDTO service)
         {
             try
             {
@@ -126,7 +127,7 @@ namespace WriteAPI.Controllers
             }
         }
         [HttpPost("FuelCards/{fuelcardId}/Authentications")]
-        public ActionResult<GenericResult<IGeneralModels>> AddAuthentication(int fuelcardId, [FromBody] AuthenticationType authentication)
+        public ActionResult<GenericResult<IGeneralModels>> AddAuthentication(int fuelcardId, [FromBody] AuthenticationTypeDTO authentication)
         {
             try
             {

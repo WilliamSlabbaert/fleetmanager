@@ -1,6 +1,7 @@
 ﻿using BusinessLayer.managers.interfaces;
 using BusinessLayer.models;
 using BusinessLayer.models.general;
+using BusinessLayer.models.input;
 using BusinessLayer.validators.response;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -29,7 +30,7 @@ namespace WriteAPI.Controllers
             _repairmentService = repairmentService;
         }
         [HttpPut("Maintenance/{id}")]
-        public ActionResult<GenericResult<IGeneralModels>> UpdateMaintenance(int id, [FromBody] Maintenance maintenance)
+        public ActionResult<GenericResult<IGeneralModels>> UpdateMaintenance(int id, [FromBody] MaintenanceDTO maintenance)
         {
             try
             {
@@ -47,7 +48,7 @@ namespace WriteAPI.Controllers
             }
         }
         [HttpPost("Maintenance/{id}/Invoices")]
-        public ActionResult<GenericResult<IGeneralModels>> AddInvoice(int id, [FromBody] Invoice invoice)
+        public ActionResult<GenericResult<IGeneralModels>> AddInvoice(int id, [FromBody] InvoiceDTO invoice)
         {
             try
             {

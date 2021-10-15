@@ -4,6 +4,7 @@ using BusinessLayer.mediator.commands;
 using BusinessLayer.mediator.queries;
 using BusinessLayer.models;
 using BusinessLayer.models.general;
+using BusinessLayer.models.input;
 using BusinessLayer.validators;
 using BusinessLayer.validators.response;
 using DataLayer.entities;
@@ -26,25 +27,20 @@ namespace BusinessLayer.managers
         private readonly IGenericRepo<ChaffeurEntity> _repo;
         private readonly IGenericRepo<VehicleEntity> _vhrepo;
         private readonly IMapper _mapper;
-        private readonly IValidator<Chaffeur> _validator;
-        private readonly IValidator<VehicleChaffeur> _validatorvhch;
         private IMediator _mediator;
-        public List<GenericResponse> _errors { get; set; }
-        public ChaffeurService(IGenericRepo<ChaffeurEntity> repo, IMapper mapper, IGenericRepo<VehicleEntity> vhrepo, IValidator<Chaffeur> val, IValidator<VehicleChaffeur> validatorvhch, IMediator mediator)
+        public ChaffeurService(IGenericRepo<ChaffeurEntity> repo, IMapper mapper, IGenericRepo<VehicleEntity> vhrepo, IMediator mediator)
         {
             this._repo = repo;
             this._mapper = mapper;
             this._vhrepo = vhrepo;
-            this._validator = val;
-            this._validatorvhch = validatorvhch;
             this._mediator = mediator;
-            this._errors = new List<GenericResponse>();
         }
 
-        public GenericResult<IGeneralModels> AddChaffeur(Chaffeur ch)
+        public GenericResult<IGeneralModels> AddChaffeur(ChaffeurDTO ch)
         {
-            var temp = _mapper.Map<ChaffeurEntity>(ch);
-            var check = CheckExistingChaffeur(ch, ch.Id);
+            var chaff = _mapper.Map<Chaffeur>(ch);
+            var temp = _mapper.Map<ChaffeurEntity>(chaff);
+            var check = CheckExistingChaffeur(chaff, chaff.Id);
             var result = new GenericResult<IGeneralModels>() { Message = "Chaffeur with same national insurence number already exists." };
             if (check == false)
             {
@@ -95,9 +91,10 @@ namespace BusinessLayer.managers
             return result.FuelCard;
         }
 
-        public GenericResult<IGeneralModels> UpdateChaffeur(Chaffeur ch, int id)
+        public GenericResult<IGeneralModels> UpdateChaffeur(ChaffeurDTO ch, int id)
         {
-            var check = CheckExistingChaffeur(ch, ch.Id);
+            var chaff = _mapper.Map<Chaffeur>(ch);
+            var check = CheckExistingChaffeur(chaff, id);
             var result = new GenericResult<IGeneralModels>() { Message = "Chaffeur with same national insurence number already exists." };
             if (check == false)
             {
@@ -147,16 +144,6 @@ namespace BusinessLayer.managers
                 result.SetStatusCode(Overall.ResponseType.BadRequest);
                 return result;
             }
-        }
-        public bool CheckValidationChaffeur(Chaffeur chaffeur)
-        {
-            var results = _validator.Validate(chaffeur);
-            if (results.IsValid == false)
-            {
-                _errors = _mapper.Map<List<GenericResponse>>(results.Errors);
-                return false;
-            }
-            return true;
         }
         public GenericResult<IGeneralModels> UpdateVehicleToChaffeur(int chaffeurNr, int vehicleNr, bool active)
         {

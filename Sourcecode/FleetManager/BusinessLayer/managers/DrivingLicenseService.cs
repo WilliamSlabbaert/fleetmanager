@@ -4,6 +4,7 @@ using BusinessLayer.mediator.commands;
 using BusinessLayer.mediator.queries;
 using BusinessLayer.models;
 using BusinessLayer.models.general;
+using BusinessLayer.models.input;
 using BusinessLayer.validators.response;
 using DataLayer.entities;
 using DataLayer.repositories;
@@ -36,11 +37,12 @@ namespace BusinessLayer.managers
             this._mediator = mediator;
             _errors = new List<GenericResponse>();
         }
-        public GenericResult<IGeneralModels> AddDrivingLicense(DrivingLicense drivinglicense, int chaffeurid)
+        public GenericResult<IGeneralModels> AddDrivingLicense(DrivingLicenseDTO drivinglicense, int chaffeurid)
         {
+            var temp = _mapper.Map<DrivingLicense>(drivinglicense);
             var ch = GetChaffeurEntity(chaffeurid);
-            var dl = _mapper.Map<DrivingLicenseEntity>(drivinglicense);
-            var check = CheckExistingDrivingLicense(chaffeurid, drivinglicense);
+            var dl = _mapper.Map<DrivingLicenseEntity>(temp);
+            var check = CheckExistingDrivingLicense(chaffeurid, temp);
             var result = new GenericResult<IGeneralModels>() { Message = "Drivinglicense already exist's in chaffeurs list." };
             if (check == false)
             {
@@ -54,16 +56,6 @@ namespace BusinessLayer.managers
             result.SetStatusCode(Overall.ResponseType.OK);
             result.ReturnValue = _mapper.Map<Chaffeur>(ch);
             return result;
-        }
-        public bool CheckValidationDrivingLicense(DrivingLicense drivinglicense)
-        {
-            var results = _validator.Validate(drivinglicense);
-            if (results.IsValid == false)
-            {
-                _errors = _mapper.Map<List<GenericResponse>>(results.Errors);
-                return false;
-            }
-            return true;
         }
         public GenericResult<IGeneralModels> DeleteDrivingLicense(int drivinglicense, int chaffeurid)
         {

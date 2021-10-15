@@ -4,6 +4,7 @@ using BusinessLayer.mediator.commands;
 using BusinessLayer.mediator.queries;
 using BusinessLayer.models;
 using BusinessLayer.models.general;
+using BusinessLayer.models.input;
 using BusinessLayer.validators.response;
 using DataLayer.entities;
 using DataLayer.repositories;
@@ -36,10 +37,11 @@ namespace BusinessLayer.managers
             this._errors = new List<GenericResponse>();
             this._mediator = mediator;
         }
-        public GenericResult<IGeneralModels> AddRepairment(Repairment repairment, int requestId)
+        public GenericResult<IGeneralModels> AddRepairment(RepairmentDTO repairment, int requestId)
         {
+            var temp = _mapper.Map<Repairment>(repairment);
             var rq = GetRequestEntity(requestId);
-            var rm = _mapper.Map<RepairmentEntity>(repairment);
+            var rm = _mapper.Map<RepairmentEntity>(temp);
             rq.Repairment.Add(rm);
             _rqrepo.UpdateEntity(rq);
             _rqrepo.Save();

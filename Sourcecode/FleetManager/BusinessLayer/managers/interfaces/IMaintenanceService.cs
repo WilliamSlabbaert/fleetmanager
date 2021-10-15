@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.models;
 using BusinessLayer.models.general;
+using BusinessLayer.models.input;
 using BusinessLayer.validators.response;
 using Overall.paging;
 using System;
@@ -19,10 +20,10 @@ namespace BusinessLayer.managers.interfaces
         public GenericResult<IGeneralModels> GetMaintenanceInvoicesById(int id);
         public GenericResult<IGeneralModels> GetMaintenanceRequestById(int id);
         public GenericResult<IGeneralModels> GetAllMaintenancesPaging(GenericParameter parameters);
-        public GenericResult<IGeneralModels> AddMaintenance(Maintenance Maintenance, int requestId);
+        public GenericResult<IGeneralModels> AddMaintenance(MaintenanceDTO Maintenance, int requestId);
         public GenericResult<IGeneralModels> DeleteMaintenance(int requestid, int maintenanceid);
-        public GenericResult<IGeneralModels> UpdateMaintenance(int maintenanceid, Maintenance maintenance);
-        public GenericResult<IGeneralModels> AddInvoice(int maintenanceId, Invoice invoice);
+        public GenericResult<IGeneralModels> UpdateMaintenance(int maintenanceid, MaintenanceDTO maintenance);
+        public GenericResult<IGeneralModels> AddInvoice(int maintenanceId, InvoiceDTO invoice);
         public GenericResult<IGeneralModels> DeleteInvoice(int maintenanceId, int invoiceId);
         public bool ValidateMaintance(Maintenance maintenance);
     }

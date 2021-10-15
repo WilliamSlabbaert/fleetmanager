@@ -4,6 +4,7 @@ using BusinessLayer.mediator.commands;
 using BusinessLayer.mediator.queries;
 using BusinessLayer.models;
 using BusinessLayer.models.general;
+using BusinessLayer.models.input;
 using BusinessLayer.validators.response;
 using DataLayer.entities;
 using DataLayer.repositories;
@@ -38,11 +39,12 @@ namespace BusinessLayer.managers
             this._mediator = mediator;
             _errors = new List<GenericResponse>();
         }
-        public GenericResult<IGeneralModels> AddRequest(Request request, int chaffeurId, int vehicleId)
+        public GenericResult<IGeneralModels> AddRequest(RequestDTO request, int chaffeurId, int vehicleId)
         {
             ChaffeurEntity ch = GetChaffeurEntity(chaffeurId);
             VehicleEntity vh = GetVehicleEntity(vehicleId);
-            var rq = _mapper.Map<RequestEntity>(request);
+            var temp = _mapper.Map<Request>(request);
+            var rq = _mapper.Map<RequestEntity>(temp);
             rq.Chaffeur = ch;
             rq.ChaffeurId = ch.Id;
             rq.Vehicle = vh;
@@ -123,7 +125,7 @@ namespace BusinessLayer.managers
             .ThenInclude(s => s.Vehicle));
             return temp;
         }
-        public GenericResult<IGeneralModels> UpdateRequest(Request request, int id)
+        public GenericResult<IGeneralModels> UpdateRequest(RequestDTO request, int id)
         {
             var rq = GetRequestEntityById(id);
 

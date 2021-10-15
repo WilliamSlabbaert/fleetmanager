@@ -3,6 +3,7 @@ using BusinessLayer.managers.interfaces;
 using BusinessLayer.mediator.queries;
 using BusinessLayer.models;
 using BusinessLayer.models.general;
+using BusinessLayer.models.input;
 using BusinessLayer.validators.response;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -34,7 +35,7 @@ namespace WriteAPI.Controllers
             _requestService = requestService;
         }
         [HttpPost]
-        public ActionResult<GenericResult<IGeneralModels>> Add([FromBody] Chaffeur chaffeur)
+        public ActionResult<GenericResult<IGeneralModels>> Add([FromBody] ChaffeurDTO chaffeur)
         {
             try
             {
@@ -47,7 +48,7 @@ namespace WriteAPI.Controllers
             }
         }
         [HttpPut("{chaffeurId}")]
-        public ActionResult<GenericResult<IGeneralModels>> UpdateById(int chaffeurId, [FromBody] Chaffeur chaffeur)
+        public ActionResult<GenericResult<IGeneralModels>> UpdateById(int chaffeurId, [FromBody] ChaffeurDTO chaffeur)
         {
             try
             {
@@ -57,7 +58,6 @@ namespace WriteAPI.Controllers
                     return NotFound(check);
                 }
 
-                chaffeur.Id = chaffeurId;
                 var result = _managerChaffeur.UpdateChaffeur(chaffeur, chaffeurId);
                 return Ok(result);
             }
@@ -108,7 +108,7 @@ namespace WriteAPI.Controllers
         }
         
         [HttpPost("{chaffeurId}/Drivinglicenses")]
-        public ActionResult<GenericResult<IGeneralModels>> AddDrivinglicense(int chaffeurId, [FromBody] DrivingLicense drivingLicense)
+        public ActionResult<GenericResult<IGeneralModels>> AddDrivinglicense(int chaffeurId, [FromBody] DrivingLicenseDTO drivingLicense)
         {
             try
             {
@@ -185,7 +185,7 @@ namespace WriteAPI.Controllers
             }
         }
         [HttpPost("{chaffeurId}/Vehicles/{vehicleId}/Requests")]
-        public ActionResult<GenericResult<IGeneralModels>> AddRequest(int chaffeurId, int vehicleId, [FromBody] Request request)
+        public ActionResult<GenericResult<IGeneralModels>> AddRequest(int chaffeurId, int vehicleId, [FromBody] RequestDTO request)
         {
             try
             {
