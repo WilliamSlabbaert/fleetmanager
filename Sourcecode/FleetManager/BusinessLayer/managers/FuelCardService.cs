@@ -24,133 +24,116 @@ namespace BusinessLayer.managers
         private readonly IGenericRepo<FuelCardEntity> _repo;
         private readonly IGenericRepo<ChaffeurEntity> _chrepo;
         private readonly IMapper _mapper;
-        private readonly IValidator<FuelCard> _validator;
-        private readonly IValidator<FuelType> _validatorft;
-        private readonly IValidator<ExtraService> _validatores;
-        private readonly IValidator<FuelCardChaffeur> _validatorfcch;
-        private readonly IValidator<AuthenticationType> _validatorat;
         private IMediator _mediator;
         public List<GenericResponse> _errors { get; set; }
-        public FuelCardService(IGenericRepo<FuelCardEntity> repo, IMapper mapper, IGenericRepo<ChaffeurEntity> chrepo, IValidator<FuelCard> _validator, IValidator<FuelCardChaffeur> validatorfcch, IValidator<FuelType> ft, IValidator<ExtraService> validatores, IValidator<AuthenticationType> validatorat,IMediator mediator)
+        public FuelCardService(IGenericRepo<FuelCardEntity> repo, IMapper mapper, IGenericRepo<ChaffeurEntity> chrepo,IMediator mediator)
         {
             this._repo = repo;
             this._mapper = mapper;
             this._chrepo = chrepo;
-            this._validator = _validator;
-            this._validatorfcch = validatorfcch;
-            this._validatorft = ft;
-            this._validatores = validatores;
-            this._validatorat = validatorat;
             this._mediator = mediator;
             _errors = new List<GenericResponse>();
         }
 
-        public FuelCard AddFuelCard(FuelCard fc)
+        public GenericResult<IGeneralModels> AddFuelCard(FuelCard fc)
         {
             var temp = _mapper.Map<FuelCardEntity>(fc);
+            var respond = new GenericResult<IGeneralModels>() { Message = "Fuelcard with same cardnumber already exist's." };
+            if (CheckExistingFuelcard(fc, fc.Id) == false)
+            {
+                return respond;
+            }
             _repo.AddEntity(temp);
             _repo.Save();
-            return _mapper.Map<FuelCard>(temp);
+            respond = new GenericResult<IGeneralModels>() { Message = "Ok", ReturnValue = _mapper.Map<FuelCard>(temp) };
+            respond.SetStatusCode(Overall.ResponseType.OK);
+            return respond;
         }
-        public FuelCard AddFuelType(int fuelcardId, FuelType type)
+        public bool CheckExistingFuelcard(FuelCard ch, int id)
         {
-            var fc = GetFuelCardEntity(fuelcardId);
-
-            fc.FuelType.Add(_mapper.Map<FuelEntity>(type));
-            _repo.UpdateEntity(fc);
-            _repo.Save();
-            return _mapper.Map<FuelCard>(fc);
-        }
-        public bool CheckExistingFuelCard(FuelCard fc)
-        {
-            if (fc.Id != 0)
+            var result = _repo.GetAll(null).FirstOrDefault(s => s.CardNumber == ch.CardNumber && s.Id != id);
+            if (result == null)
             {
-                var tempList = _repo.GetAll(null).Where(s => s.Id != fc.Id);
-                var temp = tempList.FirstOrDefault(s => s.CardNumber == fc.CardNumber);
-                if (temp == null)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return true;
             }
             else
             {
-                var temp = _repo.GetAll(null).FirstOrDefault(s => s.CardNumber == fc.CardNumber);
-                if (temp == null)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return false;
             }
         }
-        public FuelCard DeleteFuelType(int id, int fuelid)
+        public GenericResult<IGeneralModels> AddFuelType(int fuelcardId, FuelType type)
+        {
+            var fc = GetFuelCardEntity(fuelcardId);
+            var checkModel = _mapper.Map<FuelCard>(fc);
+            var respond = new GenericResult<IGeneralModels>() { Message = "Fuel type already exist in fuelcard list." };
+            if (checkModel.CheckExistingFuelType(type) == false)
+            {
+                return respond;
+            }
+            fc.FuelType.Add(_mapper.Map<FuelEntity>(type));
+            _repo.UpdateEntity(fc);
+            _repo.Save();
+            respond = new GenericResult<IGeneralModels>() { Message = "Ok", ReturnValue = _mapper.Map<FuelCard>(fc) };
+            respond.SetStatusCode(Overall.ResponseType.OK);
+            return respond;
+        }
+        public GenericResult<IGeneralModels> DeleteFuelType(int id, int fuelid)
         {
             var result = GetFuelCardEntity(id);
-
             var dl = result.FuelType.FirstOrDefault(s => s.Id == fuelid);
-            result.FuelType.Remove(dl);
+            var respond = new GenericResult<IGeneralModels>() { Message = "Fuel type doesn't exist in fuelcard list." };
 
+            if(dl == null)
+            {
+                return respond;
+            }
+
+            result.FuelType.Remove(dl);
             _repo.UpdateEntity(result);
             _repo.Save();
-
-            return _mapper.Map<FuelCard>(result);
+            respond.Message = "Ok";
+            respond.ReturnValue = _mapper.Map<FuelCard>(result);
+            respond.SetStatusCode(Overall.ResponseType.OK);
+            return respond;
         }
-        public FuelCard AddService(ExtraService extraService, int fuelcardId)
+        public GenericResult<IGeneralModels> AddService(ExtraService extraService, int fuelcardId)
         {
             var fc = GetFuelCardEntity(fuelcardId);
             var extraS = _mapper.Map<ExtraServiceEntity>(extraService);
-
-
+            var checkModel = _mapper.Map<FuelCard>(fc);
+            var respond = new GenericResult<IGeneralModels>() { Message = "Extra service already exist in fuelcard list." };
+            if (checkModel.CheckExistingServices(extraService) == false)
+            {
+                return respond;
+            }
             fc.Services.Add(extraS);
             _repo.UpdateEntity(fc);
             _repo.Save();
-            return _mapper.Map<FuelCard>(fc);
+
+            respond.Message = "Ok";
+            respond.ReturnValue = _mapper.Map<FuelCard>(fc);
+            respond.SetStatusCode(Overall.ResponseType.OK);
+            return respond;
         }
-        public bool CheckValidationService(ExtraService extraService)
-        {
-            var result = _validatores.Validate(extraService);
-            if (result.IsValid == false)
-            {
-                _errors = _mapper.Map<List<GenericResponse>>(result.Errors);
-                return false;
-            }
-            return true;
-        }
-        public bool CheckValidationFuelType(FuelType fueltype)
-        {
-            var result = _validatorft.Validate(fueltype);
-            if (result.IsValid == false)
-            {
-                _errors = _mapper.Map<List<GenericResponse>>(result.Errors);
-                return false;
-            }
-            return true;
-        }
-        public bool CheckValidationAuthentication(AuthenticationType authenticationType)
-        {
-            var result = _validatorat.Validate(authenticationType);
-            if (result.IsValid == false)
-            {
-                _errors = _mapper.Map<List<GenericResponse>>(result.Errors);
-                return false;
-            }
-            return true;
-        }
-        public FuelCard AddAuthentication(AuthenticationType authenticationType, int fuelcardId)
+        public GenericResult<IGeneralModels> AddAuthentication(AuthenticationType authenticationType, int fuelcardId)
         {
             var fuelcard = GetFuelCardEntity(fuelcardId);
             var aT = _mapper.Map<AuthenticationTypeEntity>(authenticationType);
+            var respond = new GenericResult<IGeneralModels>() { Message = "Authentication type already exist in fuelcard list." };
+
+            var temp = _mapper.Map<FuelCard>(fuelcard);
+            if(temp.CheckExistingAuthentications(authenticationType) == false)
+            {
+                return respond;
+            }
             fuelcard.AuthenticationTypes.Add(aT);
             _repo.UpdateEntity(fuelcard);
             _repo.Save();
+            respond.Message = "Ok";
+            respond.ReturnValue = _mapper.Map<FuelCard>(fuelcard);
+            respond.SetStatusCode(Overall.ResponseType.OK);
 
-            return _mapper.Map<FuelCard>(fuelcard);
+            return respond;
         }
 
         public GenericResult<IGeneralModels> AddFuelCardToChaffeur(int fuelcardNr, int chaffeurNr)
@@ -196,36 +179,59 @@ namespace BusinessLayer.managers
             return result;
 
         }
-        public bool CheckValidationFuelCardChaffeur(FuelCardChaffeur fuelCardChaffeur)
+        public GenericResult<IGeneralModels> UpdateFuelCard(int fuelcardNr, FuelCard fuelCard)
         {
-            var results = _validatorfcch.Validate(fuelCardChaffeur);
-            if (results.IsValid == false)
+            var fuelcard = GetFuelCardEntity(fuelcardNr);
+            var respond = new GenericResult<IGeneralModels>() { Message = "Fuelcard with same cardnumber already exist's." };
+            if (CheckExistingFuelcard(fuelCard, fuelcardNr) == false)
             {
-                _errors = _mapper.Map<List<GenericResponse>>(results.Errors);
-                return false;
+                return respond;
             }
-            return true;
-        }
-        public bool CheckValidationFuelCard(FuelCard fuelcard)
-        {
-            var results = _validator.Validate(fuelcard);
-            if (results.IsValid == false)
-            {
-                _errors = _mapper.Map<List<GenericResponse>>(results.Errors);
-                return false;
-            }
-            return true;
-        }
-        public FuelCard DeleteService(int id, int fuelcardId)
-        {
-            var temp = GetFuelCardEntity(fuelcardId);
-            var obj = temp.Services.FirstOrDefault(s => s.Id == id);
-
-            temp.Services.Remove(obj);
-            _repo.UpdateEntity(temp);
+            fuelcard.CardNumber = fuelCard.CardNumber;
+            fuelcard.ValidityDate = fuelCard.ValidityDate;
+            fuelcard.Pin = fuelCard.Pin;
+            fuelcard.IsActive = fuelCard.IsActive;
+            _repo.UpdateEntity(fuelcard);
             _repo.Save();
+            respond = new GenericResult<IGeneralModels>() { ReturnValue = _mapper.Map<FuelCard>(fuelcard), Message = "Ok" };
+            respond.SetStatusCode(Overall.ResponseType.OK);
 
-            return _mapper.Map<FuelCard>(temp);
+            return respond;
+        }
+        public GenericResult<IGeneralModels> DeleteService(int fuelcardId, int serviceId)
+        {
+            var fuelcard = GetFuelCardEntity(fuelcardId);
+            var respond = new GenericResult<IGeneralModels>() { Message = "Extra service doesn't exist in fuelcard list." };
+            var temp = fuelcard.Services.FirstOrDefault(s => s.Id == serviceId);
+            if(temp == null)
+            {
+                return respond;
+            }
+            fuelcard.Services.Remove(temp);
+            _repo.UpdateEntity(fuelcard);
+            _repo.Save();
+            respond = new GenericResult<IGeneralModels>() { ReturnValue = _mapper.Map<FuelCard>(fuelcard), Message = "Ok" };
+            respond.SetStatusCode(Overall.ResponseType.OK);
+
+            return respond;
+
+        }
+        public GenericResult<IGeneralModels> DeleteAuthentication(int fuelcardId, int authenticationId)
+        {
+            var fuelcard = GetFuelCardEntity(fuelcardId);
+            var respond = new GenericResult<IGeneralModels>() { Message = "Authentication type doesn't exist in fuelcard list." };
+            var temp = fuelcard.AuthenticationTypes.FirstOrDefault(s => s.Id == authenticationId);
+            if (temp == null)
+            {
+                return respond;
+            }
+            fuelcard.AuthenticationTypes.Remove(temp);
+            _repo.UpdateEntity(fuelcard);
+            _repo.Save();
+            respond = new GenericResult<IGeneralModels>() { ReturnValue = _mapper.Map<FuelCard>(fuelcard), Message = "Ok" };
+            respond.SetStatusCode(Overall.ResponseType.OK);
+
+            return respond;
 
         }
         public GenericResult<IGeneralModels> GetAllFuelCards()
@@ -284,10 +290,12 @@ namespace BusinessLayer.managers
         {
             return _repo.GetById(
             filter: x => x.Id == id,
-            x => x.Include(s => s.Services)
-            .Include(s => s.FuelType)
+            x => 
+            x.Include(s => s.FuelType)
             .Include(s => s.ChaffeurFuelCards)
-            .ThenInclude(s => s.Chaffeur));
+            .ThenInclude(s => s.Chaffeur)
+            .Include(s => s.AuthenticationTypes)
+            .Include(s => s.Services));
         }
         public ChaffeurEntity GetChaffeurEntity(int id)
         {
@@ -298,18 +306,6 @@ namespace BusinessLayer.managers
             .Include(s => s.DrivingLicenses)
             .Include(s => s.Requests));
             return ch;
-        }
-        public FuelCard UpdateFuelCard(FuelCard fuelcard, int fuelcardId)
-        {
-            var fc = GetFuelCardEntity(fuelcardId);
-            fc.CardNumber = fuelcard.CardNumber;
-            fc.IsActive = fuelcard.IsActive;
-            fc.Pin = fuelcard.Pin;
-            fc.ValidityDate = fuelcard.ValidityDate;
-
-            _repo.UpdateEntity(fc);
-            _repo.Save();
-            return _mapper.Map<FuelCard>(fc);
         }
         public GenericResult<IGeneralModels> CreateResult(bool check, object value)
         {

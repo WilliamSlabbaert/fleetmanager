@@ -38,7 +38,7 @@ namespace BusinessLayer.models
             }
             return false;
         }
-        public bool CheckExistingSerives(ExtraService service)
+        public bool CheckExistingServices(ExtraService service)
         {
             var result = Services.FirstOrDefault(s=> s.Service == service.Service);
             if (result == null)

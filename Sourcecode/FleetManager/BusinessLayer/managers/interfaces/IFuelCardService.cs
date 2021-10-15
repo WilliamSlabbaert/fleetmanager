@@ -20,19 +20,15 @@ namespace BusinessLayer.managers.interfaces
         public GenericResult<IGeneralModels> GetFuelcardFuelTypes(int id);
         public GenericResult<IGeneralModels> GetFuelcardAuthenications(int id);
         public GenericResult<IGeneralModels> GetAllFuelCardsPaging(GenericParameter parameters);
-        public bool CheckExistingFuelCard(FuelCard fc);
-        public bool CheckValidationService(ExtraService extraService);
-        public bool CheckValidationFuelType(FuelType fueltype);
-        public bool CheckValidationFuelCard(FuelCard fuelcard);
-        public bool CheckValidationAuthentication(AuthenticationType authenticationType);
-        public FuelCard AddAuthentication(AuthenticationType authenticationType, int fuelcardId);
-        public FuelCard AddFuelCard(FuelCard fc);
-        public FuelCard AddFuelType(int fuelcardId, FuelType type);
-        public FuelCard AddService(ExtraService extraService, int fuelcardId);
+        public GenericResult<IGeneralModels> AddFuelType(int fuelcardId, FuelType type);
         public GenericResult<IGeneralModels> AddFuelCardToChaffeur(int fuelcardNr, int chaffeurNr);
-        public FuelCard DeleteFuelType(int id, int fuelid);
-        public FuelCard DeleteService(int id, int fuelcardId);
         public GenericResult<IGeneralModels> ActivityChaffeurFuelCard(int fuelcardNr, int chaffeurNr, bool isactive);
-        public FuelCard UpdateFuelCard(FuelCard fuelcard, int fuelcardId);
+        public GenericResult<IGeneralModels> UpdateFuelCard(int fuelcardNr, FuelCard fuelCard);
+        public GenericResult<IGeneralModels> AddAuthentication(AuthenticationType authenticationType, int fuelcardId);
+        public GenericResult<IGeneralModels> AddFuelCard(FuelCard fc);
+        public GenericResult<IGeneralModels> AddService(ExtraService extraService, int fuelcardId);
+        public GenericResult<IGeneralModels> DeleteFuelType(int id, int fuelid);
+        public GenericResult<IGeneralModels> DeleteService(int fuelcardId, int serviceId);
+        public GenericResult<IGeneralModels> DeleteAuthentication(int fuelcardId, int authenticationId);
     }
 }
