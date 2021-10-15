@@ -18,8 +18,9 @@ namespace BusinessLayer.managers.interfaces
         public GenericResult<IGeneralModels> GetRepairmentById(int id);
         public GenericResult<IGeneralModels> GetRepairmentRequestById(int id);
         public GenericResult<IGeneralModels> GetAllRepairmentsPaging(GenericParameter parameters);
-        public Repairment AddRepairment(Repairment repairment, int requestId);
-        public Repairment UpdateRepairment(Repairment repairment, int requestId, int repairmentId);
-        
+        public GenericResult<IGeneralModels> AddRepairment(Repairment repairment, int requestId);
+        public GenericResult<IGeneralModels> DeleteRepairment(int requestId, int repairmentId);
+
+
     }
 }

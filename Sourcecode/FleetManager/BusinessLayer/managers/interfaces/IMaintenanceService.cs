@@ -21,6 +21,9 @@ namespace BusinessLayer.managers.interfaces
         public GenericResult<IGeneralModels> GetAllMaintenancesPaging(GenericParameter parameters);
         public GenericResult<IGeneralModels> AddMaintenance(Maintenance Maintenance, int requestId);
         public GenericResult<IGeneralModels> DeleteMaintenance(int requestid, int maintenanceid);
+        public GenericResult<IGeneralModels> UpdateMaintenance(int maintenanceid, Maintenance maintenance);
+        public GenericResult<IGeneralModels> AddInvoice(int maintenanceId, Invoice invoice);
+        public GenericResult<IGeneralModels> DeleteInvoice(int maintenanceId, int invoiceId);
         public bool ValidateMaintance(Maintenance maintenance);
     }
 }

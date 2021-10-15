@@ -32,7 +32,7 @@ namespace BusinessLayer.managers.interfaces
         public GenericResult<IGeneralModels> AddFuelCardToChaffeur(int fuelcardNr, int chaffeurNr);
         public FuelCard DeleteFuelType(int id, int fuelid);
         public FuelCard DeleteService(int id, int fuelcardId);
-        public GenericResult<IGeneralModels> UpdateChaffeurFuelCard(int fuelcardNr, int chaffeurNr, bool isactive);
+        public GenericResult<IGeneralModels> ActivityChaffeurFuelCard(int fuelcardNr, int chaffeurNr, bool isactive);
         public FuelCard UpdateFuelCard(FuelCard fuelcard, int fuelcardId);
     }
 }

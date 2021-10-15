@@ -19,13 +19,15 @@ namespace WriteAPI.Controllers
         private IMediator _mediator;
         private IRequestService _requestService;
         private IMaintenanceService _maintenanceService;
-        public RequestController(ILogger<ChaffeurController> logger, IMediator mediator, IRequestService requestService, IMaintenanceService maintenanceService)
+        private IRepairmentService _repairmentService;
+        public RequestController(ILogger<ChaffeurController> logger, IMediator mediator, IRequestService requestService, IMaintenanceService maintenanceService, IRepairmentService repairmentService)
         {
             _logger = logger;
             _mediator = mediator;
             _requestService = requestService;
             _maintenanceService = maintenanceService;
-    }
+            _repairmentService = repairmentService;
+        }
 
         [HttpPut("Request/{id}")]
         public ActionResult<GenericResult<IGeneralModels>> UpdateRequest(int id,[FromBody] Request request)
@@ -75,6 +77,43 @@ namespace WriteAPI.Controllers
                     return check.StatusCode != 200 ? NotFound(check) : NotFound(check2);
                 }
                 var result = _maintenanceService.DeleteMaintenance(requestId, maintenanceId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpPost("Request/{id}/Repairments")]
+        public ActionResult<GenericResult<IGeneralModels>> AddRepair(int id, [FromBody] Repairment repairment)
+        {
+            try
+            {
+                var check = _requestService.GetRequestById(id);
+                if (check.StatusCode != 200)
+                {
+                    return NotFound(check);
+                }
+                var result = _repairmentService.AddRepairment(repairment, id);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpDelete("Request/{requestId}/Repairments/{repairmentId}")]
+        public ActionResult<GenericResult<IGeneralModels>> AddRepair(int requestId,int repairmentId)
+        {
+            try
+            {
+                var check = _requestService.GetRequestById(requestId);
+                var check2 = _repairmentService.GetRepairmentById(repairmentId);
+                if (check.StatusCode != 200 || check2.StatusCode != 200)
+                {
+                    return check.StatusCode != 200 ? NotFound(check) : NotFound(check2);
+                }
+                var result = _repairmentService.DeleteRepairment(requestId,repairmentId);
                 return Ok(result);
             }
             catch (Exception ex)

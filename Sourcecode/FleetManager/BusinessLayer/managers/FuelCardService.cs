@@ -171,7 +171,7 @@ namespace BusinessLayer.managers
             }
             return result;
         }
-        public GenericResult<IGeneralModels> UpdateChaffeurFuelCard(int fuelcardNr, int chaffeurNr, bool isactive)
+        public GenericResult<IGeneralModels> ActivityChaffeurFuelCard(int fuelcardNr, int chaffeurNr, bool isactive)
         {
             ChaffeurEntity ch = GetChaffeurEntity(chaffeurNr);
             var result = new GenericResult<IGeneralModels>() { Message = "Fuelcard doesn't in chaffeurs list." };

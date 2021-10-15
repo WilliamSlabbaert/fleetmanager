@@ -176,7 +176,7 @@ namespace WriteAPI.Controllers
                 {
                     return check.StatusCode != 200 ? NotFound(check) : NotFound(check2);
                 }
-                var result = _fuelCardManager.UpdateChaffeurFuelCard(fuelcardId, chaffeurId,activity);
+                var result = _fuelCardManager.ActivityChaffeurFuelCard(fuelcardId, chaffeurId, activity);
                 return result.StatusCode == 200 ? Ok(result) : BadRequest(result);
             }
             catch (Exception e)
