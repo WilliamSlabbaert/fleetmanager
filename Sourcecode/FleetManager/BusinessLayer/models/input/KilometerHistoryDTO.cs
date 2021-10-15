@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.models.input
 {
-    class KilometerHistoryDTO
+    public class KilometerHistoryDTO
     {
+        public double Kilometers { get; set; }
+        public DateTime Date { get; set; }
     }
 }

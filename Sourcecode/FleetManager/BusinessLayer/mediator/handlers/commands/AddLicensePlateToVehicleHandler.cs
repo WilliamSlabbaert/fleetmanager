@@ -34,14 +34,15 @@ namespace BusinessLayer.mediator.handlers
             var temp = _vehicleRepo.GetById(
                 filter: s => s.Id == request.vehicleId,
                 s => s.Include(s => s.LicensePlates));
+            var t = _mapper.Map<LicensePlate>(request.licensePlate);
 
             var respond = new GenericResult<IGeneralModels>() { Message = "Licenseplate already exist's in vehicle list." };
             respond.SetStatusCode(Overall.ResponseType.BadRequest);
 
             var temp2 = _mapper.Map<Vehicle>(temp);
-            if (temp2.CheckLicensePlates(request.licensePlate))
+            if (temp2.CheckLicensePlates(t))
             {
-                temp.LicensePlates.Add(_mapper.Map<LicensePlateEntity>(request.licensePlate));
+                temp.LicensePlates.Add(_mapper.Map<LicensePlateEntity>(t));
                 _vehicleRepo.UpdateEntity(temp);
                 _vehicleRepo.Save();
                 respond.ReturnValue = temp;

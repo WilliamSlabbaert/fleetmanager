@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BusinessLayer.mediator.commands;
+using BusinessLayer.models;
 using BusinessLayer.models.general;
 using BusinessLayer.validators.response;
 using DataLayer.entities;
@@ -30,7 +31,8 @@ namespace BusinessLayer.mediator.handlers.commands
         public Task<GenericResult<IGeneralModels>> Handle(AddKilometerHistoryCommand request, CancellationToken cancellationToken)
         {
             var temp = _vehicleRepo.GetById(s=>s.Id == request._vehicleId,s=>s.Include(s=> s.Kilometers));
-            temp.Kilometers.Add(_mapper.Map<KilometerHistoryEntity>(request.kilometer));
+            var dto = _mapper.Map<KilometerHistory>(request.kilometer);
+            temp.Kilometers.Add(_mapper.Map<KilometerHistoryEntity>(dto));
             _vehicleRepo.UpdateEntity(temp);
             _vehicleRepo.Save();
             var response = new GenericResult<IGeneralModels>() { Message = "Ok", ReturnValue = temp};

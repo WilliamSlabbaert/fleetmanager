@@ -32,6 +32,9 @@ namespace BusinessLayer.mediator.handlers
                 filter: x => x.Id.Equals(request._vehicleId),
                 x => x.Include(s => s.LicensePlates));
 
+            var dto = _mapper.Map<LicensePlate>(request._licensePlate);
+            dto.Id = request._licensePlateId;
+
             var respond = new GenericResult<IGeneralModels>() { Message = "Licenseplate already exist's in vehicle list." };
             respond.SetStatusCode(Overall.ResponseType.BadRequest);
 
@@ -39,11 +42,11 @@ namespace BusinessLayer.mediator.handlers
 
             var temp = _mapper.Map<Vehicle>(vehicle);
 
-            if (temp.CheckLicensePlates(request._licensePlate) == false)
+            if (temp.CheckLicensePlates(dto) == false)
             {
                 return Task.FromResult(respond);
             }
-            if (request._licensePlate.IsActive == true)
+            if (dto.IsActive == true)
             {
                 foreach (var item in vehicle.LicensePlates)
                 {
@@ -51,8 +54,8 @@ namespace BusinessLayer.mediator.handlers
                 }
             }
 
-            licenseplate.Plate = request._licensePlate.Plate;
-            licenseplate.IsActive = request._licensePlate.IsActive;
+            licenseplate.Plate = dto.Plate;
+            licenseplate.IsActive = dto.IsActive;
             _vehicleRepo.UpdateEntity(vehicle);
             _vehicleRepo.Save();
             respond.SetStatusCode(Overall.ResponseType.OK);

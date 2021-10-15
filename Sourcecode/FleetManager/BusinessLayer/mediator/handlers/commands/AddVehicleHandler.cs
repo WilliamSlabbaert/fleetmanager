@@ -32,8 +32,9 @@ namespace BusinessLayer.mediator.handlers
 
         public Task<GenericResult<IGeneralModels>> Handle(AddVehicleCommand request, CancellationToken cancellationToken)
         {
-            var temp = _mapper.Map<VehicleEntity>(request._vehicle);
-            var result = _mediator.Send(new CheckExistingVehicleQuery(request._vehicle));
+            var t = _mapper.Map<Vehicle>(request._vehicle);
+            var temp = _mapper.Map<VehicleEntity>(t);
+            var result = _mediator.Send(new CheckExistingVehicleQuery(t));
             var respond = new GenericResult<IGeneralModels>() { Message = "Vehicle with same chasis number already exists." };
             respond.SetStatusCode(Overall.ResponseType.BadRequest);
             if (result.Result == false)

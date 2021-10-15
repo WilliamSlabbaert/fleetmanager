@@ -3,6 +3,7 @@ using BusinessLayer.mediator.commands;
 using BusinessLayer.mediator.queries;
 using BusinessLayer.models;
 using BusinessLayer.models.general;
+using BusinessLayer.models.input;
 using BusinessLayer.validators.response;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -25,7 +26,7 @@ namespace WriteAPI.Controllers
             _mediator = mediator;
         }
         [HttpPost("Vehicle")]
-        public async Task<ActionResult<GenericResult<IGeneralModels>>> AddVehicle([FromBody] Vehicle vehicle)
+        public async Task<ActionResult<GenericResult<IGeneralModels>>> AddVehicle([FromBody] VehicleDTO vehicle)
         {
             try
             {
@@ -38,7 +39,7 @@ namespace WriteAPI.Controllers
             }
         }
         [HttpPut("Vehicle/{id}")]
-        public async Task<ActionResult<GenericResult<IGeneralModels>>> UpdateVehicle(int id, [FromBody] Vehicle vehicle)
+        public async Task<ActionResult<GenericResult<IGeneralModels>>> UpdateVehicle(int id, [FromBody] VehicleDTO vehicle)
         {
             try
             {
@@ -58,7 +59,7 @@ namespace WriteAPI.Controllers
             }
         }
         [HttpPost("Vehicle/{id}/Licenseplates")]
-        public async Task<ActionResult<GenericResult<IGeneralModels>>> AddLicenseplateToVehicle(int id, [FromBody] LicensePlate licensePlate)
+        public async Task<ActionResult<GenericResult<IGeneralModels>>> AddLicenseplateToVehicle(int id, [FromBody] LicensePlateDTO licensePlate)
         {
             try
             {
@@ -67,7 +68,7 @@ namespace WriteAPI.Controllers
                 {
                     return NotFound(vh);
                 }
-                var result = await _mediator.Send(new AddLicensePlateToVehicleCommand(id, new LicensePlate(licensePlate.Plate)));
+                var result = await _mediator.Send(new AddLicensePlateToVehicleCommand(id, new LicensePlateDTO() { Plate = licensePlate.Plate, IsActive = false}));
                 return result.StatusCode == 200 ? Ok(result) : BadRequest(result);
             }
             catch (Exception ex)
@@ -77,7 +78,7 @@ namespace WriteAPI.Controllers
         }
         
         [HttpPut("Vehicle/{id}/Licenseplates/{licenseId}")]
-        public async Task<ActionResult<GenericResult<IGeneralModels>>> PutLicenseplateToVehicle(int id, int licenseId, [FromBody] LicensePlate licensePlate)
+        public async Task<ActionResult<GenericResult<IGeneralModels>>> PutLicenseplateToVehicle(int id, int licenseId, [FromBody] LicensePlateDTO licensePlate)
         {
             try
             {
@@ -96,7 +97,7 @@ namespace WriteAPI.Controllers
             }
         }
         [HttpPost("Vehicle/{id}/KilometerHistory")]
-        public async Task<ActionResult<GenericResult<IGeneralModels>>> AddKilometersToVehicle(int id, [FromBody] KilometerHistory kilometer)
+        public async Task<ActionResult<GenericResult<IGeneralModels>>> AddKilometersToVehicle(int id, [FromBody] KilometerHistoryDTO kilometer)
         {
             try
             {

@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.models;
 using BusinessLayer.models.general;
+using BusinessLayer.models.input;
 using BusinessLayer.validators.response;
 using MediatR;
 using System;
@@ -12,9 +13,9 @@ namespace BusinessLayer.mediator.commands
 {
     public class AddVehicleCommand : IRequest<GenericResult<IGeneralModels>>
     {
-        public Vehicle _vehicle { get; private set; }
+        public VehicleDTO _vehicle { get; private set; }
 
-        public AddVehicleCommand(Vehicle vehicle)
+        public AddVehicleCommand(VehicleDTO vehicle)
         {
             this._vehicle = vehicle;
         }

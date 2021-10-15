@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BusinessLayer.mediator.commands;
 using BusinessLayer.mediator.queries;
+using BusinessLayer.models;
 using BusinessLayer.models.general;
 using BusinessLayer.validators.response;
 using DataLayer.entities;
@@ -30,7 +31,8 @@ namespace BusinessLayer.mediator.handlers.commands
         }
         public Task<GenericResult<IGeneralModels>> Handle(UpdateVehicleCommand request, CancellationToken cancellationToken)
         {
-            var result = _mediator.Send(new CheckExistingVehicleQuery(request.vehicle));
+            var temp = _mapper.Map<Vehicle>(request.vehicle);
+            var result = _mediator.Send(new CheckExistingVehicleQuery(temp));
             var respond = new GenericResult<IGeneralModels>() { Message = "Vehicle with same chasis number already exists." };
             respond.SetStatusCode(Overall.ResponseType.BadRequest);
             if (result.Result == false)

@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.models;
 using BusinessLayer.models.general;
+using BusinessLayer.models.input;
 using BusinessLayer.validators.response;
 using MediatR;
 using System;
@@ -12,14 +13,13 @@ namespace BusinessLayer.mediator.commands
 {
     public class UpdateVehicleCommand : IRequest<GenericResult<IGeneralModels>>
     {
-        public UpdateVehicleCommand(int vehicleId, Vehicle vehicle)
+        public UpdateVehicleCommand(int vehicleId, VehicleDTO vehicle)
         {
             this.vehicleId = vehicleId;
             this.vehicle = vehicle;
-            this.vehicle.Id = vehicleId;
         }
 
         public int vehicleId { get; private set; }
-        public Vehicle vehicle { get; private set; }
+        public VehicleDTO vehicle { get; private set; }
     }
 }

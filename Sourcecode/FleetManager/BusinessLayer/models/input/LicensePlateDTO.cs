@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.models.input
 {
-    class LicensePlateDTO
+    public class LicensePlateDTO
     {
+        public string Plate { get; set; }
+        public bool IsActive { get; set; }
     }
 }

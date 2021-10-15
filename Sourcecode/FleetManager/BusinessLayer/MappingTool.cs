@@ -47,6 +47,9 @@ namespace BusinessLayer
             CreateMap<ExtraServiceDTO, ExtraService>();
             CreateMap<AuthenticationTypeDTO, AuthenticationType>();
             CreateMap<InvoiceDTO, Invoice>();
+            CreateMap<VehicleDTO, Vehicle>();
+            CreateMap<LicensePlateDTO, LicensePlate>();
+            CreateMap<KilometerHistoryDTO, KilometerHistory>();
 
         }
     }

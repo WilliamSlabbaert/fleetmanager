@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.models;
 using BusinessLayer.models.general;
+using BusinessLayer.models.input;
 using BusinessLayer.validators.response;
 using MediatR;
 using System;
@@ -12,13 +13,13 @@ namespace BusinessLayer.mediator.commands
 {
     public class AddKilometerHistoryCommand : IRequest<GenericResult<IGeneralModels>>
     {
-        public AddKilometerHistoryCommand(int vehicleId, KilometerHistory kilometer)
+        public AddKilometerHistoryCommand(int vehicleId, KilometerHistoryDTO kilometer)
         {
             _vehicleId = vehicleId;
             this.kilometer = kilometer;
         }
 
         public int _vehicleId { get; private set; }
-        public KilometerHistory kilometer { get; private set; }
+        public KilometerHistoryDTO kilometer { get; private set; }
     }
 }
