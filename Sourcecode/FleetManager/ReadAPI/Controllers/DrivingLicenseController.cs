@@ -58,7 +58,7 @@ namespace ReadAPI.Controllers
         }
         
         
-        [HttpGet("Drivinglicense/{id}/Chaffeurs")]
+        [HttpGet("Drivinglicense/{id}/Chaffeur")]
         public ActionResult<GenericResult<IGeneralModels>> GetFuelCardByIDChaffeur(int id)
         {
             try

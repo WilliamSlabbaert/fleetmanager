@@ -58,7 +58,7 @@ namespace WriteAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpPost("Vehicle/{id}/Licenseplates")]
+        [HttpPost("Vehicle/{id}/Licenseplate")]
         public async Task<ActionResult<GenericResult<IGeneralModels>>> AddLicenseplateToVehicle(int id, [FromBody] LicensePlateDTO licensePlate)
         {
             try
@@ -77,7 +77,7 @@ namespace WriteAPI.Controllers
             }
         }
         
-        [HttpPut("Vehicle/{id}/Licenseplates/{licenseId}")]
+        [HttpPut("Vehicle/{id}/Licenseplate/{licenseId}")]
         public async Task<ActionResult<GenericResult<IGeneralModels>>> PutLicenseplateToVehicle(int id, int licenseId, [FromBody] LicensePlateDTO licensePlate)
         {
             try

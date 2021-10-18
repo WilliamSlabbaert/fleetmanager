@@ -27,7 +27,6 @@ namespace ReadAPI.Controllers
         [HttpGet("Request")]
         public ActionResult<GenericResult<IGeneralModels>> GetAll([FromQuery] GenericParameter parameter)
         {
-            //_managerRequest.AddRequest(new Request(DateTime.Now,DateTime.Now,"test",Overall.RequestType.Fuelcard),2,1);
             try
             {
                 var temp = _managerRequest.GetAllRequestsPaging(parameter);
@@ -53,7 +52,7 @@ namespace ReadAPI.Controllers
                 return BadRequest(ex);
             }
         }
-        [HttpGet("Request/{id}/Maintenances")]
+        [HttpGet("Request/{id}/Maintenance")]
         public ActionResult<GenericResult<IGeneralModels>> GetByIdMaintenance(int id)
         {
             try
@@ -66,7 +65,7 @@ namespace ReadAPI.Controllers
                 return BadRequest(ex);
             }
         }
-        [HttpGet("Request/{id}/Repairments")]
+        [HttpGet("Request/{id}/Repairment")]
         public ActionResult<GenericResult<IGeneralModels>> GetByIdRepairments(int id)
         {
             try
@@ -105,34 +104,5 @@ namespace ReadAPI.Controllers
                 return BadRequest(ex);
             }
         }
-
-        /*
-        [HttpPost("Request")]
-        public ActionResult Add()
-        {
-            var result = _managerRequest.AddRequest(new Request(DateTime.Now, DateTime.Now, "test",Overall.RequestType.Fuelcard), 1, 1);
-
-            if(_managerRequest._errors.Count != 0)
-            {
-                return BadRequest(_managerRequest._errors);
-            }
-            else
-            {
-                return Ok(result);
-            }
-        }
-        [HttpPut("Request/{id}")]
-        public ActionResult Update(int id)
-        {
-            var result = _managerRequest.UpdateRequest(new Request(DateTime.Now, DateTime.Now, "test2", Overall.RequestType.Fuelcard),vehicleid: 1,chaffeurid: 2, id: id);
-            if (_managerRequest._errors.Count != 0)
-            {
-                return BadRequest(_managerRequest._errors);
-            }
-            else
-            {
-                return Ok(result);
-            }
-        }*/
     }
 }

@@ -47,7 +47,7 @@ namespace WriteAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpPost("Maintenance/{id}/Invoices")]
+        [HttpPost("Maintenance/{id}/Invoice")]
         public ActionResult<GenericResult<IGeneralModels>> AddInvoice(int id, [FromBody] InvoiceDTO invoice)
         {
             try
@@ -65,7 +65,7 @@ namespace WriteAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpDelete("Maintenance/{maintenanceId}/Invoices/{invoiceId}")]
+        [HttpDelete("Maintenance/{maintenanceId}/Invoice/{invoiceId}")]
         public ActionResult<GenericResult<IGeneralModels>> AddInvoice(int maintenanceId, int invoiceId)
         {
             try

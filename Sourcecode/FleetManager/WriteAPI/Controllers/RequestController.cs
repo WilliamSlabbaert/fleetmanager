@@ -48,7 +48,7 @@ namespace WriteAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpPost("Request/{id}/Maintenances")]
+        [HttpPost("Request/{id}/Maintenance")]
         public ActionResult<GenericResult<IGeneralModels>> AddMaintenance(int id, [FromBody] MaintenanceDTO maintenance)
         {
             try
@@ -66,7 +66,7 @@ namespace WriteAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpDelete("Request/{requestId}/Maintenances/{maintenanceId}")]
+        [HttpDelete("Request/{requestId}/Maintenance/{maintenanceId}")]
         public ActionResult<GenericResult<IGeneralModels>> DeleteMaintenance(int requestId, int maintenanceId)
         {
             try
@@ -85,7 +85,7 @@ namespace WriteAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpPost("Request/{id}/Repairments")]
+        [HttpPost("Request/{id}/Repairment")]
         public ActionResult<GenericResult<IGeneralModels>> AddRepair(int id, [FromBody] RepairmentDTO repairment)
         {
             try
@@ -103,7 +103,7 @@ namespace WriteAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpDelete("Request/{requestId}/Repairments/{repairmentId}")]
+        [HttpDelete("Request/{requestId}/Repairment/{repairmentId}")]
         public ActionResult<GenericResult<IGeneralModels>> AddRepair(int requestId,int repairmentId)
         {
             try

@@ -30,7 +30,6 @@ namespace ReadAPI.Controllers
         {
             try
             {
-                //_managerMaintenance.AddMaintenance(new Maintenance(DateTime.Now,123,"test"),1);
                 var temp = _managerMaintenance.GetAllMaintenancesPaging(parameter);
                 var metadata = _managerMaintenance.GetHeaders(parameter);
                 Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
@@ -70,7 +69,7 @@ namespace ReadAPI.Controllers
                 return BadRequest(ex);
             }
         }
-        [HttpGet("Maintenance/{id}/Invoices")]
+        [HttpGet("Maintenance/{id}/Invoice")]
         public ActionResult<GenericResult<IGeneralModels>> GetByIdInvoices(int id)
         {
             try
@@ -83,64 +82,5 @@ namespace ReadAPI.Controllers
                 return BadRequest(ex);
             }
         }
-        /*
-        [HttpPost("Maintenance")]
-        public ActionResult Add()
-        {
-            try
-            {
-                var temp = new Maintenance(DateTime.Now, 123, "testGarage");
-                if (_managerMaintenance.ValidateMaintance(temp) == false)
-                {
-                    return BadRequest(_managerMaintenance._errors);
-                }
-                else
-                {
-                    var result = _managerMaintenance.AddMaintenance(temp, 1);
-                    return Ok(result);
-                }
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
-            }
-        }
-
-        [HttpPut("Maintenance/{id}/Request/{requestId}")]
-        public ActionResult<Request> UpdateMaintenance(int id, int requestId)
-        {
-            try
-            {
-                var vh = _managerMaintenance.GetMaintenanceById(id);
-                if (vh == null)
-                {
-                    return NotFound("This Maintenance doesn't exist");
-                }
-                else
-                {
-                    var rq = _managerRequest.GetRequestById(requestId);
-                    if(rq == null)
-                    {
-                        return NotFound("This request doesn't exist");
-                    }
-                    else
-                    {
-                        var temp = new Maintenance(DateTime.Now, 123, "testGarage2");
-                        if (_managerMaintenance.ValidateMaintance(temp) == false)
-                        {
-                            return BadRequest(_managerMaintenance._errors);
-                        }
-                        else{
-                            var result = _managerMaintenance.UpdateMaintenance(temp,maintenanceId: id,requestId: requestId);
-                            return Ok(result);
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
-            }
-        }*/
     }
 }

@@ -55,7 +55,7 @@ namespace ReadAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpGet("{chaffeurId}/Vehicles")]
+        [HttpGet("{chaffeurId}/Vehicle")]
         public ActionResult<GenericResult<IGeneralModels>> GetallVehiclesById(int chaffeurId)
         {
             try
@@ -68,7 +68,7 @@ namespace ReadAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpGet("{chaffeurId}/Fuelcards")]
+        [HttpGet("{chaffeurId}/Fuelcard")]
         public ActionResult<GenericResult<IGeneralModels>> GetallFuelCards(int chaffeurId)
         {
             try
@@ -81,7 +81,7 @@ namespace ReadAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpGet("{chaffeurId}/Requests")]
+        [HttpGet("{chaffeurId}/Request")]
         public ActionResult<GenericResult<IGeneralModels>> GetallRequests(int chaffeurId)
         {
             try
@@ -94,7 +94,7 @@ namespace ReadAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpGet("{chaffeurId}/Drivinglicenses")]
+        [HttpGet("{chaffeurId}/Drivinglicense")]
         public ActionResult<GenericResult<IGeneralModels>> GetallDrivingLicensesById(int chaffeurId)
         {
             try

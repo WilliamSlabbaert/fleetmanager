@@ -67,55 +67,5 @@ namespace ReadAPI.Controllers
                 return BadRequest(ex);
             }
         }
-        /*
-        [HttpPost("Repairment")]
-        public ActionResult Add()
-        {
-            try
-            {
-                var temp = _managerRepairment.AddRepairment(new Repairment(DateTime.Now, "testdes", "testcomp"), 1);
-                if (_managerRepairment._errors.Count != 0)
-                {
-                    return BadRequest(_managerRepairment._errors);
-                }
-                else
-                {
-                    return Ok(temp);
-                }
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
-            }
-        }
-        [HttpPut("Repairment/{id}/Request/{requestId}")]
-        public ActionResult<Repairment> UpdateById(int id, int requestId)
-        {
-            try
-            {
-                var vh = _managerRepairment.GetRepairmentById(id);
-                if (vh == null)
-                {
-                    return NotFound("This repairment doesn't exist");
-                }
-                else
-                {
-                    var req = _managerRequest.GetRequestById(requestId);
-                    if (req == null)
-                    {
-                        return NotFound("This request doesn't exist");
-                    }
-                    else
-                    {
-                        var result = _managerRepairment.UpdateRepairment(new Repairment(DateTime.Now, "test222", "comcom"), requestId,id);
-                        return Ok(result);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
-            }
-        }*/
     }
 }

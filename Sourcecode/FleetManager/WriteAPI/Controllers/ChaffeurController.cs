@@ -67,7 +67,7 @@ namespace WriteAPI.Controllers
             }
         }
 
-        [HttpPost("{chaffeurId}/Vehicles/{vehicleId}")]
+        [HttpPost("{chaffeurId}/Vehicle/{vehicleId}")]
         public ActionResult<GenericResult<IGeneralModels>> AddVehicleToChaffeur(int chaffeurId, int vehicleId)
         {
             try
@@ -87,7 +87,7 @@ namespace WriteAPI.Controllers
                 return BadRequest(ex);
             }
         }
-        [HttpPatch("{chaffeurId}/Vehicles/{vehicleId}")]
+        [HttpPatch("{chaffeurId}/Vehicle/{vehicleId}")]
         public ActionResult<GenericResult<IGeneralModels>> UpdateVehicleToChaffeur(int chaffeurId, int vehicleId, [FromBody] bool activity)
         {
             try
@@ -107,7 +107,7 @@ namespace WriteAPI.Controllers
             }
         }
         
-        [HttpPost("{chaffeurId}/Drivinglicenses")]
+        [HttpPost("{chaffeurId}/Drivinglicense")]
         public ActionResult<GenericResult<IGeneralModels>> AddDrivinglicense(int chaffeurId, [FromBody] DrivingLicenseDTO drivingLicense)
         {
             try
@@ -126,7 +126,7 @@ namespace WriteAPI.Controllers
             }
         }
 
-        [HttpDelete("{chaffeurId}/Drivinglicenses/{drivinglicenseId}")]
+        [HttpDelete("{chaffeurId}/Drivinglicense/{drivinglicenseId}")]
         public ActionResult<GenericResult<IGeneralModels>> DeleteDrivinglicensesByID(int chaffeurId, int drivinglicenseId)
         {
             try
@@ -146,7 +146,7 @@ namespace WriteAPI.Controllers
             }
         }
 
-        [HttpPost("{chaffeurId}/FuelCards/{fuelcardId}")]
+        [HttpPost("{chaffeurId}/FuelCard/{fuelcardId}")]
         public ActionResult<GenericResult<IGeneralModels>> AddFuelCard(int chaffeurId, int fuelcardId)
         {
             try
@@ -165,7 +165,7 @@ namespace WriteAPI.Controllers
                 return BadRequest(e);
             }
         }
-        [HttpPatch("{chaffeurId}/FuelCards/{fuelcardId}")]
+        [HttpPatch("{chaffeurId}/FuelCard/{fuelcardId}")]
         public ActionResult<GenericResult<IGeneralModels>> UpdateFuelCardActivity(int chaffeurId, int fuelcardId, [FromBody] bool activity)
         {
             try
@@ -184,7 +184,7 @@ namespace WriteAPI.Controllers
                 return BadRequest(e);
             }
         }
-        [HttpPost("{chaffeurId}/Vehicles/{vehicleId}/Requests")]
+        [HttpPost("{chaffeurId}/Vehicle/{vehicleId}/Requests")]
         public ActionResult<GenericResult<IGeneralModels>> AddRequest(int chaffeurId, int vehicleId, [FromBody] RequestDTO request)
         {
             try
