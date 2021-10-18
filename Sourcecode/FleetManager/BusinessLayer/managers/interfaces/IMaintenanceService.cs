@@ -24,6 +24,5 @@ namespace BusinessLayer.managers.interfaces
         public GenericResult<IGeneralModels> UpdateMaintenance(int maintenanceid, MaintenanceDTO maintenance);
         public GenericResult<IGeneralModels> AddInvoice(int maintenanceId, InvoiceDTO invoice);
         public GenericResult<IGeneralModels> DeleteInvoice(int maintenanceId, int invoiceId);
-        public bool ValidateMaintance(Maintenance maintenance);
     }
 }

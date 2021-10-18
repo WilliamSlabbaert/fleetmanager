@@ -25,14 +25,12 @@ namespace BusinessLayer.managers
         private readonly IGenericRepo<RequestEntity> _rqrepo;
         private readonly IGenericRepo<MaintenanceEntity> _repo;
         private readonly IMapper _mapper;
-        private readonly IValidator<Maintenance> _validator;
         private IMediator _mediator;
-        public MaintenanceService(IGenericRepo<RequestEntity> rqrepo, IMapper mapper, IGenericRepo<MaintenanceEntity> repo, IValidator<Maintenance> validator,IMediator mediator)
+        public MaintenanceService(IGenericRepo<RequestEntity> rqrepo, IMapper mapper, IGenericRepo<MaintenanceEntity> repo,IMediator mediator)
         {
             this._repo = repo;
             this._rqrepo = rqrepo;
             this._mapper = mapper;
-            this._validator = validator;
             this._mediator = mediator;
         }
         public GenericResult<IGeneralModels> AddMaintenance(MaintenanceDTO maintenance, int requestId)
@@ -46,16 +44,6 @@ namespace BusinessLayer.managers
             var respond = new GenericResult<IGeneralModels>() { ReturnValue = _mapper.Map<Request>(rq), Message = "Ok" };
             respond.SetStatusCode(Overall.ResponseType.OK);
             return respond;
-        }
-        public bool ValidateMaintance(Maintenance maintenance)
-        {
-            var results = _validator.Validate(maintenance);
-            if (results.IsValid == false)
-            {
-                _errors = _mapper.Map<List<GenericResponse>>(results.Errors);
-                return false;
-            }
-            return true;
         }
         public GenericResult<IGeneralModels> DeleteMaintenance(int requestid, int maintenanceid)
         {

@@ -17,6 +17,5 @@ namespace BusinessLayer.managers.interfaces
         public void AddVehicle(Vehicle ch);
         public void UpdateVehicle(Vehicle ch);
         public List<Vehicle> GetAllVehicles();
-        public List<GenericResponse> _errors { get; set; }
     }
 }

@@ -22,7 +22,6 @@ namespace BusinessLayer.managers.interfaces
         public GenericResult<IGeneralModels> GetChaffeurFuelcards(int chaffeurId);
         public GenericResult<IGeneralModels> GetChaffeurDrivingLicenses(int chaffeurId);
         public GenericResult<IGeneralModels> GetAllChaffeursPaging(GenericParameter parameters);
-        public FuelCard GetFuelcardFromChaffeur(Chaffeur chaffeur, int fuelcardId);
         public GenericResult<IGeneralModels> AddChaffeur(ChaffeurDTO ch);
         public GenericResult<IGeneralModels> UpdateVehicleToChaffeur(int chaffeurNr, int vehicleNr, bool active);
         public GenericResult<IGeneralModels> UpdateChaffeur(ChaffeurDTO ch, int id);

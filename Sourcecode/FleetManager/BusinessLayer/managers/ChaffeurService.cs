@@ -81,15 +81,6 @@ namespace BusinessLayer.managers
             var value = temp == null ? null : _mapper.Map<Chaffeur>(temp);
             return CreateResult(temp == null, value);
         }
-        public FuelCard GetFuelcardFromChaffeur(Chaffeur chaffeur, int fuelcardId)
-        {
-            var result = chaffeur.ChaffeurFuelCards.FirstOrDefault(s => s.FuelCard.Id == fuelcardId);
-            if (result == null)
-            {
-                throw new Exception("FuelCard not found in chaffeurs list.");
-            }
-            return result.FuelCard;
-        }
 
         public GenericResult<IGeneralModels> UpdateChaffeur(ChaffeurDTO ch, int id)
         {
