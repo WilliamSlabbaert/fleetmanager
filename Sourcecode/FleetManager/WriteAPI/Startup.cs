@@ -34,7 +34,7 @@ namespace WriteAPI
             services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<VehicleValidator>());
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ReadAPI", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "WriteAPI", Version = "v1" });
             });
             services.AddBLLService(connect: @"Data Source=DESKTOP-2KEN9DG;Initial Catalog=FleetManagerTest;Integrated Security=True");
             services.AddControllersWithViews()

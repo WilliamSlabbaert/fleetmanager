@@ -26,18 +26,15 @@ namespace BusinessLayer.managers
         private readonly IGenericRepo<ChaffeurEntity> _chrepo;
         private readonly IGenericRepo<VehicleEntity> _vhrepo;
         private readonly IMapper _mapper;
-        private readonly IValidator<Request> _validator;
         private IMediator _mediator;
         public List<GenericResponse> _errors { get; set; }
-        public RequestService(IGenericRepo<RequestEntity> repo, IMapper mapper, IGenericRepo<ChaffeurEntity> chrepo, IGenericRepo<VehicleEntity> vhrepo, IValidator<Request> validator, IMediator mediator)
+        public RequestService(IGenericRepo<RequestEntity> repo, IMapper mapper, IGenericRepo<ChaffeurEntity> chrepo, IGenericRepo<VehicleEntity> vhrepo, IMediator mediator)
         {
             this._repo = repo;
             this._mapper = mapper;
             this._chrepo = chrepo;
             this._vhrepo = vhrepo;
-            this._validator = validator;
             this._mediator = mediator;
-            _errors = new List<GenericResponse>();
         }
         public GenericResult<IGeneralModels> AddRequest(RequestDTO request, int chaffeurId, int vehicleId)
         {

@@ -26,14 +26,12 @@ namespace BusinessLayer.managers
         private readonly IGenericRepo<ChaffeurEntity> _chrepo;
         private readonly IMapper _mapper;
         private IMediator _mediator;
-        public List<GenericResponse> _errors { get; set; }
         public FuelCardService(IGenericRepo<FuelCardEntity> repo, IMapper mapper, IGenericRepo<ChaffeurEntity> chrepo,IMediator mediator)
         {
             this._repo = repo;
             this._mapper = mapper;
             this._chrepo = chrepo;
             this._mediator = mediator;
-            _errors = new List<GenericResponse>();
         }
 
         public GenericResult<IGeneralModels> AddFuelCard(FuelCardDTO fc)

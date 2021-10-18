@@ -13,7 +13,6 @@ namespace BusinessLayer.managers.interfaces
 {
     public interface IRepairmentService
     {
-        public List<GenericResponse> _errors { get; set; }
         public object GetHeaders(GenericParameter parameters);
         public GenericResult<IGeneralModels> GetAllRepairments();
         public GenericResult<IGeneralModels> GetRepairmentById(int id);

@@ -13,7 +13,6 @@ namespace BusinessLayer.managers.interfaces
 {
     public interface IFuelCardService
     {
-        public List<GenericResponse> _errors { get; set; }
         public object GetHeaders(GenericParameter parameters);
         public GenericResult<IGeneralModels> GetFuelCardById(int id);
         public GenericResult<IGeneralModels> GetAllFuelCards();

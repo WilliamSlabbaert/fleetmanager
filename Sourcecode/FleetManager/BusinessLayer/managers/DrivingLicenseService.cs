@@ -25,17 +25,13 @@ namespace BusinessLayer.managers
         private readonly IGenericRepo<DrivingLicenseEntity> _repo;
         private readonly IGenericRepo<ChaffeurEntity> _chrepo;
         private readonly IMapper _mapper;
-        private readonly IValidator<DrivingLicense> _validator;
         private IMediator _mediator;
-        public List<GenericResponse> _errors { get; set; }
-        public DrivingLicenseService(IGenericRepo<DrivingLicenseEntity> repo, IMapper mapper, IGenericRepo<ChaffeurEntity> chrepo, IValidator<DrivingLicense> validator, IMediator mediator)
+        public DrivingLicenseService(IGenericRepo<DrivingLicenseEntity> repo, IMapper mapper, IGenericRepo<ChaffeurEntity> chrepo, IMediator mediator)
         {
             this._repo = repo;
             this._mapper = mapper;
             this._chrepo = chrepo;
-            this._validator = validator;
             this._mediator = mediator;
-            _errors = new List<GenericResponse>();
         }
         public GenericResult<IGeneralModels> AddDrivingLicense(DrivingLicenseDTO drivinglicense, int chaffeurid)
         {

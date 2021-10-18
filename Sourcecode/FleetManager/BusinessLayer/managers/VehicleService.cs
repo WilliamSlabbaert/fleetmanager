@@ -21,31 +21,18 @@ namespace BusinessLayer.managers
     {
         private readonly IGenericRepo<VehicleEntity> _vehicleRepo;
         private readonly IMapper _mapper;
-        private readonly IValidator<Vehicle> _validator;
         private IMediator _mediator;
-        public List<GenericResponse> _errors { get; set; }
 
         public VehicleService(IGenericRepo<VehicleEntity> vehicleRepo, IMapper mapper, IValidator<Vehicle> validator, IMediator mediator)
         {
             _vehicleRepo = vehicleRepo;
             _mapper = mapper;
-            _validator = validator;
-            _errors = new List<GenericResponse>();
             _mediator = mediator;
         }
 
         public void AddVehicle(Vehicle ch)
         {
-            var results = _validator.Validate(ch);
-            if(results.IsValid == false)
-            {
-                _errors = _mapper.Map<List<GenericResponse>>(results.Errors);
-            }
-            else
-            {
-                _vehicleRepo.AddEntity(_mapper.Map<VehicleEntity>(ch));
-                _vehicleRepo.Save();
-            }
+
         }
 
         public Vehicle GetVehicleById(int id)

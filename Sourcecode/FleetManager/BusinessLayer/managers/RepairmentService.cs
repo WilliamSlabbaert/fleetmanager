@@ -25,16 +25,12 @@ namespace BusinessLayer.managers
         private readonly IGenericRepo<RequestEntity> _rqrepo;
         private readonly IGenericRepo<RepairmentEntity> _repo;
         private readonly IMapper _mapper;
-        private readonly IValidator<Repairment> _validator;
         private IMediator _mediator;
-        public List<GenericResponse> _errors { get; set; }
-        public RepairmentService(IGenericRepo<RequestEntity> rqrepo, IMapper mapper, IGenericRepo<RepairmentEntity> repo, IValidator<Repairment> validator, IMediator mediator)
+        public RepairmentService(IGenericRepo<RequestEntity> rqrepo, IMapper mapper, IGenericRepo<RepairmentEntity> repo, IMediator mediator)
         {
             this._repo = repo;
             this._rqrepo = rqrepo;
             this._mapper = mapper;
-            this._validator = validator;
-            this._errors = new List<GenericResponse>();
             this._mediator = mediator;
         }
         public GenericResult<IGeneralModels> AddRepairment(RepairmentDTO repairment, int requestId)

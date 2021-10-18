@@ -13,7 +13,6 @@ namespace BusinessLayer.managers.interfaces
 {
     public interface IRequestService
     {
-        public List<GenericResponse> _errors { get; set; }
         public object GetHeaders(GenericParameter parameters);
         public GenericResult<IGeneralModels> GetRequestById(int id);
         public GenericResult<IGeneralModels> GetRequestChaffeur(int id);

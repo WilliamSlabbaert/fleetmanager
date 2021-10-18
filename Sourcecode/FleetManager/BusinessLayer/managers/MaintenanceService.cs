@@ -27,7 +27,6 @@ namespace BusinessLayer.managers
         private readonly IMapper _mapper;
         private readonly IValidator<Maintenance> _validator;
         private IMediator _mediator;
-        public List<GenericResponse> _errors { get; set; }
         public MaintenanceService(IGenericRepo<RequestEntity> rqrepo, IMapper mapper, IGenericRepo<MaintenanceEntity> repo, IValidator<Maintenance> validator,IMediator mediator)
         {
             this._repo = repo;
@@ -35,7 +34,6 @@ namespace BusinessLayer.managers
             this._mapper = mapper;
             this._validator = validator;
             this._mediator = mediator;
-            this._errors = new List<GenericResponse>();
         }
         public GenericResult<IGeneralModels> AddMaintenance(MaintenanceDTO maintenance, int requestId)
         {

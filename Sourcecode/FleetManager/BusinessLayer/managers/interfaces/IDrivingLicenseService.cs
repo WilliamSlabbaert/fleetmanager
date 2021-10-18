@@ -13,7 +13,6 @@ namespace BusinessLayer.managers.interfaces
 {
     public interface IDrivingLicenseService
     {
-        public List<GenericResponse> _errors { get; set; }
         public GenericResult<IGeneralModels> GetAllDrivingLicenseById(int id);
         public GenericResult<IGeneralModels> GetAllDrivingLicenses();
         public GenericResult<IGeneralModels> GetAllDrivingLicensesPaging(GenericParameter parameters);
