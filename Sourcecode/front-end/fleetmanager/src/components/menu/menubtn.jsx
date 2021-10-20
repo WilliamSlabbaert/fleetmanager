@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import './style/menubtn.css';
 import MenuIcon from './style/Hamburger_icon.svg.png'
 import CarIcon from './style/car_icon.png'
@@ -7,9 +7,10 @@ import RequestIcon from './style/request_icon.png'
 import UserIcon from './style/user_icon.png'
 import OffIcon from './style/logout_icon.png'
 import ReactTooltip from 'react-tooltip';
+import { AppContext } from '../app/appcontext';
 
 const MenuBtn = () => {
-    const [menuName, setMenuName] = useState(["menuBtn", "menuList"]);
+    const {menuName, setMenuName} = useContext(AppContext)
 
     const HandelClick = () => {
         if (menuName[0] === "menuBtn") {
