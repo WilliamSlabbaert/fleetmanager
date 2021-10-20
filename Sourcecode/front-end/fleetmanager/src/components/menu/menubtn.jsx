@@ -7,11 +7,8 @@ import RequestIcon from './style/request_icon.png'
 import UserIcon from './style/user_icon.png'
 import OffIcon from './style/logout_icon.png'
 import ReactTooltip from 'react-tooltip';
-import { AppContext } from '../app/appcontext';
-import {
-    BrowserRouter as Router,
-    Link
-} from "react-router-dom";
+import { AppContext } from '../context/appcontext/appcontext.jsx';
+import {Link} from "react-router-dom";
 
 const MenuBtn = () => {
     const { menuName, setMenuName } = useContext(AppContext)
@@ -26,7 +23,6 @@ const MenuBtn = () => {
 
     return (
         <div>
-            <Router>
                 <ReactTooltip />
                 <div onClick={HandelClick} className={menuName[0]}>
                     <img src={MenuIcon} alt="Hamburger icon" style={{ "width": "50px" }} />
@@ -56,7 +52,6 @@ const MenuBtn = () => {
                         <img data-tip="Logout" src={OffIcon} alt="Logout" style={{ "width": "50px" }} />
                     </div>
                 </div>
-            </Router>
         </div>
     )
 }

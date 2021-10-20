@@ -1,0 +1,29 @@
+.carPage-active
+{
+    position: absolute;
+    top: 0;
+    left:0;
+    right:0;
+    bottom:0;
+    width: 75%;
+    height: 75%;
+    background: rgb(25,53,105);
+    background: linear-gradient(0deg, rgba(25,53,105,1) 0%, rgba(66,95,218,1) 100%); 
+    transition: 0.6s;
+    margin: auto;
+    border-radius: 50Px;
+}
+.carPage-notactive
+{
+    position: absolute;
+    top: 0;
+    left:0;
+    right:0;
+    bottom:0;
+    width: 0%;
+    height: 0%;
+    background: rgb(25,53,105);
+    background: linear-gradient(0deg, rgba(25,53,105,1) 0%, rgba(66,95,218,1) 100%); 
+    transition: 0.6s;
+    border-radius: 50Px;
+}
