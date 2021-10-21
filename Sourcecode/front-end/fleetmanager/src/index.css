@@ -15,5 +15,5 @@ html{
   background-attachment: fixed;
   background-repeat: no-repeat;
   height: 100%;
-  background:rgb(0,60,171);
- }
+  background: rgb(221,221,221);
+  background: linear-gradient(318deg, rgba(221,221,221,1) 0%, rgba(232,235,231,1) 100%); }

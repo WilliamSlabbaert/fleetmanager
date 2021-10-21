@@ -1,6 +1,5 @@
 .menuBtn{
-    background: rgb(25,53,105);
-    background: linear-gradient(0deg, rgba(25,53,105,1) 0%, rgba(66,95,218,1) 100%); 
+    background: white;
     height: 70px;
     border-radius: 0px 5px 5px 0px;
     text-align: center;
@@ -17,7 +16,7 @@
     filter:brightness(120%);
 }
 .menuBtn:hover img{
-    filter:invert(100%);
+    filter:invert(46%) sepia(90%) saturate(1559%) hue-rotate(160deg) brightness(92%) contrast(101%);
 }
 .menuBtn-active:hover img{
     filter:invert(100%);
@@ -49,8 +48,7 @@
     position: absolute;
 }
 .menuList-active{
-    background: rgb(25,53,105);
-    background: linear-gradient(0deg, rgba(25,53,105,1) 0%, rgba(66,95,218,1) 100%); 
+    background: white;
     width: 70px;
     height: 100%;
     z-index: 49;
@@ -60,8 +58,7 @@
     position: absolute;
 }
 .menuList-notactive{
-    background: rgb(25,53,105);
-    background: linear-gradient(0deg, rgba(25,53,105,1) 0%, rgba(66,95,218,1) 100%); 
+    background: white;
     text-align: center;
     height: 100%;
     width: 0px;
@@ -105,7 +102,8 @@
     transition: 0.4s;
 }
 .menuItem:hover{
-    filter:invert(100%);
+    filter:invert(46%) sepia(90%) saturate(1559%) hue-rotate(160deg) brightness(92%) contrast(101%);
+
 }
 .logout:hover{
     filter: invert(50%) sepia(85%) saturate(4495%) hue-rotate(337deg) brightness(98%) contrast(106%)
