@@ -29,22 +29,22 @@ const MenuBtn = () => {
                 </div>
                 <div className={menuName[1]}>
                     <div className="menuItem" style={{ "marginTop": "5px" }}>
-                        <Link to="/carpage"  style={{ "display": "contents" }}>
+                        <Link to="/Carpage"  style={{ "display": "contents" }}>
                             <img data-tip="Car list" src={CarIcon} alt="Car list" style={{ "width": "50px" }} />
                         </Link>
                     </div>
                     <div className="menuItem" style={{ "marginTop": "70px" }}>
-                        <Link to="/fuelcardpage"  style={{ "display": "contents" }}>
+                        <Link to="/Fuelcardpage"  style={{ "display": "contents" }}>
                             <img data-tip="Fuelcard list" src={FuelcardIcon} alt="Fuel card list" style={{ "width": "50px" }} />
                         </Link>
                     </div>
                     <div className="menuItem" style={{ "marginTop": "145px" }}>
-                        <Link to="/requestpage"  style={{ "display": "contents" }}>
+                        <Link to="/Requestpage"  style={{ "display": "contents" }}>
                             <img data-tip="Request list" src={RequestIcon} alt="Request list" style={{ "width": "50px" }} />
                         </Link>
                     </div>
                     <div className="menuItem" style={{ "marginTop": "215px" }}>
-                        <Link to="/userpage"  style={{ "display": "contents" }}>
+                        <Link to="/Userpage"  style={{ "display": "contents" }}>
                             <img data-tip="User list" src={UserIcon} alt="User list" style={{ "width": "50px" }} />
                         </Link>
                     </div>

@@ -4,6 +4,7 @@ import React from 'react';
 import { AppProvider } from '../context/appcontext/appcontext.jsx';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import CarPage from '../carpage/carpage.jsx';
+import GeneralPage from '../generalpage/generalpage.jsx';
 
 const App = () => {
 
@@ -13,8 +14,8 @@ const App = () => {
         <div className="App">
           <MenuBtn />
           <Switch>
-            <Route path="/carpage">
-              <CarPage />
+            <Route path="/Carpage" exact>
+              <GeneralPage />
             </Route>
           </Switch>
         </div>
