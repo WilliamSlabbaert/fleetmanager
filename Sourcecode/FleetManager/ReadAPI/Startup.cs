@@ -69,7 +69,15 @@ namespace ReadAPI
             app.UseHttpsRedirection();
 
             app.UseRouting();
-            app.UseCors("MyPolicy");
+            app.UseCors(builder =>
+            {
+                builder.WithOrigins("http://localhost:3000");
+                builder.AllowAnyHeader();
+                builder.WithExposedHeaders("X-Pagination");
+                builder.AllowAnyMethod();
+                builder.AllowCredentials();
+                builder.Build();
+            });
 
 
             app.UseAuthorization();

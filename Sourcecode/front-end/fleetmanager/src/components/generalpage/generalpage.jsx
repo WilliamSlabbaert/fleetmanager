@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import React, { useEffect, useState } from 'react'
+import {  Route } from "react-router-dom";
 import CarPage from '../carpage/carpage';
 
 import "./style/generalpage.css";
@@ -10,7 +10,7 @@ const GeneralPage = () => {
     useEffect(() => {
         setTimeout(() => {
             setPageName("Page-active");
-        }, 50)
+        }, 50);
     }, []);
 
     return (

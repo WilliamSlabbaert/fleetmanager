@@ -3,7 +3,6 @@ import "./style/app.css";
 import React from 'react';
 import { AppProvider } from '../context/appcontext/appcontext.jsx';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import CarPage from '../carpage/carpage.jsx';
 import GeneralPage from '../generalpage/generalpage.jsx';
 
 const App = () => {
@@ -14,9 +13,10 @@ const App = () => {
         <div className="App">
           <MenuBtn />
           <Switch>
-            <Route path="/Carpage" exact>
-              <GeneralPage />
-            </Route>
+            <Route exact path="/Carpage" component={() => <GeneralPage />} />
+            <Route exact path="/Fuelcardpage" component={() => <GeneralPage />} />
+            <Route exact path="/Requestpage" component={() => <GeneralPage />} />
+            <Route exact path="/Userpage" component={() => <GeneralPage />} />
           </Switch>
         </div>
       </Router>
