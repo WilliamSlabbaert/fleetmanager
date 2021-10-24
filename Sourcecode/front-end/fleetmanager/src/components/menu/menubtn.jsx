@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext , useRef} from 'react';
 import './style/menubtn.css';
 import MenuIcon from './style/Hamburger_icon.svg.png'
 import CarIcon from './style/car_icon.png'
@@ -12,9 +12,10 @@ import {Link} from "react-router-dom";
 
 const MenuBtn = () => {
     const { menuName, setMenuName } = useContext(AppContext)
+    const menuRef = useRef();
 
     const HandelClick = () => {
-        if (menuName[0] === "menuBtn") {
+        if (menuRef.current.className === "menuBtn") {
             setMenuName(["menuBtn-active", "menuList-active"])
         } else {
             setMenuName(["menuBtn", "menuList-notactive"])
@@ -24,7 +25,7 @@ const MenuBtn = () => {
     return (
         <div>
                 <ReactTooltip />
-                <div onClick={HandelClick} className={menuName[0]}>
+                <div onClick={HandelClick} ref={menuRef} className={menuName[0]}>
                     <img src={MenuIcon} alt="Hamburger icon" style={{ "width": "50px" }} />
                 </div>
                 <div className={menuName[1]}>

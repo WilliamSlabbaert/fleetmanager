@@ -14,6 +14,7 @@ const App = () => {
           <MenuBtn />
           <Switch>
             <Route exact path="/Carpage" component={() => <GeneralPage />} />
+            <Route exact path="/Carpage/:id" component={() => <GeneralPage />} />
             <Route exact path="/Fuelcardpage" component={() => <GeneralPage />} />
             <Route exact path="/Requestpage" component={() => <GeneralPage />} />
             <Route exact path="/Userpage" component={() => <GeneralPage />} />

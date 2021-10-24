@@ -2,13 +2,21 @@ import React, { useEffect, useContext, useState } from "react";
 import { AppContext } from "../context/appcontext/appcontext";
 import axios from "axios";
 import DataTable from "react-data-table-component";
+import { Link } from "react-router-dom";
+import { Button } from 'react-bootstrap';
 
 import "./style/carpage.css"
 
 const columns = [
     {
         name: '',
-        cell: row => <button height="30px" width="30px" href={row.id}>EDIT</button>,
+        cell: row => {
+            const temp = '/Carpage/' + row.id;
+            return (
+                <Link to={temp}>
+                    <Button  variant="dark" height="30px" width="30px">EDIT</Button>
+                </Link>)
+        }
     },
     {
         name: 'Chassis',
@@ -29,6 +37,10 @@ const columns = [
     {
         name: 'Fueltype',
         selector: row => row.fuelType
+    },
+    {
+        name: 'Build date',
+        selector: row => row.buildDate
     }
 ];
 
@@ -55,16 +67,12 @@ const CarPage = () => {
             }).catch(err => {
                 setCars({});
             });
-
-        fetch(`https://localhost:44346/Vehicle?PageNumber=${page}&PageSize=${countPerPage}`)
-            .then(res => {
-            });
     }
 
     return (
         <div className="carpage">
             <DataTable
-                title="Employees"
+                title="Cars"
                 columns={columns}
                 data={cars.returnValue}
                 highlightOnHover
