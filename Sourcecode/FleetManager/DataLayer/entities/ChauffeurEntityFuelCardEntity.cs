@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DataLayer.entities
 {
-    public class ChauffeurEntityFuelCardEntity : IGeneralEntities
+    public class ChauffeurEntityFuelCardEntity
     {
         public ChauffeurEntityFuelCardEntity()
         {

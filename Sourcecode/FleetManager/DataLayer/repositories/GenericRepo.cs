@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace DataLayer.repositories
 {
-    public class GenericRepo<T> : IGenericRepo<T> where T : class , IGeneralWithIDEntities
+    public class GenericRepo<T> : IGenericRepo<T> where T : GeneralEntities
     {
         private FleetManagerContext _context = null;
         private DbSet<T> _table = null;

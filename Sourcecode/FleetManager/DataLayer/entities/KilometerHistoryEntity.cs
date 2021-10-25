@@ -8,10 +8,9 @@ using System.Threading.Tasks;
 
 namespace DataLayer.entities
 {
-    public class KilometerHistoryEntity : IGeneralWithIDEntities
+    public class KilometerHistoryEntity : GeneralEntities
     {
-        //[Key]
-        public int Id { get; set; }
+
         public double Kilometers { get; set; }
         public DateTime Date { get; set; }
         public int VehicleId { get; set; }

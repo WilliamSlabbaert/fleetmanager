@@ -8,14 +8,13 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.models
 {
-    public class ExtraService : IGeneralModels
+    public class ExtraService : GeneralModels
     {
         public ExtraService(ExtraServices service)
         {
             Service = service;
         }
 
-        public int Id { get; set; }
         public ExtraServices Service { get; set; }
         public int FuelCardId { get; set; }
         public FuelCard FuelCard { get; set; }

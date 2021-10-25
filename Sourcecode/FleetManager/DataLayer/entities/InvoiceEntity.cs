@@ -8,10 +8,9 @@ using System.Threading.Tasks;
 
 namespace DataLayer.entities
 {
-    public class InvoiceEntity : IGeneralWithIDEntities
+    public class InvoiceEntity : GeneralEntities
     {
-        [Key]
-        public int Id { get; set; }
+
         public string InvoiceImage { get; set; }
         public int MaintenanceId { get; set; }
         public MaintenanceEntity Maintenance { get; set; }

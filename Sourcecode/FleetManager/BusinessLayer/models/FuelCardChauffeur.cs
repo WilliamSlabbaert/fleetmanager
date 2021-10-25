@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.models
 {
-    public class FuelCardChaffeur : IGeneralModels
+    public class FuelCardChauffeur
     {
         public int ChaffeurId { get; set; }
-        public Chaffeur Chaffeur { get; set; }
+        public Chauffeur Chaffeur { get; set; }
         public int FuelCardId { get; set; }
         public FuelCard FuelCard { get; set; }
         public bool IsActive { get; set; }
 
-        public FuelCardChaffeur(Chaffeur chaffeur, FuelCard fuelCard, bool isActive)
+        public FuelCardChauffeur(Chauffeur chaffeur, FuelCard fuelCard, bool isActive)
         {
             Chaffeur = chaffeur;
             FuelCard = fuelCard;

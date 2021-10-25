@@ -8,10 +8,9 @@ using System.Threading.Tasks;
 
 namespace DataLayer.entities
 {
-    public class RepairmentEntity : IGeneralWithIDEntities
+    public class RepairmentEntity : GeneralEntities
     {
-        [Key]
-        public int Id { get; set; }
+
         public DateTime Date { get; set; }
         public string Description { get; set; }
         public string Company { get; set; }

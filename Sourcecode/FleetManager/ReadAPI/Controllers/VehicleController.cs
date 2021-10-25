@@ -63,7 +63,7 @@ namespace ReadAPI.Controllers
         {
             try
             {
-                var temp = _mediator.Send(new GetVehicleChaffeursQuery(id));
+                var temp = _mediator.Send(new GetVehicleChauffeursQuery(id));
                 return (temp.Result.StatusCode == 200) ? Ok(temp.Result) : NotFound(temp.Result);
             }
             catch (Exception ex)

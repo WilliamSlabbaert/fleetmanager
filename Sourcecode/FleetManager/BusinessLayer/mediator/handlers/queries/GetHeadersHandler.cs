@@ -12,12 +12,12 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.mediator.handlers.queries
 {
-    public class GetHeadersHandler : IRequestHandler<GetHeadersQuery, PagedList<IGeneralWithIDEntities>>
+    public class GetHeadersHandler : IRequestHandler<GetHeadersQuery, PagedList<GeneralEntities>>
     {
-        public Task<PagedList<IGeneralWithIDEntities>> Handle(GetHeadersQuery request, CancellationToken cancellationToken)
+        public Task<PagedList<GeneralEntities>> Handle(GetHeadersQuery request, CancellationToken cancellationToken)
         {
             var temp = request._list;
-            var value = PagedList<IGeneralWithIDEntities>.ToPagedList(temp, request._parameter.PageNumber, request._parameter.PageSize);
+            var value = PagedList<GeneralEntities>.ToPagedList(temp, request._parameter.PageNumber, request._parameter.PageSize);
             
             return Task.FromResult(value);
         }

@@ -16,12 +16,12 @@ namespace BusinessLayer
     {
         public MappingTool()
         {
-            CreateMap<ChauffeurEntity, Chaffeur>().ReverseMap();
+            CreateMap<ChauffeurEntity, Chauffeur>().ReverseMap();
             CreateMap<VehicleEntity, Vehicle>().ReverseMap();
             CreateMap<DrivingLicenseEntity, DrivingLicense>().ReverseMap();
             CreateMap<AuthenticationTypeEntity, AuthenticationType>().ReverseMap();
             CreateMap<ExtraServiceEntity, ExtraService>().ReverseMap();
-            CreateMap<ChauffeurEntityFuelCardEntity, FuelCardChaffeur>().ReverseMap();
+            CreateMap<ChauffeurEntityFuelCardEntity, FuelCardChauffeur>().ReverseMap();
             CreateMap<FuelCardEntity, FuelCard>().ReverseMap();
             CreateMap<FuelEntity, FuelType>().ReverseMap();
             CreateMap<InvoiceEntity, Invoice>().ReverseMap();
@@ -29,7 +29,7 @@ namespace BusinessLayer
             CreateMap<MaintenanceEntity, Maintenance>().ReverseMap();
             CreateMap<RepairmentEntity, Repairment>().ReverseMap();
             CreateMap<RequestEntity, Request>().ReverseMap();
-            CreateMap<ChauffeurEntityVehicleEntity, VehicleChaffeur>().ReverseMap();
+            CreateMap<ChauffeurEntityVehicleEntity, VehicleChauffeur>().ReverseMap();
             CreateMap<KilometerHistoryEntity, KilometerHistory>().ReverseMap();
 
             CreateMap<ValidationFailure, GenericResponse>()
@@ -37,7 +37,7 @@ namespace BusinessLayer
                 .ForMember(s => s.Property, opt=> opt.MapFrom(src => src.PropertyName))
                 .ForMember(s => s.Error, opt => opt.MapFrom(src => src.ErrorMessage));
 
-            CreateMap<ChaffeurDTO, Chaffeur>();
+            CreateMap<ChaffeurDTO, Chauffeur>();
             CreateMap<DrivingLicenseDTO, DrivingLicense>();
             CreateMap<RequestDTO, Request>();
             CreateMap<MaintenanceDTO, Maintenance>();

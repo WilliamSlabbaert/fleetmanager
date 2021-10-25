@@ -144,7 +144,7 @@ namespace BusinessLayer.managers
             ChauffeurEntity ch = GetChauffeurEntity(chaffeurNr);
             FuelCardEntity fc = GetFuelCardEntity(fuelcardNr);
             var result = new GenericResult<IGeneralModels>() { Message = "Fuelcard already exist's in chaffeurs list." };
-            var tempch = _mapper.Map<Chaffeur>(ch);
+            var tempch = _mapper.Map<Chauffeur>(ch);
             if (tempch.CheckFuelCard(fuelcardNr))
             {
                 ch.ChauffeurFuelCards.Add(new ChauffeurEntityFuelCardEntity(ch, fc, false));
@@ -178,7 +178,7 @@ namespace BusinessLayer.managers
             _chrepo.Save();
             result.SetStatusCode(Overall.ResponseType.OK);
             result.Message = "Ok";
-            result.ReturnValue = _mapper.Map<Chaffeur>(ch);
+            result.ReturnValue = _mapper.Map<Chauffeur>(ch);
             return result;
 
         }
@@ -306,9 +306,7 @@ namespace BusinessLayer.managers
             var ch = _chrepo.GetById(
             filter: x => x.Id == id
             , x => x.Include(s => s.ChauffeurFuelCards)
-            .Include(s => s.ChauffeurVehicles)
-            .Include(s => s.DrivingLicenses)
-            .Include(s => s.Requests));
+            .Include(s => s.ChauffeurVehicles));
             return ch;
         }
         public GenericResult<IGeneralModels> CreateResult(bool check, object value)

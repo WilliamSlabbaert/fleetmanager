@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DataLayer.entities
 {
-    public class VehicleEntity : IGeneralWithIDEntities
+    public class VehicleEntity : GeneralEntities
     {
         public VehicleEntity()
         {
@@ -19,8 +19,6 @@ namespace DataLayer.entities
             Kilometers = new List<KilometerHistoryEntity>();
         }
 
-        [Key]
-        public int Id { get; set; }
         public int Chassis { get; set; }
         public string Brand { get; set; }
         public string Model { get; set; }

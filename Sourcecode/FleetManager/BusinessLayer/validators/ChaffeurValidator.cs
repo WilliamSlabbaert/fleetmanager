@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.validators
 {
-    public class ChaffeurValidator : AbstractValidator<Chaffeur>
+    public class ChaffeurValidator : AbstractValidator<Chauffeur>
     {
         public ChaffeurValidator()
         {
@@ -94,7 +94,7 @@ namespace BusinessLayer.validators
         {
             try
             {
-                var chaffeur = (Chaffeur)input;
+                var chaffeur = (Chauffeur)input;
                 var splitValue = chaffeur.NationalInsurenceNumber.Split(".");
                 var year = chaffeur.DateOfBirth.Year.ToString();
                 if (year.Substring(year.Length - 2) == splitValue[0])
@@ -113,7 +113,7 @@ namespace BusinessLayer.validators
         {
             try
             {
-                var chaffeur = (Chaffeur)input;
+                var chaffeur = (Chauffeur)input;
                 var splitValue = chaffeur.NationalInsurenceNumber.Split(".");
                 var month = chaffeur.DateOfBirth.Month.ToString();
                 if (month.Length == 1)
@@ -136,7 +136,7 @@ namespace BusinessLayer.validators
         {
             try
             {
-                var chaffeur = (Chaffeur)input;
+                var chaffeur = (Chauffeur)input;
                 var splitValue = chaffeur.NationalInsurenceNumber.Split(".");
                 var day = chaffeur.DateOfBirth.Day.ToString();
                 if (day.Length == 1)

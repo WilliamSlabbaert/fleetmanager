@@ -9,9 +9,8 @@ using System.Threading.Tasks;
 
 namespace DataLayer.entities
 {
-    public class AuthenticationTypeEntity : IGeneralWithIDEntities
+    public class AuthenticationTypeEntity : GeneralEntities
     {
-
         public AuthenticationTypes type { get; set; }
         public int FuelCardId { get; set; }
         public FuelCardEntity FuelCard { get; set; }

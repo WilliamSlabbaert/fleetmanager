@@ -8,14 +8,13 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.models
 {
-    public class FuelType : IGeneralModels
+    public class FuelType : GeneralModels
     {
         public FuelType(FuelTypes fuel)
         {
             Fuel = fuel;
         }
 
-        public int Id { get; set; }
         public FuelTypes Fuel { get; set; }
         public int FuelCardId { get; set; }
         public FuelCard FuelCard { get; set; }

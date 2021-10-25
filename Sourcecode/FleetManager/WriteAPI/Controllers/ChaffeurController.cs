@@ -190,7 +190,7 @@ namespace WriteAPI.Controllers
             try
             {
                 var check = _managerChaffeur.GetChauffeurById(chaffeurId);
-                var check2 = _mediator.Send(new GetVehicleByIdFromChaffeurQuery(chaffeurId,vehicleId)).Result;
+                var check2 = _mediator.Send(new GetVehicleByIdFromChauffeurQuery(chaffeurId,vehicleId)).Result;
                 if (check.StatusCode != 200 || check2.StatusCode != 200)
                 {
                     return check.StatusCode != 200 ? NotFound(check) : NotFound(check2);

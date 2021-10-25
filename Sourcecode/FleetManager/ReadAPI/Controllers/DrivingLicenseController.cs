@@ -18,9 +18,9 @@ namespace ReadAPI.Controllers
     public class DrivingLicenseController : Controller
     {
         private readonly ILogger<DrivingLicenseController> _logger;
-        private IChaffeurService _managerChaffeur;
+        private IChauffeurService _managerChaffeur;
         private IDrivingLicenseService _drivingLicenseManager;
-        public DrivingLicenseController(ILogger<DrivingLicenseController> logger, IChaffeurService man, IDrivingLicenseService man2)
+        public DrivingLicenseController(ILogger<DrivingLicenseController> logger, IChauffeurService man, IDrivingLicenseService man2)
         {
             _logger = logger;
             _managerChaffeur = man;

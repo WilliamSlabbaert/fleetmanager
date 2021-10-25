@@ -29,12 +29,6 @@ namespace BusinessLayer.managers
             _mapper = mapper;
             _mediator = mediator;
         }
-
-        public void AddVehicle(Vehicle ch)
-        {
-
-        }
-
         public Vehicle GetVehicleById(int id)
         {
             return _mapper.Map<Vehicle>(_vehicleRepo.GetById(

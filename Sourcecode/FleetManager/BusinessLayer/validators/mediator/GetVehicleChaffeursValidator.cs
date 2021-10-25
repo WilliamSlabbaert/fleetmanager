@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.validators.mediator
 {
-    public class GetVehicleChaffeursValidator : AbstractValidator<GetVehicleChaffeursQuery>
+    public class GetVehicleChaffeursValidator : AbstractValidator<GetVehicleChauffeursQuery>
     {
         public GetVehicleChaffeursValidator()
         {

@@ -9,7 +9,6 @@ using BusinessLayer.validators.mediator;
 using DataLayer;
 using DataLayer.entities;
 using DataLayer.repositories;
-using DataLayer.repositories.interfaces;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -45,11 +44,8 @@ namespace BusinessLayer
         private static void AddBLLManagers(IServiceCollection services)
         {
             services.AddScoped(typeof(IGenericRepo<>), typeof(GenericRepo<>));
-            services.AddScoped<IChaffeurRepo, ChaffeurRepo>();
-            services.AddScoped<IVehicleRepo, VehicleRepo>();
-            services.AddScoped<IFuelCardRepo, FuelCardRepo>();
 
-            services.AddScoped<IChaffeurService, ChaffeurService>();
+            services.AddScoped<IChauffeurService, ChaffeurService>();
             services.AddScoped<IVehicleService, VehicleService>();
             services.AddScoped<IFuelCardService, FuelCardService>();
             services.AddScoped<IDrivingLicenseService, DrivingLicenseService>();

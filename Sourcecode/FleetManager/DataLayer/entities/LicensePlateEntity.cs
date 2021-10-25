@@ -8,10 +8,8 @@ using System.Threading.Tasks;
 
 namespace DataLayer.entities
 {
-    public class LicensePlateEntity : IGeneralWithIDEntities
+    public class LicensePlateEntity : GeneralEntities
     {
-        [Key]
-        public int Id { get; set; }
         public string Plate { get; set; }
         public bool IsActive { get; set; }
         public int VehicleId { get; set; }

@@ -38,7 +38,7 @@ namespace BusinessLayer.managers
 
         public GenericResult<IGeneralModels> AddChauffeur(ChaffeurDTO ch)
         {
-            var chaff = _mapper.Map<Chaffeur>(ch);
+            var chaff = _mapper.Map<Chauffeur>(ch);
             var temp = _mapper.Map<ChauffeurEntity>(chaff);
             var check = CheckExistingChaffeur(chaff, chaff.Id);
             var result = new GenericResult<IGeneralModels>() { Message = "Chaffeur with same national insurence number already exists." };
@@ -51,10 +51,10 @@ namespace BusinessLayer.managers
             _repo.Save();
             result.Message = "Ok";
             result.SetStatusCode(Overall.ResponseType.OK);
-            result.ReturnValue = _mapper.Map<Chaffeur>(temp);
+            result.ReturnValue = _mapper.Map<Chauffeur>(temp);
             return result;
         }
-        public bool CheckExistingChaffeur(Chaffeur ch, int id)
+        public bool CheckExistingChaffeur(Chauffeur ch, int id)
         {
             var result = _repo.GetAll(null).FirstOrDefault(s => s.NationalInsurenceNumber == ch.NationalInsurenceNumber && s.Id != id);
             if (result == null)
@@ -78,13 +78,13 @@ namespace BusinessLayer.managers
             .Include(s => s.ChauffeurVehicles)
             .ThenInclude(s => s.Vehicle));
 
-            var value = temp == null ? null : _mapper.Map<Chaffeur>(temp);
+            var value = temp == null ? null : _mapper.Map<Chauffeur>(temp);
             return CreateResult(temp == null, value);
         }
 
         public GenericResult<IGeneralModels> UpdateChauffeur(ChaffeurDTO ch, int id)
         {
-            var chaff = _mapper.Map<Chaffeur>(ch);
+            var chaff = _mapper.Map<Chauffeur>(ch);
             var check = CheckExistingChaffeur(chaff, id);
             var result = new GenericResult<IGeneralModels>() { Message = "Chaffeur with same national insurence number already exists." };
             if (check == false)
@@ -109,7 +109,7 @@ namespace BusinessLayer.managers
             _repo.Save();
             result.SetStatusCode(Overall.ResponseType.OK);
             result.Message = "Ok";
-            result.ReturnValue = _mapper.Map<Chaffeur>(temp);
+            result.ReturnValue = _mapper.Map<Chauffeur>(temp);
             return result;
         }
         public GenericResult<IGeneralModels> AddVehicleToChauffeur(int chaffeurNr, int vehicleNr)
@@ -118,7 +118,7 @@ namespace BusinessLayer.managers
             ChauffeurEntity ch = GetChauffeurEntity(chaffeurNr);
             var result = new GenericResult<IGeneralModels>() { Message = "Vehicle is already in Chaffeurs list." };
 
-            var chmodel = _mapper.Map<Chaffeur>(ch);
+            var chmodel = _mapper.Map<Chauffeur>(ch);
             if (chmodel.CheckVehicle(vh.Id))
             {
                 var vhch = new ChauffeurEntityVehicleEntity(vh, ch, false);
@@ -127,7 +127,7 @@ namespace BusinessLayer.managers
                 _repo.Save();
                 result.SetStatusCode(Overall.ResponseType.OK);
                 result.Message = "Ok";
-                result.ReturnValue = _mapper.Map<Chaffeur>(ch);
+                result.ReturnValue = _mapper.Map<Chauffeur>(ch);
                 return result;
             }
             else
@@ -142,7 +142,7 @@ namespace BusinessLayer.managers
             ChauffeurEntity ch = GetChauffeurEntity(chaffeurNr);
             var result = new GenericResult<IGeneralModels>() { Message = "Vehicle is already in Chaffeurs list." };
 
-            var chmodel = _mapper.Map<Chaffeur>(ch);
+            var chmodel = _mapper.Map<Chauffeur>(ch);
             if (chmodel.CheckVehicle(vh.Id) == false)
             {
                 var temp = ch.ChauffeurVehicles.FirstOrDefault(s => s.Vehicle.Id == vehicleNr);
@@ -158,7 +158,7 @@ namespace BusinessLayer.managers
                 _repo.Save();
                 result.SetStatusCode(Overall.ResponseType.OK);
                 result.Message = "Ok";
-                result.ReturnValue = _mapper.Map<Chaffeur>(ch);
+                result.ReturnValue = _mapper.Map<Chauffeur>(ch);
                 return result;
             }
             else
@@ -199,7 +199,7 @@ namespace BusinessLayer.managers
                 .Include(s => s.DrivingLicenses)
                 .Include(s => s.Requests));
 
-            var value = _mapper.Map<List<Chaffeur>>(temp);
+            var value = _mapper.Map<List<Chauffeur>>(temp);
             return CreateResult(temp == null, value);
         }
         public GenericResult<IGeneralModels> GetAllChauffeursPaging(GenericParameter parameters)
@@ -217,25 +217,25 @@ namespace BusinessLayer.managers
         public GenericResult<IGeneralModels> GetChauffeurVehicles(int chaffeurId)
         {
             var temp = GetChauffeurEntity(chaffeurId);
-            var value = temp == null ? null : _mapper.Map<Chaffeur>(temp).ChaffeurVehicles;
+            var value = temp == null ? null : _mapper.Map<Chauffeur>(temp).ChaffeurVehicles;
             return CreateResult(temp == null, value);
         }
         public GenericResult<IGeneralModels> GetChauffeurRequests(int chaffeurId)
         {
             var temp = GetChauffeurEntity(chaffeurId);
-            var value = temp == null ? null : _mapper.Map<Chaffeur>(temp).Requests;
+            var value = temp == null ? null : _mapper.Map<Chauffeur>(temp).Requests;
             return CreateResult(temp == null, value);
         }
         public GenericResult<IGeneralModels> GetChauffeurFuelcards(int chaffeurId)
         {
             var temp = GetChauffeurEntity(chaffeurId);
-            var value = temp == null ? null : _mapper.Map<Chaffeur>(temp).ChaffeurFuelCards;
+            var value = temp == null ? null : _mapper.Map<Chauffeur>(temp).ChaffeurFuelCards;
             return CreateResult(temp == null, value);
         }
         public GenericResult<IGeneralModels> GetChauffeurDrivingLicenses(int chaffeurId)
         {
             var temp = GetChauffeurEntity(chaffeurId);
-            var value = temp == null ? null : _mapper.Map<Chaffeur>(temp).DrivingLicenses;
+            var value = temp == null ? null : _mapper.Map<Chauffeur>(temp).DrivingLicenses;
             return CreateResult(temp == null, value);
         }
         public GenericResult<IGeneralModels> CreateResult(bool check, object value)

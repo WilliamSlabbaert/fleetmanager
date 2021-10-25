@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.validators
 {
-    public class FuelCardChaffeurValidator : AbstractValidator<FuelCardChaffeur>
+    public class FuelCardChaffeurValidator : AbstractValidator<FuelCardChauffeur>
     {
         public FuelCardChaffeurValidator()
         {

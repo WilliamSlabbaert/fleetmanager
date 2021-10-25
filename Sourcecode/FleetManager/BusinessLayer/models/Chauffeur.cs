@@ -7,9 +7,8 @@ using System.Linq;
 
 namespace BusinessLayer
 {
-    public class Chaffeur : IGeneralModels
+    public class Chauffeur : GeneralModels
     {
-        public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string City { get; set; }
@@ -18,11 +17,11 @@ namespace BusinessLayer
         public DateTime DateOfBirth { get; set; }
         public string NationalInsurenceNumber { get; set; }
         public bool IsActive { get; set; }
-        public List<VehicleChaffeur> ChaffeurVehicles { get; set; }
-        public List<FuelCardChaffeur> ChaffeurFuelCards { get; set; }
+        public List<VehicleChauffeur> ChaffeurVehicles { get; set; }
+        public List<FuelCardChauffeur> ChaffeurFuelCards { get; set; }
         public List<DrivingLicense> DrivingLicenses { get; set; }
         public List<Request> Requests { get; set; }
-        public Chaffeur(string firstName, string lastName, string city, string street, string houseNumber, DateTime dateOfBirth, string nationalInsurenceNumber, bool isActive)
+        public Chauffeur(string firstName, string lastName, string city, string street, string houseNumber, DateTime dateOfBirth, string nationalInsurenceNumber, bool isActive)
         {
             FirstName = firstName;
             LastName = lastName;
@@ -33,12 +32,12 @@ namespace BusinessLayer
             NationalInsurenceNumber = nationalInsurenceNumber;
             IsActive = isActive;
 
-            ChaffeurFuelCards = new List<FuelCardChaffeur>();
-            ChaffeurVehicles = new List<VehicleChaffeur>();
+            ChaffeurFuelCards = new List<FuelCardChauffeur>();
+            ChaffeurVehicles = new List<VehicleChauffeur>();
             DrivingLicenses = new List<DrivingLicense>();
             Requests = new List<Request>();
         }
-        public Chaffeur(string firstName, string lastName, string city, string street, string houseNumber, DateTime dateOfBirth, string nationalInsurenceNumber, bool isActive, DrivingLicense dl)
+        public Chauffeur(string firstName, string lastName, string city, string street, string houseNumber, DateTime dateOfBirth, string nationalInsurenceNumber, bool isActive, DrivingLicense dl)
         {
             FirstName = firstName;
             LastName = lastName;
@@ -49,8 +48,8 @@ namespace BusinessLayer
             NationalInsurenceNumber = nationalInsurenceNumber;
             IsActive = isActive;
 
-            ChaffeurFuelCards = new List<FuelCardChaffeur>();
-            ChaffeurVehicles = new List<VehicleChaffeur>();
+            ChaffeurFuelCards = new List<FuelCardChauffeur>();
+            ChaffeurVehicles = new List<VehicleChauffeur>();
             DrivingLicenses = new List<DrivingLicense>();
             if (CheckDrivingLicense(dl))
             {
@@ -59,11 +58,11 @@ namespace BusinessLayer
             Requests = new List<Request>();
         }
 
-        public Chaffeur()
+        public Chauffeur()
         {
-            ChaffeurFuelCards = new List<FuelCardChaffeur>();
+            ChaffeurFuelCards = new List<FuelCardChauffeur>();
             DrivingLicenses = new List<DrivingLicense>();
-            ChaffeurVehicles = new List<VehicleChaffeur>();
+            ChaffeurVehicles = new List<VehicleChauffeur>();
             Requests = new List<Request>();
         }
         public bool CheckVehicle(int vehicle)

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.models
 {
-    public class Maintenance : IGeneralModels
+    public class Maintenance : GeneralModels
     {
         public Maintenance(DateTime date, double price, string garage)
         {
@@ -15,8 +15,6 @@ namespace BusinessLayer.models
             Price = price;
             Garage = garage;
         }
-
-        public int Id { get; set; }
         public DateTime Date { get; set; }
         public double Price { get; set; }
         public string Garage { get; set; }

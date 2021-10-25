@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.models.general
 {
-    public interface IGeneralModels
+    public class GeneralModels
     {
+        public int Id { get; set; }
     }
 }

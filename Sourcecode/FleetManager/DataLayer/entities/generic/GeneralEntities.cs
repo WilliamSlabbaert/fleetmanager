@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DataLayer.entities.generic
 {
-    public interface IGeneralWithIDEntities
+    public class GeneralEntities
     {
         [Key]
         public int Id { get; set; }

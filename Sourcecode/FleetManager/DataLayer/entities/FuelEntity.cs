@@ -9,10 +9,9 @@ using System.Threading.Tasks;
 
 namespace DataLayer.entities
 {
-    public class FuelEntity : IGeneralWithIDEntities
+    public class FuelEntity : GeneralEntities
     {
-        [Key]
-        public int Id { get; set; }
+
         public FuelTypes Fuel { get; set; }
         public int FuelCardId { get; set; }
         public FuelCardEntity FuelCard { get; set; }
