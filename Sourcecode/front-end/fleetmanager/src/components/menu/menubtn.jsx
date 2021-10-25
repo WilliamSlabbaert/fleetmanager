@@ -45,8 +45,8 @@ const MenuBtn = () => {
                         </Link>
                     </div>
                     <div className="menuItem" style={{ "marginTop": "215px" }}>
-                        <Link to="/Userpage"  style={{ "display": "contents" }}>
-                            <img data-tip="User list" src={UserIcon} alt="User list" style={{ "width": "50px" }} />
+                        <Link to="/Chaffeurpage"  style={{ "display": "contents" }}>
+                            <img data-tip="Chaffeur list" src={UserIcon} alt="User list" style={{ "width": "50px" }} />
                         </Link>
                     </div>
                     <div className="menuItem logout" style={{ "bottom": "0px", "top": "auto" }}>

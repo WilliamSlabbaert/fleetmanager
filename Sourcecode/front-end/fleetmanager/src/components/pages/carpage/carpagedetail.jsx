@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useContext, useRef } from 'react';
 import { useParams } from "react-router-dom";
-import { AppContext } from '../context/appcontext/appcontext';
+import { AppContext } from 'components/context/appcontext/appcontext.jsx';
 import { Card, Container } from 'react-bootstrap';
 import DataTable from "react-data-table-component";
-import { columnsChaffeurs,columnsRequests } from './utility/datatable_attributes';
+import { columnsChaffeurs,columnsRequests } from './utility/datatable_carpage';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './style/carpagedetail.css'
@@ -106,7 +106,7 @@ const CarPageDetail = () => {
                         paginationComponentOptions={{
                             noRowsPerPage: true
                         }}
-                        paginationTotalRows={requests.count}
+                        paginationTotalRows={requests.length   }
                         data={requests}
                     />
                 </div>
@@ -120,7 +120,7 @@ const CarPageDetail = () => {
                         paginationComponentOptions={{
                             noRowsPerPage: true
                         }}
-                        paginationTotalRows={chaffeurs.count}
+                        paginationTotalRows={chaffeurs.length   }
                         data={chaffeurs}
                     />
                 </div>

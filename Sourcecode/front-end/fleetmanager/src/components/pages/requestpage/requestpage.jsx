@@ -1,16 +1,13 @@
 import React, { useEffect, useContext, useState } from "react";
-import { AppContext } from "../context/appcontext/appcontext";
+import {AppContext} from "components/context/appcontext/appcontext.jsx"
 import axios from "axios";
 import DataTable from "react-data-table-component";
-import { columnsCarpage } from './utility/datatable_attributes';
-
-import "./style/carpage.css"
+import { columnsRequestpage } from "./utility/datatables_requestpage";
 
 
-
-const CarPage = () => {
+const RequestPage = () => {
     const { setMenuName } = useContext(AppContext);
-    const [cars, setCars] = useState([]);
+    const [requests, setRequests] = useState([]);
     const [page, setPage] = useState(1);
     const countPerPage = 10;
     const [totalCount, setTotalCount] = useState(0);
@@ -24,21 +21,21 @@ const CarPage = () => {
     }, [page]);
 
     const getUserList = () => {
-        axios.get(`https://localhost:44346/Vehicle?PageNumber=${page}&PageSize=${countPerPage}`)
+        axios.get(`https://localhost:44346/Request?PageNumber=${page}&PageSize=${countPerPage}`)
             .then(res => {
                 setTotalCount(JSON.parse(res.headers["x-pagination"]).TotalCount)
-                setCars(res.data);
+                setRequests(res.data);
             }).catch(err => {
-                setCars({});
+                setRequests({});
             });
     }
 
     return (
         <div className="carpage">
             <DataTable
-                title="Cars"
-                columns={columnsCarpage}
-                data={cars.returnValue}
+                title="Requests"
+                columns={columnsRequestpage}
+                data={requests.returnValue}
                 highlightOnHover
                 pagination
                 paginationServer
@@ -52,4 +49,4 @@ const CarPage = () => {
         </div>
     )
 }
-export default CarPage;
+export default RequestPage;
