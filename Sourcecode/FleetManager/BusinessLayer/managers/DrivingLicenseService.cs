@@ -36,7 +36,7 @@ namespace BusinessLayer.managers
         public GenericResult<IGeneralModels> AddDrivingLicense(DrivingLicenseDTO drivinglicense, int chaffeurid)
         {
             var temp = _mapper.Map<DrivingLicense>(drivinglicense);
-            var ch = GetChaffeurEntity(chaffeurid);
+            var ch = GetChauffeurEntity(chaffeurid);
             var dl = _mapper.Map<DrivingLicenseEntity>(temp);
             var check = CheckExistingDrivingLicense(chaffeurid, temp);
             var result = new GenericResult<IGeneralModels>() { Message = "Drivinglicense already exist's in chaffeurs list." };
@@ -50,12 +50,12 @@ namespace BusinessLayer.managers
             _chrepo.Save();
             result.Message = "Ok";
             result.SetStatusCode(Overall.ResponseType.OK);
-            result.ReturnValue = _mapper.Map<Chaffeur>(ch);
+            result.ReturnValue = _mapper.Map<Chauffeur>(ch);
             return result;
         }
         public GenericResult<IGeneralModels> DeleteDrivingLicense(int drivinglicense, int chaffeurid)
         {
-            var temp = GetChaffeurEntity(chaffeurid);
+            var temp = GetChauffeurEntity(chaffeurid);
             var temp2 = temp.DrivingLicenses.FirstOrDefault(s => s.Id == drivinglicense);
             var result = new GenericResult<IGeneralModels>() { Message = "Drivinglicense doesn't exist in chaffeurs list." };
             if (temp2 != null)
@@ -65,7 +65,7 @@ namespace BusinessLayer.managers
                 _chrepo.Save();
                 result.SetStatusCode(Overall.ResponseType.OK);
                 result.Message = "Ok";
-                result.ReturnValue = _mapper.Map<Chaffeur>(temp);
+                result.ReturnValue = _mapper.Map<Chauffeur>(temp);
                 return result;
             }
             return result;
@@ -98,25 +98,21 @@ namespace BusinessLayer.managers
                 filter: x => x.Id == id,
                 including: s => s.Include(x => x.Chauffeur)));
 
-            var value = temp == null ? null : temp.Chaffeur;
+            var value = temp == null ? null : temp.Chauffeur;
             return CreateResult(temp == null, value);
         }
-        public ChauffeurEntity GetChaffeurEntity(int id)
+        public ChauffeurEntity GetChauffeurEntity(int id)
         {
             var temp = _chrepo.GetById(
             filter: x => x.Id == id
-            , x => x.Include(s => s.ChauffeurFuelCards)
-            .ThenInclude(s => s.FuelCard)
-            .Include(s => s.DrivingLicenses)
-            .Include(s => s.Requests)
-            .Include(s => s.ChauffeurVehicles)
-            .ThenInclude(s => s.Vehicle));
+            , x => x
+            .Include(s => s.DrivingLicenses));
             return temp;
 
         }
         public bool CheckExistingDrivingLicense(int id, DrivingLicense license)
         {
-            var temp = _mapper.Map<Chaffeur>(GetChaffeurEntity(id));
+            var temp = _mapper.Map<Chauffeur>(GetChauffeurEntity(id));
             return temp.CheckDrivingLicense(license);
         }
         public GenericResult<IGeneralModels> CreateResult(bool check, object value)

@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.validators
 {
-    public class ChaffeurVehicleValidator : AbstractValidator<VehicleChaffeur>
+    public class ChaffeurVehicleValidator : AbstractValidator<VehicleChauffeur>
     {
         public ChaffeurVehicleValidator()
         {
-            RuleFor(s => s.Chaffeur).NotNull().WithMessage("No Chaffeur relation.");
+            RuleFor(s => s.Chauffeur).NotNull().WithMessage("No Chaffeur relation.");
             RuleFor(s => s.Vehicle).NotNull().WithMessage("No Vehicle relation.");
             RuleFor(s => s.IsActive).NotNull().WithMessage("The IsActive property is empty.");
         }

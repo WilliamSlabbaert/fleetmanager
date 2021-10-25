@@ -38,7 +38,7 @@ namespace BusinessLayer.managers
         }
         public GenericResult<IGeneralModels> AddRequest(RequestDTO request, int chaffeurId, int vehicleId)
         {
-            ChauffeurEntity ch = GetChaffeurEntity(chaffeurId);
+            ChauffeurEntity ch = GetChauffeurEntity(chaffeurId);
             VehicleEntity vh = GetVehicleEntity(vehicleId);
             var temp = _mapper.Map<Request>(request);
             var rq = _mapper.Map<RequestEntity>(temp);
@@ -83,7 +83,7 @@ namespace BusinessLayer.managers
         public GenericResult<IGeneralModels> GetRequestChaffeur(int id)
         {
             var temp = _mapper.Map<Request>(GetRequestEntityById(id));
-            var value = temp == null ? null : temp.Chaffeur;
+            var value = temp == null ? null : temp.Chauffeur;
             return CreateResult(temp == null, value);
         }
         public GenericResult<IGeneralModels> GetRequestVehicle(int id)
@@ -113,7 +113,7 @@ namespace BusinessLayer.managers
            .ThenInclude(s => s.Chauffeur));
             return temp;
         }
-        public ChauffeurEntity GetChaffeurEntity(int id)
+        public ChauffeurEntity GetChauffeurEntity(int id)
         {
             var temp = _chrepo.GetById(
             filter: f => f.Id == id,

@@ -19,9 +19,9 @@ namespace ReadAPI.Controllers
     {
         
         private readonly ILogger<FuelCardController> _logger;
-        private IChaffeurService _managerChaffeur;
+        private IChauffeurService _managerChaffeur;
         private IFuelCardService _fuelCardManager ;
-        public FuelCardController(ILogger<FuelCardController> logger, IChaffeurService man, IFuelCardService man2)
+        public FuelCardController(ILogger<FuelCardController> logger, IChauffeurService man, IFuelCardService man2)
         {
             _logger = logger;
             _managerChaffeur = man;
@@ -61,7 +61,7 @@ namespace ReadAPI.Controllers
         {
             try
             {
-                var temp = _fuelCardManager.GetFuelcardCHaffeurs(id);
+                var temp = _fuelCardManager.GetFuelcardChauffeurs(id);
                 return (temp.StatusCode == 200) ? Ok(temp) : NotFound(temp);
             }
             catch (Exception ex)

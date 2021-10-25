@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DataLayer.entities
 {
-    public class FuelCardEntity : IGeneralEntities
+    public class FuelCardEntity : IGeneralWithIDEntities
     {
         [Key]
         public int Id { get; set; }

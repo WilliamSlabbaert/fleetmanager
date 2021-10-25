@@ -17,20 +17,15 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.mediator.handlers.queries
 {
-    public class GetVehicleByIdFromChaffeurHandler : IRequestHandler<GetVehicleByIdFromChaffeurQuery, GenericResult<IGeneralModels>>
+    public class GetVehicleByIdFromChaffeurHandler : IRequestHandler<GetVehicleByIdFromChauffeurQuery, GenericResult<IGeneralModels>>
     {
-        private readonly IGenericRepo<VehicleEntity> _vehicleRepo;
-        private readonly IMapper _mapper;
-        private readonly IValidator<Vehicle> _validator;
+
         private IMediator _mediator;
-        public GetVehicleByIdFromChaffeurHandler(IGenericRepo<VehicleEntity> vehicleRepo, IMapper mapper, IValidator<Vehicle> validator, IMediator mediator)
+        public GetVehicleByIdFromChaffeurHandler(IMediator mediator)
         {
-            this._vehicleRepo = vehicleRepo;
-            this._mapper = mapper;
-            this._validator = validator;
             this._mediator = mediator;
         }
-        public Task<GenericResult<IGeneralModels>> Handle(GetVehicleByIdFromChaffeurQuery request, CancellationToken cancellationToken)
+        public Task<GenericResult<IGeneralModels>> Handle(GetVehicleByIdFromChauffeurQuery request, CancellationToken cancellationToken)
         {
             var vehicle = GetVehicle(request._vehicleId).Result;
             var respond = new GenericResult<IGeneralModels>() { Message = "Vehicle doesn't exist in chaffeurs list."};
@@ -39,7 +34,7 @@ namespace BusinessLayer.mediator.handlers.queries
                 return Task.FromResult(vehicle);
             }
             Vehicle temp = (Vehicle)vehicle.ReturnValue;
-            var result = temp.ChaffeurVehicles.FirstOrDefault(s => s.Chaffeur.Id == request._chaffeurId);
+            var result = temp.ChauffeurVehicles.FirstOrDefault(s => s.Chauffeur.Id == request._chauffeurId);
             if(result == null)
             {
                 respond.SetStatusCode(Overall.ResponseType.NotFound);

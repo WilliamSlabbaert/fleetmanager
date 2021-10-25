@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DataLayer.entities
 {
-    public class ExtraServiceEntity : IGeneralEntities
+    public class ExtraServiceEntity : IGeneralWithIDEntities
     {
         [Key]
         public int Id { get; set; }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DataLayer.entities
 {
-    public class LicensePlateEntity : IGeneralEntities
+    public class LicensePlateEntity : IGeneralWithIDEntities
     {
         [Key]
         public int Id { get; set; }

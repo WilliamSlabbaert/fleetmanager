@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DataLayer.entities
 {
-    public class VehicleEntity : IGeneralEntities
+    public class VehicleEntity : IGeneralWithIDEntities
     {
         public VehicleEntity()
         {

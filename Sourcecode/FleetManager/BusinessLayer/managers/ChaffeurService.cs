@@ -22,7 +22,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.managers
 {
-    public class ChaffeurService : IChaffeurService
+    public class ChaffeurService : IChauffeurService
     {
         private readonly IGenericRepo<ChauffeurEntity> _repo;
         private readonly IGenericRepo<VehicleEntity> _vhrepo;
@@ -36,7 +36,7 @@ namespace BusinessLayer.managers
             this._mediator = mediator;
         }
 
-        public GenericResult<IGeneralModels> AddChaffeur(ChaffeurDTO ch)
+        public GenericResult<IGeneralModels> AddChauffeur(ChaffeurDTO ch)
         {
             var chaff = _mapper.Map<Chaffeur>(ch);
             var temp = _mapper.Map<ChauffeurEntity>(chaff);
@@ -67,7 +67,7 @@ namespace BusinessLayer.managers
             }
         }
 
-        public GenericResult<IGeneralModels> GetChaffeurById(int id)
+        public GenericResult<IGeneralModels> GetChauffeurById(int id)
         {
             var temp = _repo.GetById(
             filter: x => x.Id == id
@@ -82,7 +82,7 @@ namespace BusinessLayer.managers
             return CreateResult(temp == null, value);
         }
 
-        public GenericResult<IGeneralModels> UpdateChaffeur(ChaffeurDTO ch, int id)
+        public GenericResult<IGeneralModels> UpdateChauffeur(ChaffeurDTO ch, int id)
         {
             var chaff = _mapper.Map<Chaffeur>(ch);
             var check = CheckExistingChaffeur(chaff, id);
@@ -91,7 +91,7 @@ namespace BusinessLayer.managers
             {
                 return result;
             }
-            var temp = GetChaffeurEntity(id);
+            var temp = GetChauffeurEntity(id);
 
             temp.FirstName = ch.FirstName;
             temp.LastName = ch.LastName;
@@ -112,10 +112,10 @@ namespace BusinessLayer.managers
             result.ReturnValue = _mapper.Map<Chaffeur>(temp);
             return result;
         }
-        public GenericResult<IGeneralModels> AddVehicleToChaffeur(int chaffeurNr, int vehicleNr)
+        public GenericResult<IGeneralModels> AddVehicleToChauffeur(int chaffeurNr, int vehicleNr)
         {
             VehicleEntity vh = GetVehicleEntity(vehicleNr);
-            ChauffeurEntity ch = GetChaffeurEntity(chaffeurNr);
+            ChauffeurEntity ch = GetChauffeurEntity(chaffeurNr);
             var result = new GenericResult<IGeneralModels>() { Message = "Vehicle is already in Chaffeurs list." };
 
             var chmodel = _mapper.Map<Chaffeur>(ch);
@@ -136,10 +136,10 @@ namespace BusinessLayer.managers
                 return result;
             }
         }
-        public GenericResult<IGeneralModels> UpdateVehicleToChaffeur(int chaffeurNr, int vehicleNr, bool active)
+        public GenericResult<IGeneralModels> UpdateVehicleToChauffeur(int chaffeurNr, int vehicleNr, bool active)
         {
             VehicleEntity vh = GetVehicleEntity(vehicleNr);
-            ChauffeurEntity ch = GetChaffeurEntity(chaffeurNr);
+            ChauffeurEntity ch = GetChauffeurEntity(chaffeurNr);
             var result = new GenericResult<IGeneralModels>() { Message = "Vehicle is already in Chaffeurs list." };
 
             var chmodel = _mapper.Map<Chaffeur>(ch);
@@ -168,7 +168,7 @@ namespace BusinessLayer.managers
             }
         }
 
-        public ChauffeurEntity GetChaffeurEntity(int id)
+        public ChauffeurEntity GetChauffeurEntity(int id)
         {
             var ch = _repo.GetById(
             filter: x => x.Id == id
@@ -190,7 +190,7 @@ namespace BusinessLayer.managers
             .Include(s => s.Requests));
             return vh;
         }
-        public GenericResult<IGeneralModels> GetAllChaffeurs()
+        public GenericResult<IGeneralModels> GetAllChauffeurs()
         {
             var temp = this._repo.GetAll(
                 x => x.Include(s => s.ChauffeurFuelCards)
@@ -202,7 +202,7 @@ namespace BusinessLayer.managers
             var value = _mapper.Map<List<Chaffeur>>(temp);
             return CreateResult(temp == null, value);
         }
-        public GenericResult<IGeneralModels> GetAllChaffeursPaging(GenericParameter parameters)
+        public GenericResult<IGeneralModels> GetAllChauffeursPaging(GenericParameter parameters)
         {
             var temp = this._repo.GetAllWithPaging(
                 x => x.Include(s => s.ChauffeurFuelCards)
@@ -214,27 +214,27 @@ namespace BusinessLayer.managers
             var value = temp;
             return CreateResult(temp == null, value);
         }
-        public GenericResult<IGeneralModels> GetChaffeurVehicles(int chaffeurId)
+        public GenericResult<IGeneralModels> GetChauffeurVehicles(int chaffeurId)
         {
-            var temp = GetChaffeurEntity(chaffeurId);
+            var temp = GetChauffeurEntity(chaffeurId);
             var value = temp == null ? null : _mapper.Map<Chaffeur>(temp).ChaffeurVehicles;
             return CreateResult(temp == null, value);
         }
-        public GenericResult<IGeneralModels> GetChaffeurRequests(int chaffeurId)
+        public GenericResult<IGeneralModels> GetChauffeurRequests(int chaffeurId)
         {
-            var temp = GetChaffeurEntity(chaffeurId);
+            var temp = GetChauffeurEntity(chaffeurId);
             var value = temp == null ? null : _mapper.Map<Chaffeur>(temp).Requests;
             return CreateResult(temp == null, value);
         }
-        public GenericResult<IGeneralModels> GetChaffeurFuelcards(int chaffeurId)
+        public GenericResult<IGeneralModels> GetChauffeurFuelcards(int chaffeurId)
         {
-            var temp = GetChaffeurEntity(chaffeurId);
+            var temp = GetChauffeurEntity(chaffeurId);
             var value = temp == null ? null : _mapper.Map<Chaffeur>(temp).ChaffeurFuelCards;
             return CreateResult(temp == null, value);
         }
-        public GenericResult<IGeneralModels> GetChaffeurDrivingLicenses(int chaffeurId)
+        public GenericResult<IGeneralModels> GetChauffeurDrivingLicenses(int chaffeurId)
         {
-            var temp = GetChaffeurEntity(chaffeurId);
+            var temp = GetChauffeurEntity(chaffeurId);
             var value = temp == null ? null : _mapper.Map<Chaffeur>(temp).DrivingLicenses;
             return CreateResult(temp == null, value);
         }

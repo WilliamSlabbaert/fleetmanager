@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace DataLayer.repositories
 {
-    public interface IGenericRepo<T> where T : class, IGeneralEntities
+    public interface IGenericRepo<T> where T : GeneralEntities
     {
         IQueryable<T> GetAll(Func<IQueryable<T>, IIncludableQueryable<T, object>> including);
         public IQueryable<T> GetAllWithPaging(Func<IQueryable<T>, IIncludableQueryable<T, object>> including, GenericParameter genericParemeters);

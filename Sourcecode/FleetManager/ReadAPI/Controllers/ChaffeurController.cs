@@ -20,9 +20,9 @@ namespace ReadAPI.Controllers
     public class ChaffeurController : ControllerBase
     {
         private readonly ILogger<ChaffeurController> _logger;
-        private IChaffeurService _managerChaffeur;
+        private IChauffeurService _managerChaffeur;
         private IFuelCardService _fuelCardManager;
-        public ChaffeurController(ILogger<ChaffeurController> logger, IChaffeurService man, IFuelCardService fuelCardManager)
+        public ChaffeurController(ILogger<ChaffeurController> logger, IChauffeurService man, IFuelCardService fuelCardManager)
         {
             this._logger = logger;
             this._managerChaffeur = man;
@@ -34,7 +34,7 @@ namespace ReadAPI.Controllers
         public ActionResult<GenericResult<IGeneralModels>> GetAllChaffeurs([FromQuery] GenericParameter parameter)
         {
 
-            var temp = _managerChaffeur.GetAllChaffeursPaging(parameter);
+            var temp = _managerChaffeur.GetAllChauffeursPaging(parameter);
             var metadata = _managerChaffeur.GetHeaders(parameter);
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
             return (temp.StatusCode == 200) ? Ok(temp) : BadRequest(temp);
@@ -46,7 +46,7 @@ namespace ReadAPI.Controllers
         {
             try
             {
-                var ch = _managerChaffeur.GetChaffeurById(chaffeurId);
+                var ch = _managerChaffeur.GetChauffeurById(chaffeurId);
 
                 return (ch.StatusCode == 200) ? Ok(ch) : NotFound(ch);
             }
@@ -60,7 +60,7 @@ namespace ReadAPI.Controllers
         {
             try
             {
-                var ch = _managerChaffeur.GetChaffeurVehicles(chaffeurId);
+                var ch = _managerChaffeur.GetChauffeurVehicles(chaffeurId);
                 return (ch.StatusCode == 200) ? Ok(ch) : NotFound(ch);
             }
             catch (Exception ex)
@@ -73,7 +73,7 @@ namespace ReadAPI.Controllers
         {
             try
             {
-                var ch = _managerChaffeur.GetChaffeurFuelcards(chaffeurId);
+                var ch = _managerChaffeur.GetChauffeurFuelcards(chaffeurId);
                 return (ch.StatusCode == 200) ? Ok(ch) : NotFound(ch);
             }
             catch (Exception ex)
@@ -86,7 +86,7 @@ namespace ReadAPI.Controllers
         {
             try
             {
-                var ch = _managerChaffeur.GetChaffeurRequests(chaffeurId);
+                var ch = _managerChaffeur.GetChauffeurRequests(chaffeurId);
                 return (ch.StatusCode == 200) ? Ok(ch) : NotFound(ch);
             }
             catch (Exception ex)
@@ -99,7 +99,7 @@ namespace ReadAPI.Controllers
         {
             try
             {
-                var ch = _managerChaffeur.GetChaffeurDrivingLicenses(chaffeurId);
+                var ch = _managerChaffeur.GetChauffeurDrivingLicenses(chaffeurId);
                 return (ch.StatusCode == 200) ? Ok(ch) : NotFound(ch);
             }
             catch (Exception ex)

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DataLayer.entities
 {
-    public class KilometerHistoryEntity : IGeneralEntities
+    public class KilometerHistoryEntity : IGeneralWithIDEntities
     {
         //[Key]
         public int Id { get; set; }

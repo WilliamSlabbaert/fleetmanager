@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.models
 {
-    public class Vehicle : IGeneralModels
+    public class Vehicle : GeneralModels
     {
         public Vehicle()
         {
-            ChaffeurVehicles = new List<VehicleChaffeur>();
+            ChauffeurVehicles = new List<VehicleChauffeur>();
             Requests = new List<Request>();
             LicensePlates = new List<LicensePlate>();
             Kilometers = new List<KilometerHistory>();
@@ -23,7 +23,7 @@ namespace BusinessLayer.models
             Chassis = chassis;
             Type = type;
             Kilometers = new List<KilometerHistory>();
-            ChaffeurVehicles = new List<VehicleChaffeur>();
+            ChauffeurVehicles = new List<VehicleChauffeur>();
             Requests = new List<Request>();
             LicensePlates = new List<LicensePlate>();
             FuelType = fuel;
@@ -38,8 +38,6 @@ namespace BusinessLayer.models
                 return true;
             return false;
         }
-
-        public int Id { get; set; }
         public int Chassis { get; set; }
         public string Brand { get; set; }
         public string Model { get; set; }
@@ -47,7 +45,7 @@ namespace BusinessLayer.models
         public CarTypes Type { get; set; }
         public FuelTypes FuelType { get; set; }
         public List<KilometerHistory> Kilometers { get; set; }
-        public List<VehicleChaffeur> ChaffeurVehicles { get; set; }
+        public List<VehicleChauffeur> ChauffeurVehicles { get; set; }
         public List<Request> Requests { get; set; }
         public List<LicensePlate> LicensePlates { get; set; }
     }

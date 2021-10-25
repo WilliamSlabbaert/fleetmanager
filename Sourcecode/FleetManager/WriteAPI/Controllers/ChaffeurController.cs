@@ -20,12 +20,12 @@ namespace WriteAPI.Controllers
     public class ChaffeurController : ControllerBase
     {
         private readonly ILogger<ChaffeurController> _logger;
-        private IChaffeurService _managerChaffeur;
+        private IChauffeurService _managerChaffeur;
         private IDrivingLicenseService _drivingLicenseManager;
         private IMediator _mediator;
         private IFuelCardService _fuelCardManager;
         private IRequestService _requestService;
-        public ChaffeurController(ILogger<ChaffeurController> logger, IChaffeurService man, IDrivingLicenseService drivingLicenseManager, IFuelCardService fuelCardManager, IMediator mediator, IRequestService requestService)
+        public ChaffeurController(ILogger<ChaffeurController> logger, IChauffeurService man, IDrivingLicenseService drivingLicenseManager, IFuelCardService fuelCardManager, IMediator mediator, IRequestService requestService)
         {
             _logger = logger;
             _managerChaffeur = man;
@@ -39,7 +39,7 @@ namespace WriteAPI.Controllers
         {
             try
             {
-                var result = _managerChaffeur.AddChaffeur(chaffeur);
+                var result = _managerChaffeur.AddChauffeur(chaffeur);
                 return Ok(result);
             }
             catch (Exception e)
@@ -52,13 +52,13 @@ namespace WriteAPI.Controllers
         {
             try
             {
-                var check = _managerChaffeur.GetChaffeurById(chaffeurId);
+                var check = _managerChaffeur.GetChauffeurById(chaffeurId);
                 if (check.StatusCode == 404)
                 {
                     return NotFound(check);
                 }
 
-                var result = _managerChaffeur.UpdateChaffeur(chaffeur, chaffeurId);
+                var result = _managerChaffeur.UpdateChauffeur(chaffeur, chaffeurId);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -72,14 +72,14 @@ namespace WriteAPI.Controllers
         {
             try
             {
-                var ch = _managerChaffeur.GetChaffeurById(chaffeurId);
+                var ch = _managerChaffeur.GetChauffeurById(chaffeurId);
                 var vh = _mediator.Send(new GetVehicleByIdQuery(vehicleId)).Result;
                 if (ch.StatusCode == 404 || vh.StatusCode == 404)
                 {
                     return ch.StatusCode == 404 ? NotFound(ch) : NotFound(vh);
                 }
 
-                var result = _managerChaffeur.AddVehicleToChaffeur(chaffeurId, vehicleId);
+                var result = _managerChaffeur.AddVehicleToChauffeur(chaffeurId, vehicleId);
                 return result.StatusCode != 200 ? BadRequest(result) : Ok(result);
             }
             catch (Exception ex)
@@ -92,13 +92,13 @@ namespace WriteAPI.Controllers
         {
             try
             {
-                var ch = _managerChaffeur.GetChaffeurById(chaffeurId);
+                var ch = _managerChaffeur.GetChauffeurById(chaffeurId);
                 var vh = _mediator.Send(new GetVehicleByIdQuery(vehicleId)).Result;
                 if (ch.StatusCode == 404 || vh.StatusCode == 404)
                 {
                     return ch.StatusCode == 404 ? NotFound(ch) : NotFound(vh);
                 }
-                var result = _managerChaffeur.UpdateVehicleToChaffeur(chaffeurId, vehicleId, activity);
+                var result = _managerChaffeur.UpdateVehicleToChauffeur(chaffeurId, vehicleId, activity);
                 return result.StatusCode != 200 ? BadRequest(result) : Ok(result);
             }
             catch (Exception ex)
@@ -112,7 +112,7 @@ namespace WriteAPI.Controllers
         {
             try
             {
-                var check = _managerChaffeur.GetChaffeurById(chaffeurId);
+                var check = _managerChaffeur.GetChauffeurById(chaffeurId);
                 if (check.StatusCode == 404)
                 {
                     return NotFound(check);
@@ -131,7 +131,7 @@ namespace WriteAPI.Controllers
         {
             try
             {
-                var check = _managerChaffeur.GetChaffeurById(chaffeurId);
+                var check = _managerChaffeur.GetChauffeurById(chaffeurId);
                 var check2 = _drivingLicenseManager.GetAllDrivingLicenseById(drivinglicenseId);
                 if (check.StatusCode != 200 || check2.StatusCode != 200)
                 {
@@ -151,13 +151,13 @@ namespace WriteAPI.Controllers
         {
             try
             {
-                var check = _managerChaffeur.GetChaffeurById(chaffeurId);
+                var check = _managerChaffeur.GetChauffeurById(chaffeurId);
                 var check2 = _fuelCardManager.GetFuelCardById(fuelcardId);
                 if (check.StatusCode != 200 || check2.StatusCode != 200)
                 {
                     return check.StatusCode != 200 ? NotFound(check) : NotFound(check2);
                 }
-                var result = _fuelCardManager.AddFuelCardToChaffeur(fuelcardId,chaffeurId);
+                var result = _fuelCardManager.AddFuelCardToChauffeur(fuelcardId,chaffeurId);
                 return result.StatusCode == 200 ? Ok(result) : BadRequest(result);
             }
             catch (Exception e)
@@ -170,13 +170,13 @@ namespace WriteAPI.Controllers
         {
             try
             {
-                var check = _managerChaffeur.GetChaffeurById(chaffeurId);
+                var check = _managerChaffeur.GetChauffeurById(chaffeurId);
                 var check2 = _fuelCardManager.GetFuelCardById(fuelcardId);
                 if (check.StatusCode != 200 || check2.StatusCode != 200)
                 {
                     return check.StatusCode != 200 ? NotFound(check) : NotFound(check2);
                 }
-                var result = _fuelCardManager.ActivityChaffeurFuelCard(fuelcardId, chaffeurId, activity);
+                var result = _fuelCardManager.ActivityChauffeurFuelCard(fuelcardId, chaffeurId, activity);
                 return result.StatusCode == 200 ? Ok(result) : BadRequest(result);
             }
             catch (Exception e)
@@ -189,7 +189,7 @@ namespace WriteAPI.Controllers
         {
             try
             {
-                var check = _managerChaffeur.GetChaffeurById(chaffeurId);
+                var check = _managerChaffeur.GetChauffeurById(chaffeurId);
                 var check2 = _mediator.Send(new GetVehicleByIdFromChaffeurQuery(chaffeurId,vehicleId)).Result;
                 if (check.StatusCode != 200 || check2.StatusCode != 200)
                 {

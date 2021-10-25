@@ -16,13 +16,13 @@ namespace BusinessLayer.managers.interfaces
         public object GetHeaders(GenericParameter parameters);
         public GenericResult<IGeneralModels> GetFuelCardById(int id);
         public GenericResult<IGeneralModels> GetAllFuelCards();
-        public GenericResult<IGeneralModels> GetFuelcardCHaffeurs(int id);
+        public GenericResult<IGeneralModels> GetFuelcardChauffeurs(int id);
         public GenericResult<IGeneralModels> GetFuelcardFuelTypes(int id);
         public GenericResult<IGeneralModels> GetFuelcardAuthenications(int id);
         public GenericResult<IGeneralModels> GetAllFuelCardsPaging(GenericParameter parameters);
         public GenericResult<IGeneralModels> AddFuelType(int fuelcardId, FuelTypeDTO type);
-        public GenericResult<IGeneralModels> AddFuelCardToChaffeur(int fuelcardNr, int chaffeurNr);
-        public GenericResult<IGeneralModels> ActivityChaffeurFuelCard(int fuelcardNr, int chaffeurNr, bool isactive);
+        public GenericResult<IGeneralModels> AddFuelCardToChauffeur(int fuelcardNr, int chauffeurNr);
+        public GenericResult<IGeneralModels> ActivityChauffeurFuelCard(int fuelcardNr, int chauffeurNr, bool isactive);
         public GenericResult<IGeneralModels> UpdateFuelCard(int fuelcardNr, FuelCardDTO fuelCard);
         public GenericResult<IGeneralModels> AddAuthentication(AuthenticationTypeDTO authenticationType, int fuelcardId);
         public GenericResult<IGeneralModels> AddFuelCard(FuelCardDTO fc);

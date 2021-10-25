@@ -9,15 +9,15 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.mediator.queries
 {
-    public class GetVehicleByIdFromChaffeurQuery : IRequest<GenericResult<IGeneralModels>>
+    public class GetVehicleByIdFromChauffeurQuery : IRequest<GenericResult<IGeneralModels>>
     {
-        public GetVehicleByIdFromChaffeurQuery(int chaffeurId, int vehicleId)
+        public GetVehicleByIdFromChauffeurQuery(int chauffeurId, int vehicleId)
         {
-            _chaffeurId = chaffeurId;
+            _chauffeurId = chauffeurId;
             _vehicleId = vehicleId;
         }
 
-        public int _chaffeurId { get; private set; }
+        public int _chauffeurId { get; private set; }
         public int _vehicleId { get; private set; }
     }
 }

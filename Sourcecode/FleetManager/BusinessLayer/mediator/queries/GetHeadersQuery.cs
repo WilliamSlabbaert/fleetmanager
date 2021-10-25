@@ -10,15 +10,15 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.mediator.queries
 {
-    public class GetHeadersQuery : IRequest<PagedList<IGeneralEntities>>
+    public class GetHeadersQuery : IRequest<PagedList<IGeneralWithIDEntities>>
     {
-        public GetHeadersQuery(GenericParameter parameter, IQueryable<IGeneralEntities> list)
+        public GetHeadersQuery(GenericParameter parameter, IQueryable<IGeneralWithIDEntities> list)
         {
             _parameter = parameter;
             _list = list;
         }
 
         public GenericParameter _parameter { get; private set; }
-        public IQueryable<IGeneralEntities> _list { get; private set; }
+        public IQueryable<IGeneralWithIDEntities> _list { get; private set; }
     }
 }

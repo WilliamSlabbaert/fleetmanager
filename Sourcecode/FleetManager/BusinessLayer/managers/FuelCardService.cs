@@ -139,9 +139,9 @@ namespace BusinessLayer.managers
             return respond;
         }
 
-        public GenericResult<IGeneralModels> AddFuelCardToChaffeur(int fuelcardNr, int chaffeurNr)
+        public GenericResult<IGeneralModels> AddFuelCardToChauffeur(int fuelcardNr, int chaffeurNr)
         {
-            ChauffeurEntity ch = GetChaffeurEntity(chaffeurNr);
+            ChauffeurEntity ch = GetChauffeurEntity(chaffeurNr);
             FuelCardEntity fc = GetFuelCardEntity(fuelcardNr);
             var result = new GenericResult<IGeneralModels>() { Message = "Fuelcard already exist's in chaffeurs list." };
             var tempch = _mapper.Map<Chaffeur>(ch);
@@ -157,9 +157,9 @@ namespace BusinessLayer.managers
             }
             return result;
         }
-        public GenericResult<IGeneralModels> ActivityChaffeurFuelCard(int fuelcardNr, int chaffeurNr, bool isactive)
+        public GenericResult<IGeneralModels> ActivityChauffeurFuelCard(int fuelcardNr, int chaffeurNr, bool isactive)
         {
-            ChauffeurEntity ch = GetChaffeurEntity(chaffeurNr);
+            ChauffeurEntity ch = GetChauffeurEntity(chaffeurNr);
             var result = new GenericResult<IGeneralModels>() { Message = "Fuelcard doesn't in chaffeurs list." };
             if (isactive == true)
             {
@@ -269,7 +269,7 @@ namespace BusinessLayer.managers
             return CreateResult(temp == null, value);
         }
         
-        public GenericResult<IGeneralModels> GetFuelcardCHaffeurs(int id)
+        public GenericResult<IGeneralModels> GetFuelcardChauffeurs(int id)
         {
             var temp = GetFuelCardEntity(id);
 
@@ -301,7 +301,7 @@ namespace BusinessLayer.managers
             .Include(s => s.AuthenticationTypes)
             .Include(s => s.Services));
         }
-        public ChauffeurEntity GetChaffeurEntity(int id)
+        public ChauffeurEntity GetChauffeurEntity(int id)
         {
             var ch = _chrepo.GetById(
             filter: x => x.Id == id

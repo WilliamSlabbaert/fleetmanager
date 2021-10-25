@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.models
 {
-    public class FuelCard : IGeneralModels
+    public class FuelCard : GeneralModels
     {
         public FuelCard()
         {
             AuthenticationTypes = new List<AuthenticationType>();
             FuelType = new List<FuelType>();
             Services = new List<ExtraService>();
-            ChaffeurFuelCards = new List<FuelCardChaffeur>();
+            ChauffeurFuelCards = new List<FuelCardChauffeur>();
         }
 
         public FuelCard(string cardNumber, string pin, bool isActive,DateTime validityDate)
@@ -27,7 +27,7 @@ namespace BusinessLayer.models
             AuthenticationTypes = new List<AuthenticationType>();
             FuelType = new List<FuelType>();
             Services = new List<ExtraService>();
-            ChaffeurFuelCards = new List<FuelCardChaffeur>();
+            ChauffeurFuelCards = new List<FuelCardChauffeur>();
         }
         public bool CheckExistingFuelType(FuelType fuelType)
         {
@@ -57,7 +57,6 @@ namespace BusinessLayer.models
             return false;
         }
 
-        public int Id { get; set; }
         public string CardNumber { get; set; }
         public string Pin { get; set; }
         public DateTime ValidityDate { get; set; }
@@ -65,6 +64,6 @@ namespace BusinessLayer.models
         public List<AuthenticationType> AuthenticationTypes { get; set; }
         public List<FuelType> FuelType { get; set; }
         public List<ExtraService> Services { get; set; }
-        public List<FuelCardChaffeur> ChaffeurFuelCards { get; set; }
+        public List<FuelCardChauffeur> ChauffeurFuelCards { get; set; }
     }
 }

@@ -7,19 +7,19 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.models
 {
-    public class VehicleChaffeur : IGeneralModels
+    public class VehicleChauffeur 
     {
 
         public int VehicleId { get; set; }
         public Vehicle Vehicle { get; set; }
-        public int ChaffeurId { get; set; }
-        public Chaffeur Chaffeur { get; set; }
+        public int ChauffeurId { get; set; }
+        public Chauffeur Chauffeur { get; set; }
         public bool IsActive { get; set; }
 
-        public VehicleChaffeur(Vehicle vehicle, Chaffeur chaffeur, bool isActive)
+        public VehicleChauffeur(Vehicle vehicle, Chauffeur chaffeur, bool isActive)
         {
             Vehicle = vehicle;
-            Chaffeur = chaffeur;
+            Chauffeur = chaffeur;
             IsActive = isActive;
         }
     }

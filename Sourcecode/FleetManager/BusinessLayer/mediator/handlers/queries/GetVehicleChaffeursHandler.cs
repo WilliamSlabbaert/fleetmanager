@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.mediator.handlers.queries
 {
-    public class GetVehicleChaffeursHandler : IRequestHandler<GetVehicleChaffeursQuery, GenericResult<IGeneralModels>>
+    public class GetVehicleChaffeursHandler : IRequestHandler<GetVehicleChauffeursQuery, GenericResult<IGeneralModels>>
     {
         private readonly IGenericRepo<VehicleEntity> _vehicleRepo;
         private readonly IMapper _mapper;
@@ -28,12 +28,12 @@ namespace BusinessLayer.mediator.handlers.queries
             this._mapper = mapper;
             this._mediator = mediator;
         }
-        public Task<GenericResult<IGeneralModels>> Handle(GetVehicleChaffeursQuery request, CancellationToken cancellationToken)
+        public Task<GenericResult<IGeneralModels>> Handle(GetVehicleChauffeursQuery request, CancellationToken cancellationToken)
         {
             var vehicles = _vehicleRepo.GetAll(s => s.Include(x => x.ChauffeurVehicles).ThenInclude(s=>s.Chauffeur));
             var temp = vehicles.FirstOrDefault(s => s.Id == request.Id);
 
-            var value = temp == null ? null : _mapper.Map<Vehicle>(temp).ChaffeurVehicles;
+            var value = temp == null ? null : _mapper.Map<Vehicle>(temp).ChauffeurVehicles;
             var result = CreateResult(temp == null, value);
             return Task.FromResult(result);
         }
