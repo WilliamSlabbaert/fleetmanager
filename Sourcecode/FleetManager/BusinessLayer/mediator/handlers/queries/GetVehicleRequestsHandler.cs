@@ -33,7 +33,7 @@ namespace BusinessLayer.mediator.handlers.queries
             var vehicles = _vehicleRepo.GetAll(s => s.Include(x => x.Requests));
             var temp = vehicles.FirstOrDefault(s => s.Id == request.Id);
 
-            var value = temp == null ? null : _mapper.Map<Vehicle>(temp);
+            var value = temp == null ? null : _mapper.Map<Vehicle>(temp).Requests;
             var result = CreateResult(temp == null, value);
             return Task.FromResult(result);
         }
