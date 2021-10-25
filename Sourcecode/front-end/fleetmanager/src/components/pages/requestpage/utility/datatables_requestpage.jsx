@@ -143,3 +143,77 @@ export const columnsChaffeurs = [
         }
     }
 ];
+export const columnsMaintenance = [
+    {
+        name: '',
+        cell: row => {
+            const temp = '/Maintenancepage/' + row.id;
+            return (
+                <Link to={temp}>
+                    <Button variant="dark" height="30px" width="30px">EDIT</Button>
+                </Link>)
+        }
+    },
+    {
+        name: 'ID',
+        selector: row => {
+            return row.id;
+        },
+    },
+    {
+        name: 'Date',
+        selector: row => {
+            const date = row.date.split("T");
+            return date[0] + " " + date[1].split(":")[0] + ":" +  date[1].split(":")[1];
+        },
+    },
+    {
+        name: 'Price',
+        selector: row => {
+            return row.price
+        },
+    },
+    {
+        name: 'Garage',
+        selector: row => {
+            return row.garage
+        },
+    }
+];
+export const columnsRepairment = [
+    {
+        name: '',
+        cell: row => {
+            const temp = '/Repairmentpage/' + row.id;
+            return (
+                <Link to={temp}>
+                    <Button variant="dark" height="30px" width="30px">EDIT</Button>
+                </Link>)
+        }
+    },
+    {
+        name: 'ID',
+        selector: row => {
+            return row.id;
+        },
+    },
+    {
+        name: 'Date',
+        selector: row => {
+            const date = row.date.split("T");
+            return date[0] + " " + date[1].split(":")[0] + ":" +  date[1].split(":")[1];
+        },
+    },
+    {
+        name: 'Description',
+        selector: row => {
+            return row.description
+        },
+    },
+    {
+        name: 'Company',
+        selector: row => {
+            return row.company
+        },
+    }
+];

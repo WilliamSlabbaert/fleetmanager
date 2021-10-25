@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { AppContext } from 'components/context/appcontext/appcontext.jsx';
 import { Card, Container } from 'react-bootstrap';
 import DataTable from "react-data-table-component";
-import { columnsChaffeurs, columnsVehicles } from './utility/datatables_requestpage.jsx';
+import { columnsChaffeurs, columnsVehicles,columnsMaintenance ,columnsRepairment} from './utility/datatables_requestpage.jsx';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './style/requestpagedetail.css'
@@ -21,6 +21,8 @@ const RequestPageDetail = () => {
     const [request, setRequest] = useState({});
     const [vehicles, setVehicles] = useState([]);
     const [chaffeurs, setChaffeurs] = useState([]);
+    const [maintenance, setMaintenance] = useState([]);
+    const [repairment, setRepairment] = useState([]);
     const { setMenuName } = useContext(AppContext);
     const cardRef = useRef(null);
 
@@ -43,22 +45,26 @@ const RequestPageDetail = () => {
                 type: requestData.type === null ? 'null' : requestData.type,
             })
         }
-        const getVehicles = async () => {
-            const res =
-                await fetch(`https://localhost:44346/Request/${id}/Vehicle`)
+
+        const getItems= async (URL, type) => {
+            const res = await fetch(URL)
             const data = await res.json();
-            const vehicleData = data.returnValue;
-            setVehicles([vehicleData]);
+            const json = data.returnValue;
+            if(type === 1)
+                setVehicles([json]);
+            else if( type === 2)
+                setChaffeurs([json]);
+            else if(type === 3)
+                setMaintenance(json);
+            else
+                setRepairment(json);
         }
-        const getChaffeurs = async () => {
-            const res = await fetch(`https://localhost:44346/Request/${id}/Chaffeur`)
-            const data = await res.json();
-            const chaffeurData = data.returnValue;
-            setChaffeurs([chaffeurData]);
-        }
+
         getRequest();
-        getVehicles();
-        getChaffeurs();
+        getItems(`https://localhost:44346/Request/${id}/Vehicle`, 1);
+        getItems(`https://localhost:44346/Request/${id}/Chaffeur`, 2);
+        getItems(`https://localhost:44346/Request/${id}/Maintenance`, 3);
+        getItems(`https://localhost:44346/Request/${id}/Repairment`, 4);
         setMenuName(["menuBtn", "menuList-notactive"])
     }, [])
 
@@ -114,6 +120,34 @@ const RequestPageDetail = () => {
                         }}
                         paginationTotalRows={chaffeurs.count}
                         data={chaffeurs}
+                    />
+                </div>
+                <div className="maintenanceTable">
+                    <DataTable
+                        title="Maintenance's"
+                        highlightOnHover
+                        columns={columnsMaintenance}
+                        pagination
+                        paginationPerPage={3}
+                        paginationComponentOptions={{
+                            noRowsPerPage: true
+                        }}
+                        paginationTotalRows={maintenance.count}
+                        data={maintenance}
+                    />
+                </div>
+                <div className="repairmentTable">
+                    <DataTable
+                        title="Repairments"
+                        highlightOnHover
+                        columns={columnsRepairment}
+                        pagination
+                        paginationPerPage={3}
+                        paginationComponentOptions={{
+                            noRowsPerPage: true
+                        }}
+                        paginationTotalRows={repairment.count}
+                        data={repairment}
                     />
                 </div>
             </Container>

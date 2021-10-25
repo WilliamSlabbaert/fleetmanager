@@ -18,7 +18,7 @@ const App = () => {
             <Route exact path="/Fuelcardpage" component={() => <GeneralPage />} />
             <Route exact path="/Requestpage" component={() => <GeneralPage />} />
             <Route exact path="/Requestpage/:id" component={() => <GeneralPage />} />
-            <Route exact path="/Userpage" component={() => <GeneralPage />} />
+            <Route exact path="/Chaffeurpage" component={() => <GeneralPage />} />
           </Switch>
         </div>
       </Router>

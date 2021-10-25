@@ -30,7 +30,7 @@ namespace BusinessLayer.mediator.handlers.queries
         }
         public Task<GenericResult<IGeneralModels>> Handle(GetVehicleKilometerHistoryQuery request, CancellationToken cancellationToken)
         {
-            var vehicles = _vehicleRepo.GetAll(s => s.Include(x => x.Requests));
+            var vehicles = _vehicleRepo.GetAll(s => s.Include(x => x.Kilometers));
             var temp = vehicles.FirstOrDefault(s => s.Id == request.Id);
 
             var value = temp == null ? null : _mapper.Map<Vehicle>(temp).Kilometers;

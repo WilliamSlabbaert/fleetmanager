@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { AppContext } from 'components/context/appcontext/appcontext.jsx';
 import { Card, Container } from 'react-bootstrap';
 import DataTable from "react-data-table-component";
-import { columnsChaffeurs,columnsRequests } from './utility/datatable_carpage';
+import { columnsChaffeurs,columnsRequests,columnsPlates,columnsKilometers } from './utility/datatable_carpage';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './style/carpagedetail.css'
@@ -21,6 +21,8 @@ const CarPageDetail = () => {
     const [car, setCar] = useState({});
     const [requests, setRequests] = useState([]);
     const [chaffeurs, setChaffeurs] = useState([]);
+    const [plates, setPlates] = useState([]);
+    const [kilometers, setKilometers] = useState([]);
     const { setMenuName } = useContext(AppContext);
     const cardRef = useRef(null);
 
@@ -39,22 +41,28 @@ const CarPageDetail = () => {
                 type: carData.type === null ? 'null' : carData.type,
                 buildDate: date === null ? 'null' : date
             })
+            
         }
-        const getRequests = async () => {
-            const res = await fetch(`https://localhost:44346/Vehicle/${id}/Request`)
+
+        const getItems= async (URL, type) => {
+            const res = await fetch(URL)
             const data = await res.json();
-            const requestData = data.returnValue;
-            setRequests(requestData);
+            const json = data.returnValue;
+            if(type === 1)
+                setPlates(json);
+            else if( type === 2)
+                setRequests(json);
+            else if(type === 3)
+                setChaffeurs(json);
+            else
+                setKilometers(json);
         }
-        const getChaffeurs = async () => {
-            const res = await fetch(`https://localhost:44346/Vehicle/${id}/Chaffeur`)
-            const data = await res.json();
-            const chaffeursData = data.returnValue;
-            setChaffeurs(chaffeursData);
-        }
+
         getCar();
-        getChaffeurs();
-        getRequests();
+        getItems(`https://localhost:44346/Vehicle/${id}/Licenseplate`,1)
+        getItems(`https://localhost:44346/Vehicle/${id}/Request`,2)
+        getItems(`https://localhost:44346/Vehicle/${id}/Chaffeur`,3)
+        getItems(`https://localhost:44346/Vehicle/${id}/KilometerHistory`,4)
         setMenuName(["menuBtn", "menuList-notactive"])
     }, [])
 
@@ -122,6 +130,34 @@ const CarPageDetail = () => {
                         }}
                         paginationTotalRows={chaffeurs.length   }
                         data={chaffeurs}
+                    />
+                </div>
+                <div className="platesTable">
+                    <DataTable
+                        title="Licenseplates"
+                        highlightOnHover
+                        columns={columnsPlates}
+                        pagination
+                        paginationPerPage={3}
+                        paginationComponentOptions={{
+                            noRowsPerPage: true
+                        }}
+                        paginationTotalRows={plates.length   }
+                        data={plates}
+                    />
+                </div>
+                <div className="kilometersTable">
+                    <DataTable
+                        title="Kilometer history"
+                        highlightOnHover
+                        columns={columnsKilometers}
+                        pagination
+                        paginationPerPage={3}
+                        paginationComponentOptions={{
+                            noRowsPerPage: true
+                        }}
+                        paginationTotalRows={kilometers.length}
+                        data={kilometers}
                     />
                 </div>
             </Container>

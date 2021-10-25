@@ -40,6 +40,7 @@ namespace BusinessLayer.mediator.handlers.queries
                     .Include(s => s.ChaffeurVehicles)
                     .ThenInclude(s => s.Chaffeur)
                     .Include(s => s.LicensePlates)
+                    .Include(s=> s.Kilometers)
                 ));
             var value = temp == null ? null : temp;
             var result = CreateResult(temp == null, value);

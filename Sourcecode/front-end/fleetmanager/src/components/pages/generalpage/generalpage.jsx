@@ -30,6 +30,9 @@ const GeneralPage = () => {
             <Route path="/Requestpage/:id" exact>
                 <RequestPageDetail />
             </Route>
+            <Route path="/Chaffeurpage" exact>
+                <RequestPage />
+            </Route>
         </div>
     )
 }

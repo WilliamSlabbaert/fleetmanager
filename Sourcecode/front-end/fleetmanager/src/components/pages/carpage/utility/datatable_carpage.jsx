@@ -114,3 +114,66 @@ export const columnsChaffeurs = [
         }
     }
 ];
+export const columnsPlates = [
+    {
+        name: '',
+        cell: row => {
+            const temp = '/Licenseplatespage/' + row.chaffeurId;
+            return (
+                <Link to={temp}>
+                    <Button variant="dark" height="30px" width="30px">EDIT</Button>
+                </Link>)
+        }
+    },
+    {
+        name: 'ID',
+        selector: row => {
+            return row.id;
+        },
+    },
+    {
+        name: 'Plate',
+        selector: row => {
+            return row.plate;
+        },
+    },
+    {
+        name: 'Status',
+        selector: row => {
+            if (row.isActive)
+                return "Active"
+            else
+                return "Not active";
+        }
+    }
+];
+export const columnsKilometers = [
+    {
+        name: '',
+        cell: row => {
+            const temp = '/KilometerHistory/' + row.chaffeurId;
+            return (
+                <Link to={temp}>
+                    <Button variant="dark" height="30px" width="30px">EDIT</Button>
+                </Link>)
+        }
+    },
+    {
+        name: 'ID',
+        selector: row => {
+            return row.id;
+        },
+    },
+    {
+        name: 'Kilometers',
+        selector: row => {
+            return row.kilometers;
+        },
+    },
+    {
+        name: 'Date',
+        selector: row => {
+            return row.date.split("T")[0]
+        }
+    }
+];
