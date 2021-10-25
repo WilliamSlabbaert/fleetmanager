@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.validators
 {
-    public class ChaffeurVehicleValidator : AbstractValidator<VehicleChauffeur>
+    public class ChauffeurVehicleValidator : AbstractValidator<VehicleChauffeur>
     {
-        public ChaffeurVehicleValidator()
+        public ChauffeurVehicleValidator()
         {
             RuleFor(s => s.Chauffeur).NotNull().WithMessage("No Chaffeur relation.");
             RuleFor(s => s.Vehicle).NotNull().WithMessage("No Vehicle relation.");

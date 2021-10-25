@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.mediator.queries
 {
-    public class GetVehiclesPagingQuery : IRequest<GenericResult<IGeneralModels>>
+    public class GetVehiclesPagingQuery : IRequest<GenericResult<GeneralModels>>
     {
         public GetVehiclesPagingQuery(GenericParameter parameters)
         {

@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.mediator.handlers.commands
 {
-    public class DeleteKilometerHistoryHandler : IRequestHandler<DeleteKilometerHistoryCommand,GenericResult<IGeneralModels>>
+    public class DeleteKilometerHistoryHandler : IRequestHandler<DeleteKilometerHistoryCommand,GenericResult<GeneralModels>>
     {
         private readonly IGenericRepo<VehicleEntity> _vehicleRepo;
         private readonly IMapper _mapper;
@@ -29,10 +29,10 @@ namespace BusinessLayer.mediator.handlers.commands
             this._mediator = mediator;
         }
 
-        public Task<GenericResult<IGeneralModels>> Handle(DeleteKilometerHistoryCommand request, CancellationToken cancellationToken)
+        public Task<GenericResult<GeneralModels>> Handle(DeleteKilometerHistoryCommand request, CancellationToken cancellationToken)
         {
             var vh = _vehicleRepo.GetById(s=> s.Id == request._vehicleId,s=> s.Include( s=> s.Kilometers));
-            var respond = new GenericResult<IGeneralModels>() { Message = "Kilometerhistory doesn't exist in vehicle list." };
+            var respond = new GenericResult<GeneralModels>() { Message = "Kilometerhistory doesn't exist in vehicle list." };
             respond.SetStatusCode(Overall.ResponseType.NotFound);
             if (CheckKilometer(vh,request._kilometerId))
             {

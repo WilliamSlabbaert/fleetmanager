@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.mediator.handlers.queries
 {
-    public class GetVehicleByIdFromChaffeurHandler : IRequestHandler<GetVehicleByIdFromChauffeurQuery, GenericResult<IGeneralModels>>
+    public class GetVehicleByIdFromChaffeurHandler : IRequestHandler<GetVehicleByIdFromChauffeurQuery, GenericResult<GeneralModels>>
     {
 
         private IMediator _mediator;
@@ -25,10 +25,10 @@ namespace BusinessLayer.mediator.handlers.queries
         {
             this._mediator = mediator;
         }
-        public Task<GenericResult<IGeneralModels>> Handle(GetVehicleByIdFromChauffeurQuery request, CancellationToken cancellationToken)
+        public Task<GenericResult<GeneralModels>> Handle(GetVehicleByIdFromChauffeurQuery request, CancellationToken cancellationToken)
         {
             var vehicle = GetVehicle(request._vehicleId).Result;
-            var respond = new GenericResult<IGeneralModels>() { Message = "Vehicle doesn't exist in chaffeurs list."};
+            var respond = new GenericResult<GeneralModels>() { Message = "Vehicle doesn't exist in chaffeurs list."};
             if (vehicle.StatusCode != 200)
             {
                 return Task.FromResult(vehicle);
@@ -45,7 +45,7 @@ namespace BusinessLayer.mediator.handlers.queries
             respond.ReturnValue = result;
             return Task.FromResult(respond);
         }
-        public Task<GenericResult<IGeneralModels>> GetVehicle(int id)
+        public Task<GenericResult<GeneralModels>> GetVehicle(int id)
         {
             var vehicle = _mediator.Send(new GetVehicleByIdQuery(id));
             return vehicle;

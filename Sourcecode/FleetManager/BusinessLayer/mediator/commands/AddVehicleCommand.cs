@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.mediator.commands
 {
-    public class AddVehicleCommand : IRequest<GenericResult<IGeneralModels>>
+    public class AddVehicleCommand : IRequest<GenericResult<GeneralModels>>
     {
         public VehicleDTO _vehicle { get; private set; }
 

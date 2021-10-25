@@ -31,7 +31,7 @@ namespace ReadAPI.Controllers
         // -------GET-------
 
         [HttpGet]
-        public ActionResult<GenericResult<IGeneralModels>> GetAllChaffeurs([FromQuery] GenericParameter parameter)
+        public ActionResult<GenericResult<GeneralModels>> GetAllChaffeurs([FromQuery] GenericParameter parameter)
         {
 
             var temp = _managerChaffeur.GetAllChauffeursPaging(parameter);
@@ -42,7 +42,7 @@ namespace ReadAPI.Controllers
 
         }
         [HttpGet("{chaffeurId}")]
-        public ActionResult<GenericResult<IGeneralModels>> GetById(int chaffeurId)
+        public ActionResult<GenericResult<GeneralModels>> GetById(int chaffeurId)
         {
             try
             {
@@ -56,7 +56,7 @@ namespace ReadAPI.Controllers
             }
         }
         [HttpGet("{chaffeurId}/Vehicle")]
-        public ActionResult<GenericResult<IGeneralModels>> GetallVehiclesById(int chaffeurId)
+        public ActionResult<GenericResult<GeneralModels>> GetallVehiclesById(int chaffeurId)
         {
             try
             {
@@ -69,7 +69,7 @@ namespace ReadAPI.Controllers
             }
         }
         [HttpGet("{chaffeurId}/Fuelcard")]
-        public ActionResult<GenericResult<IGeneralModels>> GetallFuelCards(int chaffeurId)
+        public ActionResult<GenericResult<GeneralModels>> GetallFuelCards(int chaffeurId)
         {
             try
             {
@@ -82,7 +82,7 @@ namespace ReadAPI.Controllers
             }
         }
         [HttpGet("{chaffeurId}/Request")]
-        public ActionResult<GenericResult<IGeneralModels>> GetallRequests(int chaffeurId)
+        public ActionResult<GenericResult<GeneralModels>> GetallRequests(int chaffeurId)
         {
             try
             {
@@ -95,7 +95,7 @@ namespace ReadAPI.Controllers
             }
         }
         [HttpGet("{chaffeurId}/Drivinglicense")]
-        public ActionResult<GenericResult<IGeneralModels>> GetallDrivingLicensesById(int chaffeurId)
+        public ActionResult<GenericResult<GeneralModels>> GetallDrivingLicensesById(int chaffeurId)
         {
             try
             {

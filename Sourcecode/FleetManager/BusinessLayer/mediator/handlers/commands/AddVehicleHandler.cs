@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.mediator.handlers
 {
-    public class AddVehicleHandler : IRequestHandler<AddVehicleCommand, GenericResult<IGeneralModels>>
+    public class AddVehicleHandler : IRequestHandler<AddVehicleCommand, GenericResult<GeneralModels>>
     {
         private readonly IGenericRepo<VehicleEntity> _vehicleRepo;
         private readonly IMapper _mapper;
@@ -30,12 +30,12 @@ namespace BusinessLayer.mediator.handlers
             this._mediator = mediator;
         }
 
-        public Task<GenericResult<IGeneralModels>> Handle(AddVehicleCommand request, CancellationToken cancellationToken)
+        public Task<GenericResult<GeneralModels>> Handle(AddVehicleCommand request, CancellationToken cancellationToken)
         {
             var t = _mapper.Map<Vehicle>(request._vehicle);
             var temp = _mapper.Map<VehicleEntity>(t);
             var result = _mediator.Send(new CheckExistingVehicleQuery(t));
-            var respond = new GenericResult<IGeneralModels>() { Message = "Vehicle with same chasis number already exists." };
+            var respond = new GenericResult<GeneralModels>() { Message = "Vehicle with same chasis number already exists." };
             respond.SetStatusCode(Overall.ResponseType.BadRequest);
             if (result.Result == false)
             {

@@ -31,7 +31,7 @@ namespace WriteAPI.Controllers
         }
 
         [HttpPut("Request/{id}")]
-        public ActionResult<GenericResult<IGeneralModels>> UpdateRequest(int id,[FromBody] RequestDTO request)
+        public ActionResult<GenericResult<GeneralModels>> UpdateRequest(int id,[FromBody] RequestDTO request)
         {
             try
             {
@@ -49,7 +49,7 @@ namespace WriteAPI.Controllers
             }
         }
         [HttpPost("Request/{id}/Maintenance")]
-        public ActionResult<GenericResult<IGeneralModels>> AddMaintenance(int id, [FromBody] MaintenanceDTO maintenance)
+        public ActionResult<GenericResult<GeneralModels>> AddMaintenance(int id, [FromBody] MaintenanceDTO maintenance)
         {
             try
             {
@@ -67,7 +67,7 @@ namespace WriteAPI.Controllers
             }
         }
         [HttpDelete("Request/{requestId}/Maintenance/{maintenanceId}")]
-        public ActionResult<GenericResult<IGeneralModels>> DeleteMaintenance(int requestId, int maintenanceId)
+        public ActionResult<GenericResult<GeneralModels>> DeleteMaintenance(int requestId, int maintenanceId)
         {
             try
             {
@@ -86,7 +86,7 @@ namespace WriteAPI.Controllers
             }
         }
         [HttpPost("Request/{id}/Repairment")]
-        public ActionResult<GenericResult<IGeneralModels>> AddRepair(int id, [FromBody] RepairmentDTO repairment)
+        public ActionResult<GenericResult<GeneralModels>> AddRepair(int id, [FromBody] RepairmentDTO repairment)
         {
             try
             {
@@ -104,7 +104,7 @@ namespace WriteAPI.Controllers
             }
         }
         [HttpDelete("Request/{requestId}/Repairment/{repairmentId}")]
-        public ActionResult<GenericResult<IGeneralModels>> AddRepair(int requestId,int repairmentId)
+        public ActionResult<GenericResult<GeneralModels>> AddRepair(int requestId,int repairmentId)
         {
             try
             {

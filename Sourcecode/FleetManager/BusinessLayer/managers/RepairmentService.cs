@@ -33,7 +33,7 @@ namespace BusinessLayer.managers
             this._mapper = mapper;
             this._mediator = mediator;
         }
-        public GenericResult<IGeneralModels> AddRepairment(RepairmentDTO repairment, int requestId)
+        public GenericResult<GeneralModels> AddRepairment(RepairmentDTO repairment, int requestId)
         {
             var temp = _mapper.Map<Repairment>(repairment);
             var rq = GetRequestEntity(requestId);
@@ -41,26 +41,26 @@ namespace BusinessLayer.managers
             rq.Repairment.Add(rm);
             _rqrepo.UpdateEntity(rq);
             _rqrepo.Save();
-            var respond = new GenericResult<IGeneralModels>() { ReturnValue = _mapper.Map<Request>(rq), Message = "Ok" };
+            var respond = new GenericResult<GeneralModels>() { ReturnValue = _mapper.Map<Request>(rq), Message = "Ok" };
             respond.SetStatusCode(Overall.ResponseType.OK);
 
             return respond;
         }
-        public GenericResult<IGeneralModels> DeleteRepairment(int requestId, int repairmentId)
+        public GenericResult<GeneralModels> DeleteRepairment(int requestId, int repairmentId)
         {
             var rq = GetRequestEntity(requestId);
             var rm = GetRepairmentEntityById(repairmentId);
             rq.Repairment.Remove(rm);
             _rqrepo.UpdateEntity(rq); 
             _rqrepo.Save();
-            var respond = new GenericResult<IGeneralModels>() { ReturnValue = _mapper.Map<Request>(rq), Message = "Ok" };
+            var respond = new GenericResult<GeneralModels>() { ReturnValue = _mapper.Map<Request>(rq), Message = "Ok" };
             respond.SetStatusCode(Overall.ResponseType.OK);
 
             return respond;
         }
 
 
-        public GenericResult<IGeneralModels> GetAllRepairments()
+        public GenericResult<GeneralModels> GetAllRepairments()
         {
             var temp = _mapper.Map<List<Repairment>>(_repo.GetAll(
                 x => x.Include(s => s.Request)));
@@ -68,7 +68,7 @@ namespace BusinessLayer.managers
             var value = temp == null ? null : temp;
             return CreateResult(temp == null, value);
         }
-        public GenericResult<IGeneralModels> GetAllRepairmentsPaging(GenericParameter parameters)
+        public GenericResult<GeneralModels> GetAllRepairmentsPaging(GenericParameter parameters)
         {
             var temp = _mapper.Map<List<Repairment>>(_repo.GetAllWithPaging(
                 x => x.Include(s => s.Request), parameters));
@@ -76,14 +76,14 @@ namespace BusinessLayer.managers
             var value = temp == null ? null : temp;
             return CreateResult(temp == null, value);
         }
-        public GenericResult<IGeneralModels> GetRepairmentById(int id)
+        public GenericResult<GeneralModels> GetRepairmentById(int id)
         {
             var temp = _mapper.Map<Repairment>(GetRepairmentEntityById(id));
 
             var value = temp == null ? null : temp;
             return CreateResult(temp == null, value);
         }
-        public GenericResult<IGeneralModels> GetRepairmentRequestById(int id)
+        public GenericResult<GeneralModels> GetRepairmentRequestById(int id)
         {
             var temp = _mapper.Map<Repairment>(GetRepairmentEntityById(id));
 
@@ -112,7 +112,7 @@ namespace BusinessLayer.managers
             }
 
         }
-        public GenericResult<IGeneralModels> CreateResult(bool check, object value)
+        public GenericResult<GeneralModels> CreateResult(bool check, object value)
         {
             var message = "OK";
             var code = Overall.ResponseType.OK;

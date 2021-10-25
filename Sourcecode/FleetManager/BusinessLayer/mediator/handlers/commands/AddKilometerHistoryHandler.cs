@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.mediator.handlers.commands
 {
-    public class AddKilometerHistoryHandler : IRequestHandler<AddKilometerHistoryCommand, GenericResult<IGeneralModels>>
+    public class AddKilometerHistoryHandler : IRequestHandler<AddKilometerHistoryCommand, GenericResult<GeneralModels>>
     {
         private readonly IGenericRepo<VehicleEntity> _vehicleRepo;
         private readonly IMapper _mapper;
@@ -28,14 +28,14 @@ namespace BusinessLayer.mediator.handlers.commands
             this._mapper = mapper;
             this._mediator = mediator;
         }
-        public Task<GenericResult<IGeneralModels>> Handle(AddKilometerHistoryCommand request, CancellationToken cancellationToken)
+        public Task<GenericResult<GeneralModels>> Handle(AddKilometerHistoryCommand request, CancellationToken cancellationToken)
         {
             var temp = _vehicleRepo.GetById(s=>s.Id == request._vehicleId,s=>s.Include(s=> s.Kilometers));
             var dto = _mapper.Map<KilometerHistory>(request.kilometer);
             temp.Kilometers.Add(_mapper.Map<KilometerHistoryEntity>(dto));
             _vehicleRepo.UpdateEntity(temp);
             _vehicleRepo.Save();
-            var response = new GenericResult<IGeneralModels>() { Message = "Ok", ReturnValue = temp};
+            var response = new GenericResult<GeneralModels>() { Message = "Ok", ReturnValue = temp};
             response.SetStatusCode(Overall.ResponseType.OK);
             return Task.FromResult(response);
         }

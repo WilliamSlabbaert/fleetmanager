@@ -36,7 +36,7 @@ namespace BusinessLayer.managers
             this._vhrepo = vhrepo;
             this._mediator = mediator;
         }
-        public GenericResult<IGeneralModels> AddRequest(RequestDTO request, int chaffeurId, int vehicleId)
+        public GenericResult<GeneralModels> AddRequest(RequestDTO request, int chaffeurId, int vehicleId)
         {
             ChauffeurEntity ch = GetChauffeurEntity(chaffeurId);
             VehicleEntity vh = GetVehicleEntity(vehicleId);
@@ -52,7 +52,7 @@ namespace BusinessLayer.managers
             var resp = _mediator.Send(new CreateGenericResultCommand("Ok", Overall.ResponseType.OK, _mapper.Map<Request>(rq)));
             return resp.Result;
         }
-        public GenericResult<IGeneralModels> GetAllRequests()
+        public GenericResult<GeneralModels> GetAllRequests()
         {
             var temp = _mapper.Map<List<Request>>(_repo.GetAll(
                 x => x.Include(s => s.Chauffeur)
@@ -63,7 +63,7 @@ namespace BusinessLayer.managers
             var value = temp == null ? null : temp;
             return CreateResult(temp == null, value);
         }
-        public GenericResult<IGeneralModels> GetAllRequestsPaging(GenericParameter parameters)
+        public GenericResult<GeneralModels> GetAllRequestsPaging(GenericParameter parameters)
         {
             var temp = _mapper.Map<List<Request>>(_repo.GetAllWithPaging(
                 x => x.Include(s => s.Chauffeur)
@@ -74,31 +74,31 @@ namespace BusinessLayer.managers
             var value = temp == null ? null : temp;
             return CreateResult(temp == null, value);
         }
-        public GenericResult<IGeneralModels> GetRequestById(int id)
+        public GenericResult<GeneralModels> GetRequestById(int id)
         {
             var temp = _mapper.Map<Request>(GetRequestEntityById(id));
             var value = temp == null ? null : temp;
             return CreateResult(temp == null, value);
         }
-        public GenericResult<IGeneralModels> GetRequestChaffeur(int id)
+        public GenericResult<GeneralModels> GetRequestChaffeur(int id)
         {
             var temp = _mapper.Map<Request>(GetRequestEntityById(id));
             var value = temp == null ? null : temp.Chauffeur;
             return CreateResult(temp == null, value);
         }
-        public GenericResult<IGeneralModels> GetRequestVehicle(int id)
+        public GenericResult<GeneralModels> GetRequestVehicle(int id)
         {
             var temp = _mapper.Map<Request>(GetRequestEntityById(id));
             var value = temp == null ? null : temp.Vehicle;
             return CreateResult(temp == null, value);
         }
-        public GenericResult<IGeneralModels> GetRequestRepairs(int id)
+        public GenericResult<GeneralModels> GetRequestRepairs(int id)
         {
             var temp = _mapper.Map<Request>(GetRequestEntityById(id));
             var value = temp == null ? null : temp.Repairment;
             return CreateResult(temp == null, value);
         }
-        public GenericResult<IGeneralModels> GetRequestMaintenance(int id)
+        public GenericResult<GeneralModels> GetRequestMaintenance(int id)
         {
             var temp = _mapper.Map<Request>(GetRequestEntityById(id));
             var value = temp == null ? null : temp.Maintenance;
@@ -122,7 +122,7 @@ namespace BusinessLayer.managers
             .ThenInclude(s => s.Vehicle));
             return temp;
         }
-        public GenericResult<IGeneralModels> UpdateRequest(RequestDTO request, int id)
+        public GenericResult<GeneralModels> UpdateRequest(RequestDTO request, int id)
         {
             var rq = GetRequestEntityById(id);
 
@@ -146,7 +146,7 @@ namespace BusinessLayer.managers
                 .Include(s => s.Vehicle));
             return temp;
         }
-        public GenericResult<IGeneralModels> CreateResult(bool check, object value)
+        public GenericResult<GeneralModels> CreateResult(bool check, object value)
         {
             var message = "OK";
             var code = Overall.ResponseType.OK;

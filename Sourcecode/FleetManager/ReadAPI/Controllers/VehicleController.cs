@@ -30,7 +30,7 @@ namespace ReadAPI.Controllers
             this._repo = repo;
         }
         [HttpGet("Vehicle")]
-        public ActionResult<GenericResult<IGeneralModels>> GetAllVehicles([FromQuery] GenericParameter parameter)
+        public ActionResult<GenericResult<GeneralModels>> GetAllVehicles([FromQuery] GenericParameter parameter)
         {
             try
             {
@@ -46,7 +46,7 @@ namespace ReadAPI.Controllers
         }
 
         [HttpGet("Vehicle/{id}")]
-        public ActionResult<GenericResult<IGeneralModels>> GetVehicleByID(int id)
+        public ActionResult<GenericResult<GeneralModels>> GetVehicleByID(int id)
         {
             try
             {
@@ -59,7 +59,7 @@ namespace ReadAPI.Controllers
             }
         }
         [HttpGet("Vehicle/{id}/Chaffeur")]
-        public ActionResult<GenericResult<IGeneralModels>> GetVehicleChaffeursByID(int id)
+        public ActionResult<GenericResult<GeneralModels>> GetVehicleChaffeursByID(int id)
         {
             try
             {
@@ -72,7 +72,7 @@ namespace ReadAPI.Controllers
             }
         }
         [HttpGet("Vehicle/{id}/Licenseplate")]
-        public ActionResult<GenericResult<IGeneralModels>> GetVehicleLicensePlatesByID(int id)
+        public ActionResult<GenericResult<GeneralModels>> GetVehicleLicensePlatesByID(int id)
         {
             try
             {
@@ -85,7 +85,7 @@ namespace ReadAPI.Controllers
             }
         }
         [HttpGet("Vehicle/{id}/Request")]
-        public ActionResult<GenericResult<IGeneralModels>> GetVehicleRequestsByID(int id)
+        public ActionResult<GenericResult<GeneralModels>> GetVehicleRequestsByID(int id)
         {
             try
             {
@@ -98,7 +98,7 @@ namespace ReadAPI.Controllers
             }
         }
         [HttpGet("Vehicle/{id}/KilometerHistory")]
-        public ActionResult<GenericResult<IGeneralModels>> GetVehicleKilometersByID(int id)
+        public ActionResult<GenericResult<GeneralModels>> GetVehicleKilometersByID(int id)
         {
             try
             {

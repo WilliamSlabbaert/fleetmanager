@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.validators
 {
-    public class ChaffeurValidator : AbstractValidator<Chauffeur>
+    public class ChauffeurValidator : AbstractValidator<Chauffeur>
     {
-        public ChaffeurValidator()
+        public ChauffeurValidator()
         {
             RuleFor(c => c.City)
                 .NotNull().WithMessage("City property is null.");

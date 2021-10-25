@@ -33,7 +33,7 @@ namespace BusinessLayer.managers
             this._mapper = mapper;
             this._mediator = mediator;
         }
-        public GenericResult<IGeneralModels> AddMaintenance(MaintenanceDTO maintenance, int requestId)
+        public GenericResult<GeneralModels> AddMaintenance(MaintenanceDTO maintenance, int requestId)
         {
             var rq = GetRequestEntity(requestId);
             var temp = _mapper.Map<Maintenance>(maintenance);
@@ -41,11 +41,11 @@ namespace BusinessLayer.managers
             rq.Maintenance.Add(rm);
             _rqrepo.UpdateEntity(rq);
             _repo.Save();
-            var respond = new GenericResult<IGeneralModels>() { ReturnValue = _mapper.Map<Request>(rq), Message = "Ok" };
+            var respond = new GenericResult<GeneralModels>() { ReturnValue = _mapper.Map<Request>(rq), Message = "Ok" };
             respond.SetStatusCode(Overall.ResponseType.OK);
             return respond;
         }
-        public GenericResult<IGeneralModels> DeleteMaintenance(int requestid, int maintenanceid)
+        public GenericResult<GeneralModels> DeleteMaintenance(int requestid, int maintenanceid)
         {
             var request = GetRequestEntity(requestid);
             var maintenance = request.Maintenance.FirstOrDefault(s=> s.Id == maintenanceid);
@@ -54,11 +54,11 @@ namespace BusinessLayer.managers
             _rqrepo.UpdateEntity(request);
             _rqrepo.Save();
 
-            var respond = new GenericResult<IGeneralModels>() { ReturnValue = _mapper.Map<Request>(request), Message = "Ok" };
+            var respond = new GenericResult<GeneralModels>() { ReturnValue = _mapper.Map<Request>(request), Message = "Ok" };
             respond.SetStatusCode(Overall.ResponseType.OK);
             return respond;
         }
-        public GenericResult<IGeneralModels> UpdateMaintenance(int maintenanceid, MaintenanceDTO maintenance)
+        public GenericResult<GeneralModels> UpdateMaintenance(int maintenanceid, MaintenanceDTO maintenance)
         {
             var temp = _mapper.Map<Maintenance>(maintenance);
             var mt = GetMaintenanceEntityById(maintenanceid);
@@ -69,12 +69,12 @@ namespace BusinessLayer.managers
             _repo.UpdateEntity(mt);
             _repo.Save();
 
-            var respond = new GenericResult<IGeneralModels>() { ReturnValue = _mapper.Map<Request>(mt.Request), Message = "Ok" };
+            var respond = new GenericResult<GeneralModels>() { ReturnValue = _mapper.Map<Request>(mt.Request), Message = "Ok" };
             respond.SetStatusCode(Overall.ResponseType.OK);
             return respond;
         }
 
-        public GenericResult<IGeneralModels> GetAllMaintenances()
+        public GenericResult<GeneralModels> GetAllMaintenances()
         {
             var temp = _mapper.Map<List<Maintenance>>(_repo.GetAll(
                 x => x.Include(s => s.Request)));
@@ -82,7 +82,7 @@ namespace BusinessLayer.managers
             var value = temp == null ? null : temp;
             return CreateResult(temp == null, value);
         }
-        public GenericResult<IGeneralModels> GetAllMaintenancesPaging(GenericParameter parameters)
+        public GenericResult<GeneralModels> GetAllMaintenancesPaging(GenericParameter parameters)
         {
             var temp = _mapper.Map<List<Maintenance>>(_repo.GetAllWithPaging(
                 x => x.Include(s => s.Request),parameters));
@@ -90,7 +90,7 @@ namespace BusinessLayer.managers
             var value = temp == null ? null : temp;
             return CreateResult(temp == null, value);
         }
-        public GenericResult<IGeneralModels> GetMaintenanceById(int id)
+        public GenericResult<GeneralModels> GetMaintenanceById(int id)
         {
             var temp = _mapper.Map<Maintenance>(_repo.GetById(
                 filter: x => x.Id == id,
@@ -99,7 +99,7 @@ namespace BusinessLayer.managers
             var value = temp == null ? null : temp;
             return CreateResult(temp == null, value);
         }
-        public GenericResult<IGeneralModels> GetMaintenanceInvoicesById(int id)
+        public GenericResult<GeneralModels> GetMaintenanceInvoicesById(int id)
         {
             var temp = _mapper.Map<Maintenance>(_repo.GetById(
                 filter: x => x.Id == id,
@@ -108,7 +108,7 @@ namespace BusinessLayer.managers
             var value = temp == null ? null : temp.Invoices;
             return CreateResult(temp == null, value);
         }
-        public GenericResult<IGeneralModels> GetMaintenanceRequestById(int id)
+        public GenericResult<GeneralModels> GetMaintenanceRequestById(int id)
         {
             var temp = _mapper.Map<Maintenance>(_repo.GetById(
                 filter: x => x.Id == id,
@@ -131,7 +131,7 @@ namespace BusinessLayer.managers
             filter: x => x.Id == id,
             x => x.Include(x => x.Maintenance));
         }
-        public GenericResult<IGeneralModels> AddInvoice(int maintenanceId, InvoiceDTO invoice)
+        public GenericResult<GeneralModels> AddInvoice(int maintenanceId, InvoiceDTO invoice)
         {
             var temp = _mapper.Map<Invoice>(invoice);
             var maintenance = GetMaintenanceEntityById(maintenanceId);
@@ -139,16 +139,16 @@ namespace BusinessLayer.managers
             _repo.UpdateEntity(maintenance);
             _repo.Save();
 
-            var respond = new GenericResult<IGeneralModels>() { ReturnValue = _mapper.Map<Request>(maintenance.Request), Message = "Ok" };
+            var respond = new GenericResult<GeneralModels>() { ReturnValue = _mapper.Map<Request>(maintenance.Request), Message = "Ok" };
             respond.SetStatusCode(Overall.ResponseType.OK);
             return respond;
         }
-        public GenericResult<IGeneralModels> DeleteInvoice(int maintenanceId, int invoiceId)
+        public GenericResult<GeneralModels> DeleteInvoice(int maintenanceId, int invoiceId)
         {
             var maintenance = GetMaintenanceEntityById(maintenanceId);
             var invoice = maintenance.Invoices.FirstOrDefault(s => s.Id == invoiceId);
             maintenance.Invoices.Remove(invoice);
-            var respond = new GenericResult<IGeneralModels>() { Message = "Invoice doesn't exist in maintenance list." };
+            var respond = new GenericResult<GeneralModels>() { Message = "Invoice doesn't exist in maintenance list." };
             if(invoice == null)
             {
                 return respond;
@@ -161,7 +161,7 @@ namespace BusinessLayer.managers
             respond.SetStatusCode(Overall.ResponseType.OK);
             return respond;
         }
-        public GenericResult<IGeneralModels> CreateResult(bool check, object value)
+        public GenericResult<GeneralModels> CreateResult(bool check, object value)
         {
             var message = "OK";
             var code = Overall.ResponseType.OK;

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.mediator.commands
 {
-    public class CreateGenericResultCommand : IRequest<GenericResult<IGeneralModels>>
+    public class CreateGenericResultCommand : IRequest<GenericResult<GeneralModels>>
     {
         public CreateGenericResultCommand(string message, ResponseType type, object value)
         {

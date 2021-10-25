@@ -14,21 +14,21 @@ namespace BusinessLayer.managers.interfaces
     public interface IFuelCardService
     {
         public object GetHeaders(GenericParameter parameters);
-        public GenericResult<IGeneralModels> GetFuelCardById(int id);
-        public GenericResult<IGeneralModels> GetAllFuelCards();
-        public GenericResult<IGeneralModels> GetFuelcardChauffeurs(int id);
-        public GenericResult<IGeneralModels> GetFuelcardFuelTypes(int id);
-        public GenericResult<IGeneralModels> GetFuelcardAuthenications(int id);
-        public GenericResult<IGeneralModels> GetAllFuelCardsPaging(GenericParameter parameters);
-        public GenericResult<IGeneralModels> AddFuelType(int fuelcardId, FuelTypeDTO type);
-        public GenericResult<IGeneralModels> AddFuelCardToChauffeur(int fuelcardNr, int chauffeurNr);
-        public GenericResult<IGeneralModels> ActivityChauffeurFuelCard(int fuelcardNr, int chauffeurNr, bool isactive);
-        public GenericResult<IGeneralModels> UpdateFuelCard(int fuelcardNr, FuelCardDTO fuelCard);
-        public GenericResult<IGeneralModels> AddAuthentication(AuthenticationTypeDTO authenticationType, int fuelcardId);
-        public GenericResult<IGeneralModels> AddFuelCard(FuelCardDTO fc);
-        public GenericResult<IGeneralModels> AddService(ExtraServiceDTO extraService, int fuelcardId);
-        public GenericResult<IGeneralModels> DeleteFuelType(int id, int fuelid);
-        public GenericResult<IGeneralModels> DeleteService(int fuelcardId, int serviceId);
-        public GenericResult<IGeneralModels> DeleteAuthentication(int fuelcardId, int authenticationId);
+        public GenericResult<GeneralModels> GetFuelCardById(int id);
+        public GenericResult<GeneralModels> GetAllFuelCards();
+        public GenericResult<GeneralModels> GetFuelcardChauffeurs(int id);
+        public GenericResult<GeneralModels> GetFuelcardFuelTypes(int id);
+        public GenericResult<GeneralModels> GetFuelcardAuthenications(int id);
+        public GenericResult<GeneralModels> GetAllFuelCardsPaging(GenericParameter parameters);
+        public GenericResult<GeneralModels> AddFuelType(int fuelcardId, FuelTypeDTO type);
+        public GenericResult<GeneralModels> AddFuelCardToChauffeur(int fuelcardNr, int chauffeurNr);
+        public GenericResult<GeneralModels> ActivityChauffeurFuelCard(int fuelcardNr, int chauffeurNr, bool isactive);
+        public GenericResult<GeneralModels> UpdateFuelCard(int fuelcardNr, FuelCardDTO fuelCard);
+        public GenericResult<GeneralModels> AddAuthentication(AuthenticationTypeDTO authenticationType, int fuelcardId);
+        public GenericResult<GeneralModels> AddFuelCard(FuelCardDTO fc);
+        public GenericResult<GeneralModels> AddService(ExtraServiceDTO extraService, int fuelcardId);
+        public GenericResult<GeneralModels> DeleteFuelType(int id, int fuelid);
+        public GenericResult<GeneralModels> DeleteService(int fuelcardId, int serviceId);
+        public GenericResult<GeneralModels> DeleteAuthentication(int fuelcardId, int authenticationId);
     }
 }

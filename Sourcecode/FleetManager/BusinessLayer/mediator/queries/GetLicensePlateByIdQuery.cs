@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.mediator.queries
 {
-    public class GetLicensePlateByIdQuery : IRequest<GenericResult<IGeneralModels>>
+    public class GetLicensePlateByIdQuery : IRequest<GenericResult<GeneralModels>>
     {
         public GetLicensePlateByIdQuery(int licensePlateId)
         {

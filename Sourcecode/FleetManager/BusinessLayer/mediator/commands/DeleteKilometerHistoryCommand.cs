@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.mediator.commands
 {
-    public class DeleteKilometerHistoryCommand : IRequest<GenericResult<IGeneralModels>>
+    public class DeleteKilometerHistoryCommand : IRequest<GenericResult<GeneralModels>>
     {
         public DeleteKilometerHistoryCommand(int kilometerId, int vehicleId)
         {

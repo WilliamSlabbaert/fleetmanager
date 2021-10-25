@@ -8,16 +8,16 @@ namespace BusinessLayer.managers.interfaces
     public interface IChauffeurService 
     {
         public object GetHeaders(GenericParameter parameters);
-        public GenericResult<IGeneralModels> GetAllChauffeurs();
-        public GenericResult<IGeneralModels> GetChauffeurById(int id);
-        public GenericResult<IGeneralModels> GetChauffeurVehicles(int chaffeurId);
-        public GenericResult<IGeneralModels> GetChauffeurRequests(int chaffeurId);
-        public GenericResult<IGeneralModels> GetChauffeurFuelcards(int chaffeurId);
-        public GenericResult<IGeneralModels> GetChauffeurDrivingLicenses(int chaffeurId);
-        public GenericResult<IGeneralModels> GetAllChauffeursPaging(GenericParameter parameters);
-        public GenericResult<IGeneralModels> AddChauffeur(ChaffeurDTO ch);
-        public GenericResult<IGeneralModels> UpdateVehicleToChauffeur(int chaffeurNr, int vehicleNr, bool active);
-        public GenericResult<IGeneralModels> UpdateChauffeur(ChaffeurDTO ch, int id);
-        public GenericResult<IGeneralModels> AddVehicleToChauffeur(int chaffeurNr, int vehicleNr);
+        public GenericResult<GeneralModels> GetAllChauffeurs();
+        public GenericResult<GeneralModels> GetChauffeurById(int id);
+        public GenericResult<GeneralModels> GetChauffeurVehicles(int chaffeurId);
+        public GenericResult<GeneralModels> GetChauffeurRequests(int chaffeurId);
+        public GenericResult<GeneralModels> GetChauffeurFuelcards(int chaffeurId);
+        public GenericResult<GeneralModels> GetChauffeurDrivingLicenses(int chaffeurId);
+        public GenericResult<GeneralModels> GetAllChauffeursPaging(GenericParameter parameters);
+        public GenericResult<GeneralModels> AddChauffeur(ChauffeurDTO ch);
+        public GenericResult<GeneralModels> UpdateVehicleToChauffeur(int chaffeurNr, int vehicleNr, bool active);
+        public GenericResult<GeneralModels> UpdateChauffeur(ChauffeurDTO ch, int id);
+        public GenericResult<GeneralModels> AddVehicleToChauffeur(int chaffeurNr, int vehicleNr);
     }
 }

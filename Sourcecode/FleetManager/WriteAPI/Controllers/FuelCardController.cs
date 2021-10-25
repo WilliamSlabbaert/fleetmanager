@@ -23,7 +23,7 @@ namespace WriteAPI.Controllers
             _fuelCardManager = fuelCardManager;
         }
         [HttpPost("FuelCard")]
-        public ActionResult<GenericResult<IGeneralModels>> AddFuelType([FromBody] FuelCardDTO fuelcard)
+        public ActionResult<GenericResult<GeneralModels>> AddFuelType([FromBody] FuelCardDTO fuelcard)
         {
             try
             {
@@ -37,7 +37,7 @@ namespace WriteAPI.Controllers
         }
 
         [HttpPut("FuelCard/{fuelcardId}")]
-        public ActionResult<GenericResult<IGeneralModels>> AddFuelCard(int fuelcardId,[FromBody] FuelCardDTO fuelCard)
+        public ActionResult<GenericResult<GeneralModels>> AddFuelCard(int fuelcardId,[FromBody] FuelCardDTO fuelCard)
         {
             try
             {
@@ -55,7 +55,7 @@ namespace WriteAPI.Controllers
             }
         }
         [HttpPost("FuelCard/{fuelcardId}/Fueltypes")]
-        public ActionResult<GenericResult<IGeneralModels>> AddFuelType(int fuelcardId, [FromBody] FuelTypeDTO fuel)
+        public ActionResult<GenericResult<GeneralModels>> AddFuelType(int fuelcardId, [FromBody] FuelTypeDTO fuel)
         {
             try
             {
@@ -73,7 +73,7 @@ namespace WriteAPI.Controllers
             }
         }
         [HttpDelete("FuelCard/{fuelcardId}/Fueltypes/{fuelId}")]
-        public ActionResult<GenericResult<IGeneralModels>> DeleteFuelType(int fuelcardId, int fuelId)
+        public ActionResult<GenericResult<GeneralModels>> DeleteFuelType(int fuelcardId, int fuelId)
         {
             try
             {
@@ -91,7 +91,7 @@ namespace WriteAPI.Controllers
             }
         }
         [HttpPost("FuelCard/{fuelcardId}/ExtraServices")]
-        public ActionResult<GenericResult<IGeneralModels>> AddService(int fuelcardId, [FromBody] ExtraServiceDTO service)
+        public ActionResult<GenericResult<GeneralModels>> AddService(int fuelcardId, [FromBody] ExtraServiceDTO service)
         {
             try
             {
@@ -109,7 +109,7 @@ namespace WriteAPI.Controllers
             }
         }
         [HttpDelete("FuelCard/{fuelcardId}/ExtraServices/{serviceId}")]
-        public ActionResult<GenericResult<IGeneralModels>> DeleteService(int fuelcardId, int serviceId)
+        public ActionResult<GenericResult<GeneralModels>> DeleteService(int fuelcardId, int serviceId)
         {
             try
             {
@@ -127,7 +127,7 @@ namespace WriteAPI.Controllers
             }
         }
         [HttpPost("FuelCard/{fuelcardId}/Authentications")]
-        public ActionResult<GenericResult<IGeneralModels>> AddAuthentication(int fuelcardId, [FromBody] AuthenticationTypeDTO authentication)
+        public ActionResult<GenericResult<GeneralModels>> AddAuthentication(int fuelcardId, [FromBody] AuthenticationTypeDTO authentication)
         {
             try
             {
@@ -145,7 +145,7 @@ namespace WriteAPI.Controllers
             }
         }
         [HttpDelete("FuelCard/{fuelcardId}/Authentications/{authenticationId}")]
-        public ActionResult<GenericResult<IGeneralModels>> DeleteAuthentication(int fuelcardId, int authenticationId)
+        public ActionResult<GenericResult<GeneralModels>> DeleteAuthentication(int fuelcardId, int authenticationId)
         {
             try
             {

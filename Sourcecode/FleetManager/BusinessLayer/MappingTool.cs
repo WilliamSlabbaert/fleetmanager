@@ -37,7 +37,7 @@ namespace BusinessLayer
                 .ForMember(s => s.Property, opt=> opt.MapFrom(src => src.PropertyName))
                 .ForMember(s => s.Error, opt => opt.MapFrom(src => src.ErrorMessage));
 
-            CreateMap<ChaffeurDTO, Chauffeur>();
+            CreateMap<ChauffeurDTO, Chauffeur>();
             CreateMap<DrivingLicenseDTO, DrivingLicense>();
             CreateMap<RequestDTO, Request>();
             CreateMap<MaintenanceDTO, Maintenance>();

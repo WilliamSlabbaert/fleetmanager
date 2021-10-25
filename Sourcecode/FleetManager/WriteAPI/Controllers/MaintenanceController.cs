@@ -30,7 +30,7 @@ namespace WriteAPI.Controllers
             _repairmentService = repairmentService;
         }
         [HttpPut("Maintenance/{id}")]
-        public ActionResult<GenericResult<IGeneralModels>> UpdateMaintenance(int id, [FromBody] MaintenanceDTO maintenance)
+        public ActionResult<GenericResult<GeneralModels>> UpdateMaintenance(int id, [FromBody] MaintenanceDTO maintenance)
         {
             try
             {
@@ -48,7 +48,7 @@ namespace WriteAPI.Controllers
             }
         }
         [HttpPost("Maintenance/{id}/Invoice")]
-        public ActionResult<GenericResult<IGeneralModels>> AddInvoice(int id, [FromBody] InvoiceDTO invoice)
+        public ActionResult<GenericResult<GeneralModels>> AddInvoice(int id, [FromBody] InvoiceDTO invoice)
         {
             try
             {
@@ -66,7 +66,7 @@ namespace WriteAPI.Controllers
             }
         }
         [HttpDelete("Maintenance/{maintenanceId}/Invoice/{invoiceId}")]
-        public ActionResult<GenericResult<IGeneralModels>> AddInvoice(int maintenanceId, int invoiceId)
+        public ActionResult<GenericResult<GeneralModels>> AddInvoice(int maintenanceId, int invoiceId)
         {
             try
             {

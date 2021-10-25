@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.mediator.handlers
 {
-    public class AddLicensePlateToVehicleHandler : IRequestHandler<AddLicensePlateToVehicleCommand, GenericResult<IGeneralModels>>
+    public class AddLicensePlateToVehicleHandler : IRequestHandler<AddLicensePlateToVehicleCommand, GenericResult<GeneralModels>>
     {
         private readonly IGenericRepo<VehicleEntity> _vehicleRepo;
         private readonly IMapper _mapper;
@@ -29,14 +29,14 @@ namespace BusinessLayer.mediator.handlers
             this._validator = validator;
         }
 
-        public Task<GenericResult<IGeneralModels>> Handle(AddLicensePlateToVehicleCommand request, CancellationToken cancellationToken)
+        public Task<GenericResult<GeneralModels>> Handle(AddLicensePlateToVehicleCommand request, CancellationToken cancellationToken)
         {
             var temp = _vehicleRepo.GetById(
                 filter: s => s.Id == request.vehicleId,
                 s => s.Include(s => s.LicensePlates));
             var t = _mapper.Map<LicensePlate>(request.licensePlate);
 
-            var respond = new GenericResult<IGeneralModels>() { Message = "Licenseplate already exist's in vehicle list." };
+            var respond = new GenericResult<GeneralModels>() { Message = "Licenseplate already exist's in vehicle list." };
             respond.SetStatusCode(Overall.ResponseType.BadRequest);
 
             var temp2 = _mapper.Map<Vehicle>(temp);

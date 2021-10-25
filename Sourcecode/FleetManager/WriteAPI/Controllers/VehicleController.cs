@@ -26,7 +26,7 @@ namespace WriteAPI.Controllers
             _mediator = mediator;
         }
         [HttpPost("Vehicle")]
-        public async Task<ActionResult<GenericResult<IGeneralModels>>> AddVehicle([FromBody] VehicleDTO vehicle)
+        public async Task<ActionResult<GenericResult<GeneralModels>>> AddVehicle([FromBody] VehicleDTO vehicle)
         {
             try
             {
@@ -39,7 +39,7 @@ namespace WriteAPI.Controllers
             }
         }
         [HttpPut("Vehicle/{id}")]
-        public async Task<ActionResult<GenericResult<IGeneralModels>>> UpdateVehicle(int id, [FromBody] VehicleDTO vehicle)
+        public async Task<ActionResult<GenericResult<GeneralModels>>> UpdateVehicle(int id, [FromBody] VehicleDTO vehicle)
         {
             try
             {
@@ -59,7 +59,7 @@ namespace WriteAPI.Controllers
             }
         }
         [HttpPost("Vehicle/{id}/Licenseplate")]
-        public async Task<ActionResult<GenericResult<IGeneralModels>>> AddLicenseplateToVehicle(int id, [FromBody] LicensePlateDTO licensePlate)
+        public async Task<ActionResult<GenericResult<GeneralModels>>> AddLicenseplateToVehicle(int id, [FromBody] LicensePlateDTO licensePlate)
         {
             try
             {
@@ -78,7 +78,7 @@ namespace WriteAPI.Controllers
         }
         
         [HttpPut("Vehicle/{id}/Licenseplate/{licenseId}")]
-        public async Task<ActionResult<GenericResult<IGeneralModels>>> PutLicenseplateToVehicle(int id, int licenseId, [FromBody] LicensePlateDTO licensePlate)
+        public async Task<ActionResult<GenericResult<GeneralModels>>> PutLicenseplateToVehicle(int id, int licenseId, [FromBody] LicensePlateDTO licensePlate)
         {
             try
             {
@@ -97,7 +97,7 @@ namespace WriteAPI.Controllers
             }
         }
         [HttpPost("Vehicle/{id}/KilometerHistory")]
-        public async Task<ActionResult<GenericResult<IGeneralModels>>> AddKilometersToVehicle(int id, [FromBody] KilometerHistoryDTO kilometer)
+        public async Task<ActionResult<GenericResult<GeneralModels>>> AddKilometersToVehicle(int id, [FromBody] KilometerHistoryDTO kilometer)
         {
             try
             {
@@ -115,7 +115,7 @@ namespace WriteAPI.Controllers
             }
         }
         [HttpDelete("Vehicle/{id}/KilometerHistory/{kilometerHistoryId}")]
-        public async Task<ActionResult<GenericResult<IGeneralModels>>> DeleteKilometersToVehicle(int id, int kilometerHistoryId)
+        public async Task<ActionResult<GenericResult<GeneralModels>>> DeleteKilometersToVehicle(int id, int kilometerHistoryId)
         {
             try
             {

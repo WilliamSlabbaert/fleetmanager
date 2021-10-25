@@ -29,7 +29,7 @@ namespace ReadAPI.Controllers
         }
         // ------GET-------
         [HttpGet("Fuelcard")]
-        public ActionResult<GenericResult<IGeneralModels>> Get([FromQuery] GenericParameter parameter)
+        public ActionResult<GenericResult<GeneralModels>> Get([FromQuery] GenericParameter parameter)
         {
             try
             {
@@ -44,7 +44,7 @@ namespace ReadAPI.Controllers
             }
         }
         [HttpGet("Fuelcard/{id}")]
-        public ActionResult<GenericResult<IGeneralModels>> GetFuelCardByID(int id)
+        public ActionResult<GenericResult<GeneralModels>> GetFuelCardByID(int id)
         {
             try
             {
@@ -57,7 +57,7 @@ namespace ReadAPI.Controllers
             }
         }
         [HttpGet("Fuelcard/{id}/Chaffeur")]
-        public ActionResult<GenericResult<IGeneralModels>> GetFuelCardChaffeursByID(int id)
+        public ActionResult<GenericResult<GeneralModels>> GetFuelCardChaffeursByID(int id)
         {
             try
             {
@@ -70,7 +70,7 @@ namespace ReadAPI.Controllers
             }
         }
         [HttpGet("Fuelcard/{id}/Fueltype")]
-        public ActionResult<GenericResult<IGeneralModels>> GetFuelCardFuelsByID(int id)
+        public ActionResult<GenericResult<GeneralModels>> GetFuelCardFuelsByID(int id)
         {
             try
             {
@@ -83,7 +83,7 @@ namespace ReadAPI.Controllers
             }
         }
         [HttpGet("Fuelcard/{id}/Authentication")]
-        public ActionResult<GenericResult<IGeneralModels>> GetFuelCardAuthenticationTypesByID(int id)
+        public ActionResult<GenericResult<GeneralModels>> GetFuelCardAuthenticationTypesByID(int id)
         {
             try
             {

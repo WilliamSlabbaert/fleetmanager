@@ -14,12 +14,12 @@ namespace BusinessLayer.managers.interfaces
     public interface IRepairmentService
     {
         public object GetHeaders(GenericParameter parameters);
-        public GenericResult<IGeneralModels> GetAllRepairments();
-        public GenericResult<IGeneralModels> GetRepairmentById(int id);
-        public GenericResult<IGeneralModels> GetRepairmentRequestById(int id);
-        public GenericResult<IGeneralModels> GetAllRepairmentsPaging(GenericParameter parameters);
-        public GenericResult<IGeneralModels> AddRepairment(RepairmentDTO repairment, int requestId);
-        public GenericResult<IGeneralModels> DeleteRepairment(int requestId, int repairmentId);
+        public GenericResult<GeneralModels> GetAllRepairments();
+        public GenericResult<GeneralModels> GetRepairmentById(int id);
+        public GenericResult<GeneralModels> GetRepairmentRequestById(int id);
+        public GenericResult<GeneralModels> GetAllRepairmentsPaging(GenericParameter parameters);
+        public GenericResult<GeneralModels> AddRepairment(RepairmentDTO repairment, int requestId);
+        public GenericResult<GeneralModels> DeleteRepairment(int requestId, int repairmentId);
 
 
     }

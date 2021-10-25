@@ -14,14 +14,14 @@ namespace BusinessLayer.managers.interfaces
     public interface IRequestService
     {
         public object GetHeaders(GenericParameter parameters);
-        public GenericResult<IGeneralModels> GetRequestById(int id);
-        public GenericResult<IGeneralModels> GetRequestChaffeur(int id);
-        public GenericResult<IGeneralModels> GetRequestVehicle(int id);
-        public GenericResult<IGeneralModels> GetRequestRepairs(int id);
-        public GenericResult<IGeneralModels> GetRequestMaintenance(int id);
-        public GenericResult<IGeneralModels> GetAllRequests();
-        public GenericResult<IGeneralModels> GetAllRequestsPaging(GenericParameter parameters);
-        public GenericResult<IGeneralModels> AddRequest(RequestDTO request, int chaffeurId, int vehicleId);
-        public GenericResult<IGeneralModels> UpdateRequest(RequestDTO request, int id);
+        public GenericResult<GeneralModels> GetRequestById(int id);
+        public GenericResult<GeneralModels> GetRequestChaffeur(int id);
+        public GenericResult<GeneralModels> GetRequestVehicle(int id);
+        public GenericResult<GeneralModels> GetRequestRepairs(int id);
+        public GenericResult<GeneralModels> GetRequestMaintenance(int id);
+        public GenericResult<GeneralModels> GetAllRequests();
+        public GenericResult<GeneralModels> GetAllRequestsPaging(GenericParameter parameters);
+        public GenericResult<GeneralModels> AddRequest(RequestDTO request, int chaffeurId, int vehicleId);
+        public GenericResult<GeneralModels> UpdateRequest(RequestDTO request, int id);
     }
 }

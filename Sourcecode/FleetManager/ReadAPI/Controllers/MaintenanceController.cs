@@ -26,7 +26,7 @@ namespace ReadAPI.Controllers
             _managerRequest = managerRequest;
         }
         [HttpGet("Maintenance")]
-        public ActionResult<GenericResult<IGeneralModels>> Getall([FromQuery] GenericParameter parameter)
+        public ActionResult<GenericResult<GeneralModels>> Getall([FromQuery] GenericParameter parameter)
         {
             try
             {
@@ -42,7 +42,7 @@ namespace ReadAPI.Controllers
         }
 
         [HttpGet("Maintenance/{id}")]
-        public ActionResult<GenericResult<IGeneralModels>> GetById(int id)
+        public ActionResult<GenericResult<GeneralModels>> GetById(int id)
         {
             try
             {
@@ -56,7 +56,7 @@ namespace ReadAPI.Controllers
             }
         }
         [HttpGet("Maintenance/{id}/Request")]
-        public ActionResult<GenericResult<IGeneralModels>> GetByIdRequest(int id)
+        public ActionResult<GenericResult<GeneralModels>> GetByIdRequest(int id)
 
         {
             try
@@ -70,7 +70,7 @@ namespace ReadAPI.Controllers
             }
         }
         [HttpGet("Maintenance/{id}/Invoice")]
-        public ActionResult<GenericResult<IGeneralModels>> GetByIdInvoices(int id)
+        public ActionResult<GenericResult<GeneralModels>> GetByIdInvoices(int id)
         {
             try
             {

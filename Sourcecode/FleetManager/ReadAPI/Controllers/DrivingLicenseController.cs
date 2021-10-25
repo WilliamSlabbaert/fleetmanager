@@ -28,7 +28,7 @@ namespace ReadAPI.Controllers
         }
         // ------GET------
         [HttpGet("Drivinglicense")]
-        public ActionResult<GenericResult<IGeneralModels>> GetAll([FromQuery] GenericParameter parameter)
+        public ActionResult<GenericResult<GeneralModels>> GetAll([FromQuery] GenericParameter parameter)
         {
             try
             {
@@ -44,7 +44,7 @@ namespace ReadAPI.Controllers
             }
         }
         [HttpGet("Drivinglicense/{id}")]
-        public ActionResult<GenericResult<IGeneralModels>> GetFuelCardByID(int id)
+        public ActionResult<GenericResult<GeneralModels>> GetFuelCardByID(int id)
         {
             try
             {
@@ -59,7 +59,7 @@ namespace ReadAPI.Controllers
         
         
         [HttpGet("Drivinglicense/{id}/Chaffeur")]
-        public ActionResult<GenericResult<IGeneralModels>> GetFuelCardByIDChaffeur(int id)
+        public ActionResult<GenericResult<GeneralModels>> GetFuelCardByIDChaffeur(int id)
         {
             try
             {

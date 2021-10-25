@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.mediator.commands
 {
-    public class AddKilometerHistoryCommand : IRequest<GenericResult<IGeneralModels>>
+    public class AddKilometerHistoryCommand : IRequest<GenericResult<GeneralModels>>
     {
         public AddKilometerHistoryCommand(int vehicleId, KilometerHistoryDTO kilometer)
         {

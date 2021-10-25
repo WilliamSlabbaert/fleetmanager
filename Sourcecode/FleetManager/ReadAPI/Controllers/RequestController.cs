@@ -25,7 +25,7 @@ namespace ReadAPI.Controllers
         }
 
         [HttpGet("Request")]
-        public ActionResult<GenericResult<IGeneralModels>> GetAll([FromQuery] GenericParameter parameter)
+        public ActionResult<GenericResult<GeneralModels>> GetAll([FromQuery] GenericParameter parameter)
         {
             try
             {
@@ -40,7 +40,7 @@ namespace ReadAPI.Controllers
             }
         }
         [HttpGet("Request/{id}")]
-        public ActionResult<GenericResult<IGeneralModels>> GetById(int id)
+        public ActionResult<GenericResult<GeneralModels>> GetById(int id)
         {
             try
             {
@@ -53,7 +53,7 @@ namespace ReadAPI.Controllers
             }
         }
         [HttpGet("Request/{id}/Maintenance")]
-        public ActionResult<GenericResult<IGeneralModels>> GetByIdMaintenance(int id)
+        public ActionResult<GenericResult<GeneralModels>> GetByIdMaintenance(int id)
         {
             try
             {
@@ -66,7 +66,7 @@ namespace ReadAPI.Controllers
             }
         }
         [HttpGet("Request/{id}/Repairment")]
-        public ActionResult<GenericResult<IGeneralModels>> GetByIdRepairments(int id)
+        public ActionResult<GenericResult<GeneralModels>> GetByIdRepairments(int id)
         {
             try
             {
@@ -79,7 +79,7 @@ namespace ReadAPI.Controllers
             }
         }
         [HttpGet("Request/{id}/Chaffeur")]
-        public ActionResult<GenericResult<IGeneralModels>> GetByIdChaffeur(int id)
+        public ActionResult<GenericResult<GeneralModels>> GetByIdChaffeur(int id)
         {
             try
             {
@@ -92,7 +92,7 @@ namespace ReadAPI.Controllers
             }
         }
         [HttpGet("Request/{id}/Vehicle")]
-        public ActionResult<GenericResult<IGeneralModels>> GetByIdVehicle(int id)
+        public ActionResult<GenericResult<GeneralModels>> GetByIdVehicle(int id)
         {
             try
             {

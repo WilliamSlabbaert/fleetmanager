@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.mediator.commands
 {
-    public class UpdateLicensePlateFromVehicleCommand : IRequest<GenericResult<IGeneralModels>>
+    public class UpdateLicensePlateFromVehicleCommand : IRequest<GenericResult<GeneralModels>>
     {
 
         public UpdateLicensePlateFromVehicleCommand(int vehicleId,int licensePlateId , LicensePlateDTO licensePlate)

@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.mediator.handlers.queries
 {
-    public class GetLicensePlateByIdHandler : IRequestHandler<GetLicensePlateByIdQuery, GenericResult<IGeneralModels>>
+    public class GetLicensePlateByIdHandler : IRequestHandler<GetLicensePlateByIdQuery, GenericResult<GeneralModels>>
     {
         private readonly IGenericRepo<LicensePlateEntity> _repo;
         private readonly IMapper _mapper;
@@ -27,10 +27,10 @@ namespace BusinessLayer.mediator.handlers.queries
             this._mapper = mapper;
             this._mediator = mediator;
         }
-        public Task<GenericResult<IGeneralModels>> Handle(GetLicensePlateByIdQuery request, CancellationToken cancellationToken)
+        public Task<GenericResult<GeneralModels>> Handle(GetLicensePlateByIdQuery request, CancellationToken cancellationToken)
         {
             var temp = _repo.GetById(s => s.Id == request.licensePlateId,null);
-            var respond = new GenericResult<IGeneralModels>() { Message = "Licenseplate('s) not found." };
+            var respond = new GenericResult<GeneralModels>() { Message = "Licenseplate('s) not found." };
             respond.SetStatusCode(Overall.ResponseType.NotFound);
 
             if(temp == null)

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.mediator.queries
 {
-    public class GetVehicleByIdQuery : IRequest<GenericResult<IGeneralModels>>
+    public class GetVehicleByIdQuery : IRequest<GenericResult<GeneralModels>>
     {
         public int Id { get; private set; }
 

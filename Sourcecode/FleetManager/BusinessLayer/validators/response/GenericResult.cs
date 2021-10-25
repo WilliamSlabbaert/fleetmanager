@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.validators.response
 {
-    public class GenericResult<T> where T : class, IGeneralModels
+    public class GenericResult<T> where T : GeneralModels
     {
         public string Message { get; set; }
         public int StatusCode { get; private set; } = 400;

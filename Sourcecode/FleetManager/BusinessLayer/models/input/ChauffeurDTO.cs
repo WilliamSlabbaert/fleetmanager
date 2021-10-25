@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.models.input
 {
-    public class ChaffeurDTO
+    public class ChauffeurDTO
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

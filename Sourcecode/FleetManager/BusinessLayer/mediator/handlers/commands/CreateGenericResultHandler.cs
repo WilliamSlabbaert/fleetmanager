@@ -11,11 +11,11 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.mediator.handlers
 {
-    public class CreateGenericResultHandler : IRequestHandler<CreateGenericResultCommand, GenericResult<IGeneralModels>>
+    public class CreateGenericResultHandler : IRequestHandler<CreateGenericResultCommand, GenericResult<GeneralModels>>
     {
-        public Task<GenericResult<IGeneralModels>> Handle(CreateGenericResultCommand request, CancellationToken cancellationToken)
+        public Task<GenericResult<GeneralModels>> Handle(CreateGenericResultCommand request, CancellationToken cancellationToken)
         {
-            var resp = new GenericResult<IGeneralModels>()
+            var resp = new GenericResult<GeneralModels>()
             {
                 Message = request.Message,
                 ReturnValue = request.Value

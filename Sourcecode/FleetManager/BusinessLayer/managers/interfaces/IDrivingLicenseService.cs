@@ -13,12 +13,12 @@ namespace BusinessLayer.managers.interfaces
 {
     public interface IDrivingLicenseService
     {
-        public GenericResult<IGeneralModels> GetAllDrivingLicenseById(int id);
-        public GenericResult<IGeneralModels> GetAllDrivingLicenses();
-        public GenericResult<IGeneralModels> GetAllDrivingLicensesPaging(GenericParameter parameters);
-        public GenericResult<IGeneralModels> GetDrivingLicenseChaffeurById(int id);
-        public GenericResult<IGeneralModels> AddDrivingLicense(DrivingLicenseDTO drivinglicense, int chaffeurid);
-        public GenericResult<IGeneralModels> DeleteDrivingLicense(int drivinglicense, int chaffeurid);
+        public GenericResult<GeneralModels> GetAllDrivingLicenseById(int id);
+        public GenericResult<GeneralModels> GetAllDrivingLicenses();
+        public GenericResult<GeneralModels> GetAllDrivingLicensesPaging(GenericParameter parameters);
+        public GenericResult<GeneralModels> GetDrivingLicenseChaffeurById(int id);
+        public GenericResult<GeneralModels> AddDrivingLicense(DrivingLicenseDTO drivinglicense, int chaffeurid);
+        public GenericResult<GeneralModels> DeleteDrivingLicense(int drivinglicense, int chaffeurid);
         public object GetHeaders(GenericParameter parameters);
     }
 }

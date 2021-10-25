@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.mediator.queries
 {
-    public class GetVehiclesQuery : IRequest<GenericResult<IGeneralModels>>
+    public class GetVehiclesQuery : IRequest<GenericResult<GeneralModels>>
     {
 
     }
