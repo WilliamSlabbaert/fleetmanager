@@ -82,16 +82,16 @@ export const columnsRequests = [
         selector: row => row.type
     },
     {
-        name: 'Chaffeur ID',
+        name: 'Chauffeur ID',
         selector: row => row.chaffeurId
     }
 ];
 
-export const columnsChaffeurs = [
+export const columnsChauffeurs = [
     {
         name: '',
         cell: row => {
-            const temp = '/Chaffeurpage/' + row.chaffeurId;
+            const temp = '/Chauffeurpage/' + row.chaffeurId;
             return (
                 <Link to={temp}>
                     <Button variant="dark" height="30px" width="30px">EDIT</Button>
@@ -99,7 +99,7 @@ export const columnsChaffeurs = [
         }
     },
     {
-        name: 'Chaffeur ID',
+        name: 'Chauffeur ID',
         selector: row => {
             return row.chaffeurId;
         },

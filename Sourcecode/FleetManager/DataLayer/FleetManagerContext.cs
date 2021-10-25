@@ -7,7 +7,7 @@ namespace DataLayer
     public class FleetManagerContext : DbContext
     {
         public DbSet<AuthenticationTypeEntity> AuthenticationTypes { get; set; }
-        public DbSet<ChaffeurEntity> Chaffeurs { get; set; }
+        public DbSet<ChauffeurEntity> Chauffeurs { get; set; }
         public DbSet<DrivingLicenseEntity> DrivingLicenses { get; set; }
         public DbSet<ExtraServiceEntity> ExtraServices { get; set; }
         public DbSet<FuelCardEntity> FuelCards { get; set; }
@@ -25,13 +25,13 @@ namespace DataLayer
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<ChaffeurEntityVehicleEntity>(entity =>
+            modelBuilder.Entity<ChauffeurEntityVehicleEntity>(entity =>
             {
-                entity.HasKey(bc => new { bc.ChaffeurId, bc.VehicleId });
+                entity.HasKey(bc => new { bc.ChauffeurId, bc.VehicleId });
             });
-            modelBuilder.Entity<ChaffeurEntityFuelCardEntity>(entity =>
+            modelBuilder.Entity<ChauffeurEntityFuelCardEntity>(entity =>
             {
-                entity.HasKey(bc => new { bc.ChaffeurId, bc.FuelCardId });
+                entity.HasKey(bc => new { bc.ChauffeurId, bc.FuelCardId });
             });
         }
     }

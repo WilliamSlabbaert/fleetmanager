@@ -36,8 +36,8 @@ namespace BusinessLayer.mediator.handlers.queries
         Task<GenericResult<IGeneralModels>> IRequestHandler<GetVehiclesQuery, GenericResult<IGeneralModels>>.Handle(GetVehiclesQuery request, CancellationToken cancellationToken)
         {
             var temp =  Task.FromResult(_mapper.Map<List<Vehicle>>(_vehicleRepo.GetAll(
-                s => s.Include(s => s.ChaffeurVehicles)
-                .ThenInclude(s => s.Chaffeur)
+                s => s.Include(s => s.ChauffeurVehicles)
+                .ThenInclude(s => s.Chauffeur)
                 .Include(s => s.LicensePlates)
                 .Include(s => s.Requests)).ToList())).Result;
 

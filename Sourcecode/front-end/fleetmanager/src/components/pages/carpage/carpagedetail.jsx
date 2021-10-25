@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { AppContext } from 'components/context/appcontext/appcontext.jsx';
 import { Card, Container } from 'react-bootstrap';
 import DataTable from "react-data-table-component";
-import { columnsChaffeurs,columnsRequests,columnsPlates,columnsKilometers } from './utility/datatable_carpage';
+import { columnsChauffeurs,columnsRequests,columnsPlates,columnsKilometers } from './utility/datatable_carpage';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './style/carpagedetail.css'
@@ -20,7 +20,7 @@ const CarPageDetail = () => {
     const { id } = useParams();
     const [car, setCar] = useState({});
     const [requests, setRequests] = useState([]);
-    const [chaffeurs, setChaffeurs] = useState([]);
+    const [chauffeurs, setChauffeurs] = useState([]);
     const [plates, setPlates] = useState([]);
     const [kilometers, setKilometers] = useState([]);
     const { setMenuName } = useContext(AppContext);
@@ -53,7 +53,7 @@ const CarPageDetail = () => {
             else if( type === 2)
                 setRequests(json);
             else if(type === 3)
-                setChaffeurs(json);
+            setChauffeurs(json);
             else
                 setKilometers(json);
         }
@@ -120,16 +120,16 @@ const CarPageDetail = () => {
                 </div>
                 <div className="requestTable">
                     <DataTable
-                        title="Chaffeurs"
+                        title="Chauffeurs"
                         highlightOnHover
-                        columns={columnsChaffeurs}
+                        columns={columnsChauffeurs}
                         pagination
                         paginationPerPage={3}
                         paginationComponentOptions={{
                             noRowsPerPage: true
                         }}
-                        paginationTotalRows={chaffeurs.length   }
-                        data={chaffeurs}
+                        paginationTotalRows={chauffeurs.length   }
+                        data={chauffeurs}
                     />
                 </div>
                 <div className="platesTable">

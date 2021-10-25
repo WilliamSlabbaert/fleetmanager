@@ -16,12 +16,12 @@ namespace BusinessLayer
     {
         public MappingTool()
         {
-            CreateMap<ChaffeurEntity, Chaffeur>().ReverseMap();
+            CreateMap<ChauffeurEntity, Chaffeur>().ReverseMap();
             CreateMap<VehicleEntity, Vehicle>().ReverseMap();
             CreateMap<DrivingLicenseEntity, DrivingLicense>().ReverseMap();
             CreateMap<AuthenticationTypeEntity, AuthenticationType>().ReverseMap();
             CreateMap<ExtraServiceEntity, ExtraService>().ReverseMap();
-            CreateMap<ChaffeurEntityFuelCardEntity, FuelCardChaffeur>().ReverseMap();
+            CreateMap<ChauffeurEntityFuelCardEntity, FuelCardChaffeur>().ReverseMap();
             CreateMap<FuelCardEntity, FuelCard>().ReverseMap();
             CreateMap<FuelEntity, FuelType>().ReverseMap();
             CreateMap<InvoiceEntity, Invoice>().ReverseMap();
@@ -29,7 +29,7 @@ namespace BusinessLayer
             CreateMap<MaintenanceEntity, Maintenance>().ReverseMap();
             CreateMap<RepairmentEntity, Repairment>().ReverseMap();
             CreateMap<RequestEntity, Request>().ReverseMap();
-            CreateMap<ChaffeurEntityVehicleEntity, VehicleChaffeur>().ReverseMap();
+            CreateMap<ChauffeurEntityVehicleEntity, VehicleChaffeur>().ReverseMap();
             CreateMap<KilometerHistoryEntity, KilometerHistory>().ReverseMap();
 
             CreateMap<ValidationFailure, GenericResponse>()

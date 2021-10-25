@@ -30,7 +30,7 @@ namespace BusinessLayer.mediator.handlers.queries
         }
         public Task<GenericResult<IGeneralModels>> Handle(GetVehicleChaffeursQuery request, CancellationToken cancellationToken)
         {
-            var vehicles = _vehicleRepo.GetAll(s => s.Include(x => x.ChaffeurVehicles).ThenInclude(s=>s.Chaffeur));
+            var vehicles = _vehicleRepo.GetAll(s => s.Include(x => x.ChauffeurVehicles).ThenInclude(s=>s.Chauffeur));
             var temp = vehicles.FirstOrDefault(s => s.Id == request.Id);
 
             var value = temp == null ? null : _mapper.Map<Vehicle>(temp).ChaffeurVehicles;

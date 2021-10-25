@@ -8,22 +8,22 @@ using System.Threading.Tasks;
 
 namespace DataLayer.entities
 {
-    public class ChaffeurEntityFuelCardEntity : IGeneralEntities
+    public class ChauffeurEntityFuelCardEntity : IGeneralEntities
     {
-        public ChaffeurEntityFuelCardEntity()
+        public ChauffeurEntityFuelCardEntity()
         {
         }
 
-        public ChaffeurEntityFuelCardEntity(ChaffeurEntity chaffeur, FuelCardEntity fuelCard, bool isActive)
+        public ChauffeurEntityFuelCardEntity(ChauffeurEntity chauffeur, FuelCardEntity fuelCard, bool isActive)
         {
-            Chaffeur = chaffeur;
+            Chauffeur = chauffeur;
             FuelCard = fuelCard;
             IsActive = isActive;
         }
 
 
-        public int ChaffeurId { get; set; }
-        public ChaffeurEntity Chaffeur { get; set; }
+        public int ChauffeurId { get; set; }
+        public ChauffeurEntity Chauffeur { get; set; }
         public int FuelCardId { get; set; }
         public FuelCardEntity FuelCard { get; set; }
         public bool IsActive { get; set; }

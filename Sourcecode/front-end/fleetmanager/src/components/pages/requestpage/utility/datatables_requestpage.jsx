@@ -43,7 +43,7 @@ export const columnsRequestpage = [
         selector: row => row.vehicleId
     },
     {
-        name: 'Chaffeur ID',
+        name: 'Chauffeur ID',
         selector: row => row.chaffeurId
     }
 ];
@@ -91,7 +91,7 @@ export const columnsVehicles = [
     }
 ];
 
-export const columnsChaffeurs = [
+export const columnsChauffeurs = [
     {
         name: '',
         cell: row => {
@@ -103,7 +103,7 @@ export const columnsChaffeurs = [
         }
     },
     {
-        name: 'Chaffeur ID',
+        name: 'Chauffeur ID',
         selector: row => {
             return row.id;
         },

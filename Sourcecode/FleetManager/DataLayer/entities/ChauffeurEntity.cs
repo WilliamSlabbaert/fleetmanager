@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DataLayer.entities
 {
-    public class ChaffeurEntity : IGeneralEntities
+    public class ChauffeurEntity : IGeneralEntities
     {
         [Key]
         public int Id { get; set; }
@@ -21,11 +21,11 @@ namespace DataLayer.entities
         public DateTime DateOfBirth { get; set; }
         public string NationalInsurenceNumber { get; set; }
         public bool IsActive { get; set; }
-        public List<ChaffeurEntityVehicleEntity> ChaffeurVehicles { get; set; }
-        public List<ChaffeurEntityFuelCardEntity> ChaffeurFuelCards { get; set; }
+        public List<ChauffeurEntityVehicleEntity> ChauffeurVehicles { get; set; }
+        public List<ChauffeurEntityFuelCardEntity> ChauffeurFuelCards { get; set; }
         public List<DrivingLicenseEntity> DrivingLicenses { get; set; }
         public List<RequestEntity> Requests { get; set; }
-        public ChaffeurEntity(string firstName, string lastName, string city, string street, string houseNumber, DateTime dateOfBirth, string nationalInsurenceNumber, bool isActive)
+        public ChauffeurEntity(string firstName, string lastName, string city, string street, string houseNumber, DateTime dateOfBirth, string nationalInsurenceNumber, bool isActive)
         {
             FirstName = firstName;
             LastName = lastName;
@@ -35,18 +35,18 @@ namespace DataLayer.entities
             DateOfBirth = dateOfBirth;
             NationalInsurenceNumber = nationalInsurenceNumber;
             IsActive = isActive;
-            ChaffeurVehicles = new List<ChaffeurEntityVehicleEntity>();
-            ChaffeurFuelCards = new List<ChaffeurEntityFuelCardEntity>();
+            ChauffeurVehicles = new List<ChauffeurEntityVehicleEntity>();
+            ChauffeurFuelCards = new List<ChauffeurEntityFuelCardEntity>();
             DrivingLicenses = new List<DrivingLicenseEntity>();
             Requests = new List<RequestEntity>();
         }
 
-        public ChaffeurEntity()
+        public ChauffeurEntity()
         {
-            ChaffeurVehicles = new List<ChaffeurEntityVehicleEntity>();
+            ChauffeurVehicles = new List<ChauffeurEntityVehicleEntity>();
             DrivingLicenses = new List<DrivingLicenseEntity>();
             Requests = new List<RequestEntity>();
-            ChaffeurFuelCards = new List<ChaffeurEntityFuelCardEntity>();
+            ChauffeurFuelCards = new List<ChauffeurEntityFuelCardEntity>();
         }
     }
 }

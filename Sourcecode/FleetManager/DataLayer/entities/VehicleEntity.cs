@@ -15,7 +15,7 @@ namespace DataLayer.entities
         {
             Requests = new List<RequestEntity>();
             LicensePlates = new List<LicensePlateEntity>();
-            ChaffeurVehicles = new List<ChaffeurEntityVehicleEntity>();
+            ChauffeurVehicles = new List<ChauffeurEntityVehicleEntity>();
             Kilometers = new List<KilometerHistoryEntity>();
         }
 
@@ -28,7 +28,7 @@ namespace DataLayer.entities
         public CarTypes Type { get; set; }
         public FuelTypes FuelType { get; set; }
         public List<KilometerHistoryEntity> Kilometers { get; set; }
-        public List<ChaffeurEntityVehicleEntity> ChaffeurVehicles{ get; set; }
+        public List<ChauffeurEntityVehicleEntity> ChauffeurVehicles{ get; set; }
         public List<RequestEntity> Requests { get; set; }
         public List<LicensePlateEntity> LicensePlates { get; set; }
     }

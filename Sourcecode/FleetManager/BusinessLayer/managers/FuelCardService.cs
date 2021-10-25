@@ -23,10 +23,10 @@ namespace BusinessLayer.managers
     public class FuelCardService : IFuelCardService
     {
         private readonly IGenericRepo<FuelCardEntity> _repo;
-        private readonly IGenericRepo<ChaffeurEntity> _chrepo;
+        private readonly IGenericRepo<ChauffeurEntity> _chrepo;
         private readonly IMapper _mapper;
         private IMediator _mediator;
-        public FuelCardService(IGenericRepo<FuelCardEntity> repo, IMapper mapper, IGenericRepo<ChaffeurEntity> chrepo,IMediator mediator)
+        public FuelCardService(IGenericRepo<FuelCardEntity> repo, IMapper mapper, IGenericRepo<ChauffeurEntity> chrepo,IMediator mediator)
         {
             this._repo = repo;
             this._mapper = mapper;
@@ -141,13 +141,13 @@ namespace BusinessLayer.managers
 
         public GenericResult<IGeneralModels> AddFuelCardToChaffeur(int fuelcardNr, int chaffeurNr)
         {
-            ChaffeurEntity ch = GetChaffeurEntity(chaffeurNr);
+            ChauffeurEntity ch = GetChaffeurEntity(chaffeurNr);
             FuelCardEntity fc = GetFuelCardEntity(fuelcardNr);
             var result = new GenericResult<IGeneralModels>() { Message = "Fuelcard already exist's in chaffeurs list." };
             var tempch = _mapper.Map<Chaffeur>(ch);
             if (tempch.CheckFuelCard(fuelcardNr))
             {
-                ch.ChaffeurFuelCards.Add(new ChaffeurEntityFuelCardEntity(ch, fc, false));
+                ch.ChauffeurFuelCards.Add(new ChauffeurEntityFuelCardEntity(ch, fc, false));
                 _chrepo.UpdateEntity(ch);
                 _chrepo.Save();
                 result.SetStatusCode(Overall.ResponseType.OK);
@@ -159,16 +159,16 @@ namespace BusinessLayer.managers
         }
         public GenericResult<IGeneralModels> ActivityChaffeurFuelCard(int fuelcardNr, int chaffeurNr, bool isactive)
         {
-            ChaffeurEntity ch = GetChaffeurEntity(chaffeurNr);
+            ChauffeurEntity ch = GetChaffeurEntity(chaffeurNr);
             var result = new GenericResult<IGeneralModels>() { Message = "Fuelcard doesn't in chaffeurs list." };
             if (isactive == true)
             {
-                foreach (var card in ch.ChaffeurFuelCards)
+                foreach (var card in ch.ChauffeurFuelCards)
                 {
                     card.IsActive = false;
                 }
             }
-            var fuelcard = ch.ChaffeurFuelCards.FirstOrDefault(s => s.FuelCard.Id == fuelcardNr);
+            var fuelcard = ch.ChauffeurFuelCards.FirstOrDefault(s => s.FuelCard.Id == fuelcardNr);
             if(fuelcard == null)
             {
                 return result;
@@ -244,7 +244,7 @@ namespace BusinessLayer.managers
                 x => x.Include(s => s.Services)
                 .Include(s => s.FuelType)
                 .Include(s => s.AuthenticationTypes)
-                .Include(s => s.ChaffeurFuelCards)));
+                .Include(s => s.ChauffeurFuelCards)));
 
             var value = temp == null ? null : temp;
             return CreateResult(temp == null, value);
@@ -255,7 +255,7 @@ namespace BusinessLayer.managers
                 x => x.Include(s => s.Services)
                 .Include(s => s.FuelType)
                 .Include(s => s.AuthenticationTypes)
-                .Include(s => s.ChaffeurFuelCards),parameters));
+                .Include(s => s.ChauffeurFuelCards),parameters));
 
             var value = temp == null ? null : temp;
             return CreateResult(temp == null, value);
@@ -273,7 +273,7 @@ namespace BusinessLayer.managers
         {
             var temp = GetFuelCardEntity(id);
 
-            var value = temp == null ? null : temp.ChaffeurFuelCards;
+            var value = temp == null ? null : temp.ChauffeurFuelCards;
             return CreateResult(temp == null, value);
         }
         public GenericResult<IGeneralModels> GetFuelcardFuelTypes(int id)
@@ -296,17 +296,17 @@ namespace BusinessLayer.managers
             filter: x => x.Id == id,
             x => 
             x.Include(s => s.FuelType)
-            .Include(s => s.ChaffeurFuelCards)
-            .ThenInclude(s => s.Chaffeur)
+            .Include(s => s.ChauffeurFuelCards)
+            .ThenInclude(s => s.Chauffeur)
             .Include(s => s.AuthenticationTypes)
             .Include(s => s.Services));
         }
-        public ChaffeurEntity GetChaffeurEntity(int id)
+        public ChauffeurEntity GetChaffeurEntity(int id)
         {
             var ch = _chrepo.GetById(
             filter: x => x.Id == id
-            , x => x.Include(s => s.ChaffeurFuelCards)
-            .Include(s => s.ChaffeurVehicles)
+            , x => x.Include(s => s.ChauffeurFuelCards)
+            .Include(s => s.ChauffeurVehicles)
             .Include(s => s.DrivingLicenses)
             .Include(s => s.Requests));
             return ch;

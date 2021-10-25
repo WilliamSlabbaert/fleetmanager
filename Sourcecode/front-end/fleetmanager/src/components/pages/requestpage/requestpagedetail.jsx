@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { AppContext } from 'components/context/appcontext/appcontext.jsx';
 import { Card, Container } from 'react-bootstrap';
 import DataTable from "react-data-table-component";
-import { columnsChaffeurs, columnsVehicles,columnsMaintenance ,columnsRepairment} from './utility/datatables_requestpage.jsx';
+import { columnsChauffeurs, columnsVehicles,columnsMaintenance ,columnsRepairment} from './utility/datatables_requestpage.jsx';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './style/requestpagedetail.css'
@@ -20,7 +20,7 @@ const RequestPageDetail = () => {
     const { id } = useParams();
     const [request, setRequest] = useState({});
     const [vehicles, setVehicles] = useState([]);
-    const [chaffeurs, setChaffeurs] = useState([]);
+    const [chauffeurs, setChauffeurs] = useState([]);
     const [maintenance, setMaintenance] = useState([]);
     const [repairment, setRepairment] = useState([]);
     const { setMenuName } = useContext(AppContext);
@@ -53,7 +53,7 @@ const RequestPageDetail = () => {
             if(type === 1)
                 setVehicles([json]);
             else if( type === 2)
-                setChaffeurs([json]);
+                setChauffeurs([json]);
             else if(type === 3)
                 setMaintenance(json);
             else
@@ -108,18 +108,18 @@ const RequestPageDetail = () => {
                         data={vehicles}
                     />
                 </div>
-                <div className="chaffeurTable">
+                <div className="chauffeurTable">
                     <DataTable
-                        title="Chaffeurs"
+                        title="Chauffeurs"
                         highlightOnHover
-                        columns={columnsChaffeurs}
+                        columns={columnsChauffeurs}
                         pagination
                         paginationPerPage={3}
                         paginationComponentOptions={{
                             noRowsPerPage: true
                         }}
-                        paginationTotalRows={chaffeurs.count}
-                        data={chaffeurs}
+                        paginationTotalRows={chauffeurs.count}
+                        data={chauffeurs}
                     />
                 </div>
                 <div className="maintenanceTable">

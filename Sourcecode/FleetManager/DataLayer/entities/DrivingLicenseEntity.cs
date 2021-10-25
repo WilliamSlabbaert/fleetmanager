@@ -13,7 +13,7 @@ namespace DataLayer.entities
         [Key]
         public int Id { get; set; }
         public Overall.License type { get; set; }
-        public int ChaffeurId { get; set; }
-        public ChaffeurEntity Chaffeur { get; set; }
+        public int ChauffeurId { get; set; }
+        public ChauffeurEntity Chauffeur { get; set; }
     }
 }

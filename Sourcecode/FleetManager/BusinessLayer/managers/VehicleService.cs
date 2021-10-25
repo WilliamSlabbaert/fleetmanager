@@ -42,8 +42,8 @@ namespace BusinessLayer.managers
                 , x => x.Include(s => s.LicensePlates)
                  .Include(s => s.Requests)
                  .Include(s => s.LicensePlates)
-                 .Include(s => s.ChaffeurVehicles)
-                 .ThenInclude(s => s.Chaffeur)));
+                 .Include(s => s.ChauffeurVehicles)
+                 .ThenInclude(s => s.Chauffeur)));
         }
         public List<Vehicle> GetAllVehicles()
         {

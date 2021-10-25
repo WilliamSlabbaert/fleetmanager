@@ -8,23 +8,23 @@ using System.Threading.Tasks;
 
 namespace DataLayer.entities
 {
-    public class ChaffeurEntityVehicleEntity : IGeneralEntities
+    public class ChauffeurEntityVehicleEntity : IGeneralEntities
     {
 
 
         public int VehicleId { get; set; }
         public VehicleEntity Vehicle { get; set; }
-        public int ChaffeurId { get; set; }
-        public ChaffeurEntity Chaffeur { get; set; }
+        public int ChauffeurId { get; set; }
+        public ChauffeurEntity Chauffeur { get; set; }
         public bool IsActive { get; set; }
-        public ChaffeurEntityVehicleEntity(VehicleEntity vehicle, ChaffeurEntity chaffeur, bool isActive)
+        public ChauffeurEntityVehicleEntity(VehicleEntity vehicle, ChauffeurEntity chauffeur, bool isActive)
         {
             Vehicle = vehicle;
-            Chaffeur = chaffeur;
+            Chauffeur = chauffeur;
             IsActive = isActive;
         }
 
-        public ChaffeurEntityVehicleEntity()
+        public ChauffeurEntityVehicleEntity()
         {
         }
     }

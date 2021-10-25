@@ -23,10 +23,10 @@ namespace BusinessLayer.managers
     public class DrivingLicenseService : IDrivingLicenseService
     {
         private readonly IGenericRepo<DrivingLicenseEntity> _repo;
-        private readonly IGenericRepo<ChaffeurEntity> _chrepo;
+        private readonly IGenericRepo<ChauffeurEntity> _chrepo;
         private readonly IMapper _mapper;
         private IMediator _mediator;
-        public DrivingLicenseService(IGenericRepo<DrivingLicenseEntity> repo, IMapper mapper, IGenericRepo<ChaffeurEntity> chrepo, IMediator mediator)
+        public DrivingLicenseService(IGenericRepo<DrivingLicenseEntity> repo, IMapper mapper, IGenericRepo<ChauffeurEntity> chrepo, IMediator mediator)
         {
             this._repo = repo;
             this._mapper = mapper;
@@ -73,14 +73,14 @@ namespace BusinessLayer.managers
         public GenericResult<IGeneralModels> GetAllDrivingLicenses()
         {
             var temp = _mapper.Map<List<DrivingLicense>>(_repo.GetAll(
-                s => s.Include(x => x.Chaffeur)));
+                s => s.Include(x => x.Chauffeur)));
             var value = temp == null ? null : _mapper.Map<List<DrivingLicense>>(temp);
             return CreateResult(temp == null, value);
         }
         public GenericResult<IGeneralModels> GetAllDrivingLicensesPaging(GenericParameter parameters)
         {
             var temp = _mapper.Map<List<DrivingLicense>>(_repo.GetAllWithPaging(
-                s => s.Include(x => x.Chaffeur),parameters));
+                s => s.Include(x => x.Chauffeur),parameters));
             var value = temp == null ? null : _mapper.Map<List<DrivingLicense>>(temp);
             return CreateResult(temp == null, value);
         }
@@ -88,7 +88,7 @@ namespace BusinessLayer.managers
         {
             var value = _mapper.Map<DrivingLicense>(_repo.GetById(
                 filter: x => x.Id == id,
-                including: s => s.Include(x => x.Chaffeur)));
+                including: s => s.Include(x => x.Chauffeur)));
 
             return CreateResult(value == null, value);
         }
@@ -96,20 +96,20 @@ namespace BusinessLayer.managers
         {
             var temp = _mapper.Map<DrivingLicense>(_repo.GetById(
                 filter: x => x.Id == id,
-                including: s => s.Include(x => x.Chaffeur)));
+                including: s => s.Include(x => x.Chauffeur)));
 
             var value = temp == null ? null : temp.Chaffeur;
             return CreateResult(temp == null, value);
         }
-        public ChaffeurEntity GetChaffeurEntity(int id)
+        public ChauffeurEntity GetChaffeurEntity(int id)
         {
             var temp = _chrepo.GetById(
             filter: x => x.Id == id
-            , x => x.Include(s => s.ChaffeurFuelCards)
+            , x => x.Include(s => s.ChauffeurFuelCards)
             .ThenInclude(s => s.FuelCard)
             .Include(s => s.DrivingLicenses)
             .Include(s => s.Requests)
-            .Include(s => s.ChaffeurVehicles)
+            .Include(s => s.ChauffeurVehicles)
             .ThenInclude(s => s.Vehicle));
             return temp;
 

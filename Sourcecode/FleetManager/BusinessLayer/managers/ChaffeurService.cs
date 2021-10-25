@@ -24,11 +24,11 @@ namespace BusinessLayer.managers
 {
     public class ChaffeurService : IChaffeurService
     {
-        private readonly IGenericRepo<ChaffeurEntity> _repo;
+        private readonly IGenericRepo<ChauffeurEntity> _repo;
         private readonly IGenericRepo<VehicleEntity> _vhrepo;
         private readonly IMapper _mapper;
         private IMediator _mediator;
-        public ChaffeurService(IGenericRepo<ChaffeurEntity> repo, IMapper mapper, IGenericRepo<VehicleEntity> vhrepo, IMediator mediator)
+        public ChaffeurService(IGenericRepo<ChauffeurEntity> repo, IMapper mapper, IGenericRepo<VehicleEntity> vhrepo, IMediator mediator)
         {
             this._repo = repo;
             this._mapper = mapper;
@@ -39,7 +39,7 @@ namespace BusinessLayer.managers
         public GenericResult<IGeneralModels> AddChaffeur(ChaffeurDTO ch)
         {
             var chaff = _mapper.Map<Chaffeur>(ch);
-            var temp = _mapper.Map<ChaffeurEntity>(chaff);
+            var temp = _mapper.Map<ChauffeurEntity>(chaff);
             var check = CheckExistingChaffeur(chaff, chaff.Id);
             var result = new GenericResult<IGeneralModels>() { Message = "Chaffeur with same national insurence number already exists." };
             if (check == false)
@@ -71,11 +71,11 @@ namespace BusinessLayer.managers
         {
             var temp = _repo.GetById(
             filter: x => x.Id == id
-            , x => x.Include(s => s.ChaffeurFuelCards)
+            , x => x.Include(s => s.ChauffeurFuelCards)
             .ThenInclude(s => s.FuelCard)
             .Include(s => s.DrivingLicenses)
             .Include(s => s.Requests)
-            .Include(s => s.ChaffeurVehicles)
+            .Include(s => s.ChauffeurVehicles)
             .ThenInclude(s => s.Vehicle));
 
             var value = temp == null ? null : _mapper.Map<Chaffeur>(temp);
@@ -115,14 +115,14 @@ namespace BusinessLayer.managers
         public GenericResult<IGeneralModels> AddVehicleToChaffeur(int chaffeurNr, int vehicleNr)
         {
             VehicleEntity vh = GetVehicleEntity(vehicleNr);
-            ChaffeurEntity ch = GetChaffeurEntity(chaffeurNr);
+            ChauffeurEntity ch = GetChaffeurEntity(chaffeurNr);
             var result = new GenericResult<IGeneralModels>() { Message = "Vehicle is already in Chaffeurs list." };
 
             var chmodel = _mapper.Map<Chaffeur>(ch);
             if (chmodel.CheckVehicle(vh.Id))
             {
-                var vhch = new ChaffeurEntityVehicleEntity(vh, ch, false);
-                ch.ChaffeurVehicles.Add(vhch);
+                var vhch = new ChauffeurEntityVehicleEntity(vh, ch, false);
+                ch.ChauffeurVehicles.Add(vhch);
                 _repo.UpdateEntity(ch);
                 _repo.Save();
                 result.SetStatusCode(Overall.ResponseType.OK);
@@ -139,16 +139,16 @@ namespace BusinessLayer.managers
         public GenericResult<IGeneralModels> UpdateVehicleToChaffeur(int chaffeurNr, int vehicleNr, bool active)
         {
             VehicleEntity vh = GetVehicleEntity(vehicleNr);
-            ChaffeurEntity ch = GetChaffeurEntity(chaffeurNr);
+            ChauffeurEntity ch = GetChaffeurEntity(chaffeurNr);
             var result = new GenericResult<IGeneralModels>() { Message = "Vehicle is already in Chaffeurs list." };
 
             var chmodel = _mapper.Map<Chaffeur>(ch);
             if (chmodel.CheckVehicle(vh.Id) == false)
             {
-                var temp = ch.ChaffeurVehicles.FirstOrDefault(s => s.Vehicle.Id == vehicleNr);
+                var temp = ch.ChauffeurVehicles.FirstOrDefault(s => s.Vehicle.Id == vehicleNr);
                 if (active == true)
                 {
-                    foreach (var chvh in ch.ChaffeurVehicles)
+                    foreach (var chvh in ch.ChauffeurVehicles)
                     {
                         chvh.IsActive = false;
                     }
@@ -168,13 +168,13 @@ namespace BusinessLayer.managers
             }
         }
 
-        public ChaffeurEntity GetChaffeurEntity(int id)
+        public ChauffeurEntity GetChaffeurEntity(int id)
         {
             var ch = _repo.GetById(
             filter: x => x.Id == id
-            , x => x.Include(s => s.ChaffeurFuelCards)
+            , x => x.Include(s => s.ChauffeurFuelCards)
             .ThenInclude(s => s.FuelCard)
-            .Include(s => s.ChaffeurVehicles)
+            .Include(s => s.ChauffeurVehicles)
             .ThenInclude(s => s.Vehicle)
             .Include(s => s.DrivingLicenses)
             .Include(s => s.Requests));
@@ -185,7 +185,7 @@ namespace BusinessLayer.managers
             var vh = _vhrepo.GetById(
             filter: x => x.Id == id
             , x => x.Include(s => s.LicensePlates)
-            .Include(s => s.ChaffeurVehicles)
+            .Include(s => s.ChauffeurVehicles)
             .Include(s => s.LicensePlates)
             .Include(s => s.Requests));
             return vh;
@@ -193,9 +193,9 @@ namespace BusinessLayer.managers
         public GenericResult<IGeneralModels> GetAllChaffeurs()
         {
             var temp = this._repo.GetAll(
-                x => x.Include(s => s.ChaffeurFuelCards)
+                x => x.Include(s => s.ChauffeurFuelCards)
                 .ThenInclude(s => s.FuelCard)
-                .Include(s => s.ChaffeurVehicles)
+                .Include(s => s.ChauffeurVehicles)
                 .Include(s => s.DrivingLicenses)
                 .Include(s => s.Requests));
 
@@ -205,9 +205,9 @@ namespace BusinessLayer.managers
         public GenericResult<IGeneralModels> GetAllChaffeursPaging(GenericParameter parameters)
         {
             var temp = this._repo.GetAllWithPaging(
-                x => x.Include(s => s.ChaffeurFuelCards)
+                x => x.Include(s => s.ChauffeurFuelCards)
                 .ThenInclude(s => s.FuelCard)
-                .Include(s => s.ChaffeurVehicles)
+                .Include(s => s.ChauffeurVehicles)
                 .Include(s => s.DrivingLicenses)
                 .Include(s => s.Requests), parameters);
 

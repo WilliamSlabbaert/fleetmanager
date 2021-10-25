@@ -18,8 +18,8 @@ namespace DataLayer.entities
         public Overall.RequestType Type { get; set; }
         public int VehicleId { get; set; }
         public VehicleEntity Vehicle { get; set; }
-        public int ChaffeurId { get; set; }
-        public ChaffeurEntity Chaffeur { get; set; }
+        public int ChauffeurId { get; set; }
+        public ChauffeurEntity Chauffeur { get; set; }
         public List<RepairmentEntity> Repairment { get; set; }
         public List<MaintenanceEntity> Maintenance { get; set; }
     }

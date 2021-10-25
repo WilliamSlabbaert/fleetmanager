@@ -47,8 +47,8 @@ namespace BusinessLayer.mediator.handlers.queries
         public Task<GenericResult<IGeneralModels>> Handle(GetVehiclesPagingQuery request, CancellationToken cancellationToken)
         {
             var temp = Task.FromResult(_mapper.Map<List<Vehicle>>(_vehicleRepo.GetAllWithPaging(
-                s => s.Include(s => s.ChaffeurVehicles)
-                .ThenInclude(s => s.Chaffeur)
+                s => s.Include(s => s.ChauffeurVehicles)
+                .ThenInclude(s => s.Chauffeur)
                 .Include(s => s.LicensePlates)
                 .Include(s => s.Requests),request._parameters).ToList())).Result;
 

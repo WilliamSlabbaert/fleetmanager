@@ -37,8 +37,8 @@ namespace BusinessLayer.mediator.handlers.queries
                 _vehicleRepo.GetById(
                     filter: s => s.Id == request.Id,
                     s => s.Include(s => s.Requests)
-                    .Include(s => s.ChaffeurVehicles)
-                    .ThenInclude(s => s.Chaffeur)
+                    .Include(s => s.ChauffeurVehicles)
+                    .ThenInclude(s => s.Chauffeur)
                     .Include(s => s.LicensePlates)
                     .Include(s=> s.Kilometers)
                 ));

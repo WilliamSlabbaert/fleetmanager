@@ -19,7 +19,7 @@ namespace DataLayer.entities
         public DateTime ValidityDate { get; set; }
         public List<FuelEntity> FuelType { get; set; }
         public List<ExtraServiceEntity> Services { get; set; }
-        public List<ChaffeurEntityFuelCardEntity> ChaffeurFuelCards { get; set; }
+        public List<ChauffeurEntityFuelCardEntity> ChauffeurFuelCards { get; set; }
         public List<AuthenticationTypeEntity> AuthenticationTypes { get; set; }
 
         public FuelCardEntity()
@@ -27,7 +27,7 @@ namespace DataLayer.entities
             AuthenticationTypes = new List<AuthenticationTypeEntity>();
             FuelType = new List<FuelEntity>();
             Services = new List<ExtraServiceEntity>();
-            ChaffeurFuelCards = new List<ChaffeurEntityFuelCardEntity>();
+            ChauffeurFuelCards = new List<ChauffeurEntityFuelCardEntity>();
         }
 
         public FuelCardEntity(string cardNumber, string pin, bool isActive)
@@ -38,7 +38,7 @@ namespace DataLayer.entities
             AuthenticationTypes = new List<AuthenticationTypeEntity>();
             FuelType = new List<FuelEntity>();
             Services = new List<ExtraServiceEntity>();
-            ChaffeurFuelCards = new List<ChaffeurEntityFuelCardEntity>();
+            ChauffeurFuelCards = new List<ChauffeurEntityFuelCardEntity>();
         }
     }
 }

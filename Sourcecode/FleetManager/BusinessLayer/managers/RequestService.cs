@@ -23,12 +23,12 @@ namespace BusinessLayer.managers
     public class RequestService : IRequestService
     {
         private readonly IGenericRepo<RequestEntity> _repo;
-        private readonly IGenericRepo<ChaffeurEntity> _chrepo;
+        private readonly IGenericRepo<ChauffeurEntity> _chrepo;
         private readonly IGenericRepo<VehicleEntity> _vhrepo;
         private readonly IMapper _mapper;
         private IMediator _mediator;
         public List<GenericResponse> _errors { get; set; }
-        public RequestService(IGenericRepo<RequestEntity> repo, IMapper mapper, IGenericRepo<ChaffeurEntity> chrepo, IGenericRepo<VehicleEntity> vhrepo, IMediator mediator)
+        public RequestService(IGenericRepo<RequestEntity> repo, IMapper mapper, IGenericRepo<ChauffeurEntity> chrepo, IGenericRepo<VehicleEntity> vhrepo, IMediator mediator)
         {
             this._repo = repo;
             this._mapper = mapper;
@@ -38,12 +38,12 @@ namespace BusinessLayer.managers
         }
         public GenericResult<IGeneralModels> AddRequest(RequestDTO request, int chaffeurId, int vehicleId)
         {
-            ChaffeurEntity ch = GetChaffeurEntity(chaffeurId);
+            ChauffeurEntity ch = GetChaffeurEntity(chaffeurId);
             VehicleEntity vh = GetVehicleEntity(vehicleId);
             var temp = _mapper.Map<Request>(request);
             var rq = _mapper.Map<RequestEntity>(temp);
-            rq.Chaffeur = ch;
-            rq.ChaffeurId = ch.Id;
+            rq.Chauffeur = ch;
+            rq.ChauffeurId = ch.Id;
             rq.Vehicle = vh;
             rq.VehicleId = vh.Id;
             _repo.AddEntity(rq);
@@ -55,7 +55,7 @@ namespace BusinessLayer.managers
         public GenericResult<IGeneralModels> GetAllRequests()
         {
             var temp = _mapper.Map<List<Request>>(_repo.GetAll(
-                x => x.Include(s => s.Chaffeur)
+                x => x.Include(s => s.Chauffeur)
                 .Include(s => s.Maintenance)
                 .Include(s => s.Repairment)
                 .Include(s => s.Vehicle)));
@@ -66,7 +66,7 @@ namespace BusinessLayer.managers
         public GenericResult<IGeneralModels> GetAllRequestsPaging(GenericParameter parameters)
         {
             var temp = _mapper.Map<List<Request>>(_repo.GetAllWithPaging(
-                x => x.Include(s => s.Chaffeur)
+                x => x.Include(s => s.Chauffeur)
                 .Include(s => s.Maintenance)
                 .Include(s => s.Repairment)
                 .Include(s => s.Vehicle), parameters));
@@ -109,16 +109,16 @@ namespace BusinessLayer.managers
             var temp = _vhrepo.GetById(
            filter: f => f.Id == id,
            x => x.Include(s => s.Requests)
-           .Include(s => s.ChaffeurVehicles)
-           .ThenInclude(s => s.Chaffeur));
+           .Include(s => s.ChauffeurVehicles)
+           .ThenInclude(s => s.Chauffeur));
             return temp;
         }
-        public ChaffeurEntity GetChaffeurEntity(int id)
+        public ChauffeurEntity GetChaffeurEntity(int id)
         {
             var temp = _chrepo.GetById(
             filter: f => f.Id == id,
             x => x.Include(s => s.Requests)
-            .Include(s => s.ChaffeurVehicles)
+            .Include(s => s.ChauffeurVehicles)
             .ThenInclude(s => s.Vehicle));
             return temp;
         }
@@ -140,7 +140,7 @@ namespace BusinessLayer.managers
         {
             var temp = _repo.GetById(
                 filter: x => x.Id == id,
-                x => x.Include(s => s.Chaffeur)
+                x => x.Include(s => s.Chauffeur)
                 .Include(s => s.Maintenance)
                 .Include(s => s.Repairment)
                 .Include(s => s.Vehicle));
