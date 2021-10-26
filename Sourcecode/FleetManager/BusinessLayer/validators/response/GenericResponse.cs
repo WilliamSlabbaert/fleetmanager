@@ -7,11 +7,10 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.validators.response
 {
-    public class GenericResponse
+    public class GenericResponse 
     {
-        public string Property { get; set; }
-        public string Error { get; set; }
-        public string Input { get; set; }
-        //public string Type { get; set; }
+        public string Message { get; set; }
+        public int StatusCode { get; private set; } = 400;
+        public object ReturnValue { get; set; } = null;
     }
 }

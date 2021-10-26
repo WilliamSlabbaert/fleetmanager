@@ -32,11 +32,6 @@ namespace BusinessLayer
             CreateMap<ChauffeurEntityVehicleEntity, VehicleChauffeur>().ReverseMap();
             CreateMap<KilometerHistoryEntity, KilometerHistory>().ReverseMap();
 
-            CreateMap<ValidationFailure, GenericResponse>()
-                .ForMember(s => s.Input, opt=> opt.MapFrom(src => src.AttemptedValue))
-                .ForMember(s => s.Property, opt=> opt.MapFrom(src => src.PropertyName))
-                .ForMember(s => s.Error, opt => opt.MapFrom(src => src.ErrorMessage));
-
             CreateMap<ChauffeurDTO, Chauffeur>();
             CreateMap<DrivingLicenseDTO, DrivingLicense>();
             CreateMap<RequestDTO, Request>();

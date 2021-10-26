@@ -46,7 +46,7 @@ namespace ReadAPI
             .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
             .AddJsonFile("appsettings.json")
             .Build();
-
+          
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

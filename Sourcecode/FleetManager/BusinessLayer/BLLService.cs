@@ -56,7 +56,7 @@ namespace BusinessLayer
         private static void AddBLLValidators(IServiceCollection services)
         {
             services.AddValidatorsFromAssemblyContaining<FuelCardChauffeurValidator>(ServiceLifetime.Scoped);
-            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
         }
         private static void AddBLLMediator(IServiceCollection services)
         {
