@@ -28,7 +28,12 @@ namespace BusinessLayer.services
         private IValidator<FuelCard> _fuelcardValidator;
         private IValidator<FuelType> _fueltypeValidator;
         private IValidator<ExtraService> _serviceValidator;
-        public FuelCardService(IGenericRepo<FuelCardEntity> repo, IMapper mapper, IGenericRepo<ChauffeurEntity> chrepo, IMediator mediator, FuelCardValidator fuelcardV , FuelTypeValidator fueltypeV, ExtraServiceValidator serviceV)
+        private IValidator<AuthenticationType> _authenticationTypeValidator;
+        public FuelCardService(IGenericRepo<FuelCardEntity> repo, IMapper mapper, IGenericRepo<ChauffeurEntity> chrepo, IMediator mediator, 
+            FuelCardValidator fuelcardV , 
+            FuelTypeValidator fueltypeV, 
+            ExtraServiceValidator serviceV,
+            AuthenticationValidator authenticationV)
         {
             this._repo = repo;
             this._mapper = mapper;
@@ -37,6 +42,7 @@ namespace BusinessLayer.services
             this._fuelcardValidator = fuelcardV;
             this._fueltypeValidator = fueltypeV;
             this._serviceValidator = serviceV;
+            this._authenticationTypeValidator = authenticationV;
         }
 
         public GenericResult<GeneralModels> AddFuelCard(FuelCardDTO dto)
@@ -44,7 +50,7 @@ namespace BusinessLayer.services
             var fc = _mapper.Map<FuelCard>(dto);
             var validate = _fuelcardValidator.Validate(fc);
             var check = GenericValidationCheck.CheckModel(validate,"Fuelcard not valid");
-            if(check.Message == "OK")
+            if (validate.IsValid)
             {
                 var temp = _mapper.Map<FuelCardEntity>(fc);
                 var respond = new GenericResult<GeneralModels>() { Message = "Fuelcard with same cardnumber already exist's." };
@@ -77,7 +83,7 @@ namespace BusinessLayer.services
             var fueltype = _mapper.Map<FuelType>(dto);
             var check = _fueltypeValidator.Validate(fueltype);
             var checkResult = GenericValidationCheck.CheckModel(check, "Fueltype is invalid.");
-            if(checkResult.Message == "OK")
+            if (check.IsValid)
             {
                 var fuelcardEntity = GetFuelCardEntity(fuelcardId);
                 var checkModel = _mapper.Map<FuelCard>(fuelcardEntity);
@@ -119,7 +125,7 @@ namespace BusinessLayer.services
             var service = _mapper.Map<ExtraService>(dto);
             var check = _serviceValidator.Validate(service);
             var checkResult = GenericValidationCheck.CheckModel(check, "Extra service is invalid");
-            if(checkResult.Message == "OK")
+            if(check.IsValid)
             {
                 var fuelcardEntity = GetFuelCardEntity(fuelcardId);
                 var extraS = _mapper.Map<ExtraServiceEntity>(service);
@@ -143,23 +149,29 @@ namespace BusinessLayer.services
         public GenericResult<GeneralModels> AddAuthentication(AuthenticationTypeDTO dto, int fuelcardId)
         {
             var authenticationType = _mapper.Map<AuthenticationType>(dto);
-            var fuelcard = GetFuelCardEntity(fuelcardId);
-            var aT = _mapper.Map<AuthenticationTypeEntity>(authenticationType);
-            var respond = new GenericResult<GeneralModels>() { Message = "Authentication type already exist in fuelcard list." };
-
-            var temp = _mapper.Map<FuelCard>(fuelcard);
-            if (temp.CheckExistingAuthentications(authenticationType) == false)
+            var check = _authenticationTypeValidator.Validate(authenticationType);
+            var checkResult = GenericValidationCheck.CheckModel(check, "Authentication type is invalid");
+            if (check.IsValid)
             {
+                var fuelcard = GetFuelCardEntity(fuelcardId);
+                var aT = _mapper.Map<AuthenticationTypeEntity>(authenticationType);
+                var respond = new GenericResult<GeneralModels>() { Message = "Authentication type already exist in fuelcard list." };
+
+                var temp = _mapper.Map<FuelCard>(fuelcard);
+                if (temp.CheckExistingAuthentications(authenticationType) == false)
+                {
+                    return respond;
+                }
+                fuelcard.AuthenticationTypes.Add(aT);
+                _repo.UpdateEntity(fuelcard);
+                _repo.Save();
+                respond.Message = "Ok";
+                respond.ReturnValue = _mapper.Map<FuelCard>(fuelcard);
+                respond.SetStatusCode(Overall.ResponseType.OK);
+
                 return respond;
             }
-            fuelcard.AuthenticationTypes.Add(aT);
-            _repo.UpdateEntity(fuelcard);
-            _repo.Save();
-            respond.Message = "Ok";
-            respond.ReturnValue = _mapper.Map<FuelCard>(fuelcard);
-            respond.SetStatusCode(Overall.ResponseType.OK);
-
-            return respond;
+            return checkResult;
         }
 
         public GenericResult<GeneralModels> AddFuelCardToChauffeur(int fuelcardNr, int chaffeurNr)
@@ -210,7 +222,7 @@ namespace BusinessLayer.services
             var fuelcard = _mapper.Map<FuelCard>(dto);
             var validate = _fuelcardValidator.Validate(fuelcard);
             var check = GenericValidationCheck.CheckModel(validate, "Fuelcard not valid");
-            if (check.Message == "OK") {
+            if (validate.IsValid) {
                 var fuelcardEntity = GetFuelCardEntity(fuelcardNr);
                 var respond = new GenericResult<GeneralModels>() { Message = "Fuelcard with same cardnumber already exist's." };
                 if (CheckExistingFuelcard(fuelcard, fuelcardNr) == false)

@@ -45,7 +45,7 @@ namespace BusinessLayer
         {
             services.AddScoped(typeof(IGenericRepo<>), typeof(GenericRepo<>));
 
-            services.AddScoped<IChauffeurService, ChaffeurService>();
+            services.AddScoped<IChauffeurService, ChauffeurService>();
             services.AddScoped<IVehicleService, VehicleService>();
             services.AddScoped<IFuelCardService, FuelCardService>();
             services.AddScoped<IDrivingLicenseService, DrivingLicenseService>();

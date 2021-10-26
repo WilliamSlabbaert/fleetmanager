@@ -13,7 +13,7 @@ namespace BusinessLayer.validators
         public ChauffeurValidator()
         {
             RuleFor(c => c.City)
-                .NotNull().WithMessage("City property is null.");
+                .NotEmpty().WithMessage("City property is null.");
 
             When(x => string.IsNullOrEmpty(x.City) == false, () =>
             {
@@ -25,7 +25,7 @@ namespace BusinessLayer.validators
             });
 
             RuleFor(c => c.Street)
-                .NotNull().WithMessage("Street property is null.");
+                .NotEmpty().WithMessage("Street property is null.");
             
             When(x => string.IsNullOrEmpty(x.Street) == false, () =>
             {
@@ -36,7 +36,7 @@ namespace BusinessLayer.validators
             });
 
             RuleFor(c => c.HouseNumber)
-                .NotNull().WithMessage("House number property is null.");
+                .NotEmpty().WithMessage("House number property is null.");
 
             When(x => string.IsNullOrEmpty(x.HouseNumber) == false, () =>
             {
@@ -48,7 +48,7 @@ namespace BusinessLayer.validators
             
 
             RuleFor(c => c.FirstName)
-                .NotNull().WithMessage("First name property is null.");
+                .NotEmpty().WithMessage("First name property is null.");
 
             When(x => string.IsNullOrEmpty(x.FirstName) == false, () =>
             {
@@ -59,7 +59,7 @@ namespace BusinessLayer.validators
             });
            
             RuleFor(c => c.LastName)
-                .NotNull().WithMessage("Last name property is null.");
+                .NotEmpty().WithMessage("Last name property is null.");
             When(x => string.IsNullOrEmpty(x.LastName) == false, () =>
             {
                 RuleFor(c => c.LastName)
@@ -69,14 +69,14 @@ namespace BusinessLayer.validators
             });
 
             RuleFor(c => c.DateOfBirth)
-                .NotNull().WithMessage("Date of birth is null.");
+                .NotEmpty().WithMessage("Date of birth is null.");
 
             RuleFor(c => c.DateOfBirth)
                 .Must(x => x < DateTime.Now).WithMessage("Date of birth is must be earlier then today.")
                 .When(s => s != null);
 
             RuleFor(c => c.NationalInsurenceNumber)
-            .NotNull().WithMessage("National insurence number is null.");
+            .NotEmpty().WithMessage("National insurence number is null.");
 
 
             When(x => string.IsNullOrEmpty(x.NationalInsurenceNumber) == false, () =>

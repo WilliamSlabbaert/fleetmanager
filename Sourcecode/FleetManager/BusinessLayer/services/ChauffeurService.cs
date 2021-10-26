@@ -22,39 +22,48 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.services
 {
-    public class ChaffeurService : IChauffeurService
+    public class ChauffeurService : IChauffeurService
     {
         private readonly IGenericRepo<ChauffeurEntity> _repo;
         private readonly IGenericRepo<VehicleEntity> _vhrepo;
         private readonly IMapper _mapper;
         private IMediator _mediator;
-        public ChaffeurService(IGenericRepo<ChauffeurEntity> repo, IMapper mapper, IGenericRepo<VehicleEntity> vhrepo, IMediator mediator)
+        private IValidator<Chauffeur> _chauffeurValidator;
+        public ChauffeurService(IGenericRepo<ChauffeurEntity> repo, IMapper mapper, IGenericRepo<VehicleEntity> vhrepo, IMediator mediator,
+            ChauffeurValidator chauffeurV)
         {
             this._repo = repo;
             this._mapper = mapper;
             this._vhrepo = vhrepo;
             this._mediator = mediator;
+            this._chauffeurValidator = chauffeurV;
         }
 
-        public GenericResult<GeneralModels> AddChauffeur(ChauffeurDTO ch)
+        public GenericResult<GeneralModels> AddChauffeur(ChauffeurDTO dto)
         {
-            var chaff = _mapper.Map<Chauffeur>(ch);
-            var temp = _mapper.Map<ChauffeurEntity>(chaff);
-            var check = CheckExistingChaffeur(chaff, chaff.Id);
-            var result = new GenericResult<GeneralModels>() { Message = "Chaffeur with same national insurence number already exists." };
-            if (check == false)
+            var chauffeur = _mapper.Map<Chauffeur>(dto);
+            var check = _chauffeurValidator.Validate(chauffeur);
+            var result = GenericValidationCheck.CheckModel(check,"Chauffeur is invalid.");
+            if (check.IsValid)
             {
-                return result;
-            }
+                var chauffeurEntity = _mapper.Map<ChauffeurEntity>(chauffeur);
+                var checkChauffeur = CheckExistingChauffeur(chauffeur, chauffeur.Id);
+                var response = new GenericResult<GeneralModels>() { Message = "Chaffeur with same national insurence number already exists." };
+                if (checkChauffeur == false)
+                {
+                    return response;
+                }
 
-            _repo.AddEntity(temp);
-            _repo.Save();
-            result.Message = "Ok";
-            result.SetStatusCode(Overall.ResponseType.OK);
-            result.ReturnValue = _mapper.Map<Chauffeur>(temp);
+                _repo.AddEntity(chauffeurEntity);
+                _repo.Save();
+                response.Message = "Ok";
+                response.SetStatusCode(Overall.ResponseType.OK);
+                response.ReturnValue = _mapper.Map<Chauffeur>(chauffeurEntity);
+                return response;
+            }
             return result;
         }
-        public bool CheckExistingChaffeur(Chauffeur ch, int id)
+        public bool CheckExistingChauffeur(Chauffeur ch, int id)
         {
             var result = _repo.GetAll(null).FirstOrDefault(s => s.NationalInsurenceNumber == ch.NationalInsurenceNumber && s.Id != id);
             if (result == null)
@@ -82,34 +91,40 @@ namespace BusinessLayer.services
             return  CreateResult(temp == null, value).Result;
         }
 
-        public GenericResult<GeneralModels> UpdateChauffeur(ChauffeurDTO ch, int id)
+        public GenericResult<GeneralModels> UpdateChauffeur(ChauffeurDTO dto, int id)
         {
-            var chaff = _mapper.Map<Chauffeur>(ch);
-            var check = CheckExistingChaffeur(chaff, id);
-            var result = new GenericResult<GeneralModels>() { Message = "Chaffeur with same national insurence number already exists." };
-            if (check == false)
+            var chauffeur = _mapper.Map<Chauffeur>(dto);
+            var check = _chauffeurValidator.Validate(chauffeur);
+            var result = GenericValidationCheck.CheckModel(check, "Chauffeur is invalid.");
+            if (check.IsValid)
             {
-                return result;
+                var checkChauffeur = CheckExistingChauffeur(chauffeur, id);
+                var response = new GenericResult<GeneralModels>() { Message = "Chaffeur with same national insurence number already exists." };
+                if (checkChauffeur == false)
+                {
+                    return response;
+                }
+                var temp = GetChauffeurEntity(id);
+
+                temp.FirstName = dto.FirstName;
+                temp.LastName = dto.LastName;
+
+                temp.IsActive = dto.IsActive;
+                temp.City = dto.City;
+
+                temp.Street = dto.Street;
+                temp.HouseNumber = dto.HouseNumber;
+
+                temp.DateOfBirth = dto.DateOfBirth;
+                temp.NationalInsurenceNumber = dto.NationalInsurenceNumber;
+
+                _repo.UpdateEntity(temp);
+                _repo.Save();
+                response.SetStatusCode(Overall.ResponseType.OK);
+                response.Message = "Ok";
+                response.ReturnValue = _mapper.Map<Chauffeur>(temp);
+                return response;
             }
-            var temp = GetChauffeurEntity(id);
-
-            temp.FirstName = ch.FirstName;
-            temp.LastName = ch.LastName;
-
-            temp.IsActive = ch.IsActive;
-            temp.City = ch.City;
-
-            temp.Street = ch.Street;
-            temp.HouseNumber = ch.HouseNumber;
-
-            temp.DateOfBirth = ch.DateOfBirth;
-            temp.NationalInsurenceNumber = ch.NationalInsurenceNumber;
-
-            _repo.UpdateEntity(temp);
-            _repo.Save();
-            result.SetStatusCode(Overall.ResponseType.OK);
-            result.Message = "Ok";
-            result.ReturnValue = _mapper.Map<Chauffeur>(temp);
             return result;
         }
         public GenericResult<GeneralModels> AddVehicleToChauffeur(int chaffeurNr, int vehicleNr)
