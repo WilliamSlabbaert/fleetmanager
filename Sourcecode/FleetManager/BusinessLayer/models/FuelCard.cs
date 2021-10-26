@@ -56,6 +56,7 @@ namespace BusinessLayer.models
             }
             return false;
         }
+        public int Id { get; set; }
 
         public string CardNumber { get; set; }
         public string Pin { get; set; }

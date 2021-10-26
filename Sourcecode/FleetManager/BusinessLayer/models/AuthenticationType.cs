@@ -14,7 +14,7 @@ namespace BusinessLayer.models
         {
             this.type = type;
         }
-
+        public int Id { get; set; }
         public AuthenticationTypes type { get; set; }
         public int FuelCardId { get; set; }
         public FuelCard FuelCard { get; set; }

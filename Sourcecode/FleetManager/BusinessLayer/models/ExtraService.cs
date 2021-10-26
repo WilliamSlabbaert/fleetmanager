@@ -14,6 +14,7 @@ namespace BusinessLayer.models
         {
             Service = service;
         }
+        public int Id { get; set; }
 
         public ExtraServices Service { get; set; }
         public int FuelCardId { get; set; }

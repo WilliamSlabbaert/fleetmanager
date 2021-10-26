@@ -66,7 +66,7 @@ namespace BusinessLayer.services
                 x => x.Include(s => s.Request)));
 
             var value = temp == null ? null : temp;
-            return CreateResult(temp == null, value);
+            return CreateResult(temp == null, value).Result;
         }
         public GenericResult<GeneralModels> GetAllRepairmentsPaging(GenericParameter parameters)
         {
@@ -74,21 +74,21 @@ namespace BusinessLayer.services
                 x => x.Include(s => s.Request), parameters));
 
             var value = temp == null ? null : temp;
-            return CreateResult(temp == null, value);
+            return CreateResult(temp == null, value).Result;
         }
         public GenericResult<GeneralModels> GetRepairmentById(int id)
         {
             var temp = _mapper.Map<Repairment>(GetRepairmentEntityById(id));
 
             var value = temp == null ? null : temp;
-            return CreateResult(temp == null, value);
+            return CreateResult(temp == null, value).Result;
         }
         public GenericResult<GeneralModels> GetRepairmentRequestById(int id)
         {
             var temp = _mapper.Map<Repairment>(GetRepairmentEntityById(id));
 
             var value = temp == null ? null : temp.Request;
-            return CreateResult(temp == null, value);
+            return CreateResult(temp == null, value).Result;
         }
 
         public RepairmentEntity GetRepairmentEntityById(int id)
@@ -112,7 +112,7 @@ namespace BusinessLayer.services
             }
 
         }
-        public GenericResult<GeneralModels> CreateResult(bool check, object value)
+        public async Task<GenericResult<GeneralModels>> CreateResult(bool check, object value)
         {
             var message = "OK";
             var code = Overall.ResponseType.OK;
@@ -122,8 +122,8 @@ namespace BusinessLayer.services
                 code = Overall.ResponseType.NotFound;
                 value = null;
             }
-            var resp = _mediator.Send(new CreateGenericResultCommand(message, code, value));
-            return resp.Result;
+            var resp = await _mediator.Send(new CreateGenericResultCommand(message, code, value));
+            return resp;
         }
         public object GetHeaders(GenericParameter parameters)
         {

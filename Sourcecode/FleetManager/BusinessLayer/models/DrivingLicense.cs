@@ -14,6 +14,7 @@ namespace BusinessLayer.models
         {
             this.type = type;
         }
+        public int Id { get; set; }
 
         public Overall.License type { get; set; }
         public int ChauffeurId { get; set; }

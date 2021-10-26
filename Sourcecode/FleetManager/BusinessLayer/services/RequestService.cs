@@ -61,7 +61,7 @@ namespace BusinessLayer.services
                 .Include(s => s.Vehicle)));
 
             var value = temp == null ? null : temp;
-            return CreateResult(temp == null, value);
+            return CreateResult(temp == null, value).Result;
         }
         public GenericResult<GeneralModels> GetAllRequestsPaging(GenericParameter parameters)
         {
@@ -72,37 +72,37 @@ namespace BusinessLayer.services
                 .Include(s => s.Vehicle), parameters));
 
             var value = temp == null ? null : temp;
-            return CreateResult(temp == null, value);
+            return CreateResult(temp == null, value).Result;
         }
         public GenericResult<GeneralModels> GetRequestById(int id)
         {
             var temp = _mapper.Map<Request>(GetRequestEntityById(id));
             var value = temp == null ? null : temp;
-            return CreateResult(temp == null, value);
+            return CreateResult(temp == null, value).Result;
         }
         public GenericResult<GeneralModels> GetRequestChaffeur(int id)
         {
             var temp = _mapper.Map<Request>(GetRequestEntityById(id));
             var value = temp == null ? null : temp.Chauffeur;
-            return CreateResult(temp == null, value);
+            return CreateResult(temp == null, value).Result;
         }
         public GenericResult<GeneralModels> GetRequestVehicle(int id)
         {
             var temp = _mapper.Map<Request>(GetRequestEntityById(id));
             var value = temp == null ? null : temp.Vehicle;
-            return CreateResult(temp == null, value);
+            return CreateResult(temp == null, value).Result;
         }
         public GenericResult<GeneralModels> GetRequestRepairs(int id)
         {
             var temp = _mapper.Map<Request>(GetRequestEntityById(id));
             var value = temp == null ? null : temp.Repairment;
-            return CreateResult(temp == null, value);
+            return CreateResult(temp == null, value).Result;
         }
         public GenericResult<GeneralModels> GetRequestMaintenance(int id)
         {
             var temp = _mapper.Map<Request>(GetRequestEntityById(id));
             var value = temp == null ? null : temp.Maintenance;
-            return CreateResult(temp == null, value);
+            return CreateResult(temp == null, value).Result;
         }
         public VehicleEntity GetVehicleEntity(int id)
         {
@@ -146,7 +146,7 @@ namespace BusinessLayer.services
                 .Include(s => s.Vehicle));
             return temp;
         }
-        public GenericResult<GeneralModels> CreateResult(bool check, object value)
+        public async Task<GenericResult<GeneralModels>> CreateResult(bool check, object value)
         {
             var message = "OK";
             var code = Overall.ResponseType.OK;
@@ -156,8 +156,8 @@ namespace BusinessLayer.services
                 code = Overall.ResponseType.NotFound;
                 value = null;
             }
-            var resp = _mediator.Send(new CreateGenericResultCommand(message, code, value));
-            return resp.Result;
+            var resp = await _mediator.Send(new CreateGenericResultCommand(message, code, value));
+            return resp;
         }
         public object GetHeaders(GenericParameter parameters)
         {

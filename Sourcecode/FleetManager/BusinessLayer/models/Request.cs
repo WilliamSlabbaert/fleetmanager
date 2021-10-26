@@ -16,6 +16,7 @@ namespace BusinessLayer.models
             Status = status;
             Type = type;
         }
+        public int Id { get; set; }
 
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }

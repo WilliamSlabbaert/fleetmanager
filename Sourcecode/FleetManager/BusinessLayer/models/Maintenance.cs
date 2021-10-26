@@ -15,6 +15,8 @@ namespace BusinessLayer.models
             Price = price;
             Garage = garage;
         }
+        public int Id { get; set; }
+
         public DateTime Date { get; set; }
         public double Price { get; set; }
         public string Garage { get; set; }

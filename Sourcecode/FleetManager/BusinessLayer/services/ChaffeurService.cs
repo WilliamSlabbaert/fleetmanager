@@ -79,7 +79,7 @@ namespace BusinessLayer.services
             .ThenInclude(s => s.Vehicle));
 
             var value = temp == null ? null : _mapper.Map<Chauffeur>(temp);
-            return CreateResult(temp == null, value);
+            return  CreateResult(temp == null, value).Result;
         }
 
         public GenericResult<GeneralModels> UpdateChauffeur(ChauffeurDTO ch, int id)
@@ -200,7 +200,7 @@ namespace BusinessLayer.services
                 .Include(s => s.Requests));
 
             var value = _mapper.Map<List<Chauffeur>>(temp);
-            return CreateResult(temp == null, value);
+            return  CreateResult(temp == null, value).Result;
         }
         public GenericResult<GeneralModels> GetAllChauffeursPaging(GenericParameter parameters)
         {
@@ -211,34 +211,34 @@ namespace BusinessLayer.services
                 .Include(s => s.DrivingLicenses)
                 .Include(s => s.Requests), parameters);
 
-            var value = temp;
-            return CreateResult(temp == null, value);
+            var value = _mapper.Map<List<Chauffeur>>(temp);
+            return  CreateResult(temp == null, value).Result;
         }
         public GenericResult<GeneralModels> GetChauffeurVehicles(int chaffeurId)
         {
             var temp = GetChauffeurEntity(chaffeurId);
             var value = temp == null ? null : _mapper.Map<Chauffeur>(temp).ChaffeurVehicles;
-            return CreateResult(temp == null, value);
+            return  CreateResult(temp == null, value).Result;
         }
         public GenericResult<GeneralModels> GetChauffeurRequests(int chaffeurId)
         {
             var temp = GetChauffeurEntity(chaffeurId);
             var value = temp == null ? null : _mapper.Map<Chauffeur>(temp).Requests;
-            return CreateResult(temp == null, value);
+            return  CreateResult(temp == null, value).Result;
         }
         public GenericResult<GeneralModels> GetChauffeurFuelcards(int chaffeurId)
         {
             var temp = GetChauffeurEntity(chaffeurId);
             var value = temp == null ? null : _mapper.Map<Chauffeur>(temp).ChaffeurFuelCards;
-            return CreateResult(temp == null, value);
+            return CreateResult(temp == null, value).Result;
         }
         public GenericResult<GeneralModels> GetChauffeurDrivingLicenses(int chaffeurId)
         {
             var temp = GetChauffeurEntity(chaffeurId);
             var value = temp == null ? null : _mapper.Map<Chauffeur>(temp).DrivingLicenses;
-            return CreateResult(temp == null, value);
+            return CreateResult(temp == null, value).Result;
         }
-        public GenericResult<GeneralModels> CreateResult(bool check, object value)
+        public async Task<GenericResult<GeneralModels>> CreateResult(bool check, object value)
         {
             var message = "OK";
             var code = Overall.ResponseType.OK;
@@ -248,8 +248,8 @@ namespace BusinessLayer.services
                 code = Overall.ResponseType.NotFound;
                 value = null;
             }
-            var resp = _mediator.Send(new CreateGenericResultCommand(message, code, value));
-            return resp.Result;
+            var resp = await _mediator.Send(new CreateGenericResultCommand(message, code, value));
+            return resp;
         }
         public object GetHeaders(GenericParameter parameters)
         {

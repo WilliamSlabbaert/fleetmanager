@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Overall.paging;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace BusinessLayer.services
 {
@@ -243,7 +244,7 @@ namespace BusinessLayer.services
                 .Include(s => s.ChauffeurFuelCards)));
 
             var value = temp == null ? null : temp;
-            return CreateResult(temp == null, value);
+            return CreateResult(temp == null, value).Result;
         }
         public GenericResult<GeneralModels> GetAllFuelCardsPaging(GenericParameter parameters)
         {
@@ -254,7 +255,7 @@ namespace BusinessLayer.services
                 .Include(s => s.ChauffeurFuelCards), parameters));
 
             var value = temp == null ? null : temp;
-            return CreateResult(temp == null, value);
+            return CreateResult(temp == null, value).Result;
         }
 
         public GenericResult<GeneralModels> GetFuelCardById(int id)
@@ -262,7 +263,7 @@ namespace BusinessLayer.services
             var temp = _mapper.Map<FuelCard>(GetFuelCardEntity(id));
 
             var value = temp == null ? null : temp;
-            return CreateResult(temp == null, value);
+            return CreateResult(temp == null, value).Result;
         }
 
         public GenericResult<GeneralModels> GetFuelcardChauffeurs(int id)
@@ -270,21 +271,21 @@ namespace BusinessLayer.services
             var temp = GetFuelCardEntity(id);
 
             var value = temp == null ? null : temp.ChauffeurFuelCards;
-            return CreateResult(temp == null, value);
+            return CreateResult(temp == null, value).Result;
         }
         public GenericResult<GeneralModels> GetFuelcardFuelTypes(int id)
         {
             var temp = GetFuelCardEntity(id);
 
             var value = temp == null ? null : temp.FuelType;
-            return CreateResult(temp == null, value);
+            return CreateResult(temp == null, value).Result;
         }
         public GenericResult<GeneralModels> GetFuelcardAuthenications(int id)
         {
             var temp = GetFuelCardEntity(id);
 
             var value = temp == null ? null : temp.AuthenticationTypes;
-            return CreateResult(temp == null, value);
+            return CreateResult(temp == null, value).Result;
         }
         public FuelCardEntity GetFuelCardEntity(int id)
         {
@@ -305,7 +306,7 @@ namespace BusinessLayer.services
             .Include(s => s.ChauffeurVehicles));
             return ch;
         }
-        public GenericResult<GeneralModels> CreateResult(bool check, object value)
+        public async Task<GenericResult<GeneralModels>> CreateResult(bool check, object value)
         {
             var message = "OK";
             var code = Overall.ResponseType.OK;
@@ -315,8 +316,8 @@ namespace BusinessLayer.services
                 code = Overall.ResponseType.NotFound;
                 value = null;
             }
-            var resp = _mediator.Send(new CreateGenericResultCommand(message, code, value));
-            return resp.Result;
+            var resp = await _mediator.Send(new CreateGenericResultCommand(message, code, value));
+            return resp;
         }
         public object GetHeaders(GenericParameter parameters)
         {

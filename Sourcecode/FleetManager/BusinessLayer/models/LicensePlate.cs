@@ -14,6 +14,7 @@ namespace BusinessLayer.models
             this.Plate = plate.ToUpper();
             this.IsActive = active;
         }
+        public int Id { get; set; }
 
         public string Plate { get; set; }
         public bool IsActive { get; set; }

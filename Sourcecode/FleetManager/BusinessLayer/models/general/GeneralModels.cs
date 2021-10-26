@@ -8,6 +8,5 @@ namespace BusinessLayer.models.general
 {
     public class GeneralModels
     {
-        public int Id { get; set; }
     }
 }

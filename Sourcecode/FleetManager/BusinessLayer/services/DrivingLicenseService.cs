@@ -75,14 +75,14 @@ namespace BusinessLayer.services
             var temp = _mapper.Map<List<DrivingLicense>>(_repo.GetAll(
                 s => s.Include(x => x.Chauffeur)));
             var value = temp == null ? null : _mapper.Map<List<DrivingLicense>>(temp);
-            return CreateResult(temp == null, value);
+            return CreateResult(temp == null, value).Result;
         }
         public GenericResult<GeneralModels> GetAllDrivingLicensesPaging(GenericParameter parameters)
         {
             var temp = _mapper.Map<List<DrivingLicense>>(_repo.GetAllWithPaging(
                 s => s.Include(x => x.Chauffeur),parameters));
             var value = temp == null ? null : _mapper.Map<List<DrivingLicense>>(temp);
-            return CreateResult(temp == null, value);
+            return CreateResult(temp == null, value).Result;
         }
         public GenericResult<GeneralModels> GetAllDrivingLicenseById(int id)
         {
@@ -90,7 +90,7 @@ namespace BusinessLayer.services
                 filter: x => x.Id == id,
                 including: s => s.Include(x => x.Chauffeur)));
 
-            return CreateResult(value == null, value);
+            return CreateResult(value == null, value).Result;
         }
         public GenericResult<GeneralModels> GetDrivingLicenseChaffeurById(int id)
         {
@@ -99,7 +99,7 @@ namespace BusinessLayer.services
                 including: s => s.Include(x => x.Chauffeur)));
 
             var value = temp == null ? null : temp.Chauffeur;
-            return CreateResult(temp == null, value);
+            return CreateResult(temp == null, value).Result;
         }
         public ChauffeurEntity GetChauffeurEntity(int id)
         {
@@ -115,7 +115,7 @@ namespace BusinessLayer.services
             var temp = _mapper.Map<Chauffeur>(GetChauffeurEntity(id));
             return temp.CheckDrivingLicense(license);
         }
-        public GenericResult<GeneralModels> CreateResult(bool check, object value)
+        public async Task<GenericResult<GeneralModels>> CreateResult(bool check, object value)
         {
             var message = "OK";
             var code = Overall.ResponseType.OK;
@@ -125,8 +125,8 @@ namespace BusinessLayer.services
                 code = Overall.ResponseType.NotFound;
                 value = null;
             }
-            var resp = _mediator.Send(new CreateGenericResultCommand(message, code, value));
-            return resp.Result;
+            var resp = await _mediator.Send(new CreateGenericResultCommand(message, code, value));
+            return resp;
         }
         public object GetHeaders(GenericParameter parameters)
         {
