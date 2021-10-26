@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using BusinessLayer.managers.interfaces;
+using BusinessLayer.services.interfaces;
 using BusinessLayer.mediator.commands;
 using BusinessLayer.mediator.queries;
 using BusinessLayer.models;
@@ -8,17 +8,13 @@ using BusinessLayer.models.input;
 using BusinessLayer.validators.response;
 using DataLayer.entities;
 using DataLayer.repositories;
-using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Overall.paging;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace BusinessLayer.managers
+namespace BusinessLayer.services
 {
     public class FuelCardService : IFuelCardService
     {
@@ -26,7 +22,7 @@ namespace BusinessLayer.managers
         private readonly IGenericRepo<ChauffeurEntity> _chrepo;
         private readonly IMapper _mapper;
         private IMediator _mediator;
-        public FuelCardService(IGenericRepo<FuelCardEntity> repo, IMapper mapper, IGenericRepo<ChauffeurEntity> chrepo,IMediator mediator)
+        public FuelCardService(IGenericRepo<FuelCardEntity> repo, IMapper mapper, IGenericRepo<ChauffeurEntity> chrepo, IMediator mediator)
         {
             this._repo = repo;
             this._mapper = mapper;
@@ -84,7 +80,7 @@ namespace BusinessLayer.managers
             var dl = result.FuelType.FirstOrDefault(s => s.Id == fuelid);
             var respond = new GenericResult<GeneralModels>() { Message = "Fuel type doesn't exist in fuelcard list." };
 
-            if(dl == null)
+            if (dl == null)
             {
                 return respond;
             }
@@ -125,7 +121,7 @@ namespace BusinessLayer.managers
             var respond = new GenericResult<GeneralModels>() { Message = "Authentication type already exist in fuelcard list." };
 
             var temp = _mapper.Map<FuelCard>(fuelcard);
-            if(temp.CheckExistingAuthentications(t) == false)
+            if (temp.CheckExistingAuthentications(t) == false)
             {
                 return respond;
             }
@@ -169,7 +165,7 @@ namespace BusinessLayer.managers
                 }
             }
             var fuelcard = ch.ChauffeurFuelCards.FirstOrDefault(s => s.FuelCard.Id == fuelcardNr);
-            if(fuelcard == null)
+            if (fuelcard == null)
             {
                 return result;
             }
@@ -207,7 +203,7 @@ namespace BusinessLayer.managers
             var fuelcard = GetFuelCardEntity(fuelcardId);
             var respond = new GenericResult<GeneralModels>() { Message = "Extra service doesn't exist in fuelcard list." };
             var temp = fuelcard.Services.FirstOrDefault(s => s.Id == serviceId);
-            if(temp == null)
+            if (temp == null)
             {
                 return respond;
             }
@@ -255,7 +251,7 @@ namespace BusinessLayer.managers
                 x => x.Include(s => s.Services)
                 .Include(s => s.FuelType)
                 .Include(s => s.AuthenticationTypes)
-                .Include(s => s.ChauffeurFuelCards),parameters));
+                .Include(s => s.ChauffeurFuelCards), parameters));
 
             var value = temp == null ? null : temp;
             return CreateResult(temp == null, value);
@@ -268,7 +264,7 @@ namespace BusinessLayer.managers
             var value = temp == null ? null : temp;
             return CreateResult(temp == null, value);
         }
-        
+
         public GenericResult<GeneralModels> GetFuelcardChauffeurs(int id)
         {
             var temp = GetFuelCardEntity(id);
@@ -294,7 +290,7 @@ namespace BusinessLayer.managers
         {
             return _repo.GetById(
             filter: x => x.Id == id,
-            x => 
+            x =>
             x.Include(s => s.FuelType)
             .Include(s => s.ChauffeurFuelCards)
             .ThenInclude(s => s.Chauffeur)

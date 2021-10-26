@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using BusinessLayer.managers.interfaces;
+using BusinessLayer.services.interfaces;
 using BusinessLayer.mediator.queries;
 using BusinessLayer.models;
 using BusinessLayer.validators.response;
@@ -15,7 +15,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusinessLayer.managers
+namespace BusinessLayer.services
 {
     public class VehicleService : IVehicleService
     {

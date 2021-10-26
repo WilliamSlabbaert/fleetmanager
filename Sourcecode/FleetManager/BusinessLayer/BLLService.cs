@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using BusinessLayer.managers;
-using BusinessLayer.managers.interfaces;
+using BusinessLayer.services;
+using BusinessLayer.services.interfaces;
 using BusinessLayer.mediator.commands;
 using BusinessLayer.mediator.queries;
 using BusinessLayer.models;

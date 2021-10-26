@@ -3,7 +3,7 @@ using BusinessLayer.models.input;
 using BusinessLayer.validators.response;
 using Overall.paging;
 
-namespace BusinessLayer.managers.interfaces
+namespace BusinessLayer.services.interfaces
 {
     public interface IChauffeurService 
     {

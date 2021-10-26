@@ -1,4 +1,4 @@
-﻿using BusinessLayer.managers.interfaces;
+﻿using BusinessLayer.services.interfaces;
 using BusinessLayer.models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;

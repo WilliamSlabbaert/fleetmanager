@@ -1,5 +1,5 @@
 ﻿using BusinessLayer;
-using BusinessLayer.managers.interfaces;
+using BusinessLayer.services.interfaces;
 using BusinessLayer.mediator.commands;
 using BusinessLayer.mediator.queries;
 using BusinessLayer.models;

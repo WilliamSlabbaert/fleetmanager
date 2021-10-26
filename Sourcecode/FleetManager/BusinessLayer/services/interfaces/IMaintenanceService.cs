@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusinessLayer.managers.interfaces
+namespace BusinessLayer.services.interfaces
 {
     public interface IMaintenanceService
     {
