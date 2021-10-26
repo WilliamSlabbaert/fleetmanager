@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BusinessLayer.validators;
 
 namespace BusinessLayer.services
 {
@@ -26,25 +27,34 @@ namespace BusinessLayer.services
         private readonly IGenericRepo<RepairmentEntity> _repo;
         private readonly IMapper _mapper;
         private IMediator _mediator;
-        public RepairmentService(IGenericRepo<RequestEntity> rqrepo, IMapper mapper, IGenericRepo<RepairmentEntity> repo, IMediator mediator)
+        private IValidator<Repairment> _repairmentValidator;
+        public RepairmentService(IGenericRepo<RequestEntity> rqrepo, IMapper mapper, IGenericRepo<RepairmentEntity> repo, IMediator mediator,
+            RepairmentValidator repairmentV)
         {
             this._repo = repo;
             this._rqrepo = rqrepo;
             this._mapper = mapper;
             this._mediator = mediator;
+            this._repairmentValidator = repairmentV;
         }
-        public GenericResult<GeneralModels> AddRepairment(RepairmentDTO repairment, int requestId)
+        public GenericResult<GeneralModels> AddRepairment(RepairmentDTO dto, int requestId)
         {
-            var temp = _mapper.Map<Repairment>(repairment);
-            var rq = GetRequestEntity(requestId);
-            var rm = _mapper.Map<RepairmentEntity>(temp);
-            rq.Repairment.Add(rm);
-            _rqrepo.UpdateEntity(rq);
-            _rqrepo.Save();
-            var respond = new GenericResult<GeneralModels>() { ReturnValue = _mapper.Map<Request>(rq), Message = "Ok" };
-            respond.SetStatusCode(Overall.ResponseType.OK);
+            var repairment = _mapper.Map<Repairment>(dto);
+            var check = _repairmentValidator.Validate(repairment);
+            var result = GenericValidationCheck.CheckModel(check, "Repairment is invalid.");
+            if (check.IsValid)
+            {
+                var rq = GetRequestEntity(requestId);
+                var rm = _mapper.Map<RepairmentEntity>(repairment);
+                rq.Repairment.Add(rm);
+                _rqrepo.UpdateEntity(rq);
+                _rqrepo.Save();
+                var respond = new GenericResult<GeneralModels>() { ReturnValue = _mapper.Map<Request>(rq), Message = "Ok" };
+                respond.SetStatusCode(Overall.ResponseType.OK);
 
-            return respond;
+                return respond;
+            }
+            return result;
         }
         public GenericResult<GeneralModels> DeleteRepairment(int requestId, int repairmentId)
         {

@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusinessLayer.validators
+namespace BusinessLayer.validators.response
 {
     public static class GenericValidationCheck 
     {
