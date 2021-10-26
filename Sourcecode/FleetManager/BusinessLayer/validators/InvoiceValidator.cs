@@ -13,7 +13,7 @@ namespace BusinessLayer.validators
         public InvoiceValidator()
         {
             RuleFor(c => c.InvoiceImage)
-                .NotNull().WithMessage("Invoice image property is empty.");
+                .NotEmpty().WithMessage("Invoice image property is empty.");
         }
     }
 }
