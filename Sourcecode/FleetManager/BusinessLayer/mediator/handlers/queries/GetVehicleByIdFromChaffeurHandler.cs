@@ -45,9 +45,9 @@ namespace BusinessLayer.mediator.handlers.queries
             respond.ReturnValue = result;
             return Task.FromResult(respond);
         }
-        public Task<GenericResult<GeneralModels>> GetVehicle(int id)
+        public async Task<GenericResult<GeneralModels>> GetVehicle(int id)
         {
-            var vehicle = _mediator.Send(new GetVehicleByIdQuery(id));
+            var vehicle = await _mediator.Send(new GetVehicleByIdQuery(id));
             return vehicle;
         }
     }

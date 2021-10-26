@@ -19,6 +19,7 @@ namespace DataLayer.entities
             Kilometers = new List<KilometerHistoryEntity>();
         }
 
+
         public int Chassis { get; set; }
         public string Brand { get; set; }
         public string Model { get; set; }

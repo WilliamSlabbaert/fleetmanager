@@ -22,5 +22,9 @@ namespace BusinessLayer.models
             Chauffeur = chaffeur;
             IsActive = isActive;
         }
+
+        public VehicleChauffeur()
+        {
+        }
     }
 }

@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BusinessLayer.validators;
 
 namespace BusinessLayer.services
 {
@@ -27,30 +28,38 @@ namespace BusinessLayer.services
         private readonly IGenericRepo<VehicleEntity> _vhrepo;
         private readonly IMapper _mapper;
         private IMediator _mediator;
-        public List<GenericResponse> _errors { get; set; }
-        public RequestService(IGenericRepo<RequestEntity> repo, IMapper mapper, IGenericRepo<ChauffeurEntity> chrepo, IGenericRepo<VehicleEntity> vhrepo, IMediator mediator)
+        private IValidator<Request> _requestValidator;
+        public RequestService(IGenericRepo<RequestEntity> repo, IMapper mapper, IGenericRepo<ChauffeurEntity> chrepo, IGenericRepo<VehicleEntity> vhrepo, IMediator mediator,
+            RequestValidator requestV)
         {
             this._repo = repo;
             this._mapper = mapper;
             this._chrepo = chrepo;
             this._vhrepo = vhrepo;
             this._mediator = mediator;
+            this._requestValidator = requestV;
         }
-        public GenericResult<GeneralModels> AddRequest(RequestDTO request, int chaffeurId, int vehicleId)
+        public GenericResult<GeneralModels> AddRequest(RequestDTO dto, int chaffeurId, int vehicleId)
         {
             ChauffeurEntity ch = GetChauffeurEntity(chaffeurId);
             VehicleEntity vh = GetVehicleEntity(vehicleId);
-            var temp = _mapper.Map<Request>(request);
-            var rq = _mapper.Map<RequestEntity>(temp);
-            rq.Chauffeur = ch;
-            rq.ChauffeurId = ch.Id;
-            rq.Vehicle = vh;
-            rq.VehicleId = vh.Id;
-            _repo.AddEntity(rq);
-            _repo.Save();
+            var request = _mapper.Map<Request>(dto);
+            var check = _requestValidator.Validate(request);
+            var result = GenericValidationCheck.CheckModel(check, "Request is invalid.");
+            if (check.IsValid)
+            {
+                var rq = _mapper.Map<RequestEntity>(request);
+                rq.Chauffeur = ch;
+                rq.ChauffeurId = ch.Id;
+                rq.Vehicle = vh;
+                rq.VehicleId = vh.Id;
+                _repo.AddEntity(rq);
+                _repo.Save();
 
-            var resp = _mediator.Send(new CreateGenericResultCommand("Ok", Overall.ResponseType.OK, _mapper.Map<Request>(rq)));
-            return resp.Result;
+                var resp = _mediator.Send(new CreateGenericResultCommand("Ok", Overall.ResponseType.OK, _mapper.Map<Request>(rq)));
+                return resp.Result;
+            }
+            return result;
         }
         public GenericResult<GeneralModels> GetAllRequests()
         {
@@ -122,19 +131,25 @@ namespace BusinessLayer.services
             .ThenInclude(s => s.Vehicle));
             return temp;
         }
-        public GenericResult<GeneralModels> UpdateRequest(RequestDTO request, int id)
+        public GenericResult<GeneralModels> UpdateRequest(RequestDTO dto, int id)
         {
-            var rq = GetRequestEntityById(id);
+            var requestEntity = GetRequestEntityById(id);
+            var request = _mapper.Map<Request>(dto);
+            var check = _requestValidator.Validate(request);
+            var result = GenericValidationCheck.CheckModel(check, "Request is invalid.");
+            if (check.IsValid)
+            {
+                requestEntity.StartDate = dto.StartDate;
+                requestEntity.EndDate = dto.EndDate;
+                requestEntity.Status = dto.Status;
+                requestEntity.Type = dto.Type;
+                _repo.UpdateEntity(requestEntity);
+                _repo.Save();
 
-            rq.StartDate = request.StartDate;
-            rq.EndDate = request.EndDate;
-            rq.Status = request.Status;
-            rq.Type = request.Type;
-            _repo.UpdateEntity(rq);
-            _repo.Save();
-
-            var resp = _mediator.Send(new CreateGenericResultCommand("Ok", Overall.ResponseType.OK, _mapper.Map<Request>(rq)));
-            return resp.Result;
+                var resp = _mediator.Send(new CreateGenericResultCommand("Ok", Overall.ResponseType.OK, _mapper.Map<Request>(requestEntity)));
+                return resp.Result;
+            }
+            return result;
         }
         public RequestEntity GetRequestEntityById(int id)
         {

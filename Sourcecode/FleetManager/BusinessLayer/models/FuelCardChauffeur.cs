@@ -21,5 +21,9 @@ namespace BusinessLayer.models
             FuelCard = fuelCard;
             IsActive = isActive;
         }
+
+        public FuelCardChauffeur()
+        {
+        }
     }
 }
