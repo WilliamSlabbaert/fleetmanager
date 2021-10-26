@@ -48,8 +48,6 @@ namespace ReadAPI
             .Build();
 
             services.AddControllers();
-            //services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<VehicleValidator>());
-            services.AddTransient(typeof(IPipelineBehavior<,>),typeof(ValidationBehavior<,>));
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ReadAPI", Version = "v1" });

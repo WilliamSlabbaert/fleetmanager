@@ -29,7 +29,7 @@ namespace BusinessLayer.validators
 
             RuleFor(c => c.Pin)
                 .Must(x => x.Length > 0).WithMessage("Pin is too short.")
-                .Must(x => x.Length <= 4).WithMessage("Pin too short.")
+                .Must(x => x.Length <= 4).WithMessage("Pin too long.")
                 .Matches(new Regex("^[0-9]*$")).WithMessage("Pin cannot contain symbols and letters.")
                 .When(x => x != null);
 
