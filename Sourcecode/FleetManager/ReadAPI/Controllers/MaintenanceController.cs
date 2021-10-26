@@ -55,20 +55,6 @@ namespace ReadAPI.Controllers
                 return BadRequest(ex);
             }
         }
-        [HttpGet("Maintenance/{id}/Request")]
-        public ActionResult<GenericResult<GeneralModels>> GetByIdRequest(int id)
-
-        {
-            try
-            {
-                var temp = _managerMaintenance.GetMaintenanceRequestById(id);
-                return (temp.StatusCode == 200) ? Ok(temp) : NotFound(temp);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
-            }
-        }
         [HttpGet("Maintenance/{id}/Invoice")]
         public ActionResult<GenericResult<GeneralModels>> GetByIdInvoices(int id)
         {

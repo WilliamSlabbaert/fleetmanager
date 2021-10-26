@@ -58,57 +58,5 @@ namespace ReadAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpGet("Vehicle/{id}/Chaffeur")]
-        public ActionResult<GenericResult<GeneralModels>> GetVehicleChaffeursByID(int id)
-        {
-            try
-            {
-                var temp = _mediator.Send(new GetVehicleChauffeursQuery(id));
-                return (temp.Result.StatusCode == 200) ? Ok(temp.Result) : NotFound(temp.Result);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-        [HttpGet("Vehicle/{id}/Licenseplate")]
-        public ActionResult<GenericResult<GeneralModels>> GetVehicleLicensePlatesByID(int id)
-        {
-            try
-            {
-                var temp = _mediator.Send(new GetVehicleLicensePlatesQuery(id));
-                return (temp.Result.StatusCode == 200) ? Ok(temp.Result) : NotFound(temp.Result);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
-            }
-        }
-        [HttpGet("Vehicle/{id}/Request")]
-        public ActionResult<GenericResult<GeneralModels>> GetVehicleRequestsByID(int id)
-        {
-            try
-            {
-                var temp = _mediator.Send(new GetVehicleRequestsQuery(id));
-                return (temp.Result.StatusCode == 200) ? Ok(temp.Result) : NotFound(temp.Result);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
-            }
-        }
-        [HttpGet("Vehicle/{id}/KilometerHistory")]
-        public ActionResult<GenericResult<GeneralModels>> GetVehicleKilometersByID(int id)
-        {
-            try
-            {
-                var temp = _mediator.Send(new GetVehicleKilometerHistoryQuery(id));
-                return (temp.Result.StatusCode == 200) ? Ok(temp.Result) : NotFound(temp.Result);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
-            }
-        }
     }
 }

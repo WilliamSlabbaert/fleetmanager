@@ -17,15 +17,15 @@ namespace WriteAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ChaffeurController : ControllerBase
+    public class ChauffeurController : ControllerBase
     {
-        private readonly ILogger<ChaffeurController> _logger;
+        private readonly ILogger<ChauffeurController> _logger;
         private IChauffeurService _managerChaffeur;
         private IDrivingLicenseService _drivingLicenseManager;
         private IMediator _mediator;
         private IFuelCardService _fuelCardManager;
         private IRequestService _requestService;
-        public ChaffeurController(ILogger<ChaffeurController> logger, IChauffeurService man, IDrivingLicenseService drivingLicenseManager, IFuelCardService fuelCardManager, IMediator mediator, IRequestService requestService)
+        public ChauffeurController(ILogger<ChauffeurController> logger, IChauffeurService man, IDrivingLicenseService drivingLicenseManager, IFuelCardService fuelCardManager, IMediator mediator, IRequestService requestService)
         {
             _logger = logger;
             _managerChaffeur = man;
@@ -47,18 +47,18 @@ namespace WriteAPI.Controllers
                 return BadRequest(e.Message);
             }
         }
-        [HttpPut("{chaffeurId}")]
-        public ActionResult<GenericResult<GeneralModels>> UpdateById(int chaffeurId, [FromBody] ChauffeurDTO chaffeur)
+        [HttpPut("{chauffeurId}")]
+        public ActionResult<GenericResult<GeneralModels>> UpdateById(int chauffeurId, [FromBody] ChauffeurDTO chaffeur)
         {
             try
             {
-                var check = _managerChaffeur.GetChauffeurById(chaffeurId);
+                var check = _managerChaffeur.GetChauffeurById(chauffeurId);
                 if (check.StatusCode == 404)
                 {
                     return NotFound(check);
                 }
 
-                var result = _managerChaffeur.UpdateChauffeur(chaffeur, chaffeurId);
+                var result = _managerChaffeur.UpdateChauffeur(chaffeur, chauffeurId);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -67,19 +67,19 @@ namespace WriteAPI.Controllers
             }
         }
 
-        [HttpPost("{chaffeurId}/Vehicle/{vehicleId}")]
-        public ActionResult<GenericResult<GeneralModels>> AddVehicleToChaffeur(int chaffeurId, int vehicleId)
+        [HttpPost("{chauffeurId}/Vehicle/{vehicleId}")]
+        public ActionResult<GenericResult<GeneralModels>> AddVehicleToChauffeur(int chauffeurId, int vehicleId)
         {
             try
             {
-                var ch = _managerChaffeur.GetChauffeurById(chaffeurId);
+                var ch = _managerChaffeur.GetChauffeurById(chauffeurId);
                 var vh = _mediator.Send(new GetVehicleByIdQuery(vehicleId)).Result;
                 if (ch.StatusCode == 404 || vh.StatusCode == 404)
                 {
                     return ch.StatusCode == 404 ? NotFound(ch) : NotFound(vh);
                 }
 
-                var result = _managerChaffeur.AddVehicleToChauffeur(chaffeurId, vehicleId);
+                var result = _managerChaffeur.AddVehicleToChauffeur(chauffeurId, vehicleId);
                 return result.StatusCode != 200 ? BadRequest(result) : Ok(result);
             }
             catch (Exception ex)
@@ -87,18 +87,18 @@ namespace WriteAPI.Controllers
                 return BadRequest(ex);
             }
         }
-        [HttpPatch("{chaffeurId}/Vehicle/{vehicleId}")]
-        public ActionResult<GenericResult<GeneralModels>> UpdateVehicleToChaffeur(int chaffeurId, int vehicleId, [FromBody] bool activity)
+        [HttpPatch("{chauffeurId}/Vehicle/{vehicleId}")]
+        public ActionResult<GenericResult<GeneralModels>> UpdateVehicleToChauffeur(int chauffeurId, int vehicleId, [FromBody] bool activity)
         {
             try
             {
-                var ch = _managerChaffeur.GetChauffeurById(chaffeurId);
+                var ch = _managerChaffeur.GetChauffeurById(chauffeurId);
                 var vh = _mediator.Send(new GetVehicleByIdQuery(vehicleId)).Result;
                 if (ch.StatusCode == 404 || vh.StatusCode == 404)
                 {
                     return ch.StatusCode == 404 ? NotFound(ch) : NotFound(vh);
                 }
-                var result = _managerChaffeur.UpdateVehicleToChauffeur(chaffeurId, vehicleId, activity);
+                var result = _managerChaffeur.UpdateVehicleToChauffeur(chauffeurId, vehicleId, activity);
                 return result.StatusCode != 200 ? BadRequest(result) : Ok(result);
             }
             catch (Exception ex)
@@ -107,17 +107,17 @@ namespace WriteAPI.Controllers
             }
         }
         
-        [HttpPost("{chaffeurId}/Drivinglicense")]
-        public ActionResult<GenericResult<GeneralModels>> AddDrivinglicense(int chaffeurId, [FromBody] DrivingLicenseDTO drivingLicense)
+        [HttpPost("{chauffeurId}/Drivinglicense")]
+        public ActionResult<GenericResult<GeneralModels>> AddDrivinglicense(int chauffeurId, [FromBody] DrivingLicenseDTO drivingLicense)
         {
             try
             {
-                var check = _managerChaffeur.GetChauffeurById(chaffeurId);
+                var check = _managerChaffeur.GetChauffeurById(chauffeurId);
                 if (check.StatusCode == 404)
                 {
                     return NotFound(check);
                 }
-                var result = _drivingLicenseManager.AddDrivingLicense(drivingLicense,chaffeurId);
+                var result = _drivingLicenseManager.AddDrivingLicense(drivingLicense,chauffeurId);
                 return result.StatusCode == 200 ? Ok(result) : BadRequest(result);
             }
             catch (Exception e)
@@ -126,18 +126,18 @@ namespace WriteAPI.Controllers
             }
         }
 
-        [HttpDelete("{chaffeurId}/Drivinglicense/{drivinglicenseId}")]
-        public ActionResult<GenericResult<GeneralModels>> DeleteDrivinglicensesByID(int chaffeurId, int drivinglicenseId)
+        [HttpDelete("{chauffeurId}/Drivinglicense/{drivinglicenseId}")]
+        public ActionResult<GenericResult<GeneralModels>> DeleteDrivinglicensesByID(int chauffeurId, int drivinglicenseId)
         {
             try
             {
-                var check = _managerChaffeur.GetChauffeurById(chaffeurId);
+                var check = _managerChaffeur.GetChauffeurById(chauffeurId);
                 var check2 = _drivingLicenseManager.GetAllDrivingLicenseById(drivinglicenseId);
                 if (check.StatusCode != 200 || check2.StatusCode != 200)
                 {
                     return check.StatusCode != 200 ? NotFound(check) : NotFound(check2);
                 }
-                var result = _drivingLicenseManager.DeleteDrivingLicense(drivinglicenseId,chaffeurId);
+                var result = _drivingLicenseManager.DeleteDrivingLicense(drivinglicenseId,chauffeurId);
                 return result.StatusCode == 200 ? Ok(result) : NotFound(result);
             }
             catch (Exception e)
@@ -146,18 +146,18 @@ namespace WriteAPI.Controllers
             }
         }
 
-        [HttpPost("{chaffeurId}/FuelCard/{fuelcardId}")]
-        public ActionResult<GenericResult<GeneralModels>> AddFuelCard(int chaffeurId, int fuelcardId)
+        [HttpPost("{chauffeurId}/FuelCard/{fuelcardId}")]
+        public ActionResult<GenericResult<GeneralModels>> AddFuelCard(int chauffeurId, int fuelcardId)
         {
             try
             {
-                var check = _managerChaffeur.GetChauffeurById(chaffeurId);
+                var check = _managerChaffeur.GetChauffeurById(chauffeurId);
                 var check2 = _fuelCardManager.GetFuelCardById(fuelcardId);
                 if (check.StatusCode != 200 || check2.StatusCode != 200)
                 {
                     return check.StatusCode != 200 ? NotFound(check) : NotFound(check2);
                 }
-                var result = _fuelCardManager.AddFuelCardToChauffeur(fuelcardId,chaffeurId);
+                var result = _fuelCardManager.AddFuelCardToChauffeur(fuelcardId,chauffeurId);
                 return result.StatusCode == 200 ? Ok(result) : BadRequest(result);
             }
             catch (Exception e)
@@ -165,18 +165,18 @@ namespace WriteAPI.Controllers
                 return BadRequest(e);
             }
         }
-        [HttpPatch("{chaffeurId}/FuelCard/{fuelcardId}")]
-        public ActionResult<GenericResult<GeneralModels>> UpdateFuelCardActivity(int chaffeurId, int fuelcardId, [FromBody] bool activity)
+        [HttpPatch("{chauffeurId}/FuelCard/{fuelcardId}")]
+        public ActionResult<GenericResult<GeneralModels>> UpdateFuelCardActivity(int chauffeurId, int fuelcardId, [FromBody] bool activity)
         {
             try
             {
-                var check = _managerChaffeur.GetChauffeurById(chaffeurId);
+                var check = _managerChaffeur.GetChauffeurById(chauffeurId);
                 var check2 = _fuelCardManager.GetFuelCardById(fuelcardId);
                 if (check.StatusCode != 200 || check2.StatusCode != 200)
                 {
                     return check.StatusCode != 200 ? NotFound(check) : NotFound(check2);
                 }
-                var result = _fuelCardManager.ActivityChauffeurFuelCard(fuelcardId, chaffeurId, activity);
+                var result = _fuelCardManager.ActivityChauffeurFuelCard(fuelcardId, chauffeurId, activity);
                 return result.StatusCode == 200 ? Ok(result) : BadRequest(result);
             }
             catch (Exception e)
@@ -184,18 +184,18 @@ namespace WriteAPI.Controllers
                 return BadRequest(e);
             }
         }
-        [HttpPost("{chaffeurId}/Vehicle/{vehicleId}/Requests")]
-        public ActionResult<GenericResult<GeneralModels>> AddRequest(int chaffeurId, int vehicleId, [FromBody] RequestDTO request)
+        [HttpPost("{chauffeurId}/Vehicle/{vehicleId}/Requests")]
+        public ActionResult<GenericResult<GeneralModels>> AddRequest(int chauffeurId, int vehicleId, [FromBody] RequestDTO request)
         {
             try
             {
-                var check = _managerChaffeur.GetChauffeurById(chaffeurId);
-                var check2 = _mediator.Send(new GetVehicleByIdFromChauffeurQuery(chaffeurId,vehicleId)).Result;
+                var check = _managerChaffeur.GetChauffeurById(chauffeurId);
+                var check2 = _mediator.Send(new GetVehicleByIdFromChauffeurQuery(chauffeurId,vehicleId)).Result;
                 if (check.StatusCode != 200 || check2.StatusCode != 200)
                 {
                     return check.StatusCode != 200 ? NotFound(check) : NotFound(check2);
                 }
-                var result = _requestService.AddRequest(request, chaffeurId, vehicleId);
+                var result = _requestService.AddRequest(request, chauffeurId, vehicleId);
                 return Ok(result);
             }
             catch (Exception e)

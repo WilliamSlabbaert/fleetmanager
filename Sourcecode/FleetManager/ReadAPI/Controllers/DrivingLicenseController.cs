@@ -56,20 +56,5 @@ namespace ReadAPI.Controllers
                 return BadRequest(ex);
             }
         }
-        
-        
-        [HttpGet("Drivinglicense/{id}/Chaffeur")]
-        public ActionResult<GenericResult<GeneralModels>> GetFuelCardByIDChaffeur(int id)
-        {
-            try
-            {
-                var ch = _drivingLicenseManager.GetDrivingLicenseChaffeurById(id);
-                return (ch.StatusCode == 200) ? Ok(ch) : NotFound(ch);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
-            }
-        }
     }
 }

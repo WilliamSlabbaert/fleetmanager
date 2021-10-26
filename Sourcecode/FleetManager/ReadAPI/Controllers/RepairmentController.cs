@@ -53,19 +53,5 @@ namespace ReadAPI.Controllers
                 return BadRequest(ex);
             }
         }
-
-        [HttpGet("Repairment/{id}/Request")]
-        public ActionResult<Request> GetByIdRequest(int id)
-        {
-            try
-            {
-                var temp = _managerRepairment.GetRepairmentRequestById(id);
-                return (temp.StatusCode == 200) ? Ok(temp) : NotFound(temp);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
-            }
-        }
     }
 }

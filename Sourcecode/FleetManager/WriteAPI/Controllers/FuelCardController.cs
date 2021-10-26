@@ -15,9 +15,9 @@ namespace WriteAPI.Controllers
 {
     public class FuelCardController : Controller
     {
-        private readonly ILogger<ChaffeurController> _logger;
+        private readonly ILogger<ChauffeurController> _logger;
         private IFuelCardService _fuelCardManager;
-        public FuelCardController(ILogger<ChaffeurController> logger, IFuelCardService fuelCardManager)
+        public FuelCardController(ILogger<ChauffeurController> logger, IFuelCardService fuelCardManager)
         {
             _logger = logger;
             _fuelCardManager = fuelCardManager;

@@ -56,44 +56,5 @@ namespace ReadAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpGet("Fuelcard/{id}/Chaffeur")]
-        public ActionResult<GenericResult<GeneralModels>> GetFuelCardChaffeursByID(int id)
-        {
-            try
-            {
-                var temp = _fuelCardManager.GetFuelcardChauffeurs(id);
-                return (temp.StatusCode == 200) ? Ok(temp) : NotFound(temp);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-        [HttpGet("Fuelcard/{id}/Fueltype")]
-        public ActionResult<GenericResult<GeneralModels>> GetFuelCardFuelsByID(int id)
-        {
-            try
-            {
-                var temp = _fuelCardManager.GetFuelcardFuelTypes((id));
-                return (temp.StatusCode == 200) ? Ok(temp) : NotFound(temp);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-        [HttpGet("Fuelcard/{id}/Authentication")]
-        public ActionResult<GenericResult<GeneralModels>> GetFuelCardAuthenticationTypesByID(int id)
-        {
-            try
-            {
-                var temp = _fuelCardManager.GetFuelcardAuthenications(id);
-                return (temp.StatusCode == 200) ? Ok(temp) : NotFound(temp);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
     }
 }

@@ -16,12 +16,12 @@ namespace WriteAPI.Controllers
     [ApiController]
     public class RequestController : Controller
     {
-        private readonly ILogger<ChaffeurController> _logger;
+        private readonly ILogger<ChauffeurController> _logger;
         private IMediator _mediator;
         private IRequestService _requestService;
         private IMaintenanceService _maintenanceService;
         private IRepairmentService _repairmentService;
-        public RequestController(ILogger<ChaffeurController> logger, IMediator mediator, IRequestService requestService, IMaintenanceService maintenanceService, IRepairmentService repairmentService)
+        public RequestController(ILogger<ChauffeurController> logger, IMediator mediator, IRequestService requestService, IMaintenanceService maintenanceService, IRepairmentService repairmentService)
         {
             _logger = logger;
             _mediator = mediator;

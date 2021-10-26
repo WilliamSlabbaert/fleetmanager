@@ -78,7 +78,7 @@ namespace ReadAPI.Controllers
                 return BadRequest(ex);
             }
         }
-        [HttpGet("Request/{id}/Chaffeur")]
+        [HttpGet("Request/{id}/Chauffeur")]
         public ActionResult<GenericResult<GeneralModels>> GetByIdChaffeur(int id)
         {
             try
