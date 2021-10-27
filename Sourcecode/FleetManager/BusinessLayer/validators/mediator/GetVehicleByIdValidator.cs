@@ -13,7 +13,7 @@ namespace BusinessLayer.validators.mediator
         public GetVehicleByIdValidator()
         {
             RuleFor(s => s)
-                .Must(s => s.Id == 0)
+                .Must(s => s.Id > 0)
                 .WithMessage("Id must be greater than 0.")
                 .When(s => s != null);
 

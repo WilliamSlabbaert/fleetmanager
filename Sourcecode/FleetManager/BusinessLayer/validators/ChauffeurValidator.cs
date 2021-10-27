@@ -26,7 +26,7 @@ namespace BusinessLayer.validators
 
             RuleFor(c => c.Street)
                 .NotEmpty().WithMessage("Street property is null.");
-            
+
             When(x => string.IsNullOrEmpty(x.Street) == false, () =>
             {
                 RuleFor(c => c.Street)
@@ -45,7 +45,7 @@ namespace BusinessLayer.validators
                 .Matches(new Regex("^[1-9]\\d*(?:[ -]?(?:[a-zA-Z]+|[1-9]\\d*))?$")).WithMessage("House number must contain at least 1 number and 1 letter or contain only a number.")
                 .When(s => s != null);
             });
-            
+
 
             RuleFor(c => c.FirstName)
                 .NotEmpty().WithMessage("First name property is null.");
@@ -57,7 +57,7 @@ namespace BusinessLayer.validators
                .Matches(new Regex("^[[A-Za-z]]*((-|\\s)*[A-Za-z])*$")).WithMessage("First name cannot contain symbols and numbers.")
                .When(s => s != null);
             });
-           
+
             RuleFor(c => c.LastName)
                 .NotEmpty().WithMessage("Last name property is null.");
             When(x => string.IsNullOrEmpty(x.LastName) == false, () =>
@@ -86,7 +86,8 @@ namespace BusinessLayer.validators
                .Must((s, x) => CheckYear(s)).WithMessage("National insurence number year(number) is wrong.")
                .Must((s, x) => CheckMonth(s)).WithMessage("National insurence number month(number) is wrong.")
                .Must((s, x) => CheckDay(s)).WithMessage("National insurence number day(number) is wrong.")
-               .Matches(new Regex("^\\d([0-9]|1[0-9])\\.(0[0-9]|1[012])\\.(0[1-9]|[12][0-9]|3[01])\\-([0-9][0-9][0-9])\\.([0-9][0-9])$")).WithMessage("National insurence number is invalid structure. (yy.mm.dd-xxx.xx)");
+               .Must((s, x) => CheckNationalInsNr(s)).WithMessage("Check number is invalid.")
+               .Matches(new Regex("^\\d([0-9]|1[0-9])\\.(0[0-9]|1[012])\\.(0[1-9]|[12][0-9]|3[01])\\-([0-9][0-9][0-9])\\.([0-9][0-9])$")).WithMessage("National insurence number has a invalid structure. (yy.mm.dd-xxx.xx)");
            });
 
         }
@@ -152,6 +153,44 @@ namespace BusinessLayer.validators
             }
             catch
             {
+                return false;
+            }
+
+        }
+        protected bool CheckNationalInsNr(object input)
+        {
+
+            var chaffeur = (Chauffeur)input;
+            if(chaffeur.DateOfBirth.Year < 2000)
+            {
+                var nr = chaffeur.NationalInsurenceNumber;
+                var countNR = Int32.Parse(nr.Remove(nr.Length - 3).Replace(".", "").Replace("-", ""));
+                var result1 = countNR / 97;
+                var result2 = result1 * 97;
+                var result3 = countNR - result2;
+                var controlDigit = 97 - result3;
+                var finalNr = nr.Substring(nr.Length - 2);
+
+                if (finalNr == controlDigit.ToString())
+                {
+                    return true;
+                }
+                return false;
+            }
+            else 
+            {
+                var nr = "2"+chaffeur.NationalInsurenceNumber;
+                var countNR = Int32.Parse(nr.Remove(nr.Length - 3).Replace(".", "").Replace("-", ""));
+                var result1 = countNR / 97;
+                var result2 = result1 * 97;
+                var result3 = countNR - result2;
+                var controlDigit = 97 - result3;
+                var finalNr = nr.Substring(nr.Length - 2);
+
+                if (finalNr == controlDigit.ToString())
+                {
+                    return true;
+                }
                 return false;
             }
 
