@@ -161,38 +161,23 @@ namespace BusinessLayer.validators
         {
 
             var chaffeur = (Chauffeur)input;
-            if(chaffeur.DateOfBirth.Year < 2000)
+            var nr = chaffeur.NationalInsurenceNumber;
+            if (chaffeur.DateOfBirth.Year >= 2000)
             {
-                var nr = chaffeur.NationalInsurenceNumber;
-                var countNR = Int32.Parse(nr.Remove(nr.Length - 3).Replace(".", "").Replace("-", ""));
-                var result1 = countNR / 97;
-                var result2 = result1 * 97;
-                var result3 = countNR - result2;
-                var controlDigit = 97 - result3;
-                var finalNr = nr.Substring(nr.Length - 2);
-
-                if (finalNr == controlDigit.ToString())
-                {
-                    return true;
-                }
-                return false;
+                nr = "2" + nr;
             }
-            else 
+
+            var countNR = Int32.Parse(nr.Remove(nr.Length - 3).Replace(".", "").Replace("-", ""));
+            var result1 = countNR / 97;
+            var result2 = result1 * 97;
+            var result3 = countNR - result2;
+            var controlDigit = 97 - result3;
+            var finalNr = nr.Substring(nr.Length - 2);
+            if (finalNr == controlDigit.ToString())
             {
-                var nr = "2"+chaffeur.NationalInsurenceNumber;
-                var countNR = Int32.Parse(nr.Remove(nr.Length - 3).Replace(".", "").Replace("-", ""));
-                var result1 = countNR / 97;
-                var result2 = result1 * 97;
-                var result3 = countNR - result2;
-                var controlDigit = 97 - result3;
-                var finalNr = nr.Substring(nr.Length - 2);
-
-                if (finalNr == controlDigit.ToString())
-                {
-                    return true;
-                }
-                return false;
+                return true;
             }
+            return false;
 
         }
     }
