@@ -1,0 +1,28 @@
+<div>
+    <h3 [style.marginLeft.px]='50' [style.marginTop.px]='20'>{{pageTitle}}</h3>
+  </div>
+  <div class='card-body'>
+    <div class='table-responsive'>
+      <table class='table' *ngIf='getChauffeurs.length'>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Birth</th>
+            <th>Adress</th>
+            <th>Nation insurence nr.</th>
+            <th>Activity</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor='let chauffeur of getChauffeurs'>
+            <td>{{chauffeur.id}}</td>
+            <td>{{chauffeur.firstName + " " + chauffeur.lastName | uppercase}}</td>
+            <td>{{chauffeur.dateOfBirth | date:'dd/MM/yyyy'}}</td>
+            <td>{{chauffeur.city + " " + chauffeur.street + " "  + chauffeur.houseNumber}}</td>
+            <td>{{chauffeur.nationalInsurenceNumber | convertToSpacesPipe:'-'}}</td>
+            <td>{{chauffeur.isActive}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
