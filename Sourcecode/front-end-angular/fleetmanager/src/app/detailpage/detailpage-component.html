@@ -1,4 +1,64 @@
-<div class="container-fluid"
-[style.margin.px]='50'>
-    <h2>{{detailName}}</h2>
+<style>
+    .detailBox {
+        display: contents;
+    }
+    .formInput{
+        margin-right: 90px;
+    }
+
+    .scrollBox{
+        height: 500px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        margin-right: 30px;
+        margin-top: 50px;
+    }
+    .noContentBox{
+        top: 50%;
+        margin-left: 50px;
+        position: absolute;
+        color: grey;
+    }
+</style>
+<div class="scrollBox">
+    <div *ngIf='getCheckPage' class="container-fluid" [style.margin.px]='50'>
+        <h2>{{detailName}} ID: {{detailObject.id}}</h2>
+        <div class="card container-sm detailBox">
+            <form *ngIf='detailName == "VEHICLE" '>
+                <div class="formInput">
+                    <label for="chassisInput">Chassis</label>
+                    <input id="chassisInput" class="form-control" type="text" 
+                    value={{detailObject.chassis}}><br />
+                </div>
+                <div class="formInput">
+                    <label for="brandInput">Brand</label>
+                    <input class="form-control" type="text" id="brandInput" 
+                    value={{detailObject.brand}}><br />
+                </div>
+                <div class="formInput">
+                    <label for="modelInput">Model</label>
+                    <input class="form-control" type="text" id="modelInput" 
+                    value={{detailObject.model}}><br />
+                </div>
+                <div class="formInput">
+                    <label for="typeInput">Type</label>
+                    <input class="form-control" type="text" id="typeInput" 
+                    value={{detailObject.type}}><br />
+                </div>
+                <div class="formInput">
+                    <label for="fuelInput">Fuel</label>
+                    <input class="form-control" type="text" id="fuelInput" 
+                    value={{detailObject.fuelType}}><br />
+                </div>
+                <div class="formInput">
+                    <label for="dateInput">Fuel</label>
+                    <input class="form-control" type="text" id="dateInput" 
+                    value={{detailObject.buildDate}}><br />
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="noContentBox container" *ngIf='!getCheckPage'>
+        <h1>No content</h1>
+    </div>
 </div>

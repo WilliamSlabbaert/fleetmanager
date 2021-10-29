@@ -4,10 +4,10 @@
 }
 .detailPage{
     width: 50%;
-    float:left; /* add this */
+    float:left; 
     margin-left: 35px;
     margin-right: 50px;
-
+    height: 600px;
 }
 .dashBoardPage{
     overflow: hidden;
@@ -18,5 +18,4 @@
 .wholePage{
     background: rgb(235,235,235);
     border: none;
-
 }

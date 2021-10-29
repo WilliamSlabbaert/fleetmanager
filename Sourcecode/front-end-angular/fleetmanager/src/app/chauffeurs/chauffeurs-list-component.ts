@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, EventEmitter, Output } from "@angular/core";
 import { IChauffeurs } from "./chauffeurs";
 
 @Component({
@@ -7,6 +7,7 @@ import { IChauffeurs } from "./chauffeurs";
 })
 export class ChauffeursComponent{
     pageTitle :string = 'Chauffeurs';
+    @Output() idClick = new EventEmitter<IChauffeurs>()
 
     private _chauffeurs: IChauffeurs[] = [{
         "firstName" : "William",
@@ -42,5 +43,9 @@ export class ChauffeursComponent{
 
     get getChauffeurs() : IChauffeurs[]{
         return this._chauffeurs;
+    }
+    onClickId(value:number){
+        const vh = this.getChauffeurs.find(s => s.id == value)
+        this.idClick.emit(vh);
     }
 }

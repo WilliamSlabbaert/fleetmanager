@@ -50,14 +50,6 @@ export class VehicleListComponent{
     logTest(value:any) : void {
         console.log(value)
     }
-    
-    changeFilter(input:any) : void{
-        const filter : string = input.value;
-        const temp : IVehicle[] = this.getVehicles.filter((vh: IVehicle)=>{
-            return vh.model.toLocaleLowerCase().includes(filter.toLocaleLowerCase());
-        })
-        this.setFilteredVehicles = temp;
-    }
     onClickId(value:number){
         const vh = this.getVehicles.find(s => s.id == value)
         this.idClick.emit(vh);

@@ -6,6 +6,7 @@
       <table class='table' *ngIf='getChauffeurs.length'>
         <thead>
           <tr>
+            <th></th>
             <th>ID</th>
             <th>Name</th>
             <th>Birth</th>
@@ -16,6 +17,7 @@
         </thead>
         <tbody>
           <tr *ngFor='let chauffeur of getChauffeurs'>
+            <td><button class='btn btn-dark' (click)='onClickId(chauffeur.id)'>EDIT</button></td>
             <td>{{chauffeur.id}}</td>
             <td>{{chauffeur.firstName + " " + chauffeur.lastName | uppercase}}</td>
             <td>{{chauffeur.dateOfBirth | date:'dd/MM/yyyy'}}</td>
