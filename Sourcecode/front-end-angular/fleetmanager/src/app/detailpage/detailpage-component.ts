@@ -21,7 +21,4 @@ export class DetailPage implements OnChanges{
             this.setCheckPage = true;
         }
     }
-    changeDateTime(value : Date) : any{
-        
-    }
 }

@@ -73,7 +73,7 @@ namespace ReadAPI
             app.UseRouting();
             app.UseCors(builder =>
             {
-                builder.WithOrigins("http://localhost:3000");
+                builder.WithOrigins("http://localhost:4200");
                 builder.AllowAnyHeader();
                 builder.WithExposedHeaders("X-Pagination");
                 builder.AllowAnyMethod();

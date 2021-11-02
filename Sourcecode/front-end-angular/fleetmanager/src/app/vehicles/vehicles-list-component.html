@@ -1,9 +1,9 @@
 <div>
-  <h3 [style.marginLeft.px]='50' [style.marginTop.px]='20'>{{pageTitle}}</h3>
+  <h3 [style.marginLeft.px]='50' [style.marginTop.px]='20'>{{_pageTitle}}</h3>
 </div>
 <div class='card-body'>
   <div class='table-responsive'>
-    <table class='table' *ngIf='getVehicles.length'>
+    <table class='table'>
       <thead>
         <tr>
           <th></th>
@@ -16,17 +16,30 @@
           <th>Build date</th>
         </tr>
       </thead>
-      <tbody>
-        <tr *ngFor='let vehicle of getFilteredVehicles'>
+      <tbody *ngIf='getVehicles.length'>
+        <tr *ngFor='let vehicle of getVehicles'>
           <td><button class='btn btn-dark' (click)='onClickId(vehicle.id)'>EDIT</button></td>
           <td>{{vehicle.id}}</td>
-          <td>{{vehicle.chassis | uppercase}}</td>
+          <td>{{vehicle.chassis}}</td>
           <td>{{vehicle.brand}}</td>
-          <td>{{vehicle.model | convertToSpacesPipe:'-'}}</td>
+          <td>{{vehicle.model}}</td>
           <td>{{vehicle.type}}</td>
           <td>{{vehicle.fuelType}}</td>
-          <td>{{vehicle.buildDate | date:'dd/MM/yyyy'}}</td>
+          <td>{{vehicle.buildDate | date: 'dd-MM-yyyy'}}</td>
         </tr>
       </tbody>
+      <tbody *ngIf='getVehicles.length == 0'>
+        <div class="noContentBox">
+          <h1>No content</h1>
+      </div>
+      </tbody>
+      <tfoot>
+        <p>{{getPagingDetails}}</p>
+        <button *ngIf='checkPageNumber("Previous");'  (click)='goToPreviousPage()' class='btn btn-dark' ><</button>
+        <button *ngIf='!checkPageNumber("Previous")' disabled class='btn btn-dark' ><</button>
+        <span><span>{{getPageNumber}}</span></span>
+        <button *ngIf='checkPageNumber("Next");' (click)='goToNextPage()' class='btn btn-dark' >></button>
+        <button *ngIf='!checkPageNumber("Next")' disabled class='btn btn-dark' >></button>
+      </tfoot>
     </table>
   </div>

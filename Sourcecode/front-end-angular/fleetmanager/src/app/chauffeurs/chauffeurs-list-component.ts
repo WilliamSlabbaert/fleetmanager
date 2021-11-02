@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output } from "@angular/core";
 import { IChauffeurs } from "./chauffeurs";
+import { ChauffeurService } from "./chauffeurs.service";
 
 @Component({
     selector: 'pm-chauffeurs',
@@ -8,41 +9,13 @@ import { IChauffeurs } from "./chauffeurs";
 export class ChauffeursComponent{
     pageTitle :string = 'Chauffeurs';
     @Output() idClick = new EventEmitter<IChauffeurs>()
-
-    private _chauffeurs: IChauffeurs[] = [{
-        "firstName" : "William",
-        "id": 1,
-        "lastName" : "Slabbaert",
-        "city": "Lokeren",
-        "dateOfBirth" : new Date,
-        "nationalInsurenceNumber": "zeazeze",
-        "isActive" : true,
-        "street": "Poststraat",
-        "houseNumber" : "59"
-    },{
-        "firstName" : "test",
-        "id": 2,
-        "lastName" : "test",
-        "city": "rzere",
-        "dateOfBirth" : new Date,
-        "nationalInsurenceNumber": "zaezae",
-        "isActive" : true,
-        "street": "eazezaezae",
-        "houseNumber" : "eazezae"
-    },{
-        "firstName" : "gzgze",
-        "id": 3,
-        "lastName" : "gze",
-        "city": "rrrr",
-        "dateOfBirth" : new Date,
-        "nationalInsurenceNumber": "ezaezae",
-        "isActive" : true,
-        "street": "zzzzz",
-        "houseNumber" : "ezaea"
-    },];
+    private _chauffeurService;
+    constructor(chauffeurService: ChauffeurService){
+        this._chauffeurService = chauffeurService;
+    }
 
     get getChauffeurs() : IChauffeurs[]{
-        return this._chauffeurs;
+        return this._chauffeurService.getChauffeurs;
     }
     onClickId(value:number){
         const vh = this.getChauffeurs.find(s => s.id == value)
