@@ -1,5 +1,6 @@
 import { Component, Output, EventEmitter, OnInit, OnDestroy } from "@angular/core";
 import { Subscription } from "rxjs";
+import { IPaginationHeader } from "src/shared/http-returnvalue/pageheader";
 import { IVehicle } from "./vehicle";
 import { VehicleService } from "./vehicle.service";
 @Component({
@@ -13,7 +14,7 @@ export class VehicleListComponent implements OnInit, OnDestroy {
     _pageTitle: string = 'Vehicles';
     _sub!: Subscription;
     private _vehicles: IVehicle[] = [];
-    @Output() idClick = new EventEmitter<IVehicle>()
+    @Output() idClick = new EventEmitter<number>()
     constructor(private _vehicleService: VehicleService) { }
 
 
@@ -25,6 +26,9 @@ export class VehicleListComponent implements OnInit, OnDestroy {
         return this._vehicleService.getPageNumber;
     }
 
+    getHeaders() : IPaginationHeader{
+        return this._vehicleService.getHeaders;
+    }
     get getPagingDetails(): string {
         
         if (this.getPageNumber == 1 && this.checkPageNumber("Next") == false) {
@@ -43,7 +47,7 @@ export class VehicleListComponent implements OnInit, OnDestroy {
         if (value.toUpperCase() === "NEXT") {
             return this._vehicleService.getNextCheck;
         }
-        return this._vehicleService.getPreviousCheck;
+        return this._vehicleService.getPageNumber == 1 ? false : true;
     }
 
     goToNextPage(): void {
@@ -60,8 +64,7 @@ export class VehicleListComponent implements OnInit, OnDestroy {
     }
 
     onClickId(value: number) {
-        const vh = this.getVehicles.find(s => s.id == value)
-        this.idClick.emit(vh);
+        this.idClick.emit(value);
     }
 
     ngOnDestroy(): void {

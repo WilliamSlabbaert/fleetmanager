@@ -16,7 +16,7 @@
           <th>Build date</th>
         </tr>
       </thead>
-      <tbody *ngIf='getVehicles.length'>
+      <tbody *ngIf='getVehicles.length && getHeaders()'>
         <tr *ngFor='let vehicle of getVehicles'>
           <td><button class='btn btn-dark' (click)='onClickId(vehicle.id)'>EDIT</button></td>
           <td>{{vehicle.id}}</td>

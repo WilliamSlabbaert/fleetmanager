@@ -3,7 +3,7 @@
   </div>
   <div class='card-body'>
     <div class='table-responsive'>
-      <table class='table' *ngIf='getChauffeurs.length'>
+      <table class='table'>
         <thead>
           <tr>
             <th></th>
@@ -15,7 +15,7 @@
             <th>Activity</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody *ngIf='getChauffeurs !== undefined && getChauffeurs.length'>
           <tr *ngFor='let chauffeur of getChauffeurs'>
             <td><button class='btn btn-dark' (click)='onClickId(chauffeur.id)'>EDIT</button></td>
             <td>{{chauffeur.id}}</td>
@@ -26,5 +26,18 @@
             <td>{{chauffeur.isActive}}</td>
           </tr>
         </tbody>
+        <tbody *ngIf='getChauffeurs == undefined || getChauffeurs.length == 0'>
+          <div class="noContentBox">
+            <h1>No content</h1>
+        </div>
+        </tbody>
+        <tfoot>
+          <p>{{getPagingDetails}}</p>
+          <button *ngIf='checkPageNumber("Previous");'  (click)='goToPreviousPage()' class='btn btn-dark' ><</button>
+          <button *ngIf='!checkPageNumber("Previous")' disabled class='btn btn-dark' ><</button>
+          <span><span>{{getPageNumber()}}</span></span>
+          <button *ngIf='checkPageNumber("Next");' (click)='goToNextPage()' class='btn btn-dark' >></button>
+          <button *ngIf='!checkPageNumber("Next")' disabled class='btn btn-dark' >></button>
+        </tfoot>
       </table>
     </div>

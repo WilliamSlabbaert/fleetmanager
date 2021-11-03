@@ -22,8 +22,9 @@
   <div class="container-fluid detailWrapper">
     <div class="card detailPage"
       [style.borderRadius.px] ='20'
-      [style.borderColor]='borderColor'>
-          <pm-detailPage [detailName]='detailType.toUpperCase()' [detailObject]='detailObject'></pm-detailPage>
+      [style.borderColor]='borderColor'
+      [style.marginBottom.px]= '50'>
+          <pm-detailPage [detailName]='detailType.toUpperCase()' [detailId]='detailId'></pm-detailPage>
       </div>
       <div class="card dashBoardPage"
       [style.borderRadius.px] ='20'

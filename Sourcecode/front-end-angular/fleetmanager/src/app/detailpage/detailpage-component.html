@@ -21,8 +21,8 @@
     }
 </style>
 <div class="scrollBox">
-    <div *ngIf='getCheckPage' class="container-fluid" [style.margin.px]='50'>
-        <h2>{{detailName}} ID: {{detailObject.id}}</h2>
+    <div *ngIf='getCheckPage && detailObject' class="container-fluid" [style.margin.px]='50'>
+      <h2>{{detailName}} ID: {{detailObject.id}}</h2>
         <div class="card container-sm detailBox">
             <form *ngIf='detailName == "VEHICLE" '>
                 <div class="formInput">
@@ -52,7 +52,7 @@
                 </div>
                 <div class="formInput">
                     <label for="dateInput">Build date</label>
-                    <input class="form-control" type="date" id="dateInput" 
+                    <input class="form-control" type="datetime-local" id="dateInput" 
                     value={{detailObject.buildDate}}><br />
                 </div>
             </form>

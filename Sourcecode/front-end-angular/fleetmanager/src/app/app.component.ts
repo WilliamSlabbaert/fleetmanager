@@ -11,7 +11,7 @@ export class AppComponent {
   pageTitle: string = 'Fleetmanager';
   borderColor: string = "transparent";
   detailType : string = '';
-  detailObject: any = {};
+  detailId! : number;
   private _pageType: number = 1;
 
   set setPage(value: number) {
@@ -21,9 +21,9 @@ export class AppComponent {
   pageClick(value: number) {
     this.setPage = value;
   }
-  onEditClick(value:any, type:string){
+  onEditClick(value:number, type:string){
       this.detailType = type;
-      this.detailObject = value;
+      this.detailId = value;
   }
 
 }

@@ -32,7 +32,10 @@ export class VehicleService {
         return this._pageNumber;
     }
     get totalCount(): number {
-        return this._headers.TotalCount;
+        if (this._headers) {
+            return this._headers.TotalCount;
+        }
+        return 0;
     }
     incrementPage(): void {
         this._pageNumber = this._pageNumber + 1;
@@ -44,11 +47,20 @@ export class VehicleService {
             this.setObservable = this.getObservable;
         }
     }
+    get getHeaders(): IPaginationHeader {
+        return this._headers;
+    }
     get getPreviousCheck(): boolean {
-        return this._headers.HasPrevious;
+        if (this._headers) {
+            return this._headers.HasPrevious;
+        }
+        return false;
     }
     get getNextCheck(): boolean {
-        return this._headers.HasNext;
+        if (this._headers) {
+            return this._headers.HasNext;
+        }
+        return false;
     }
 
     get getURL(): string {
