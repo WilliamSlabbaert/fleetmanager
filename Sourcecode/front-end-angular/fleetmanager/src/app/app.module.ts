@@ -11,6 +11,7 @@ import {HttpClientModule} from '@angular/common/http'
 import { ConvertToSpacesPipe } from 'src/shared/convert-to-spaces';
 import { ChauffeursComponent } from './chauffeurs/chauffeurs-list-component';
 import { DetailPage } from './detailpage/detailpage-component';
+import { FuelcardsListComponent } from './fuelcards/fuelcards-list/fuelcards-list-component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { DetailPage } from './detailpage/detailpage-component';
     VehicleListComponent,
     ConvertToSpacesPipe,
     ChauffeursComponent,
-    DetailPage
+    DetailPage,
+    FuelcardsListComponent
   ],
   imports: [
     BrowserModule,

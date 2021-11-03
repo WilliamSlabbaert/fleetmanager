@@ -56,6 +56,48 @@
                     value={{detailObject.buildDate}}><br />
                 </div>
             </form>
+            <form *ngIf='detailName == "CHAUFFEUR"'>
+                <div class="formInput">
+                    <label for="firstInput">Firstname</label>
+                    <input id="firstInput" class="form-control" type="text" 
+                    value={{detailObject.firstName}}><br />
+                </div>
+                <div class="formInput">
+                    <label for="lastInput">Lastname</label>
+                    <input class="form-control" type="text" id="lastInput" 
+                    value={{detailObject.lastName}}><br />
+                </div>
+                <div class="formInput">
+                    <label for="birthInput">Birth</label>
+                    <input class="form-control" type="datetime-local" id="birthInput" 
+                    value={{detailObject.dateOfBirth}}><br />
+                </div>
+                <div class="formInput">
+                    <label for="cityInput">City</label>
+                    <input class="form-control" type="text" id="cityInput" 
+                    value={{detailObject.city}}><br />
+                </div>
+                <div class="formInput">
+                    <label for="streetInput">Street</label>
+                    <input class="form-control" type="text" id="streetInput" 
+                    value={{detailObject.street}}><br />
+                </div>
+                <div class="formInput">
+                    <label for="housentInput">Housenumber</label>
+                    <input class="form-control" type="text" id="housentInput" 
+                    value={{detailObject.houseNumber}}><br />
+                </div>
+                <div class="formInput">
+                    <label for="nationalnrInput">National insurence number</label>
+                    <input class="form-control" type="text" id="nationalnrInput" 
+                    value={{detailObject.nationalInsurenceNumber}}><br />
+                </div>
+                <div class="formInput">
+                    <label style="margin-right: 10px;" for="activityInput">Activity</label>
+                    <input [checked]='detailObject.isActive' class="form-check-input" type="checkbox" id="activityInput" >
+                    <br />
+                </div>
+            </form>
         </div>
     </div>
     <div class="noContentBox container" *ngIf='!getCheckPage'>
