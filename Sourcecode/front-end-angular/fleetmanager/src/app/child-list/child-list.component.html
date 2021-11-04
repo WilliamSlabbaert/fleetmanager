@@ -1,0 +1,260 @@
+<div>
+    <h3 [style.marginLeft.px]='50' [style.marginTop.px]='20'></h3>
+</div>
+<div class='card-body'>
+    <div class='table-responsive' *ngIf='detailObject'>
+        <table class='table' *ngIf='detailObject.requests'>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Start date</th>
+                    <th>End date</th>
+                    <th>Status</th>
+                    <th>Type</th>
+                    <th>Vehicle ID</th>
+                    <th>Chauffeur ID</th>
+                </tr>
+            </thead>
+            <tbody *ngIf='detailObject'>
+                <tr *ngFor='let item of detailObject.requests'>
+                    <td>{{item.id}}</td>
+                    <td>{{item.startDate}}</td>
+                    <td>{{item.endDate}}</td>
+                    <td>{{item.status}}</td>
+                    <td>{{item.type }}</td>
+                    <td>{{item.vehicleId }}</td>
+                    <td>{{item.chauffeurId }}</td>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr *ngIf='!detailObject || !detailObject.requests.length' class="noContentBox">
+                    <h1>No content</h1>
+                </tr>
+            </tbody>
+        </table>
+        <table class='table' *ngIf='detailObject.chauffeurVehicles'>
+            <thead>
+                <tr>
+                    <th>Vehicle ID</th>
+                    <th>Chauffeur ID</th>
+                    <th>Activity</th>
+                </tr>
+            </thead>
+            <tbody *ngIf='detailObject'>
+                <tr *ngFor='let item of detailObject.chauffeurVehicles'>
+                    <td>{{item.vehicleId}}</td>
+                    <td>{{item.chauffeurId}}</td>
+                    <td>{{item.isActive}}</td>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr *ngIf='!detailObject || !detailObject.chauffeurVehicles.length' class="noContentBox">
+                    <h1>No content</h1>
+                </tr>
+            </tbody>
+        </table>
+        <table class='table' *ngIf='detailObject.kilometers'>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Date</th>
+                    <th>Kilometers</th>
+                    <th>Vehicle ID</th>
+                </tr>
+            </thead>
+            <tbody *ngIf='detailObject'>
+                <tr *ngFor='let item of detailObject.kilometers'>
+                    <td>{{item.id}}</td>
+                    <td>{{item.date}}</td>
+                    <td>{{item.kilometers}}</td>
+                    <td>{{item.vehicleId}}</td>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr *ngIf='!detailObject || !detailObject.kilometers.length' class="noContentBox">
+                    <h1>No content</h1>
+                </tr>
+            </tbody>
+        </table>
+        <table class='table' *ngIf='detailObject.licensePlates'>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Plate</th>
+                    <th>Activity</th>
+                    <th>Vehicle ID</th>
+                </tr>
+            </thead>
+            <tbody *ngIf='detailObject'>
+                <tr *ngFor='let item of detailObject.licensePlates'>
+                    <td>{{item.id}}</td>
+                    <td>{{item.plate}}</td>
+                    <td>{{item.isActive}}</td>
+                    <td>{{item.vehicleId}}</td>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr *ngIf='!detailObject || !detailObject.licensePlates.length' class="noContentBox">
+                    <h1>No content</h1>
+                </tr>
+            </tbody>
+        </table>
+        <table class='table' *ngIf='detailObject.chauffeurFuelCards'>
+            <thead>
+                <tr>
+                    <th>Chauffeur ID</th>
+                    <th>Fuelcard ID</th>
+                    <th>Activity</th>
+                </tr>
+            </thead>
+            <tbody *ngIf='detailObject'>
+                <tr *ngFor='let item of detailObject.chauffeurFuelCards'>
+                    <td>{{item.chauffeurId}}</td>
+                    <td>{{item.fuelCardId}}</td>
+                    <td>{{item.isActive}}</td>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr *ngIf='!detailObject || !detailObject.chauffeurFuelCards.length' class="noContentBox">
+                    <h1>No content</h1>
+                </tr>
+            </tbody>
+        </table>
+        <table class='table' *ngIf='detailObject.drivingLicenses'>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Type</th>
+                    <th>Chauffeur ID</th>
+                </tr>
+            </thead>
+            <tbody *ngIf='detailObject'>
+                <tr *ngFor='let item of detailObject.drivingLicenses'>
+                    <td>{{item.id}}</td>
+                    <td>{{item.type}}</td>
+                    <td>{{item.chauffeurId}}</td>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr *ngIf='!detailObject || !detailObject.drivingLicenses.length' class="noContentBox">
+                    <h1>No content</h1>
+                </tr>
+            </tbody>
+        </table>
+        <table class='table' *ngIf='detailObject.authenticationTypes'>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Type</th>
+                    <th>Fuelcard ID</th>
+                </tr>
+            </thead>
+            <tbody *ngIf='detailObject'>
+                <tr *ngFor='let item of detailObject.authenticationTypes'>
+                    <td>{{item.id}}</td>
+                    <td>{{item.type}}</td>
+                    <td>{{item.fuelCardId}}</td>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr *ngIf='!detailObject || !detailObject.authenticationTypes.length' class="noContentBox">
+                    <h1>No content</h1>
+                </tr>
+            </tbody>
+        </table>
+        <table class='table' *ngIf='detailObject.fuelType'>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Fuel</th>
+                    <th>Fuelcard ID</th>
+                </tr>
+            </thead>
+            <tbody *ngIf='detailObject'>
+                <tr *ngFor='let item of detailObject.fuelType'>
+                    <td>{{item.id}}</td>
+                    <td>{{item.fuel}}</td>
+                    <td>{{item.fuelCardId}}</td>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr *ngIf='!detailObject || !detailObject.fuelType.length' class="noContentBox">
+                    <h1>No content</h1>
+                </tr>
+            </tbody>
+        </table>
+        <table class='table' *ngIf='detailObject.services'>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Service</th>
+                    <th>Fuelcard ID</th>
+                </tr>
+            </thead>
+            <tbody *ngIf='detailObject'>
+                <tr *ngFor='let item of detailObject.services'>
+                    <td>{{item.id}}</td>
+                    <td>{{item.service}}</td>
+                    <td>{{item.fuelCardId}}</td>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr *ngIf='!detailObject || !detailObject.services.length' class="noContentBox">
+                    <h1>No content</h1>
+                </tr>
+            </tbody>
+        </table>
+        <table class='table' *ngIf='detailObject.repairment'>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Date</th>
+                    <th>Price</th>
+                    <th>Description</th>
+                    <th>Company</th>
+                    <th>Request ID</th>
+                </tr>
+            </thead>
+            <tbody *ngIf='detailObject'>
+                <tr *ngFor='let item of detailObject.repairment'>
+                    <td>{{item.id}}</td>
+                    <td>{{item.date}}</td>
+                    <td>{{item.price}}</td>
+                    <td>{{item.description}}</td>
+                    <td>{{item.company}}</td>
+                    <td>{{item.requestId}}</td>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr *ngIf='!detailObject || !detailObject.repairment.length' class="noContentBox">
+                    <h1>No content</h1>
+                </tr>
+            </tbody>
+        </table>
+        <table class='table' *ngIf='detailObject.maintenance'>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Date</th>
+                    <th>Price</th>
+                    <th>Garage</th>
+                    <th>Request ID</th>
+                </tr>
+            </thead>
+            <tbody *ngIf='detailObject'>
+                <tr *ngFor='let item of detailObject.maintenance'>
+                    <td>{{item.id}}</td>
+                    <td>{{item.date}}</td>
+                    <td>{{item.price}}</td>
+                    <td>{{item.garage}}</td>
+                    <td>{{item.requestId}}</td>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr *ngIf='!detailObject || !detailObject.maintenance.length' class="noContentBox">
+                    <h1>No content</h1>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

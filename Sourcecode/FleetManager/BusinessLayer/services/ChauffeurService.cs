@@ -80,7 +80,8 @@ namespace BusinessLayer.services
         {
             var temp = _repo.GetById(
             filter: x => x.Id == id
-            , x => x.Include(s => s.ChauffeurFuelCards)
+            , x => x.Include(s => s.ChauffeurVehicles)
+            .Include(s => s.ChauffeurFuelCards)
             .ThenInclude(s => s.FuelCard)
             .Include(s => s.DrivingLicenses)
             .Include(s => s.Requests)
@@ -232,7 +233,7 @@ namespace BusinessLayer.services
         public GenericResult<GeneralModels> GetChauffeurVehicles(int chaffeurId)
         {
             var temp = GetChauffeurEntity(chaffeurId);
-            var value = temp == null ? null : _mapper.Map<Chauffeur>(temp).ChaffeurVehicles;
+            var value = temp == null ? null : _mapper.Map<Chauffeur>(temp).ChauffeurVehicles;
             return  CreateResult(temp == null, value).Result;
         }
         public GenericResult<GeneralModels> GetChauffeurRequests(int chaffeurId)
@@ -244,7 +245,7 @@ namespace BusinessLayer.services
         public GenericResult<GeneralModels> GetChauffeurFuelcards(int chaffeurId)
         {
             var temp = GetChauffeurEntity(chaffeurId);
-            var value = temp == null ? null : _mapper.Map<Chauffeur>(temp).ChaffeurFuelCards;
+            var value = temp == null ? null : _mapper.Map<Chauffeur>(temp).ChauffeurFuelCards;
             return CreateResult(temp == null, value).Result;
         }
         public GenericResult<GeneralModels> GetChauffeurDrivingLicenses(int chaffeurId)

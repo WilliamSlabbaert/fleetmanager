@@ -13,6 +13,7 @@ import { ChauffeursComponent } from './chauffeurs/chauffeurs-list-component';
 import { DetailPage } from './detailpage/detailpage-component';
 import { FuelcardsListComponent } from './fuelcards/fuelcards-list/fuelcards-list-component';
 import { RequestsComponent } from './requests/requests.component';
+import { ChildListComponent } from './child-list/child-list.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { RequestsComponent } from './requests/requests.component';
     ChauffeursComponent,
     DetailPage,
     FuelcardsListComponent,
-    RequestsComponent
+    RequestsComponent,
+    ChildListComponent
   ],
   imports: [
     BrowserModule,

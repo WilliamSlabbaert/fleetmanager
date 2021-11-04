@@ -18,8 +18,8 @@ namespace BusinessLayer
         public DateTime DateOfBirth { get; set; }
         public string NationalInsurenceNumber { get; set; }
         public bool IsActive { get; set; }
-        public List<VehicleChauffeur> ChaffeurVehicles { get; set; }
-        public List<FuelCardChauffeur> ChaffeurFuelCards { get; set; }
+        public List<VehicleChauffeur> ChauffeurVehicles { get; set; }
+        public List<FuelCardChauffeur> ChauffeurFuelCards { get; set; }
         public List<DrivingLicense> DrivingLicenses { get; set; }
         public List<Request> Requests { get; set; }
         public Chauffeur(string firstName, string lastName, string city, string street, string houseNumber, DateTime dateOfBirth, string nationalInsurenceNumber, bool isActive)
@@ -33,8 +33,8 @@ namespace BusinessLayer
             NationalInsurenceNumber = nationalInsurenceNumber;
             IsActive = isActive;
 
-            ChaffeurFuelCards = new List<FuelCardChauffeur>();
-            ChaffeurVehicles = new List<VehicleChauffeur>();
+            ChauffeurFuelCards = new List<FuelCardChauffeur>();
+            ChauffeurVehicles = new List<VehicleChauffeur>();
             DrivingLicenses = new List<DrivingLicense>();
             Requests = new List<Request>();
         }
@@ -49,8 +49,8 @@ namespace BusinessLayer
             NationalInsurenceNumber = nationalInsurenceNumber;
             IsActive = isActive;
 
-            ChaffeurFuelCards = new List<FuelCardChauffeur>();
-            ChaffeurVehicles = new List<VehicleChauffeur>();
+            ChauffeurFuelCards = new List<FuelCardChauffeur>();
+            ChauffeurVehicles = new List<VehicleChauffeur>();
             DrivingLicenses = new List<DrivingLicense>();
             if (CheckDrivingLicense(dl))
             {
@@ -61,14 +61,14 @@ namespace BusinessLayer
 
         public Chauffeur()
         {
-            ChaffeurFuelCards = new List<FuelCardChauffeur>();
+            ChauffeurFuelCards = new List<FuelCardChauffeur>();
             DrivingLicenses = new List<DrivingLicense>();
-            ChaffeurVehicles = new List<VehicleChauffeur>();
+            ChauffeurVehicles = new List<VehicleChauffeur>();
             Requests = new List<Request>();
         }
         public bool CheckVehicle(int vehicle)
         {
-            if (ChaffeurVehicles.FirstOrDefault(s=>s.Vehicle.Id == vehicle) == null)
+            if (ChauffeurVehicles.FirstOrDefault(s=>s.Vehicle.Id == vehicle) == null)
             {
                 return true;
             }
@@ -76,7 +76,7 @@ namespace BusinessLayer
         }
         public bool CheckFuelCard(int fuelcard)
         {
-            if (ChaffeurFuelCards.FirstOrDefault(s => s.FuelCard.Id == fuelcard) == null)
+            if (ChauffeurFuelCards.FirstOrDefault(s => s.FuelCard.Id == fuelcard) == null)
             {
                 return true;
             }
