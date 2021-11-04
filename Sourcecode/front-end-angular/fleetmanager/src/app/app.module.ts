@@ -12,6 +12,7 @@ import { ConvertToSpacesPipe } from 'src/shared/convert-to-spaces';
 import { ChauffeursComponent } from './chauffeurs/chauffeurs-list-component';
 import { DetailPage } from './detailpage/detailpage-component';
 import { FuelcardsListComponent } from './fuelcards/fuelcards-list/fuelcards-list-component';
+import { RequestsComponent } from './requests/requests.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { FuelcardsListComponent } from './fuelcards/fuelcards-list/fuelcards-lis
     ConvertToSpacesPipe,
     ChauffeursComponent,
     DetailPage,
-    FuelcardsListComponent
+    FuelcardsListComponent,
+    RequestsComponent
   ],
   imports: [
     BrowserModule,

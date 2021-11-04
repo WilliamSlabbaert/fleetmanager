@@ -18,7 +18,7 @@
       </thead>
       <tbody *ngIf='getVehicles.length && getHeaders()'>
         <tr *ngFor='let vehicle of getVehicles'>
-          <td><button class='btn btn-dark' (click)='onClickId(vehicle.id)'>EDIT</button></td>
+          <td><button class='btn btn-dark' (click)='onClickId(vehicle.id)'>DETAILS</button></td>
           <td>{{vehicle.id}}</td>
           <td>{{vehicle.chassis}}</td>
           <td>{{vehicle.brand}}</td>

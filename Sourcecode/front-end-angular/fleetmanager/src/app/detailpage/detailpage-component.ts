@@ -1,8 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
 import { Observable, Subscription } from "rxjs";
 import { IVehicle } from "../vehicles/vehicle";
-import { DetailpageChauffeurService } from "./detailpage-chauffeur.service";
-import { DetailpageServiceVehicle } from "./detailpage-vehicle.service";
+import { DetailpageService } from "./detailpage.service";
 
 @Component({
     selector: "pm-detailPage",
@@ -14,8 +13,7 @@ export class DetailPage implements OnChanges {
     @Input() detailId!: number;
     detailObject: any;
     private checkPage: boolean = false;
-    constructor(private _detailPageVehicleService: DetailpageServiceVehicle,
-        private _detailPageChauffeurService : DetailpageChauffeurService) { }
+    constructor(private _detailPageService: DetailpageService) { }
 
     get getCheckPage(): boolean {
         return this.checkPage;
@@ -25,17 +23,27 @@ export class DetailPage implements OnChanges {
     }
 
     setSettings() {
-        if(this.detailName === "VEHICLE"){
-            this._detailPageVehicleService.setVehicleSettings(this.detailId);
-            const observable = this._detailPageVehicleService.getObservable();
-            observable.subscribe(val =>{
+        if (this.detailName === "VEHICLE") {
+            this._detailPageService.setSettings(this.detailId);
+            this._detailPageService.getObservable("Vehicle").subscribe(val => {
                 this.detailObject = val.returnValue;
             })
         }
-        else if(this.detailName === "CHAUFFEUR"){
-            this._detailPageChauffeurService.setChaffeurSettings(this.detailId);
-            const observable = this._detailPageChauffeurService.getObservable();
-            observable.subscribe(val =>{
+        else if (this.detailName === "CHAUFFEUR") {
+            this._detailPageService.setSettings(this.detailId);
+            this._detailPageService.getObservable("Chauffeur").subscribe(val => {
+                this.detailObject = val.returnValue;
+            })
+        }
+        else if (this.detailName === "FUELCARD") {
+            this._detailPageService.setSettings(this.detailId);
+            this._detailPageService.getObservable("Fuelcard").subscribe(val => {
+                this.detailObject = val.returnValue;
+            })
+        }
+        else if (this.detailName === "REQUEST") {
+            this._detailPageService.setSettings(this.detailId);
+            this._detailPageService.getObservable("Request").subscribe(val => {
                 this.detailObject = val.returnValue;
             })
         }

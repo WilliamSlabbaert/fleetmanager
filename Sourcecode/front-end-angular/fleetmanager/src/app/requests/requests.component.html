@@ -8,25 +8,27 @@
           <tr>
             <th></th>
             <th>ID</th>
-            <th>Name</th>
-            <th>Birth</th>
-            <th>Adress</th>
-            <th>Nation insurence nr.</th>
-            <th>Activity</th>
+            <th>Start date</th>
+            <th>End date</th>
+            <th>Status</th>
+            <th>Type</th>
+            <th>Vehicle ID</th>
+            <th>Chauffeur ID</th>
           </tr>
         </thead>
-        <tbody *ngIf='getChauffeurs !== undefined && getChauffeurs.length'>
-          <tr *ngFor='let chauffeur of getChauffeurs'>
-            <td><button class='btn btn-dark' (click)='onClickId(chauffeur.id)'>DETAILS</button></td>
-            <td>{{chauffeur.id}}</td>
-            <td>{{chauffeur.firstName + " " + chauffeur.lastName | uppercase}}</td>
-            <td>{{chauffeur.dateOfBirth | date:'dd/MM/yyyy'}}</td>
-            <td>{{chauffeur.city + " " + chauffeur.street + " "  + chauffeur.houseNumber}}</td>
-            <td>{{chauffeur.nationalInsurenceNumber | convertToSpacesPipe:'-'}}</td>
-            <td>{{chauffeur.isActive}}</td>
+        <tbody *ngIf='getRequests !== undefined && getRequests.length'>
+          <tr *ngFor='let fuelcard of getRequests'>
+            <td><button class='btn btn-dark' (click)='onClickId(fuelcard.id)'>DETAILS</button></td>
+            <td>{{fuelcard.id}}</td>
+            <td>{{fuelcard.startDate}}</td>
+            <td>{{fuelcard.endDate}}</td>
+            <td>{{fuelcard.status}}</td>
+            <td>{{fuelcard.type }}</td>
+            <td>{{fuelcard.vehicleId }}</td>
+            <td>{{fuelcard.chauffeurId }}</td>
           </tr>
         </tbody>
-        <tbody *ngIf='getChauffeurs == undefined || getChauffeurs.length == 0'>
+        <tbody *ngIf='getRequests == undefined || getRequests.length == 0'>
           <div class="noContentBox">
             <h1>No content</h1>
         </div>

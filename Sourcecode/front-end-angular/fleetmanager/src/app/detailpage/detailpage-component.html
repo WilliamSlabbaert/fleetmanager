@@ -27,76 +27,131 @@
             <form *ngIf='detailName == "VEHICLE" '>
                 <div class="formInput">
                     <label for="chassisInput">Chassis</label>
-                    <input id="chassisInput" class="form-control" type="text" 
+                    <input readonly id="chassisInput" class="form-control" type="text" 
                     value={{detailObject.chassis}}><br />
                 </div>
                 <div class="formInput">
                     <label for="brandInput">Brand</label>
-                    <input class="form-control" type="text" id="brandInput" 
+                    <input readonly class="form-control" type="text" id="brandInput" 
                     value={{detailObject.brand}}><br />
                 </div>
                 <div class="formInput">
                     <label for="modelInput">Model</label>
-                    <input class="form-control" type="text" id="modelInput" 
+                    <input readonly class="form-control" type="text" id="modelInput" 
                     value={{detailObject.model}}><br />
                 </div>
                 <div class="formInput">
                     <label for="typeInput">Type</label>
-                    <input class="form-control" type="text" id="typeInput" 
+                    <input readonly class="form-control" type="text" id="typeInput" 
                     value={{detailObject.type}}><br />
                 </div>
                 <div class="formInput">
                     <label for="fuelInput">Fuel</label>
-                    <input class="form-control" type="text" id="fuelInput" 
+                    <input readonly class="form-control" type="text" id="fuelInput" 
                     value={{detailObject.fuelType}}><br />
                 </div>
                 <div class="formInput">
                     <label for="dateInput">Build date</label>
-                    <input class="form-control" type="datetime-local" id="dateInput" 
+                    <input readonly class="form-control" type="datetime-local" id="dateInput" 
                     value={{detailObject.buildDate}}><br />
                 </div>
             </form>
             <form *ngIf='detailName == "CHAUFFEUR"'>
                 <div class="formInput">
                     <label for="firstInput">Firstname</label>
-                    <input id="firstInput" class="form-control" type="text" 
+                    <input readonly id="firstInput" class="form-control" type="text" 
                     value={{detailObject.firstName}}><br />
                 </div>
                 <div class="formInput">
                     <label for="lastInput">Lastname</label>
-                    <input class="form-control" type="text" id="lastInput" 
+                    <input readonly class="form-control" type="text" id="lastInput" 
                     value={{detailObject.lastName}}><br />
                 </div>
                 <div class="formInput">
                     <label for="birthInput">Birth</label>
-                    <input class="form-control" type="datetime-local" id="birthInput" 
+                    <input readonly class="form-control" type="datetime-local" id="birthInput" 
                     value={{detailObject.dateOfBirth}}><br />
                 </div>
                 <div class="formInput">
                     <label for="cityInput">City</label>
-                    <input class="form-control" type="text" id="cityInput" 
+                    <input readonly class="form-control" type="text" id="cityInput" 
                     value={{detailObject.city}}><br />
                 </div>
                 <div class="formInput">
                     <label for="streetInput">Street</label>
-                    <input class="form-control" type="text" id="streetInput" 
+                    <input readonly class="form-control" type="text" id="streetInput" 
                     value={{detailObject.street}}><br />
                 </div>
                 <div class="formInput">
                     <label for="housentInput">Housenumber</label>
-                    <input class="form-control" type="text" id="housentInput" 
+                    <input readonly class="form-control" type="text" id="housentInput" 
                     value={{detailObject.houseNumber}}><br />
                 </div>
                 <div class="formInput">
                     <label for="nationalnrInput">National insurence number</label>
-                    <input class="form-control" type="text" id="nationalnrInput" 
+                    <input readonly class="form-control" type="text" id="nationalnrInput" 
                     value={{detailObject.nationalInsurenceNumber}}><br />
                 </div>
                 <div class="formInput">
                     <label style="margin-right: 10px;" for="activityInput">Activity</label>
-                    <input [checked]='detailObject.isActive' class="form-check-input" type="checkbox" id="activityInput" >
+                    <input readonly [checked]='detailObject.isActive' class="form-check-input readonly" type="checkbox" id="activityInput" >
                     <br />
                 </div>
+            </form>
+            <form *ngIf='detailName == "FUELCARD"'>
+                <div class="formInput">
+                    <label for="firstInput">Cardnumber</label>
+                    <input readonly id="firstInput" class="form-control" type="text" 
+                    value={{detailObject.cardNumber}}><br />
+                </div>
+                <div class="formInput">
+                    <label for="lastInput">Pin</label>
+                    <input readonly class="form-control" type="text" id="lastInput" 
+                    value={{detailObject.pin}}><br />
+                </div>
+                <div class="formInput">
+                    <label for="validityInput">Validity date</label>
+                    <input readonly class="form-control" type="datetime-local" id="validityInput" 
+                    value={{detailObject.validityDate}}><br />
+                </div>
+                <div class="formInput">
+                    <label style="margin-right: 10px;" for="activityInput">Activity</label>
+                    <input readonly [checked]='detailObject.isActive' class="form-check-input readonly" type="checkbox" id="activityInput" >
+                    <br />
+                </div>
+            </form>
+            <form *ngIf='detailName == "REQUEST"'>
+                <div class="formInput">
+                    <label for="startInput">Start date</label>
+                    <input readonly id="startInput" class="form-control" type="datetime-local" 
+                    value={{detailObject.startDate}}><br />
+                </div>
+                <div class="formInput">
+                    <label for="endInput">End date</label>
+                    <input readonly class="form-control" type="datetime-local" id="endInput" 
+                    value={{detailObject.endDate}}><br />
+                </div>
+                <div class="formInput">
+                    <label for="statusInput">Status</label>
+                    <input readonly class="form-control" type="text" id="statusInput" 
+                    value={{detailObject.status}}><br />
+                </div>
+                <div class="formInput">
+                    <label for="typeInput">Type</label>
+                    <input readonly class="form-control" type="text" id="typeInput" 
+                    value={{detailObject.type}}><br />
+                </div>
+                <div class="formInput">
+                    <label for="vehicleInput">Vehicle ID</label>
+                    <input readonly class="form-control" type="text" id="vehicleInput" 
+                    value={{detailObject.vehicleId}}><br />
+                </div>
+                <div class="formInput">
+                    <label for="chauffeurInput">Chauffeur ID</label>
+                    <input readonly class="form-control" type="text" id="chauffeurInput" 
+                    value={{detailObject.chauffeurId}}><br />
+                </div>
+                
             </form>
         </div>
     </div>

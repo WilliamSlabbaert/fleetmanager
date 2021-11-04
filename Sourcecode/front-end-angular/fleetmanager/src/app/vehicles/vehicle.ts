@@ -6,4 +6,11 @@ export interface IVehicle{
     buildDate: Date;
     fuelType: string;
     type: string;
+    chauffeurVehicles: IChauffeurVehicles[];
+}
+
+export interface IChauffeurVehicles{
+    vehicleId : number;
+    chauffeurId : number;
+    isActive : boolean;
 }

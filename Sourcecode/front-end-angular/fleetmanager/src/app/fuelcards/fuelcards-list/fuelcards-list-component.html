@@ -16,7 +16,7 @@
         </thead>
         <tbody *ngIf='getFuelcards !== undefined && getFuelcards.length'>
           <tr *ngFor='let fuelcard of getFuelcards'>
-            <td><button class='btn btn-dark' (click)='onClickId(fuelcard.id)'>EDIT</button></td>
+            <td><button class='btn btn-dark' (click)='onClickId(fuelcard.id)'>DETAILS</button></td>
             <td>{{fuelcard.id}}</td>
             <td>{{fuelcard.cardNumber}}</td>
             <td>{{fuelcard.pin}}</td>
