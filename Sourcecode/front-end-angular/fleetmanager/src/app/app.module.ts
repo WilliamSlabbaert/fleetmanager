@@ -14,6 +14,9 @@ import { DetailPage } from './detailpage/detailpage-component';
 import { FuelcardsListComponent } from './fuelcards/fuelcards-list/fuelcards-list-component';
 import { RequestsComponent } from './requests/requests.component';
 import { ChildListComponent } from './child-list/child-list.component';
+import { RouterModule } from '@angular/router';
+import { RequestPageComponent } from './request-page/request-page.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -24,14 +27,22 @@ import { ChildListComponent } from './child-list/child-list.component';
     DetailPage,
     FuelcardsListComponent,
     RequestsComponent,
-    ChildListComponent
+    ChildListComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    RouterModule.forRoot([
+      {path: 'request', component: RequestPageComponent},
+      {path: 'home', component:HomeComponent},
+      {path: '', redirectTo:'home',pathMatch:'full'},
+      {path: '**', redirectTo:'home',pathMatch:'full'}
+
+    ])
   ],
   providers: [],
   bootstrap: [AppComponent]

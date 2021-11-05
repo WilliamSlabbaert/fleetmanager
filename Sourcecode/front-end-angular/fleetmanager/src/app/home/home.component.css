@@ -1,0 +1,24 @@
+.detailWrapper {
+    overflow: hidden;
+    background: rgb(235,235,235);
+}
+.detailPage{
+    width: 50%;
+    float:left; 
+    margin-left: 35px;
+    margin-right: 50px;
+    height: 600px;
+}
+.dashBoardPage{
+    overflow: hidden;
+    margin-right: 35px;
+    margin-left: 20px;
+    
+}
+.wholePage{
+    background: rgb(235,235,235);
+    border: none;
+}
+.dashBoardPage{
+    height: 600px;
+}

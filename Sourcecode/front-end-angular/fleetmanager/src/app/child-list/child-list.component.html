@@ -1,10 +1,14 @@
 <div>
     <h3 [style.marginLeft.px]='50' [style.marginTop.px]='20'></h3>
 </div>
-<div class='card-body'>
-    <div class='table-responsive' *ngIf='detailObject'>
+<div class='container-fluid'>
+    <div class='table-responsive' 
+    [style.height.px]='500'
+    [style.margin.px]= '50'
+    *ngIf='detailObject'>
         <table class='table' *ngIf='detailObject.requests'>
             <thead>
+                <h3>Requests</h3>
                 <tr>
                     <th>ID</th>
                     <th>Start date</th>
@@ -34,6 +38,7 @@
         </table>
         <table class='table' *ngIf='detailObject.chauffeurVehicles'>
             <thead>
+                <h3>Chauffeur vehicles</h3>
                 <tr>
                     <th>Vehicle ID</th>
                     <th>Chauffeur ID</th>
@@ -55,6 +60,7 @@
         </table>
         <table class='table' *ngIf='detailObject.kilometers'>
             <thead>
+                <h3>Kilometers</h3>
                 <tr>
                     <th>ID</th>
                     <th>Date</th>
@@ -78,6 +84,7 @@
         </table>
         <table class='table' *ngIf='detailObject.licensePlates'>
             <thead>
+                <h3>License plates</h3>
                 <tr>
                     <th>ID</th>
                     <th>Plate</th>
@@ -101,6 +108,7 @@
         </table>
         <table class='table' *ngIf='detailObject.chauffeurFuelCards'>
             <thead>
+                <h3>Chauffeur fuelcards</h3>
                 <tr>
                     <th>Chauffeur ID</th>
                     <th>Fuelcard ID</th>
@@ -122,6 +130,7 @@
         </table>
         <table class='table' *ngIf='detailObject.drivingLicenses'>
             <thead>
+                <h3>Drivinglicenses</h3>
                 <tr>
                     <th>ID</th>
                     <th>Type</th>
@@ -143,6 +152,7 @@
         </table>
         <table class='table' *ngIf='detailObject.authenticationTypes'>
             <thead>
+                <h3>Authentication types</h3>
                 <tr>
                     <th>ID</th>
                     <th>Type</th>
@@ -164,6 +174,7 @@
         </table>
         <table class='table' *ngIf='detailObject.fuelType'>
             <thead>
+                <h3>Fueltypes</h3>
                 <tr>
                     <th>ID</th>
                     <th>Fuel</th>
@@ -185,6 +196,7 @@
         </table>
         <table class='table' *ngIf='detailObject.services'>
             <thead>
+                <h3>Service's</h3>
                 <tr>
                     <th>ID</th>
                     <th>Service</th>
@@ -206,6 +218,7 @@
         </table>
         <table class='table' *ngIf='detailObject.repairment'>
             <thead>
+                <h3>Repairments</h3>
                 <tr>
                     <th>ID</th>
                     <th>Date</th>
@@ -233,6 +246,7 @@
         </table>
         <table class='table' *ngIf='detailObject.maintenance'>
             <thead>
+                <h3>Maintenance</h3>
                 <tr>
                     <th>ID</th>
                     <th>Date</th>
