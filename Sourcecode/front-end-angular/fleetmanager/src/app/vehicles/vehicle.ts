@@ -11,6 +11,8 @@ export interface IVehicle{
 
 export interface IChauffeurVehicles{
     vehicleId : number;
+    vehicle: any;
     chauffeurId : number;
+    chauffeur : any;
     isActive : boolean;
 }

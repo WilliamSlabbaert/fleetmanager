@@ -29,6 +29,12 @@ namespace WriteAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
 
             IConfigurationRoot configuration = new ConfigurationBuilder()
             .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
@@ -63,6 +69,16 @@ namespace WriteAPI
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(builder =>
+            {
+                builder.WithOrigins("http://localhost:4200");
+                builder.AllowAnyHeader();
+                builder.WithExposedHeaders("X-Pagination");
+                builder.AllowAnyMethod();
+                builder.AllowCredentials();
+                builder.Build();
+            });
 
             app.UseAuthorization();
 

@@ -1,1 +1,49 @@
-<p>request-page works!</p>
+<div class="container-fluid requestPage">
+    <div [style.marginTop.px]='50' class="container-sm formRequest">
+        <form *ngIf="!_requestId">
+            <div class="form-group">
+                <label for="startInput">Start date</label>
+                <input type="datetime-local" (input)="onInputStart($event)" class="requestInfo form-control" id="startInput">
+            </div>
+            <div [style.marginBottom.px]="20" class="form-group">
+                <label for="endInput">End date</label>
+                <input [readonly]="!getStartDateCheck" (input)="onInputEnd($event)" type="datetime-local"
+                    class="requestInfo form-control endDate" id="endInput">
+                <div [hidden]="!getEndDateCheck">
+                    <small class="form-text danger" style="color: red;">*(End date) must be later than (start
+                        date).</small>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="statusInput">Status</label>
+                <input (input)="setStatus = $event" [readonly]="!getStatusCheck" type="text" class="requestInfo form-control" id="statusInput"
+                    placeholder="status">
+            </div>
+            <div class="form-group">
+                <label for="carInput">Cars</label>
+                <select [(ngModel)]="carId" [disabled]="!getStatusCheck" class="requestInfo form-select" name="cars" id="carInput" *ngIf="getChauffeur">
+                    <option  *ngFor="let vehicle of getChauffeur.chauffeurVehicles" [value]="vehicle.vehicleId">Car : id
+                        {{vehicle.vehicle.id}}-{{vehicle.vehicle.brand}}-{{vehicle.vehicle.model}}-{{vehicle.vehicle.chassis}}
+                    </option>
+                </select>
+            </div>
+            <br>
+            <p>Please select your type:</p>
+            <div class="container-md">
+                <div class="row align-items-start">
+                    <div class="col-sm-2 m-0">
+                        <input checked (input)="radioBtn($event)" class="requestInfo form-check-input" type="radio" id="type1" name="type" value="Maintenance">
+                        <label  class="form-check-label " for="type1">Maintenance</label>
+                    </div>
+                    <div class="col-sm-2 m-0">
+                        <input (input)="radioBtn($event)" class="requestInfo form-check-input" type="radio" id="type2" name="type" value="Repairment">
+                        <label class="form-check-label" for="type2">Repairment</label>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+            <button *ngIf="carId && getStartDateCheck && !getEndDateCheck && getStatusCheck" (click)="onNext()" type="submit" class="btn btn-success">Next ></button>
+        </form>
+    </div>
+</div>

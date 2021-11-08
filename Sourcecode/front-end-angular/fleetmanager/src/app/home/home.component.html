@@ -9,6 +9,7 @@
           <button [style.marginRight.px]= '10' class="btn btn-dark" (click)='pageClick(2)'>Chauffeurs</button>
           <button [style.marginRight.px]= '10' class="btn btn-dark" (click)='pageClick(3)'>Fuelcards</button>
           <button [style.marginRight.px]= '10' class="btn btn-dark" (click)='pageClick(4)'>Requests</button>
+          <button [style.marginRight.px]= '10' [routerLink]="['/request']" class="btn btn-success addRequest" >Add Request</button>
         </div>
         <div 
         [style.marginBottom.px]='50'

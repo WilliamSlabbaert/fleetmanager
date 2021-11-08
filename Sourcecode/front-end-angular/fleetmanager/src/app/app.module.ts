@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { VehicleListComponent } from './vehicles/vehicles-list-component';
@@ -17,6 +15,8 @@ import { ChildListComponent } from './child-list/child-list.component';
 import { RouterModule } from '@angular/router';
 import { RequestPageComponent } from './request-page/request-page.component';
 import { HomeComponent } from './home/home.component';
+import { CommonModule } from '@angular/common';
+import { RequestPageDetailsComponent } from './request-page-details/request-page-details.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +29,8 @@ import { HomeComponent } from './home/home.component';
     RequestsComponent,
     ChildListComponent,
     HomeComponent,
+    RequestPageComponent,
+    RequestPageDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -36,8 +38,10 @@ import { HomeComponent } from './home/home.component';
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
+    CommonModule,
     RouterModule.forRoot([
       {path: 'request', component: RequestPageComponent},
+      {path: 'request/:id', component: RequestPageDetailsComponent},
       {path: 'home', component:HomeComponent},
       {path: '', redirectTo:'home',pathMatch:'full'},
       {path: '**', redirectTo:'home',pathMatch:'full'}
