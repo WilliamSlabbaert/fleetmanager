@@ -1,2 +1,32 @@
-<p>request-page-details works!</p>
-<h1>{{_requestId}}</h1>
+
+<div *ngIf="checkPage" class="container-fluid requestPage">
+    <div [style.marginTop.px]='50' class="container-sm formRequest">
+        <div class="form-group"  *ngIf="type === 'Maintenance'" >
+            <h1>Maintenance</h1>
+            <label for="dateInput">Date</label>
+            <input class="form-control" [(ngModel)]="maintenanceDate" type="datetime-local" id="dateInput">
+            <label for="priceInput">Price</label>
+            <input [readonly]='maintenanceDate === undefined' [(ngModel)]='maintenancePrice' class="form-control" type="number" step="0.01" id="priceInput" placeholder="Price">
+            <label for="garageInput">Garage</label>
+            <input [(ngModel)]='maintenanceGarage'  [readonly]='maintenancePrice === undefined || maintenancePrice === null' class="form-control" type="text" id="garageInput" placeholder="Garage" >
+            <br>
+            <input (change)="test($event)" directory class="form-control" type="file" >
+            <br>
+            <button [hidden]="false" type="submit" class="btn btn-success" (click)="onSubmit()">Submit</button>
+        </div>
+        <div *ngIf="type === 'Repairment'" >
+            <h1>Repairment</h1>
+            <label for="dateInput">Garage</label>
+            <input class="form-control" type="datetime-local" name="" id="dateInput">
+            <label for="descriptionInput">Description</label>
+            <input class="form-control" type="text" id="descriptionInput" placeholder="Description" >
+            <label for="companyInput">Company</label>
+            <input class="form-control" type="text" id="companyInput" placeholder="Company" >
+            <br>
+            <button type="submit" class="btn btn-success">Submit</button>
+        </div>
+    </div>
+</div>
+<div class="container-lg NotFound"  *ngIf="!checkPage">
+    <h1 style="top: 50%;margin: auto;position: relative;" class="text-center" >Oops page not found!</h1>
+</div>

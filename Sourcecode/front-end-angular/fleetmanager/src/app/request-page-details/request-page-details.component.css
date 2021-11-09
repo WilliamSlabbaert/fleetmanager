@@ -1,0 +1,25 @@
+.requestPage{
+    background: white;
+    margin: 50px;
+    position: relative;
+    height: 700px;
+    width: auto;
+    border-radius: 20px;
+    border: transparent;
+}
+.formRequest{
+    position: relative;
+    left: auto;
+    right: auto;
+    top: 50px;
+}
+.NotFound{
+    background: white;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 150px;
+    height: 200px;
+    width: auto;
+    border-radius: 20px;
+    border: transparent;
+}

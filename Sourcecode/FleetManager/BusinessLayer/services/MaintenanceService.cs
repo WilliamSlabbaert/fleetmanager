@@ -52,7 +52,7 @@ namespace BusinessLayer.services
                 requestEntity.Maintenance.Add(rm);
                 _rqrepo.UpdateEntity(requestEntity);
                 _repo.Save();
-                var respond = new GenericResult<GeneralModels>() { ReturnValue = _mapper.Map<Request>(requestEntity), Message = "Ok" };
+                var respond = new GenericResult<GeneralModels>() { ReturnValue = _mapper.Map<Maintenance>(requestEntity.Maintenance.Last()), Message = "Ok" };
                 respond.SetStatusCode(Overall.ResponseType.OK);
                 return respond;
             }

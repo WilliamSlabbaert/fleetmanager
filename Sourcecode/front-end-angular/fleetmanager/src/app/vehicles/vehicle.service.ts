@@ -19,7 +19,6 @@ export class VehicleService {
             next: (item) => {
                 this._headers = JSON.parse(item.headers.get('X-Pagination'));
                 const items: IVehicle[] = item.body.returnValue;
-                console.log(items)
                 items.forEach(element => {
                     element.buildDate = new Date(element.buildDate);
                 });
