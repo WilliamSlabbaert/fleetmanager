@@ -1,11 +1,11 @@
 import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { observable, Observable } from 'rxjs';
-import { IChauffeurs } from '../chauffeurs/chauffeurs';
-import { GeneralChauffeurService } from '../general-chauffeur.service';
-import { Invoice } from './invoice';
-import { Maintenance } from './maintenance';
-import { MaintenanceServiceService } from './maintenance-service.service';
+import { IChauffeurs } from '../models/chauffeurs';
+import { GeneralChauffeurService } from '../services/general-chauffeur.service';
+import { Invoice } from '../models/invoice';
+import { Maintenance } from '../models/maintenance';
+import { MaintenanceServiceService } from '../services/maintenance.service';
 
 @Component({
   selector: 'app-request-page-details',
@@ -19,10 +19,17 @@ export class RequestPageDetailsComponent implements OnInit {
   private _chauffeur!: IChauffeurs;
   private _maintenanceObservable$!: Observable<any>;
   type!: string;
+
   maintenanceDate!: Date;
   maintenancePrice!: number;
   maintenanceGarage!: string;
   maintenanceImage!: any;
+
+  repairmentDate! : Date;
+  repairmentDescription! : string;
+  repairmentCompany! : string;
+
+
   checkPage: boolean = false;
 
   constructor(private route: ActivatedRoute,
@@ -73,7 +80,13 @@ export class RequestPageDetailsComponent implements OnInit {
     this.maintenanceImage = (await this.toBase64(value.target.files[0]))
   }
   onSubmit() {
-    this.postMaintenance()
+    if(this.type === 'Maintenance'){
+      this.postMaintenance()
+    }else if(this.type === 'Repairment'){
+      console.log(this.repairmentDescription);
+      console.log(this.repairmentDate);
+      console.log(this.repairmentCompany);
+    }
   }
   postMaintenance() {
     const temp = new Maintenance(
@@ -86,7 +99,6 @@ export class RequestPageDetailsComponent implements OnInit {
       const temp = data.body.returnValue.id;
       const tempValue = new Invoice(this.maintenanceImage);
       this._maintenanceService.postObservableInvoice(tempValue,temp).subscribe(val =>{
-        console.log(val);
         this.router.navigateByUrl('/home');
       })
     })

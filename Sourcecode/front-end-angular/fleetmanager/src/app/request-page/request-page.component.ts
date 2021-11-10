@@ -1,9 +1,9 @@
 import { Component, OnInit, SimpleChanges } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IChauffeurs } from '../chauffeurs/chauffeurs';
-import { GeneralChauffeurService } from '../general-chauffeur.service';
-import { Request } from './request';
-import { RequestPageService } from './request-page.service';
+import { IChauffeurs } from '../models/chauffeurs';
+import { GeneralChauffeurService } from '../services/general-chauffeur.service';
+import { Request } from '../models/request-model';
+import { RequestPageService } from '../services/request-page.service';
 import { Router } from '@angular/router';
 
 @Component({

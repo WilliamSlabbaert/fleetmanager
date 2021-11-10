@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IRequest } from './request';
-import { RequestService } from './request.service';
+import { IRequest } from '../models/request';
+import { RequestService } from '../services/request.service';
 
 @Component({
   selector: 'pm-requests',

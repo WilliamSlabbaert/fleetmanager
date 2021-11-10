@@ -9,7 +9,7 @@ import {HttpClientModule} from '@angular/common/http'
 import { ConvertToSpacesPipe } from 'src/shared/convert-to-spaces';
 import { ChauffeursComponent } from './chauffeurs/chauffeurs-list-component';
 import { DetailPage } from './detailpage/detailpage-component';
-import { FuelcardsListComponent } from './fuelcards/fuelcards-list/fuelcards-list-component';
+import { FuelcardsListComponent } from './fuelcards/fuelcards-list-component';
 import { RequestsComponent } from './requests/requests.component';
 import { ChildListComponent } from './child-list/child-list.component';
 import { RouterModule } from '@angular/router';

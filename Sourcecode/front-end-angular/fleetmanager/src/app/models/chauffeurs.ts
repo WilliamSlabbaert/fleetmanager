@@ -1,5 +1,5 @@
-import { IRequest } from "../requests/request";
-import { IChauffeurVehicles } from "../vehicles/vehicle";
+import { IRequest } from "./request";
+import { IChauffeurVehicles } from "./vehicle";
 
 export interface IChauffeurs{
     id:number;

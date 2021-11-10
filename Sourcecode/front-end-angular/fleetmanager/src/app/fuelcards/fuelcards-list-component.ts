@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IFuelcards } from './fuelcards';
-import { FuelcardsService } from './fuelcards.service';
+import { IFuelcards } from '../models/fuelcards';
+import { FuelcardsService } from '../services/fuelcards.service';
 
 @Component({
   selector: 'pm-fuelcards',

@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
 import { Observable, Subscription } from "rxjs";
-import { IVehicle } from "../vehicles/vehicle";
-import { DetailpageService } from "./detailpage.service";
+import { IVehicle } from "../models/vehicle";
+import { DetailpageService } from "../services/detailpage.service";
 
 @Component({
     selector: "pm-detailPage",

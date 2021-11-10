@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from "@angular/core";
 import { Observable } from "rxjs";
-import { IChauffeurs } from "./chauffeurs";
-import { ChauffeurService } from "./chauffeurs.service";
+import { IChauffeurs } from "../models/chauffeurs";
+import { ChauffeurService } from "../services/chauffeurs.service";
 
 @Component({
     selector: 'pm-chauffeurs',

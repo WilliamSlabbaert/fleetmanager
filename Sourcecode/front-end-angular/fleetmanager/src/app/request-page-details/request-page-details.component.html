@@ -6,7 +6,7 @@
             <label for="dateInput">Date</label>
             <input class="form-control" [(ngModel)]="maintenanceDate" type="datetime-local" id="dateInput">
             <label for="priceInput">Price</label>
-            <input [readonly]='maintenanceDate === undefined' [(ngModel)]='maintenancePrice' class="form-control" type="number" step="0.01" id="priceInput" placeholder="Price">
+            <input [readonly]='!maintenanceDate' [(ngModel)]='maintenancePrice' class="form-control" type="number" step="0.01" id="priceInput" placeholder="Price">
             <label for="garageInput">Garage</label>
             <input [(ngModel)]='maintenanceGarage'  [readonly]='maintenancePrice === undefined || maintenancePrice === null' class="form-control" type="text" id="garageInput" placeholder="Garage" >
             <br>
@@ -17,13 +17,13 @@
         <div *ngIf="type === 'Repairment'" >
             <h1>Repairment</h1>
             <label for="dateInput">Garage</label>
-            <input class="form-control" type="datetime-local" name="" id="dateInput">
+            <input [(ngModel)]="repairmentDate" class="form-control" type="datetime-local" name="" id="dateInput">
             <label for="descriptionInput">Description</label>
-            <input class="form-control" type="text" id="descriptionInput" placeholder="Description" >
+            <input [readonly]='!repairmentDate' [(ngModel)]="repairmentDescription" class="form-control" type="text" id="descriptionInput" placeholder="Description" >
             <label for="companyInput">Company</label>
-            <input class="form-control" type="text" id="companyInput" placeholder="Company" >
+            <input [readonly]="!repairmentDescription" [(ngModel)]="repairmentCompany" class="form-control" type="text" id="companyInput" placeholder="Company" >
             <br>
-            <button type="submit" class="btn btn-success">Submit</button>
+            <button type="submit" (click)="onSubmit()" class="btn btn-success">Submit</button>
         </div>
     </div>
 </div>

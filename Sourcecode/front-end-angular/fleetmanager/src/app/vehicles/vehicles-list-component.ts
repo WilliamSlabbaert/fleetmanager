@@ -1,8 +1,8 @@
 import { Component, Output, EventEmitter, OnInit, OnDestroy } from "@angular/core";
 import { Subscription } from "rxjs";
 import { IPaginationHeader } from "src/shared/http-returnvalue/pageheader";
-import { IVehicle } from "./vehicle";
-import { VehicleService } from "./vehicle.service";
+import { IVehicle } from "../models/vehicle";
+import { VehicleService } from "../services/vehicle.service";
 @Component({
     selector: 'pm-vehicles',
     templateUrl: './vehicles-list-component.html',

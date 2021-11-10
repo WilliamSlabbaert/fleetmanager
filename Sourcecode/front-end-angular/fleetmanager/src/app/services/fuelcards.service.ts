@@ -1,33 +1,32 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IPaginationHeader } from 'src/shared/http-returnvalue/pageheader';
-import { IRequest } from './request';
+import { IFuelcards } from '../models/fuelcards';
 
 @Injectable({
   providedIn: 'root'
 })
-export class RequestService {
-  private _requests!: IRequest[];
+export class FuelcardsService {
+  constructor(private http: HttpClient) { }
   private _pageNumber: number = 1
   private _headers!: IPaginationHeader;
-  constructor(private http: HttpClient) { }
+  private _fuelcards!: IFuelcards[];
   get getURL(): string {
-    return "https://localhost:44346/Request?PageNumber=" + this._pageNumber + "&PageSize=10";
+    return "https://localhost:44346/Fuelcard?PageNumber=" + this._pageNumber + "&PageSize=10";
   }
-
   get getObservable(): Observable<any> {
     return this.http.get<Observable<any>>(this.getURL, { observe: 'response' });
   }
-
   get totalCount(): number {
     if (this._headers) {
       return this._headers.TotalCount;
     }
     return 0;
   }
-  get getRequests(): IRequest[] {
-    return this._requests;
+  
+  get getFuelcards(): IFuelcards[] {
+    return this._fuelcards;
   }
   get getPageNumber(): number {
     return this._pageNumber;
@@ -35,8 +34,8 @@ export class RequestService {
   get getHeaders(): IPaginationHeader {
     return this._headers;
   }
-  set setRequests(value: IRequest[]) {
-    this._requests = value;
+  set setFuelcards(value: IFuelcards[]) {
+    this._fuelcards = value;
   }
   set setHeaders(value: IPaginationHeader) {
     this._headers = value;

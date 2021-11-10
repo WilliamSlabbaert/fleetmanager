@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, Subscription, throwError } from "rxjs";
-import { IVehicle } from "./vehicle";
+import { IVehicle } from "../models/vehicle";
 import { IPaginationHeader } from "src/shared/http-returnvalue/pageheader";
 
 @Injectable({

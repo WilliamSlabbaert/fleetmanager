@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { DetailpageService } from '../detailpage/detailpage.service';
+import { DetailpageService } from '../services/detailpage.service';
 
 @Component({
   selector: 'pm-child-list',
