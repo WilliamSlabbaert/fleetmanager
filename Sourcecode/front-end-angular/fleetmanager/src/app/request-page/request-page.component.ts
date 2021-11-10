@@ -108,4 +108,7 @@ export class RequestPageComponent implements OnInit {
       this.router.navigateByUrl('/request/' + this._requestId);
     })
   }
+  onCancel(){
+    this.router.navigateByUrl('/home');
+  }
 }

@@ -11,7 +11,7 @@ import { RequestService } from '../services/request.service';
 export class RequestsComponent implements OnInit {
 
   @Output() idClick = new EventEmitter<number>()
-
+  private _requests : any[] = [];
   pageTitle: string = 'Requests';
 
   constructor(private _requestService: RequestService) {
@@ -23,7 +23,7 @@ export class RequestsComponent implements OnInit {
 
 
   get getRequests(): IRequest[] {
-    return this._requestService.getRequests;
+    return this._requests;
   }
   onClickId(value: number) {
     this.idClick.emit(value);
@@ -31,45 +31,9 @@ export class RequestsComponent implements OnInit {
   setSettings(): void {
     this._requestObservable$.subscribe(
       (res) => {
-        this._requestService.setHeaders = JSON.parse(res.headers.get('X-Pagination'));
-        this._requestService.setRequests = res.body.returnValue;
+        this._requests = res.body.returnValue.requests;
       },
       (err) => { console.log(err) }
     )
   }
-
-  goToNextPage(): void {
-    this._requestService.incrementPage();
-    this.refreshChaffeurSubscription();
-  }
-  goToPreviousPage(): void {
-    this._requestService.decrementPage();
-    this.refreshChaffeurSubscription();
-  }
-  refreshChaffeurSubscription() {
-    this._requestObservable$ = this._requestService.getObservable;
-    this.setSettings();
-  }
-
-  getPageNumber(): number {
-    return this._requestService.getPageNumber;
-  }
-
-  checkPageNumber(value: string): boolean {
-    if (value.toUpperCase() === "NEXT") {
-      return this._requestService.getNextCheck;
-    }
-    return this._requestService.getPageNumber == 1 ? false : true;
-  }
-
-  get getPagingDetails(): string {
-
-    if (this.getPageNumber() == 1 && this.checkPageNumber("Next") == false) {
-      return this.getRequests.length.toString() + " of " + this._requestService.totalCount;
-    }
-    const formule = ((this.getPageNumber() - 1) * 10) + this.getRequests.length;
-    return formule.toString() + " of " + this._requestService.totalCount;;
-
-  }
-
 }

@@ -1,6 +1,7 @@
 
 <div *ngIf="checkPage" class="container-fluid requestPage">
     <div [style.marginTop.px]='50' class="container-sm formRequest">
+    <button [style.marginBottom.px]="20" (click)="onCancel()" type="submit" class="btn btn-danger">Cancel</button>
         <div class="form-group"  *ngIf="type === 'Maintenance'" >
             <h1>Maintenance</h1>
             <label for="dateInput">Date</label>

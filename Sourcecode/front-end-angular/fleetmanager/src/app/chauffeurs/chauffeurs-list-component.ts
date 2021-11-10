@@ -9,6 +9,7 @@ import { ChauffeurService } from "../services/chauffeurs.service";
 })
 export class ChauffeursComponent implements OnInit {
     pageTitle: string = 'Chauffeurs';
+    private _chauffeurs : any[] = [];
     constructor(private _chauffeurService: ChauffeurService) {
     }
     ngOnInit(): void {
@@ -19,7 +20,7 @@ export class ChauffeursComponent implements OnInit {
 
 
     get getChauffeurs(): IChauffeurs[] {
-        return this._chauffeurService.getChauffeurs;
+        return this._chauffeurs;
     }
     onClickId(value: number) {
         this.idClick.emit(value);
@@ -27,44 +28,10 @@ export class ChauffeursComponent implements OnInit {
     setSettings(): void {
         this._chauffeurObservable$.subscribe(
             (res) => {
-                this._chauffeurService.setHeaders = JSON.parse(res.headers.get('X-Pagination'));
-                this._chauffeurService.setChauffeurs = res.body.returnValue;
+                this._chauffeurs = [res.body.returnValue];
             },
             (err) => { console.log(err) }
         )
     }
 
-    goToNextPage(): void {
-        this._chauffeurService.incrementPage();
-        this.refreshChaffeurSubscription();
-    }
-    goToPreviousPage(): void {
-        this._chauffeurService.decrementPage();
-        this.refreshChaffeurSubscription();
-    }
-    refreshChaffeurSubscription() {
-        this._chauffeurObservable$ = this._chauffeurService.getObservable;
-        this.setSettings();
-    }
-
-    getPageNumber(): number {
-        return this._chauffeurService.getPageNumber;
-    }
-
-    checkPageNumber(value: string): boolean {
-        if (value.toUpperCase() === "NEXT") {
-            return this._chauffeurService.getNextCheck;
-        }
-        return this._chauffeurService.getPageNumber == 1 ? false : true;
-    }
-
-    get getPagingDetails(): string {
-        
-        if (this.getPageNumber() == 1 && this.checkPageNumber("Next") == false) {
-            return this.getChauffeurs.length.toString() + " of " + this._chauffeurService.totalCount;
-        }
-        const formule = ((this.getPageNumber() - 1) * 10) + this.getChauffeurs.length;
-        return formule.toString()+ " of " + this._chauffeurService.totalCount;;
-
-    }
 }

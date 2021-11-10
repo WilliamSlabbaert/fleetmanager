@@ -29,13 +29,5 @@
             <h1>No content</h1>
         </div>
         </tbody>
-        <tfoot>
-          <p>{{getPagingDetails}}</p>
-          <button *ngIf='checkPageNumber("Previous");'  (click)='goToPreviousPage()' class='btn btn-dark' ><</button>
-          <button *ngIf='!checkPageNumber("Previous")' disabled class='btn btn-dark' ><</button>
-          <span><span>{{getPageNumber()}}</span></span>
-          <button *ngIf='checkPageNumber("Next");' (click)='goToNextPage()' class='btn btn-dark' >></button>
-          <button *ngIf='!checkPageNumber("Next")' disabled class='btn btn-dark' >></button>
-        </tfoot>
       </table>
     </div>
