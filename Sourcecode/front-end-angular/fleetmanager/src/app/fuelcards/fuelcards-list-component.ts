@@ -63,5 +63,5 @@ export class FuelcardsListComponent implements OnInit {
     this._fuelcardsObservable$ = this._fuelcardService.getObservable;
     this.setSettings();
   }
-
+  
 }

@@ -6,6 +6,8 @@ import { GeneralChauffeurService } from '../services/general-chauffeur.service';
 import { Invoice } from '../models/invoice';
 import { Maintenance } from '../models/maintenance';
 import { MaintenanceServiceService } from '../services/maintenance.service';
+import { RepairmentService } from '../services/repairment.service';
+import { Repairment } from '../models/repairment';
 
 @Component({
   selector: 'app-request-page-details',
@@ -18,6 +20,7 @@ export class RequestPageDetailsComponent implements OnInit {
   private _requestId!: number;
   private _chauffeur!: IChauffeurs;
   private _maintenanceObservable$!: Observable<any>;
+  private _repairmentObservable$!: Observable<any>;
   type!: string;
 
   maintenanceDate!: Date;
@@ -25,9 +28,9 @@ export class RequestPageDetailsComponent implements OnInit {
   maintenanceGarage!: string;
   maintenanceImage!: any;
 
-  repairmentDate! : Date;
-  repairmentDescription! : string;
-  repairmentCompany! : string;
+  repairmentDate!: Date;
+  repairmentDescription!: string;
+  repairmentCompany!: string;
 
 
   checkPage: boolean = false;
@@ -35,6 +38,7 @@ export class RequestPageDetailsComponent implements OnInit {
   constructor(private route: ActivatedRoute,
     private _generalChauffeurService: GeneralChauffeurService,
     private _maintenanceService: MaintenanceServiceService,
+    private _repairmentService: RepairmentService,
     private router: Router) { }
 
 
@@ -80,12 +84,10 @@ export class RequestPageDetailsComponent implements OnInit {
     this.maintenanceImage = (await this.toBase64(value.target.files[0]))
   }
   onSubmit() {
-    if(this.type === 'Maintenance'){
-      this.postMaintenance()
-    }else if(this.type === 'Repairment'){
-      console.log(this.repairmentDescription);
-      console.log(this.repairmentDate);
-      console.log(this.repairmentCompany);
+    if (this.type === 'Maintenance') {
+      this.postMaintenance();
+    } else if (this.type === 'Repairment') {
+      this.postRepairment();
     }
   }
   postMaintenance() {
@@ -98,9 +100,20 @@ export class RequestPageDetailsComponent implements OnInit {
     this._maintenanceObservable$.subscribe(data => {
       const temp = data.body.returnValue.id;
       const tempValue = new Invoice(this.maintenanceImage);
-      this._maintenanceService.postObservableInvoice(tempValue,temp).subscribe(val =>{
+      this._maintenanceService.postObservableInvoice(tempValue, temp).subscribe(val => {
         this.router.navigateByUrl('/home');
       })
+    })
+  }
+  postRepairment() {
+    const temp = new Repairment(
+      this.repairmentDate,
+      this.repairmentDescription,
+      this.repairmentCompany)
+    this._repairmentObservable$ = this._repairmentService.postObservable(temp, this._requestId);
+
+    this._repairmentObservable$.subscribe(data => {
+      this.router.navigateByUrl('/home');
     })
   }
 }
