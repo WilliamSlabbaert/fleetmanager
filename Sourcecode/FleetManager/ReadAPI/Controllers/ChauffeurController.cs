@@ -19,14 +19,10 @@ namespace ReadAPI.Controllers
     [Route("[controller]")]
     public class ChauffeurController : ControllerBase
     {
-        private readonly ILogger<ChauffeurController> _logger;
         private IChauffeurService _managerChaffeur;
-        private IFuelCardService _fuelCardManager;
-        public ChauffeurController(ILogger<ChauffeurController> logger, IChauffeurService man, IFuelCardService fuelCardManager)
+        public ChauffeurController( IChauffeurService man)
         {
-            this._logger = logger;
             this._managerChaffeur = man;
-            this._fuelCardManager = fuelCardManager;
         }
         // -------GET-------
 
@@ -35,8 +31,8 @@ namespace ReadAPI.Controllers
         {
 
             var temp = _managerChaffeur.GetAllChauffeursPaging(parameter);
-            var metadata = _managerChaffeur.GetHeaders(parameter);
-            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+            //var metadata = _managerChaffeur.GetHeaders(parameter);
+            //Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
             return (temp.StatusCode == 200) ? Ok(temp) : BadRequest(temp);
 
 
@@ -54,6 +50,10 @@ namespace ReadAPI.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+        public string Test()
+        {
+            return "et";
         }
     }
 }

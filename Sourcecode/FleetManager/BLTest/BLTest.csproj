@@ -22,7 +22,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BusinessLayer\BusinessLayer.csproj" />
-    <ProjectReference Include="..\ReadAPI\ReadAPI.csproj" />
   </ItemGroup>
 
 </Project>

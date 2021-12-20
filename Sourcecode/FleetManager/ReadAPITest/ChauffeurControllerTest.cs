@@ -1,23 +1,33 @@
 using BusinessLayer.models.general;
 using BusinessLayer.services.interfaces;
 using BusinessLayer.validators.response;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Overall.paging;
+using ReadAPI.Controllers;
 using System;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace ReadAPITest
 {
     public class ChauffeurControllerTest
     {
-        private Mock<IChauffeurService> _chauffeurService;
-        private GenericResult<GeneralModels> response = new GenericResult<GeneralModels>();
+        private readonly Mock<IChauffeurService> _chauffeurService;
+        private readonly ChauffeurController _chauffeurController;
+        private readonly GenericResult<GeneralModels> response = new GenericResult<GeneralModels>();
+        private readonly Mock<IMediator> _mediator;
+
 
         public ChauffeurControllerTest()
         {
-            response.Message = "OK";
-            response.SetStatusCode(Overall.ResponseType.OK);
+            this.response.Message = "Nie";
+            this.response.SetStatusCode(Overall.ResponseType.OK);
             this._chauffeurService = new Mock<IChauffeurService>();
+            this._mediator = new Mock<IMediator>();
+            this._chauffeurController = new ChauffeurController(this._chauffeurService.Object);
+
         }
 
         [Fact]
@@ -28,27 +38,28 @@ namespace ReadAPITest
             this._chauffeurService.Setup(s => s.GetAllChauffeursPaging(It.Is<GenericParameter>(s => s == parameter))).Returns(response);
 
             //Act
-            var result = this._chauffeurService.Object.GetAllChauffeursPaging(parameter);
+            var result = this._chauffeurController.GetAllChaffeurs(parameter);
 
             //Assert
-            Assert.Equal("OK",result.Message);
-            Assert.Equal(200,result.StatusCode);
             Assert.NotNull(result);
+            Assert.IsType<OkObjectResult>(result.Result);
         }
         [Fact]
         public void GetChauffeurTest()
         {
             //Arrange
             int ChauffeurId = 1;
-            this._chauffeurService.Setup(s => s.GetChauffeurById(It.Is<int>(s => s == ChauffeurId))).Returns(response);
+            this._chauffeurService.Setup(s => s.GetChauffeurById(It.Is<int>(s => s == 1))).Returns(response);
 
             //Act
-            var result = this._chauffeurService.Object.GetChauffeurById(ChauffeurId);
+            var result = this._chauffeurController.GetById(ChauffeurId);
+
 
             //Assert
-            Assert.Equal("OK", result.Message);
-            Assert.Equal(200, result.StatusCode);
             Assert.NotNull(result);
+            Assert.IsType<OkObjectResult>(result.Result);
+
+
         }
     }
 }

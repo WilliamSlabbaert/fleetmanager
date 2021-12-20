@@ -260,7 +260,7 @@ namespace BusinessLayer.services
             var code = Overall.ResponseType.OK;
             if (check)
             {
-                message = "Chaffeur('s) not found";
+                message = "Chauffeur('s) not found";
                 code = Overall.ResponseType.NotFound;
                 value = null;
             }
