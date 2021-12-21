@@ -17,25 +17,25 @@ using Xunit;
 
 namespace ReadAPITest
 {
-    public class FuelCardControllerTest
+    public class DrivingLicenseControllerTest
     {
-        private Mock<IFuelCardService> _fuelcardService;
+        private Mock<IDrivingLicenseService> _drivingLicenseService;
         private Mock<IChauffeurService> _chauffeurService;
-        private Mock<ILogger<FuelCardController>> _logger;
-        private FuelCardController _controller;
+        private Mock<ILogger<DrivingLicenseController>> _logger;
+        private DrivingLicenseController _controller;
         private GenericResult<GeneralModels> response = new GenericResult<GeneralModels>();
 
-        public FuelCardControllerTest()
+        public DrivingLicenseControllerTest()
         {
             response.Message = "OK";
             response.SetStatusCode(Overall.ResponseType.OK);
-            this._fuelcardService = new Mock<IFuelCardService>();
+            this._drivingLicenseService = new Mock<IDrivingLicenseService>();
             this._chauffeurService = new Mock<IChauffeurService>();
-            this._logger = new Mock<ILogger<FuelCardController>>();
-            this._controller = new FuelCardController(this._logger.Object, this._chauffeurService.Object, this._fuelcardService.Object);
+            this._logger = new Mock<ILogger<DrivingLicenseController>>();
+            this._controller = new DrivingLicenseController(this._logger.Object, this._chauffeurService.Object, this._drivingLicenseService.Object);
         }
         [Fact]
-        public void GetAllFuelcardsTest()
+        public void GetAllDrivingLicensesTest()
         {
             //Arrange
             GenericParameter parameter = new GenericParameter();
@@ -49,7 +49,7 @@ namespace ReadAPITest
             };
             var httpContext = new DefaultHttpContext(); // or mock a `HttpContext`
             httpContext.Request.Headers["X-Pagination"] = JsonConvert.SerializeObject(metadata); //Set header
-            this._controller = new FuelCardController(this._logger.Object, this._chauffeurService.Object,this._fuelcardService.Object)
+            this._controller = new DrivingLicenseController(this._logger.Object, this._chauffeurService.Object, this._drivingLicenseService.Object)
             {
                 ControllerContext = new ControllerContext()
                 {
@@ -57,11 +57,11 @@ namespace ReadAPITest
                 }
             };
 
-            this._fuelcardService.Setup(s => s.GetHeaders(It.Is<GenericParameter>(s => s == parameter))).Returns(metadata);
-            this._fuelcardService.Setup(s => s.GetAllFuelCardsPaging(It.Is<GenericParameter>(s => s == parameter))).Returns(response);
+            this._drivingLicenseService.Setup(s => s.GetHeaders(It.Is<GenericParameter>(s => s == parameter))).Returns(metadata);
+            this._drivingLicenseService.Setup(s => s.GetAllDrivingLicensesPaging(It.Is<GenericParameter>(s => s == parameter))).Returns(response);
 
             //Act
-            var result = this._controller.Get(parameter).Result as ObjectResult;
+            var result = this._controller.GetAll(parameter).Result as ObjectResult;
             var objectResult = result.Value as GenericResult<GeneralModels>;
 
             //Assert
@@ -72,11 +72,11 @@ namespace ReadAPITest
 
         }
         [Fact]
-        public void GetFuelcardTest()
+        public void GetDrivingLicenseTest()
         {
             //Arrange
             int fuelcardId = 1;
-            this._fuelcardService.Setup(s => s.GetFuelCardById(It.Is<int>(s => s == fuelcardId))).Returns(response);
+            this._drivingLicenseService.Setup(s => s.GetAllDrivingLicenseById(It.Is<int>(s => s == fuelcardId))).Returns(response);
 
             //Act
             var result = this._controller.GetFuelCardByID(fuelcardId).Result as ObjectResult;
