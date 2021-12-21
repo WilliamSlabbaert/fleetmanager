@@ -88,5 +88,22 @@ namespace ReadAPITest
             Assert.Equal("OK", objectResult.Message);
             Assert.Equal(200, objectResult.StatusCode);
         }
+        [Fact]
+        public void GetMaintenanceInvoicesTest()
+        {
+            //Arrange
+            int id = 1;
+            this._maintenanceService.Setup(s => s.GetMaintenanceInvoicesById(It.Is<int>(s => s == id))).Returns(response);
+
+            //Act
+            var result = this._controller.GetByIdInvoices(id).Result as ObjectResult;
+            var objectResult = result.Value as GenericResult<GeneralModels>;
+
+            //Assert
+            Assert.NotNull(result);
+            Assert.IsType<OkObjectResult>(result);
+            Assert.Equal("OK", objectResult.Message);
+            Assert.Equal(200, objectResult.StatusCode);
+        }
     }
 }
