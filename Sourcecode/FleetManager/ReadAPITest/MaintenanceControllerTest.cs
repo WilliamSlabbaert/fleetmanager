@@ -75,11 +75,11 @@ namespace ReadAPITest
         public void GetMaintenanceTest()
         {
             //Arrange
-            int fuelcardId = 1;
-            this._maintenanceService.Setup(s => s.GetMaintenanceById(It.Is<int>(s => s == fuelcardId))).Returns(response);
+            int id = 1;
+            this._maintenanceService.Setup(s => s.GetMaintenanceById(It.Is<int>(s => s == id))).Returns(response);
 
             //Act
-            var result = this._controller.GetById(fuelcardId).Result as ObjectResult;
+            var result = this._controller.GetById(id).Result as ObjectResult;
             var objectResult = result.Value as GenericResult<GeneralModels>;
 
             //Assert

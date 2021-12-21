@@ -75,11 +75,11 @@ namespace ReadAPITest
         public void GetDrivingLicenseTest()
         {
             //Arrange
-            int fuelcardId = 1;
-            this._drivingLicenseService.Setup(s => s.GetAllDrivingLicenseById(It.Is<int>(s => s == fuelcardId))).Returns(response);
+            int id = 1;
+            this._drivingLicenseService.Setup(s => s.GetAllDrivingLicenseById(It.Is<int>(s => s == id))).Returns(response);
 
             //Act
-            var result = this._controller.GetFuelCardByID(fuelcardId).Result as ObjectResult;
+            var result = this._controller.GetFuelCardByID(id).Result as ObjectResult;
             var objectResult = result.Value as GenericResult<GeneralModels>;
 
             //Assert
