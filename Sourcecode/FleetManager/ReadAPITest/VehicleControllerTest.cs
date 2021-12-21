@@ -38,7 +38,7 @@ namespace ReadAPITest
             this._controller = new VehicleController(this._logger.Object,this._mediator.Object, this._vehicleService.Object);
         }
         [Fact]
-        public void GetAllVehicles()
+        public void GetAllVehiclesTest()
         {
             //Arrange 
             GenericParameter parameter = new GenericParameter();
@@ -68,6 +68,28 @@ namespace ReadAPITest
 
             //Act
             var result = this._controller.GetAllVehicles(parameter).Result as ObjectResult;
+            var objectResult = result.Value as GenericResult<GeneralModels>;
+
+            //Assert
+            Assert.NotNull(result);
+            Assert.IsType<OkObjectResult>(result);
+            Assert.Equal("OK", objectResult.Message);
+            Assert.Equal(200, objectResult.StatusCode);
+        }
+        [Fact]
+        public void GetVehicleTest()
+        {
+            //Arrange 
+            int id = 1;
+            GetVehicleByIdQuery query = new GetVehicleByIdQuery(id);
+           
+            this._mediator.Setup(s => s.Send(It.IsAny<GetVehicleByIdQuery>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(this.response)
+                .Verifiable("Notification was not sent.");
+
+
+            //Act
+            var result = this._controller.GetVehicleByID(id).Result as ObjectResult;
             var objectResult = result.Value as GenericResult<GeneralModels>;
 
             //Assert
