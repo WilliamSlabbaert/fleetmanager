@@ -21,12 +21,10 @@ namespace ReadAPI.Controllers
     {
         private readonly ILogger<ChauffeurController> _logger;
         private IChauffeurService _managerChaffeur;
-        private IFuelCardService _fuelCardManager;
-        public ChauffeurController(ILogger<ChauffeurController> logger, IChauffeurService man, IFuelCardService fuelCardManager)
+        public ChauffeurController(ILogger<ChauffeurController> logger, IChauffeurService man)
         {
             this._logger = logger;
             this._managerChaffeur = man;
-            this._fuelCardManager = fuelCardManager;
         }
         // -------GET-------
 
