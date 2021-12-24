@@ -15,15 +15,15 @@ namespace WriteAPI.Controllers
 {
     public class FuelCardController : Controller
     {
-        private readonly ILogger<ChauffeurController> _logger;
+        private readonly ILogger<FuelCardController> _logger;
         private IFuelCardService _fuelCardManager;
-        public FuelCardController(ILogger<ChauffeurController> logger, IFuelCardService fuelCardManager)
+        public FuelCardController(ILogger<FuelCardController> logger, IFuelCardService fuelCardManager)
         {
             _logger = logger;
             _fuelCardManager = fuelCardManager;
         }
         [HttpPost("FuelCard")]
-        public ActionResult<GenericResult<GeneralModels>> AddFuelType([FromBody] FuelCardDTO fuelcard)
+        public ActionResult<GenericResult<GeneralModels>> AddFuelCard([FromBody] FuelCardDTO fuelcard)
         {
             try
             {
@@ -37,7 +37,7 @@ namespace WriteAPI.Controllers
         }
 
         [HttpPut("FuelCard/{fuelcardId}")]
-        public ActionResult<GenericResult<GeneralModels>> AddFuelCard(int fuelcardId,[FromBody] FuelCardDTO fuelCard)
+        public ActionResult<GenericResult<GeneralModels>> updateFuelCard(int fuelcardId,[FromBody] FuelCardDTO fuelCard)
         {
             try
             {

@@ -103,7 +103,6 @@ namespace WriteAPITest
 
             //Arrange
 
-            GetVehicleByIdQuery query = new GetVehicleByIdQuery(2);
 
             this._mediator.Setup(s => s.Send(It.IsAny<GetVehicleByIdQuery>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(this.response)
@@ -127,7 +126,6 @@ namespace WriteAPITest
         {
 
             //Arrange
-            GetVehicleByIdQuery query = new GetVehicleByIdQuery(2);
 
             this._mediator.Setup(s => s.Send(It.IsAny<GetVehicleByIdQuery>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(this.response)
@@ -151,7 +149,6 @@ namespace WriteAPITest
         {
 
             //Arrange
-            GetVehicleByIdQuery query = new GetVehicleByIdQuery(2);
 
             this._mediator.Setup(s => s.Send(It.IsAny<GetVehicleByIdQuery>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(this.response)
@@ -236,7 +233,6 @@ namespace WriteAPITest
             this._chauffeurService.Setup(s => s.GetChauffeurById(It.Is<int>(s => s == 2))).Returns(response);
             this._requestService.Setup(s => s.AddRequest(It.Is<RequestDTO>(s => s == tempRequestDTO), It.Is<int>(s => s == 2), It.Is<int>(s => s == 1))).Returns(response);
 
-            GetVehicleByIdFromChauffeurQuery query = new GetVehicleByIdFromChauffeurQuery(2, 1);
 
             this._mediator.Setup(s => s.Send(It.IsAny<GetVehicleByIdFromChauffeurQuery>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(this.response)
