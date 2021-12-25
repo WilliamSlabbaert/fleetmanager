@@ -16,12 +16,12 @@ namespace WriteAPI.Controllers
     [ApiController]
     public class MaintenanceController : Controller
     {
-        private readonly ILogger<ChauffeurController> _logger;
+        private readonly ILogger<MaintenanceController> _logger;
         private IMediator _mediator;
         private IRequestService _requestService;
         private IMaintenanceService _maintenanceService;
         private IRepairmentService _repairmentService;
-        public MaintenanceController(ILogger<ChauffeurController> logger, IMediator mediator, IRequestService requestService, IMaintenanceService maintenanceService, IRepairmentService repairmentService)
+        public MaintenanceController(ILogger<MaintenanceController> logger, IMediator mediator, IRequestService requestService, IMaintenanceService maintenanceService, IRepairmentService repairmentService)
         {
             _logger = logger;
             _mediator = mediator;
@@ -66,7 +66,7 @@ namespace WriteAPI.Controllers
             }
         }
         [HttpDelete("Maintenance/{maintenanceId}/Invoice/{invoiceId}")]
-        public ActionResult<GenericResult<GeneralModels>> AddInvoice(int maintenanceId, int invoiceId)
+        public ActionResult<GenericResult<GeneralModels>> DeleteInvoice(int maintenanceId, int invoiceId)
         {
             try
             {
