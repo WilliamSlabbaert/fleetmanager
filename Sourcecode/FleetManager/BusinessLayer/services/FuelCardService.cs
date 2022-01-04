@@ -178,7 +178,7 @@ namespace BusinessLayer.services
         {
             ChauffeurEntity ch = GetChauffeurEntity(chaffeurNr);
             FuelCardEntity fc = GetFuelCardEntity(fuelcardNr);
-            var result = new GenericResult<GeneralModels>() { Message = "Fuelcard already exist's in chaffeurs list." };
+            var result = new GenericResult<GeneralModels>() { Message = "Fuelcard already exist's in chauffeur list." };
             var tempch = _mapper.Map<Chauffeur>(ch);
             if (tempch.CheckFuelCard(fuelcardNr))
             {
@@ -195,7 +195,7 @@ namespace BusinessLayer.services
         public GenericResult<GeneralModels> ActivityChauffeurFuelCard(int fuelcardNr, int chaffeurNr, bool isactive)
         {
             ChauffeurEntity ch = GetChauffeurEntity(chaffeurNr);
-            var result = new GenericResult<GeneralModels>() { Message = "Fuelcard doesn't in chaffeurs list." };
+            var result = new GenericResult<GeneralModels>() { Message = "Fuelcard doesn't in chauffeur list." };
             if (isactive == true)
             {
                 foreach (var card in ch.ChauffeurFuelCards)
