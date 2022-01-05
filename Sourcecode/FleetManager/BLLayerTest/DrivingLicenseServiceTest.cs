@@ -25,7 +25,7 @@ using Xunit;
 
 namespace BLLayerTest
 {
-    public class DrivingLicenseTest
+    public class DrivingLicenseServiceTest
     {
         private Mock<IGenericRepo<DrivingLicenseEntity>> _drivingLicenseRepo;
         private Mock<IGenericRepo<ChauffeurEntity>> _chauffeurRepo;
@@ -41,7 +41,7 @@ namespace BLLayerTest
             type = Overall.License.B
         };
 
-        public DrivingLicenseTest()
+        public DrivingLicenseServiceTest()
         {
             response.Message = "OK";
             response.SetStatusCode(Overall.ResponseType.OK);
