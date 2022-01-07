@@ -1,0 +1,33 @@
+.cardNav{
+    width: 100%;
+    height: 80px;
+    background-color: #008cff;
+    position:absolute;
+    left: 0;
+    right: 0;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+}
+.carItem{
+    right: 225px;
+}
+.fuelcardItem{
+    right: 125px;
+}
+.requestItem{
+    right: 25px;
+}
+.menuItem:hover{
+    transition: filter 0.2s ease-in-out;
+    filter:invert(100%);
+    cursor: pointer;
+}
+.menuItem{
+    height: 80px;
+    position: absolute;
+}
+.fleetTitle{
+    position: absolute;
+    margin-left: 50px;
+    margin-top: 10px;
+}

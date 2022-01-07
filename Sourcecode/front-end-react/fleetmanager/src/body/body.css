@@ -1,0 +1,10 @@
+.cardPlate{
+    background-color: #22282b;
+    height: auto;
+    border-radius: 25px;
+    top: 50px;
+    bottom: 50px;
+    left: 0;
+    right:0;
+    position: absolute;
+}
