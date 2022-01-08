@@ -1,0 +1,27 @@
+.vehicleBody{   
+    background: rgb(205,255,147);
+    background: linear-gradient(318deg, rgba(205,255,147,1) 0%, rgba(236,245,203,1) 100%); 
+    top: 310px;
+}
+
+.cardItem{
+    position: absolute;
+    width: auto;
+    left: 480px;
+    right: 50px;
+    border-radius: 25px;
+    height: 250px;
+}
+
+.infoItem{
+    position: absolute;
+    width: 150px;
+    height: 200px;
+    border-radius: 20px;
+    opacity: 0.5;
+}
+.vehicleInfo{
+    top: 45px;
+    left: 150px;
+    background: rgb(0,255,103);
+}

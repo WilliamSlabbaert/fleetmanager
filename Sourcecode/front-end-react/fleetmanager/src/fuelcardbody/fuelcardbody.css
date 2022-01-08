@@ -1,0 +1,5 @@
+.fuelCardBody{
+    top: 610px;
+    background: rgb(255,207,147);
+    background: linear-gradient(318deg, rgba(255,207,147,1) 0%, rgba(245,229,203,1) 100%); 
+}

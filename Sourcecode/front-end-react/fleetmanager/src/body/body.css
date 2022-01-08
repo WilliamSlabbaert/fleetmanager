@@ -1,5 +1,5 @@
 .cardPlate{
-    background-color: #22282b;
+    background-color: #e7e1eb;
     height: auto;
     border-radius: 25px;
     top: 50px;
@@ -7,4 +7,15 @@
     left: 0;
     right:0;
     position: absolute;
+    border: 0px solid;
+    padding: 10px;
+    box-shadow: 5px 10px 8px #888888;
+}
+
+.errorDiv{
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 50px;
+    color: #333333;
 }

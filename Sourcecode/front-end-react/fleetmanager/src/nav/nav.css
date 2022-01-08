@@ -1,33 +1,76 @@
 .cardNav{
-    width: 100%;
-    height: 80px;
-    background-color: #008cff;
+    width: 380px;
+    height: auto;
+    background-color: white;
     position:absolute;
-    left: 0;
+    left: 50px;
     right: 0;
-    border-top-left-radius: 25px;
-    border-top-right-radius: 25px;
+
+    top: 50px;
+    bottom: 50px;
+    border-radius: 25px;
 }
-.carItem{
-    right: 225px;
+.carNav{
+    top: 100px;
 }
-.fuelcardItem{
-    right: 125px;
+.fuelcardNav{
+    top: 150px;
 }
-.requestItem{
-    right: 25px;
+.requestNav{
+    top: 200px;
 }
-.menuItem:hover{
-    transition: filter 0.2s ease-in-out;
-    filter:invert(100%);
+
+.navItem:hover{
+    transition: 1.5s;
     cursor: pointer;
+    background-color: #ebe8ed;
 }
 .menuItem{
-    height: 80px;
-    position: absolute;
+    height: 30px;
+    transition: filter 0.2s ease-in-out;
+    filter:
+        contrast(1000%)
+        invert(100%)
+        sepia(100%)
+        saturate(100000%)
+        hue-rotate(90deg)
+        grayscale(100%)
+        invert(100%);
 }
 .fleetTitle{
+    color: #333333;
     position: absolute;
     margin-left: 50px;
     margin-top: 10px;
+    font-family: 'Be Vietnam Pro', sans-serif;
 }
+.fleetTitle:hover{
+    cursor: pointer;
+    transition: filter 0.2s ease-in-out;
+    filter:invert(100%);
+}
+.navItem{
+    position: absolute;
+    width: 100%;
+    transition: 1.5s;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    transition: filter 0.2s ease-in-out;
+}
+
+.itemPosition{
+    position: initial;
+    margin-left: 15px;
+    margin-right: 55px;
+    background-color: none;
+    transition: 0.5s;
+}
+.itemPosition:hover{
+    transition: filter 0.2s ease-in-out;
+    filter: invert(100%);
+}
+.cardNav span{
+    float: right;
+    color: #333333;
+    transition: filter 0.2s ease-in-out;
+}
+
