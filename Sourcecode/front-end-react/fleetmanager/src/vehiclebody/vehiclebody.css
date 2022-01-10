@@ -1,27 +1,39 @@
 .vehicleBody{   
     background: rgb(205,255,147);
+    position: relative;
+  
     background: linear-gradient(318deg, rgba(205,255,147,1) 0%, rgba(236,245,203,1) 100%); 
-    top: 310px;
 }
 
+.cardItem:hover{   
+    transition: 0.3s;
+    opacity: 1;
+    cursor: pointer;
+}
 .cardItem{
-    position: absolute;
-    width: auto;
-    left: 480px;
-    right: 50px;
-    border-radius: 25px;
-    height: 250px;
+    transition: 0.3s;
+    opacity: 0.7;
 }
 
 .infoItem{
     position: absolute;
-    width: 150px;
+    width: 350px;
     height: 200px;
     border-radius: 20px;
     opacity: 0.5;
 }
-.vehicleInfo{
-    top: 45px;
-    left: 150px;
-    background: rgb(0,255,103);
+.infoItem{
+    top: 25px;
+    left: 50px;
+}
+.infoItem span{
+    font-size: 20px;
+    margin-left: 10px;
+}
+.infoItem h2{
+    opacity: 1;
+    color: black;
+}
+.cardImg{
+    margin-bottom: 5px;
 }

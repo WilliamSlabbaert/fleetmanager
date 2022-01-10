@@ -1,11 +1,13 @@
 import React from "react";
 import "./vehiclebody.css"
 
-const VehicleBody = () =>{
+const VehicleBody = (props) =>{
     return(
-        <div className="cardItem vehicleBody">
+        <div className="cardItem vehicleBody container">
             <div className="infoItem vehicleInfo">
-                <h1>5</h1>
+                <img className="cardImg menuItem carItem" src='/images/carIcon.png' />
+                <span>Total vehicle's</span>
+                <h2>{props.user.returnValue.chauffeurVehicles.length}</h2>
             </div>
         </div>
     )

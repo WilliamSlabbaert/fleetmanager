@@ -31,22 +31,23 @@ const Body = () => {
         fetchApi();
     }, [])
     return (
+        
         <div className="container-sm cardPlate">
-            <Nav loaded={loaded} />
+            
+            <Nav loaded={loaded} user={userData} />
+            
             {userData.length !== 0 &&
-                <div>
-                    <VehicleBody />
-                    <FuelCardBody />
-                    <RequestBody />
+                <div className="cardBody container">
+                    <VehicleBody user={userData} />
+                    <FuelCardBody user={userData}/>
+                    <RequestBody user={userData}/>
                 </div>
             }
             {userData.length === 0 &&
                 <div className="container-sm errorDiv"><i className="material-icons">traffic</i><br /><h2>Something went wrong</h2></div>
             }
 
-            <button onClick={() => {
-                console.log(userData)
-            }}>test</button>
+           
 
         </div>
     );

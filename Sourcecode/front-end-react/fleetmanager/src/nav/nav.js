@@ -30,6 +30,9 @@ const Nav = (props) => {
                 </div>
 
             </div>
+            <button onClick={()=>{
+                console.log(props.user)
+            }}>test</button>
         </div>
     )
 }
