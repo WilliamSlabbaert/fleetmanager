@@ -1,5 +1,5 @@
 .cardPlate{
-    background-color: #e7e1eb;
+    background-color: white;
     height: auto;
     border-radius: 25px;
     top: 50px;
@@ -29,8 +29,17 @@
 .cardBody :only-child{
     display: block;
 }
-
+.hideItem{
+    opacity: 0;
+    visibility: collapse;
+    transition: visibility 0.5s, opacity 0.5s linear;
+}
+.showItem{
+    opacity: 1;
+    transition: visibility 0.5s, opacity 0.5s linear;
+}
 .cardItem{
+    position: relative;
     margin-top: 40px;
     width: auto;
     margin-left: 480px;
@@ -39,6 +48,9 @@
     border-radius: 25px;
     height: 20%;
     font-family: 'Be Vietnam Pro', sans-serif;
+}
+.cardImg{
+    height: 30px;
 }
 
 .cardItem:hover{ 

@@ -1,8 +1,5 @@
 .vehicleBody{   
-    background: rgb(205,255,147);
-    position: relative;
-  
-    background: linear-gradient(318deg, rgba(205,255,147,1) 0%, rgba(236,245,203,1) 100%); 
+    background: rgb(111, 255, 106);
 }
 
 .cardItem:hover{   
@@ -10,10 +7,7 @@
     opacity: 1;
     cursor: pointer;
 }
-.cardItem{
-    transition: 0.3s;
-    opacity: 0.7;
-}
+
 
 .infoItem{
     position: absolute;

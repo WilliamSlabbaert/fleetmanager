@@ -1,8 +1,11 @@
 import { render, screen } from '@testing-library/react';
 import App from './App';
-
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+import Body from './body/body'
+test('renders title', () => {
+  const {getByText} = render(<App />);
+  const element = getByText(/Fleetmanager/);
+  expect(element).toHaveTextContent("Fleetmanager")
 });
+test('data fetch test',()=>{
+  const {getByLabelText} = render(<Body />);
+})
